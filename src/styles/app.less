@@ -1,0 +1,594 @@
+@import (once) url("variable");
+@import (once) url("layout");
+@import "~react-big-calendar/lib/css/react-big-calendar.css";
+@import "~animate.css";
+@import "custom-fullcalendar";
+@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import "../../node_modules/@syncfusion/ej2-react-documenteditor/styles/material.css";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: fade(@text-color, 80%);
+}
+label {
+  color: fade(@text-color, 65%) !important;
+}
+.strike-text {
+  text-decoration: line-through;
+}
+button {
+  color: fade(@text-color, 85%);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+::placeholder {
+  color: @place-holder-text !important;
+}
+
+// APP icon
+.file-icon {
+  height: 22px;
+}
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+  background-color: #fff;
+  width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 8px;
+  border: 4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* COLORS */
+.color-error {
+  color: @color-error !important;
+}
+.color-success {
+  color: @color-success !important;
+}
+.color-primary {
+  color: @primary-color !important;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+  position: sticky;
+  left: 0;
+  margin-top: 16px;
+  bottom: 64px;
+  width: 100%;
+  text-align: center;
+}
+.header-content{
+  overflow-wrap: break-word;
+}
+/* HEADER */
+.avatar-uploader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  .ant-upload-select-picture-card {
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  &.avatar-wrapper .ant-upload-select-picture-card {
+    width: 144px !important;
+    height: 144px !important;
+  }
+}
+.header-report{
+  display: flex;
+  justify-content: space-between;
+}
+/* STAFF */
+#staff-detail,
+#shop-owner-detail,
+#resident-detail {
+  .cover-avatar {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: blur(2px);
+  }
+}
+
+/* LIBRARY */
+#library-page {
+  height: 100%;
+  .col-folder {
+    .wrap-folder-list {
+      height: 100%;
+      background: transparent;
+      box-shadow: none;
+      .ant-card-body {
+        padding: 0 10px;
+        .txt-search-library {
+          .ant-input-group-addon {
+            background: #ededed;
+            border: 0;
+          }
+          .ant-input {
+            border: 0 !important;
+            background: #ededed;
+          }
+        }
+      }
+      .folder-item {
+        border-bottom: 0;
+        min-height: 54px;
+        flex-direction: column;
+        padding: 0;
+        border-bottom: 1px solid @border-color;
+        > .ant-row {
+          width: 100%;
+          //border-radius: 24px;
+          padding: 8px 0;
+          .col-info {
+            width: calc(100% - 90px);
+          }
+          .wrap-info {
+            cursor: pointer;
+          }
+        }
+        .wrap-actions {
+          display: none;
+        }
+        &:hover {
+          .wrap-actions {
+            display: inline-block;
+          }
+        }
+        &.active {
+          > .ant-row {
+            background: rgba(88, 176, 187, 0.08);
+          }
+        }
+      }
+    }
+
+    .folder-footer {
+      margin-top: 15px;
+      .btn-primary-outlined {
+        width: 100%;
+      }
+    }
+  }
+  .document-item {
+    box-shadow: 0 4px 24px rgba(110, 186, 196, 0.08);
+    .ant-card {
+      box-shadow: 0 4px 24px rgba(110, 186, 196, 0.08);
+      border-radius: 24px;
+      .wrap-document-info {
+        display: flex;
+        border-bottom: 1px solid #ebebeb;
+        .document-icon {
+          padding: 12px;
+          text-align: center;
+          font-size: 2rem;
+        }
+        .document-info {
+          padding: 12px 12px 12px 0;
+        }
+      }
+    }
+  }
+}
+
+/* UPLOAD TOOL */
+.import-tool {
+  .ant-upload {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* BOOKING */
+.booking-slot {
+  &.available {
+    background: white !important;
+    border: 1px dashed #b6bcd0 !important;
+    cursor: pointer;
+  }
+  &.unavailable {
+    border: 1px solid #b6bcd0 !important;
+    background: #b6bcd0 !important;
+    color: white !important;
+    cursor: default !important;
+    &:hover {
+      color: white !important;
+    }
+  }
+  &.selected {
+    border: 1px solid @primary-color !important;
+    background: @primary-color !important;
+    color: white;
+  }
+}
+
+/* SLA CONFIGURATION */
+.sla-container {
+  .ant-tabs-tab {
+    border: none !important;
+  }
+}
+
+.monition-container:hover {
+  border: #74747479 solid 1px;
+  background-color: #eaecf3c0;
+}
+
+.monition-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 70px;
+  background-color: @layout-bg-color;
+  border-radius: 12px;
+  padding: 8px 8px 5px 0px;
+  border: @layout-bg-color solid 1px;
+  margin: 5px;
+}
+.monition-detail {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+.monition-action {
+  background-color: #b3b3b385;
+  height: 22px;
+  padding: 5px;
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  border-radius: 8px;
+  right: 25px;
+}
+.monition-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  label {
+    text-wrap: wrap;
+  }
+}
+.line-color {
+  height: 80%;
+  width: 5px;
+  background-color: #27ae60;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-right: 8px;
+}
+.icon-monition-detail {
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  background-color: #868686;
+  border-radius: 12px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  color: #ffffff;
+}
+
+/*  progress-line  */
+.wrap {
+  width: 100%;
+  height: 30px;
+  z-index: -2;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.arrow-steps .step {
+  text-align: center;
+  color: #666;
+  cursor: default;
+  margin: 0 3px;
+  padding: 7px 7px 4px 20px;
+  min-width: 17%;
+  float: left;
+  position: relative;
+  background-color: #d9e3f7;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.arrow-steps .step:after,
+.arrow-steps .step:before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  right: -17px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 19px solid #d9e3f7;
+  z-index: 2;
+  transition: border-color 0.2s ease;
+}
+
+.arrow-steps .step:before {
+  right: auto;
+  left: 0;
+  border-left: 17px solid #fff;
+  z-index: 0;
+}
+
+.arrow-steps .step:first-child:before {
+  border: none;
+}
+
+.arrow-steps .step:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.arrow-steps .step span {
+  position: relative;
+}
+
+.arrow-steps .step.current {
+  color: #fff;
+  background-color: #23468c;
+}
+
+.arrow-steps .step.current:after {
+  border-left: 17px solid #23468c;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(138, 137, 137, 0.514);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fec10c88;
+}
+::placeholder {
+  color: @place-holder-text !important;
+}
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+  background-color: #fff;
+  width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+  display: none;
+}
+
+// .tb-layout-auto {
+//   table {
+//     table-layout: auto !important;
+//     width: 100%;
+//   }
+// }
+
+
+@media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+// @media print {
+//   .page-break {
+//     margin-top: 1rem;
+//     display: block;
+//     page-break-before: auto;
+//   }
+// }
+@media print {
+  .pagebreak {
+    clear: both;
+    page-break-after: always;
+  }
+}
+.openPopup img[src=""] {
+  display: none;
+}
+
+.e-rte-content {
+  height: 100%;
+}
+.e-toolbar-wrapper {
+  height: 44px !important;
+}
+
+.text-small{
+  font-size:smaller
+}
+.modalProposal {
+  div {
+    display: flex;
+  }
+
+  img{
+    border-radius: 5px;
+    filter: drop-shadow(0 0 0.25rem rgb(33, 33, 33));
+  }
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 99; /* Sit on top */
+  padding-top: 20px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(66, 64, 64, 0.945); /* Black w/ opacity */
+  
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+  }
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  .prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+  .fade {
+    height: 100%;
+    justify-content: center;align-items: center;
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #999999;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #df0909;
+  text-decoration: none;
+    cursor: pointer;
+}
+.la-label-amendment{
+  label{
+    color: #961212 !important; 
+font-weight: bold !important;
+  }
+}
+
+.card-detail-modal {
+.card-title{
+font-size: 18px;
+}
+
+}
+.grid-auto-row-2{
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: auto auto;
+  grid-auto-flow: row;
+div{
+  padding: 0 15px 0 0;
+}
+}
+
+.grid-auto-row-4{
+  display: grid;
+  grid-template-columns: max-content max-content max-content max-content;
+  grid-template-rows: auto auto auto auto;
+  grid-auto-flow: row;
+div{
+  padding: 0 15px 0 0;
+}
+}
+
+.amendment-highlight{
+
+  color: #961212 !important; 
+}

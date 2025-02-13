@@ -1,0 +1,25 @@
+@import '../../../styles/variable';
+
+.wrap-select-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .select-box-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    border: 1px solid @border-color;
+    margin: 0 5px;
+    border-radius: 8px;
+    padding: 10px 5px;
+    cursor: pointer;
+
+    .label {text-align: center}
+
+    &.selected {border-color: @border-primary-color}
+    &:first-child {margin-left: 0}
+    &:last-child {margin-right: 0}
+  }
+}

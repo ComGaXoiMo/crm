@@ -1,0 +1,123 @@
+@import "../../../../styles/variable.less";
+.stacking-plan {
+  .floor-item {
+    min-height: 90px;
+    height: max-content;
+    display: flex;
+    border-left: 4px solid @primary-color;
+    flex: 0 0 100px;
+    border-radius: 0.25rem;
+    padding: 5px;
+    font-size: 12px;
+    background: white;
+    box-shadow: -2px 0px 3px 1px #a3a3a361;
+    .floor-name {
+      font-weight: 700;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgb(161, 161, 161);
+      height: fit-content;width: min-content;
+      padding: 10px 10px;
+      border-radius: 8px;
+      margin-right: 2px;
+    }
+    .unit-in-floor {
+      height: max-content;
+      width: 100%;
+    }
+  }
+
+  .wrap-units {
+    height: auto;
+    .unit-item {
+      padding: 0.5rem;
+      // margin-bottom: 1rem;
+      position: relative;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-right: 0rem;
+      height: 100px;
+
+      &:last-child {
+        margin-right: 0 !important;
+      }
+    }
+    .unit-item-bg {
+      opacity: 0.8;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      z-index: 0;
+    }
+
+    .unit-empty,
+    .secondary {
+      color: #383d41;
+      background-color: #e2e3e5;
+      border-color: #d6d8db;
+    }
+
+    .unit-in-use,
+    .primary {
+      color: #1b3b80;
+      background-color: #d6e3fd;
+      border-color: #c6d8fd;
+    }
+  }
+  .text-secondary {
+    opacity: 0.6;
+  }
+}
+
+.unit-item {
+  padding: 4px 2px;
+  width: 8vw;
+  margin: 1px 2px;
+  border: 1px solid rgb(139, 139, 139);
+  position: relative;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 0.5rem;
+  min-height: 90px;
+
+  &:last-child {
+    margin-right: 0 !important;
+  }
+}
+.unit-item-bg {
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.unit-empty,
+.secondary {
+  color: #383d41;
+  background-color: #e2e3e5;
+  border-color: #d6d8db;
+}
+
+.unit-in-use,
+.primary {
+  color: #1b3b80;
+  background-color: #d6e3fd;
+  border-color: #c6d8fd;
+}
+.text-in-box {
+  background-color: rgb(255, 145, 0);
+  border-radius: 4px;
+  border: 1px solid rgba(190, 190, 190, 0.486);
+  overflow: hidden;
+}
+.hightlight-small {
+  background-color: rgb(255, 97, 69);
+  padding: 2px;
+  border-radius: 4px;
+}

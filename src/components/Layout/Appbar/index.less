@@ -1,0 +1,23 @@
+@import '../../../styles/variable';
+
+.wrap-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  height: 40px;
+  width: 40px;
+  background: rgba(29, 68, 73, 0.04);
+  border-radius: 50%;
+  justify-content: center;
+  color: rgba(228, 246, 248, 0.87);
+  position: relative;
+  line-height: normal;
+  &:hover {
+    background: rgba(0, 0, 0, 0.025);
+  }
+  &.border {
+    border-radius: 50%;
+    border: 1px solid @primary-color;
+  }
+}

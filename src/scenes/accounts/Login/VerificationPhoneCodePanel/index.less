@@ -1,0 +1,25 @@
+@import '../../../../../node_modules/antd/lib/style/themes/default.less';
+
+.panel-project-login {
+  .ant-card {
+    border-radius: 20px;
+  }
+
+  .project-list {
+    margin: 0 -15px;
+    height: calc(100vh - 210px);
+    overflow-y: auto;
+
+    .project-item {
+      > .ant-card {
+        border-radius: 20px;
+      }
+      .project-logo {
+        height: 100px;
+        width: auto;
+        margin: 0 auto;
+        padding-top: 15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<svg width="519" height="928" viewBox="0 0 519 928" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M327 918C327 916.895 326.105 916 325 916H193C191.895 916 191 916.895 191 918C191 919.105 191.895 920 193 920H325C326.105 920 327 919.105 327 918Z" fill="#F5B700"/>
+<circle opacity="0.08" cx="79" cy="840" r="180" fill="#F5B700"/>
+<circle opacity="0.08" cx="469" cy="17" r="120" fill="#F5B700"/>
+<circle opacity="0.08" r="120" fill="#F5B700"/>
+<circle opacity="0.08" cx="464" cy="887" r="120" fill="#F5B700"/>
+<circle opacity="0.08" cx="356" cy="701" r="24" fill="#F5B700"/>
+<circle opacity="0.08" cx="169" cy="87" r="20" fill="#F5B700"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="519" height="928" rx="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,188 @@
+@import '~antd/lib/style/themes/default.less';
+
+.container {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, @primary-color 0%, @primary-color 100%) !important;
+  position: relative;
+
+  .page-login {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+
+    .col-left {
+      .ant-card {
+        height: 100%;
+        background-color: #fafafa;
+        overflow-y: auto;
+
+        .ant-card-body {
+          height: 100% !important;
+          padding: 300px 20px;
+          justify-content: center;
+          display: flex;
+          flex-direction: column;
+
+          .welcome-message {
+            color: #1d4449;
+            opacity: 0.38;
+            font-size: 14px;
+          }
+        }
+
+        .ant-form-item-label {
+          font-weight: 600;
+        }
+      }
+    }
+
+    .col-right {
+      
+      display: flex;
+      justify-content: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('../../assets/images/auth/Login.jpg');
+      @media only screen and (max-width: 600px) {
+        display: none !important;
+      }
+      .footer-copy-right {
+        position: absolute;
+        bottom: 20px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.87);
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: normal;
+      }
+    }
+
+    .ant-card {
+      box-shadow: 0 0 4px rgba(29, 68, 73, 0.24);
+    }
+  }
+  .page-forgot-password {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+
+    .col-left {
+      height: 100%;
+      .ant-card {
+        height: 100%;
+        background-color: #fafafa;
+
+        .ant-card-body {
+          height: 100%;
+          justify-content: center;
+          display: flex;
+          flex-direction: column;
+
+          .welcome-message {
+            color: #1d4449;
+            opacity: 0.38;
+            font-size: 14px;
+          }
+        }
+
+        .ant-form-item-label {
+          font-weight: 600;
+        }
+      }
+    }
+
+    .col-right {
+      display: flex;
+      justify-content: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('../../assets/images/auth/Forgot password.jpg');
+
+      .footer-copy-right {
+        position: absolute;
+        bottom: 20px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.87);
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: normal;
+      }
+    }
+
+    .ant-card {
+      box-shadow: 0 0 4px rgba(29, 68, 73, 0.24);
+    }
+  }
+}
+
+.lang {
+  text-align: left;
+  width: 100%;
+  height: 40px;
+  line-height: 44px;
+  position: absolute;
+  top: 40px;
+  left: 80px;
+  z-index: 1;
+  :global(.ant-dropdown-trigger) {
+    margin-right: 24px;
+  }
+}
+
+.content {
+  padding: 32px 0;
+  flex: 1;
+}
+
+@media (min-width: @screen-md-min) {
+  .content {
+    padding: 72px 0 24px 0;
+  }
+}
+
+.top {
+  text-align: center;
+}
+
+.header {
+  height: 44px;
+  line-height: 44px;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.logo {
+  height: 44px;
+  vertical-align: top;
+  margin-right: 16px;
+}
+
+.title {
+  font-size: 33px;
+  color: @heading-color;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  position: relative;
+  top: 2px;
+}
+
+.desc {
+  font-size: @font-size-base;
+  color: @text-color-secondary;
+  margin-top: 12px;
+  margin-bottom: 40px;
+}

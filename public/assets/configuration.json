@@ -1,0 +1,12 @@
+{
+  "appLayoutConfig": {
+    "loader": {
+      "enabled": false,
+      "type": "default",
+      "title": "",
+      "message": "",
+      "loadingType": "default",
+      "delayTime": 0
+    }
+  }
+}
