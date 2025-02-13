@@ -10,7 +10,7 @@ import Stores from "@stores/storeIdentifier"
 import _ from "lodash"
 import { validateMessages } from "@lib/validation"
 import { dateFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { formatNumber, inputCurrencyFormatter } from "@lib/helper"
 import FormInput from "@components/FormItem/FormInput"
 import DepositStore from "@stores/activity/depositStore"
@@ -66,10 +66,10 @@ class CollectDepositModal extends AppComponentListBase<Props, State> {
       leaseAgreementDepositId: this.props.depositStore.depositDetail?.id,
       leaseAgreementId: this.props.leaseAgreementId,
       receiptDate: formValue.receiptDate
-        ? moment(formValue.receiptDate).toJSON()
+        ? dayjs(formValue.receiptDate).toJSON()
         : undefined,
       paymentDate: formValue.paymentDate
-        ? moment(formValue.paymentDate).toJSON()
+        ? dayjs(formValue.paymentDate).toJSON()
         : undefined,
     }
     await this.props.depositStore.createOrUpdateCollect(params)

@@ -15,7 +15,7 @@ import { DeleteOutlined, DownloadOutlined } from "@ant-design/icons"
 import CreateDocumentModal from "./components/createDocumentModal"
 import FileStore from "@stores/common/fileStore"
 import fileService from "@services/common/fileService"
-import moment from "moment"
+import dayjs from "dayjs"
 const confirm = Modal.confirm
 
 export interface IComponentDocumentProps {
@@ -85,7 +85,7 @@ class ComponentDocument extends AppComponentListBase<
     if (formValues.uploadDate) {
       formValues = {
         ...formValues,
-        uploadDate: moment(formValues?.uploadDate).toDate(),
+        uploadDate: dayjs(formValues?.uploadDate).toDate(),
       }
     }
     await fileService

@@ -1,13 +1,13 @@
-import { CreatorUser } from '../../../services/administrator/user/dto/creatorUser'
-import { Category } from '../../category'
-import { ImageFile } from '../../File'
-import { buildFileUrlWithEncToken } from '@lib/helper'
-import { defaultAvatar } from '@lib/appconst'
-import moment from 'moment-timezone'
+import { CreatorUser } from "../../../services/administrator/user/dto/creatorUser"
+import { Category } from "../../category"
+import { ImageFile } from "../../File"
+import { buildFileUrlWithEncToken } from "@lib/helper"
+import { defaultAvatar } from "@lib/appconst"
+import dayjs from "dayjs"
 
 export enum EventType {
-  PROJECT = 'SentToProject',
-  UNIT = 'SentToUnit'
+  PROJECT = "SentToProject",
+  UNIT = "SentToUnit",
 }
 
 export class EventModel {
@@ -39,12 +39,14 @@ export class EventModel {
     if (!obj) return undefined
 
     const newObj = Object.assign(new EventModel(), obj)
-    newObj.startTime = obj.startTime ? moment(obj.startTime) : null
-    newObj.endTime = obj.endTime ? moment(obj.endTime) : null
+    newObj.startTime = obj.startTime ? dayjs(obj.startTime) : null
+    newObj.endTime = obj.endTime ? dayjs(obj.endTime) : null
     if (!newObj.file) {
       newObj.file = {}
     }
-    newObj.file.fileUrl = obj.file?.fileUrl ? buildFileUrlWithEncToken(obj.file?.fileUrl) : defaultAvatar
+    newObj.file.fileUrl = obj.file?.fileUrl
+      ? buildFileUrlWithEncToken(obj.file?.fileUrl)
+      : defaultAvatar
     return newObj
   }
 

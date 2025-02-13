@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ReactNode } from "react"
+import React, { useState, useEffect, ReactNode } from "react"
 import { Select } from "antd"
 import { AddressModel, IAddressModel } from "@models/common/addressModel"
 import isEqual from "lodash/isEqual"
@@ -9,27 +9,20 @@ import { filterOptions, renderOptions } from "@lib/helper"
 import Row from "antd/lib/grid/row"
 import appDataService from "@services/appDataService"
 import Button from "antd/es/button"
+import { usePrevious } from "@lib/appconst"
 
 interface AddressSelectMultiProps {
-  value?: IAddressModel[];
-  disabled?: boolean;
-  onChange?: (value: IAddressModel[]) => void;
-  countries?: any[];
+  value?: IAddressModel[]
+  disabled?: boolean
+  onChange?: (value: IAddressModel[]) => void
+  countries?: any[]
   configOption?: {
-    showProvince: boolean;
-    showDistrict: boolean;
-    showWard: boolean;
-  };
-  colSpan?: number;
-  rowGutter?: any;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+    showProvince: boolean
+    showDistrict: boolean
+    showWard: boolean
+  }
+  colSpan?: number
+  rowGutter?: any
 }
 
 const AddressSelectMulti: React.FC<AddressSelectMultiProps> = ({
@@ -164,18 +157,18 @@ const AddressSelectMulti: React.FC<AddressSelectMultiProps> = ({
 }
 
 interface AddressInput2Props {
-  value: IAddressModel;
-  onChange?: (value: IAddressModel) => void;
-  countries?: any[];
-  disable: boolean;
+  value: IAddressModel
+  onChange?: (value: IAddressModel) => void
+  countries?: any[]
+  disable: boolean
   configOption?: {
-    showProvince: boolean;
-    showDistrict: boolean;
-    showWard: boolean;
-  };
-  colSpan?: number;
-  rowGutter?: any;
-  addressActions?: () => ReactNode;
+    showProvince: boolean
+    showDistrict: boolean
+    showWard: boolean
+  }
+  colSpan?: number
+  rowGutter?: any
+  addressActions?: () => ReactNode
 }
 
 const AddressInput: React.FC<AddressInput2Props> = ({
@@ -241,9 +234,7 @@ const AddressInput: React.FC<AddressInput2Props> = ({
   }
 
   const initDistrict = async (provinceId) => {
-    const data = provinceId
-      ? await appDataService.getDistricts(provinceId)
-      : []
+    const data = provinceId ? await appDataService.getDistricts(provinceId) : []
     setDistricts(data)
   }
 

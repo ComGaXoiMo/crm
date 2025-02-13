@@ -7,7 +7,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { v4 as uuid } from "uuid"
 import AppConsts, { appPermissions, appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
 import {
@@ -104,8 +104,8 @@ class phaseConfigCommTable extends AppComponentListBase<IProps, IState> {
         phase: "Phase 1",
         numPhase: 1,
         leaseAgreementId: this.props.leaseAgreementId,
-        billingDate: moment(leaseAgreementDetail.commencementDate).toJSON(),
-        actBillingDate: moment(leaseAgreementDetail.commencementDate).toJSON(),
+        billingDate: dayjs(leaseAgreementDetail.commencementDate).toJSON(),
+        actBillingDate: dayjs(leaseAgreementDetail.commencementDate).toJSON(),
         percent: isMorePhare ? 30 : 100,
         departmentCommissionAmount: this.props.departmentCommissionAmount,
         departmentCommissionAmountByPhase:
@@ -122,8 +122,8 @@ class phaseConfigCommTable extends AppComponentListBase<IProps, IState> {
         for (let i = 0; i < leaseAgreementDetail.leaseTermYear + 1; i++) {
           const currentDate =
             i != leaseAgreementDetail.leaseTermYear
-              ? moment(leaseAgreementDetail.commencementDate).add(i + 1, "y")
-              : moment(leaseAgreementDetail.expiryDate)
+              ? dayjs(leaseAgreementDetail.commencementDate).add(i + 1, "y")
+              : dayjs(leaseAgreementDetail.expiryDate)
 
           dataTable.push({
             key: uuid(),
@@ -151,8 +151,8 @@ class phaseConfigCommTable extends AppComponentListBase<IProps, IState> {
         for (let i = 0; i < leaseAgreementDetail.leaseTermYear; i++) {
           const currentDate =
             i + 1 != leaseAgreementDetail.leaseTermYear
-              ? moment(leaseAgreementDetail.commencementDate).add(i + 1, "y")
-              : moment(leaseAgreementDetail.expiryDate)
+              ? dayjs(leaseAgreementDetail.commencementDate).add(i + 1, "y")
+              : dayjs(leaseAgreementDetail.expiryDate)
 
           dataTable.push({
             key: uuid(),
@@ -211,7 +211,7 @@ class phaseConfigCommTable extends AppComponentListBase<IProps, IState> {
         ...row,
         ...values,
         leaseAgreementId: this.props.leaseAgreementId,
-        actBillingDate: moment(values.billingDate).toJSON(),
+        actBillingDate: dayjs(values.billingDate).toJSON(),
 
         departmentCommissionAmount: this.props.departmentCommissionAmount,
         departmentCommissionAmountByPhase:
@@ -403,7 +403,7 @@ class phaseConfigCommTable extends AppComponentListBase<IProps, IState> {
                       await this.formRef.current?.setFieldsValue({
                         ...record,
                         billingDate: record.billingDate
-                          ? moment(record.billingDate)
+                          ? dayjs(record.billingDate)
                           : "",
                       })
                       await this.setState({

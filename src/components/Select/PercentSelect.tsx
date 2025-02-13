@@ -1,21 +1,13 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Select } from "antd"
 import isEqual from "lodash/isEqual"
-import { percentOptions } from "@lib/appconst"
+import { percentOptions, usePrevious } from "@lib/appconst"
 const { Option } = Select
 
 interface PercentSelectProps {
-  value?: number;
-  onChange?: (value) => void;
-  mode?: "multiple" | "tags" | undefined;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  value?: number
+  onChange?: (value) => void
+  mode?: "multiple" | "tags" | undefined
 }
 
 export const PercentSelect: React.FC<PercentSelectProps> = ({

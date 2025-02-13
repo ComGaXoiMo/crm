@@ -3,7 +3,7 @@ import { LError } from "@lib/abpUtility"
 import { notifyError } from "@lib/helper"
 import axios from "axios"
 const { authorization } = AppConsts
-import qs from 'qs'
+import qs from "qs"
 // const qs = require("qs")
 
 declare let abp: any
@@ -20,6 +20,9 @@ const http = axios.create({
 
 http.interceptors.request.use(
   function (config) {
+    if (!config.headers) {
+      config.headers = {}
+    }
     if (abp.auth.getToken()) {
       config.headers.common["Authorization"] = "Bearer " + abp.auth.getToken()
     }
@@ -27,8 +30,7 @@ http.interceptors.request.use(
     config.headers.common[".AspNetCore.Culture"] = abp.utils.getCookieValue(
       "Abp.Localization.CultureName"
     )
-    config.headers.common["Abp.TenantId"] =
-      abp.multiTenancy.getTenantIdCookie()
+    config.headers.common["Abp.TenantId"] = abp.multiTenancy.getTenantIdCookie()
     config.headers.common["TargetApplication"] =
       authorization.targetApplication || 1
     config.params = {
@@ -49,6 +51,7 @@ http.interceptors.response.use(
     return response
   },
   (res) => {
+    console.log(res)
     if (res?.response?.status === 401) {
       abp.utils.deleteCookie(
         AppConsts.authorization.encrptedAuthTokenName,

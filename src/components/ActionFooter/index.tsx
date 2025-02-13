@@ -1,7 +1,7 @@
-import * as React from 'react'
-import Row from 'antd/lib/grid/row'
-import Col from 'antd/lib/grid/col'
-import './ActionFooter.less'
+import * as React from "react"
+import Row from "antd/lib/grid/row"
+import Col from "antd/lib/grid/col"
+import "./ActionFooter.less"
 
 export interface IActionFooterProps {
   show?: boolean
@@ -9,11 +9,20 @@ export interface IActionFooterProps {
   showHeader?: boolean
   handleRefresh?: () => void
   actionGroups?: () => void
+  children?: any
 }
 
-const ActionFooter: React.FunctionComponent<IActionFooterProps> = ({ show, title, showHeader = true, handleRefresh,
-                                                                     actionGroups, ...props }) => {
-  const wrapClass = `action-footer animate__animated ${show ? 'animate__fadeInUp' : 'animate__fadeOutDown'}`
+const ActionFooter: React.FunctionComponent<IActionFooterProps> = ({
+  show,
+  title,
+  showHeader = true,
+  handleRefresh,
+  actionGroups,
+  ...props
+}) => {
+  const wrapClass = `action-footer animate__animated ${
+    show ? "animate__fadeInUp" : "animate__fadeOutDown"
+  }`
   return (
     <div className={wrapClass}>
       <Row>

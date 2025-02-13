@@ -1,9 +1,9 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import { RatingBadgeModel } from '@models/master-data/ratingBadgeModel'
-import ratingBadgeService from '@services/master-data/ratingBadgeService'
-import { moduleIds } from '@lib/appconst'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import { RatingBadgeModel } from "@models/master-data/ratingBadgeModel"
+import ratingBadgeService from "@services/master-data/ratingBadgeService"
+import { moduleIds } from "@lib/appconst"
 
 class RatingBadgeStore {
   @observable isLoading!: boolean
@@ -43,7 +43,9 @@ class RatingBadgeStore {
   async filter(params: any) {
     this.isLoading = true
     params.moduleId = moduleIds.ratingBadge
-    this.pagedData = await ratingBadgeService.filter(params).finally(() => (this.isLoading = false))
+    this.pagedData = await ratingBadgeService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -51,7 +53,9 @@ class RatingBadgeStore {
     this.isLoading = true
     params.isActive = true
     params.moduleId = moduleIds.ratingBadge
-    this.ratingBadges = await ratingBadgeService.getAll(params).finally(() => (this.isLoading = false))
+    this.ratingBadges = await ratingBadgeService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -72,7 +76,9 @@ class RatingBadgeStore {
   @action
   async exportRatingBadge(params: any) {
     this.isLoading = true
-    return await ratingBadgeService.exportRatingBadge(params).finally(() => (this.isLoading = false))
+    return await ratingBadgeService
+      .exportRatingBadge(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action

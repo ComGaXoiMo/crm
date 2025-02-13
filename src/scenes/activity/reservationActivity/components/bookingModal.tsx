@@ -14,7 +14,7 @@ import {
 import React from "react"
 import { FormInstance } from "antd/lib/form"
 import TextArea from "antd/lib/input/TextArea"
-import moment from "moment"
+import dayjs from "dayjs"
 import ReservationStore from "@stores/activity/reservationStore"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import withRouter from "@components/Layout/Router/withRouter"
@@ -34,24 +34,24 @@ import { OrderedListOutlined } from "@ant-design/icons"
 
 const { unitReservationStatus, unitStatus } = AppConsts
 interface Props {
-  visible: boolean;
-  reservationStore: ReservationStore;
-  inquiryId: any;
-  onClose: () => void;
-  onOk: (params) => void;
+  visible: boolean
+  reservationStore: ReservationStore
+  inquiryId: any
+  onClose: () => void
+  onOk: (params) => void
 }
 
 interface State {
-  listProject: any[];
-  listUnit: any[];
-  projectChoose: any;
-  fromDate: any;
-  toDate: any;
+  listProject: any[]
+  listUnit: any[]
+  projectChoose: any
+  fromDate: any
+  toDate: any
 }
 @inject(Stores.ReservationStore)
 @observer
 class BookingModal extends AppComponentListBase<Props, State> {
-  form = React.createRef<FormInstance>();
+  form = React.createRef<FormInstance>()
 
   constructor(props) {
     super(props)
@@ -76,16 +76,16 @@ class BookingModal extends AppComponentListBase<Props, State> {
             unitIds: reservationDetail?.reservationUnit?.map(
               (item) => item?.unitId
             ),
-            reservationTime: moment(reservationDetail.reservationTime),
-            creationTime: moment(reservationDetail.creationTime),
+            reservationTime: dayjs(reservationDetail.reservationTime),
+            creationTime: dayjs(reservationDetail.creationTime),
             fromDate: reservationDetail.fromDate
-              ? moment(reservationDetail.fromDate)
+              ? dayjs(reservationDetail.fromDate)
               : undefined,
             toDate: reservationDetail.toDate
-              ? moment(reservationDetail.toDate)
+              ? dayjs(reservationDetail.toDate)
               : undefined,
             projectId: reservationDetail?.reservationUnit[0]?.unit.projectId,
-            expiryDate: moment(reservationDetail?.expiryDate),
+            expiryDate: dayjs(reservationDetail?.expiryDate),
           })
         } else {
           this.setState({ listUnit: [] })
@@ -94,12 +94,12 @@ class BookingModal extends AppComponentListBase<Props, State> {
       }
     }
   }
-  uniqueValues = (nums) => [...new Set(nums)];
+  uniqueValues = (nums) => [...new Set(nums)]
   initProject = async (data) => {
     await this.setState({
       listProject: [{ id: data?.projectId, label: data?.projectCode }],
     })
-  };
+  }
   initUnit = async (data?) => {
     const { reservationDetail } = this.props.reservationStore
     const newListUnit = [] as any
@@ -115,7 +115,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       fromDate: reservationDetail?.fromDate,
       toDate: reservationDetail?.toDate,
     })
-  };
+  }
   getProject = async (keyword) => {
     const res = await projectService.getAll({
       pageSize: 10,
@@ -127,7 +127,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
     })
 
     await this.setState({ listProject: newProjects })
-  };
+  }
   getUnit = async (keyword) => {
     const res = await unitService.getAllRes({
       pageSize: 10,
@@ -147,7 +147,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       }
     })
     await this.setState({ listUnit: newUnit })
-  };
+  }
   removeAllUnit = async () => {
     const { reservationDetail } = this.props.reservationStore
 
@@ -167,7 +167,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       toDate: undefined,
       fromDate: undefined,
     })
-  };
+  }
   onOk = async () => {
     const { reservationDetail } = this.props.reservationStore
     let params = await this.form.current?.validateFields()
@@ -205,7 +205,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       toDate: undefined,
       fromDate: undefined,
     })
-  };
+  }
   oncheckPriorityUnit = async () => {
     const params = await this.form.current?.getFieldValue("unitIds")
     const priorityUnit =
@@ -221,7 +221,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       }
     })
     await this.setState({ listUnit: newUnit })
-  };
+  }
   onClose = () => {
     this.props.onClose()
     this.setState({
@@ -229,7 +229,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       toDate: undefined,
       fromDate: undefined,
     })
-  };
+  }
   tagRender = (props) => {
     const { label, value, closable, onClose } = props
     const initValue =
@@ -268,7 +268,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
         {label}
       </Tag>
     )
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,
@@ -278,7 +278,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
       this.state.projectChoose === undefined ||
       !this.state.fromDate ||
       !this.state.toDate
-    const exprydate = moment().add(
+    const exprydate = dayjs().add(
       this.props.reservationStore.reservationSetting?.expireDay,
       "days"
     )
@@ -355,13 +355,13 @@ class BookingModal extends AppComponentListBase<Props, State> {
                     disabledDate={(current) =>
                       this.form.current?.getFieldValue("toDate")
                         ? current >
-                          moment(this.form.current?.getFieldValue("toDate"))
+                          dayjs(this.form.current?.getFieldValue("toDate"))
                         : false
                     }
                     onChange={async (value) => {
                       this.form.current?.resetFields(["unitIds"])
                       await this.setState({
-                        fromDate: moment(value).startOf("days").toJSON(),
+                        fromDate: dayjs(value).startOf("days").toJSON(),
                       })
                       if (this.state.toDate && this.state.projectChoose) {
                         await this.getUnit("")
@@ -381,13 +381,13 @@ class BookingModal extends AppComponentListBase<Props, State> {
                     disabled={this.props.reservationStore.reservationDetail?.id}
                     disabledDate={(current) =>
                       current <
-                      moment(this.form.current?.getFieldValue("fromDate"))
+                      dayjs(this.form.current?.getFieldValue("fromDate"))
                     }
                     format={dateFormat}
                     onChange={async (value) => {
                       this.form.current?.resetFields(["unitIds"])
                       await this.setState({
-                        toDate: moment(value).endOf("days").toJSON(),
+                        toDate: dayjs(value).endOf("days").toJSON(),
                       })
                       if (this.state.fromDate && this.state.projectChoose) {
                         await this.getUnit("")
@@ -448,7 +448,7 @@ class BookingModal extends AppComponentListBase<Props, State> {
               </Col>
               <Col sm={{ span: 24 }}>
                 <Form.Item
-                  initialValue={moment()}
+                  initialValue={dayjs()}
                   label={L("CREATE_TIME")}
                   name="reservationTime"
                 >

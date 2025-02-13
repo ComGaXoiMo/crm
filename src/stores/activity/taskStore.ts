@@ -1,10 +1,10 @@
 import { action, observable } from "mobx"
 
 import taskService from "@services/activity/taskService"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
-import moment from "moment"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
+import dayjs from "dayjs"
 import AppConsts from "@lib/appconst"
-const {taskStatusForNew}= AppConsts
+const { taskStatusForNew } = AppConsts
 
 class TaskStore {
   @observable isLoading!: boolean
@@ -24,7 +24,9 @@ class TaskStore {
   async createOrUpdate(body: any) {
     this.isLoading = true
 
-    const result = await taskService.createOrUpdate(body) .finally(() => (this.isLoading = false))
+    const result = await taskService
+      .createOrUpdate(body)
+      .finally(() => (this.isLoading = false))
     this.taskDetail = result
   }
 
@@ -54,34 +56,32 @@ class TaskStore {
     this.taskStatus = res.filter((item) => item.name !== "New")
 
     await this.taskStatus.forEach(async (item, index) => {
-      if (item.id> 100) {
-     
+      if (item.id > 100) {
         if (item.id === taskStatusForNew.overDue) {
           this.listTaskBoardView[item.id] = await taskService.getAll({
             ...params,
-          statusId: 1 ,
-            toDate: moment().startOf("day").toJSON(),
+            statusId: 1,
+            toDate: dayjs().startOf("day").toJSON(),
           })
-        } else if(item.id === taskStatusForNew.DueToday) {
+        } else if (item.id === taskStatusForNew.DueToday) {
           this.listTaskBoardView[item.id] = await taskService.getAll({
             ...params,
-            statusId:1 ,
-           fromDate: moment().startOf("day").toJSON(),
-            toDate: moment().startOf("day").add(1,"d").toJSON(),
+            statusId: 1,
+            fromDate: dayjs().startOf("day").toJSON(),
+            toDate: dayjs().startOf("day").add(1, "d").toJSON(),
           })
-        }else if(item.id === taskStatusForNew.overDueIn3Day) {
+        } else if (item.id === taskStatusForNew.overDueIn3Day) {
           this.listTaskBoardView[item.id] = await taskService.getAll({
             ...params,
-            statusId: 1 ,
-            fromDate: moment().startOf("day").add(1,"d").toJSON(),
-            toDate: moment().startOf("day").add(3,"d").toJSON(),
+            statusId: 1,
+            fromDate: dayjs().startOf("day").add(1, "d").toJSON(),
+            toDate: dayjs().startOf("day").add(3, "d").toJSON(),
           })
-        }else if(item.id === taskStatusForNew.todo) {
+        } else if (item.id === taskStatusForNew.todo) {
           this.listTaskBoardView[item.id] = await taskService.getAll({
             ...params,
-            statusId:1 ,
-            fromDate: moment().startOf("day").toJSON(),
-
+            statusId: 1,
+            fromDate: dayjs().startOf("day").toJSON(),
           })
         }
       } else {
@@ -95,37 +95,33 @@ class TaskStore {
 
   @action
   async getMore(statusId: number, params: any) {
-    let fromDate : any = undefined
-    let toDate : any = undefined
+    let fromDate: any = undefined
+    let toDate: any = undefined
     switch (statusId) {
       case taskStatusForNew.overDue:
-        fromDate =undefined
-        toDate=  moment().startOf("day").toJSON()
+        fromDate = undefined
+        toDate = dayjs().startOf("day").toJSON()
         break
-        case taskStatusForNew.DueToday:
-        fromDate = moment().startOf("day").toJSON(),
-        toDate= moment().startOf("day").add(1,"d").toJSON()
-        break 
-         case taskStatusForNew.overDueIn3Day:
-        fromDate =moment().startOf("day").add(1,"d").toJSON(),
-        toDate=  moment().startOf("day").add(3,"d").toJSON()
-        break  
-        case taskStatusForNew.todo:
-        fromDate = moment().startOf("day").toJSON(),
-        toDate= undefined
+      case taskStatusForNew.DueToday:
+        ;(fromDate = dayjs().startOf("day").toJSON()),
+          (toDate = dayjs().startOf("day").add(1, "d").toJSON())
+        break
+      case taskStatusForNew.overDueIn3Day:
+        ;(fromDate = dayjs().startOf("day").add(1, "d").toJSON()),
+          (toDate = dayjs().startOf("day").add(3, "d").toJSON())
+        break
+      case taskStatusForNew.todo:
+        ;(fromDate = dayjs().startOf("day").toJSON()), (toDate = undefined)
         break
       default:
         fromDate = undefined
-        toDate= undefined
+        toDate = undefined
     }
-
-
-
 
     const result = await taskService.getAll({
       ...params,
       statusId: statusId < 100 ? statusId : 1,
-      fromDate:fromDate,
+      fromDate: fromDate,
       toDate: toDate,
     })
 

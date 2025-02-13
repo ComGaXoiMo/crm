@@ -6,20 +6,20 @@ import { Card } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import { LogoutOutlined } from "@ant-design/icons"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateFormat } from "@lib/appconst"
 // import { Table } from "antd";
 
 export interface IProposalItemProps {
-  moveOut: any;
-  data: any;
+  moveOut: any
+  data: any
 }
 
 @inject()
 @observer
 class ProposalBoardItem extends AppComponentListBase<IProposalItemProps> {
-  formRef: any = React.createRef();
-  state = {};
+  formRef: any = React.createRef()
+  state = {}
 
   public render() {
     const { data } = this.props
@@ -44,14 +44,14 @@ class ProposalBoardItem extends AppComponentListBase<IProposalItemProps> {
               {/* <label>Description: move in at 23/03/2023</label> */}
               <label>
                 Move-in date:
-                <strong>{moment(data?.moveInDate).format(dateFormat)}</strong>
+                <strong>{dayjs(data?.moveInDate).format(dateFormat)}</strong>
               </label>
               {data?.moveOutDate && (
                 <>
                   <label>
                     Move-out date:
                     <strong>
-                      {moment(data?.moveOutDate).format(dateFormat)}
+                      {dayjs(data?.moveOutDate).format(dateFormat)}
                     </strong>
                   </label>
                   <label>

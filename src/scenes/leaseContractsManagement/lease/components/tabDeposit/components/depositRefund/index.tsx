@@ -18,7 +18,7 @@ import { L, LNotification } from "@lib/abpUtility"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appPermissions, appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import {
   formatNumber,
   inputCurrencyFormatter,
@@ -102,7 +102,7 @@ class DepositRefund extends AppComponentListBase<
     await this.formRef.current?.setFieldsValue({
       ...this.props.depositStore.refundDetail,
       voucherDate: this.props.depositStore.refundDetail?.voucherDate
-        ? moment(this.props.depositStore.refundDetail?.voucherDate)
+        ? dayjs(this.props.depositStore.refundDetail?.voucherDate)
         : undefined,
       leaseAgreementDepositRefundTypeMap:
         this.props.depositStore.refundDetail?.leaseAgreementDepositRefundTypeMap?.map(

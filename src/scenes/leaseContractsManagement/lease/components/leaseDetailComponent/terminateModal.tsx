@@ -18,32 +18,32 @@ import withRouter from "@components/Layout/Router/withRouter"
 import { inject, observer } from "mobx-react"
 import Stores from "@stores/storeIdentifier"
 import FormDatePicker from "@components/FormItem/FormDatePicker"
-import moment from "moment"
+import dayjs from "dayjs"
 import { UploadOutlined } from "@ant-design/icons"
 import fileService from "@services/common/fileService"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import AppConsts, { moduleNames } from "@lib/appconst"
 const { leaseStage } = AppConsts
 interface Props {
-  visible: boolean;
-  onClose: () => void;
-  onOk: (id) => void;
-  status?: any;
-  expriedDate: any;
-  leaseAgreementStore: LeaseAgreementStore;
-  appDataStore: AppDataStore;
+  visible: boolean
+  onClose: () => void
+  onOk: (id) => void
+  status?: any
+  expriedDate: any
+  leaseAgreementStore: LeaseAgreementStore
+  appDataStore: AppDataStore
 }
 interface State {
-  idChoose: any;
-  selectedType: any;
-  file: any;
-  isRequired: boolean;
-  haveDoc: any;
+  idChoose: any
+  selectedType: any
+  file: any
+  isRequired: boolean
+  haveDoc: any
 }
 @inject(Stores.AppDataStore, Stores.LeaseAgreementStore)
 @observer
 class TerminateModal extends AppComponentListBase<Props, State> {
-  form: any = React.createRef();
+  form: any = React.createRef()
   constructor(props) {
     super(props)
     this.state = {
@@ -59,7 +59,7 @@ class TerminateModal extends AppComponentListBase<Props, State> {
       if (this.props.visible === true) {
         this.form.current?.setFieldValue(
           "terminationDate",
-          moment(this.props.expriedDate)
+          dayjs(this.props.expriedDate)
         )
         this.setState({
           isRequired: this.state.selectedType === tabKeys.earlyTerminate,
@@ -85,14 +85,14 @@ class TerminateModal extends AppComponentListBase<Props, State> {
       documentName: formValues?.documentName,
       documentTypeId: formValues?.documentTypeId,
       uniqueId: leaseAgreementDetail?.uniqueId,
-      uploadDate: moment().toJSON(),
+      uploadDate: dayjs().toJSON(),
     }
     await fileService.uploadDocument(
       moduleNames.contract,
       formValues,
       this.state.file
     )
-  };
+  }
   handleOk = async () => {
     const resValue = await this.form.current?.validateFields()
     if (this.state.haveDoc) {
@@ -109,18 +109,18 @@ class TerminateModal extends AppComponentListBase<Props, State> {
       stageId: stageId,
       statusId: statusId,
     })
-  };
+  }
   changeTab = (data) => {
     console.log(data)
-  };
+  }
   handleBeforeUploadFile = (file?) => {
     this.setState({ file: file, haveDoc: file?.name })
 
     return false
-  };
+  }
   handleRemoveFile = (file?) => {
     this.setState({ haveDoc: undefined })
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,
@@ -177,7 +177,7 @@ class TerminateModal extends AppComponentListBase<Props, State> {
                     rule={[{ required: true }]}
                     name="terminationDate"
                     disabledDate={(current) =>
-                      current > moment(this.props.expriedDate)
+                      current > dayjs(this.props.expriedDate)
                     }
                   />
                 </Col>

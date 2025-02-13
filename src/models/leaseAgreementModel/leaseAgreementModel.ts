@@ -1,15 +1,15 @@
 import { RowData } from "@models/DataTable"
-import moment from "moment"
+import dayjs from "dayjs"
 
 export interface IRowLeaseAgreement {
-  moveInDate?: any;
+  moveInDate?: any
 }
 
 export class RowLeaseAgreementModel
   extends RowData
   implements IRowLeaseAgreement
 {
-  moveInDate: any;
+  moveInDate: any
   constructor() {
     super()
   }
@@ -18,7 +18,7 @@ export class RowLeaseAgreementModel
     if (!obj) return undefined
 
     const newObj = Object.assign(new RowLeaseAgreementModel(), obj)
-    newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined
+    newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined
 
     return newObj
   }
@@ -39,22 +39,26 @@ export class LeaseAgreementDetailModel extends RowData {
     if (!obj) return undefined
 
     const newObj = Object.assign(new LeaseAgreementDetailModel(), obj)
-    newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined
+    newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined
     newObj.commencementDate = obj.commencementDate
-      ? moment(obj.commencementDate)
+      ? dayjs(obj.commencementDate)
       : undefined
-    newObj.expiryDate = obj.expiryDate ? moment(obj.expiryDate) : undefined
+    newObj.expiryDate = obj.expiryDate ? dayjs(obj.expiryDate) : undefined
     newObj.extensionDate = obj.extensionDate
-      ? moment(obj.extensionDate)
+      ? dayjs(obj.extensionDate)
       : undefined
     newObj.terminationDate = obj.terminationDate
-      ? moment(obj.terminationDate)
+      ? dayjs(obj.terminationDate)
       : undefined
-    newObj.depositSendDate = obj.depositSendDate ? moment(obj.depositSendDate) : undefined
-    newObj.amendmentMoveInDate = obj.amendmentMoveInDate ? moment(obj.amendmentMoveInDate) : undefined
-    newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined
-    newObj.moveOutDate = obj.moveOutDate ? moment(obj.moveOutDate) : undefined
-    newObj.paymentDate = obj.paymentDate ? moment(obj.paymentDate) : undefined
+    newObj.depositSendDate = obj.depositSendDate
+      ? dayjs(obj.depositSendDate)
+      : undefined
+    newObj.amendmentMoveInDate = obj.amendmentMoveInDate
+      ? dayjs(obj.amendmentMoveInDate)
+      : undefined
+    newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined
+    newObj.moveOutDate = obj.moveOutDate ? dayjs(obj.moveOutDate) : undefined
+    newObj.paymentDate = obj.paymentDate ? dayjs(obj.paymentDate) : undefined
     return newObj
   }
 
@@ -66,23 +70,23 @@ export class LeaseAgreementDetailModel extends RowData {
 }
 
 export interface ILeaseAgreementItemModel {
-  id?: number;
-  contactId?: number;
-  companyId?: number;
-  title?: string;
-  contactName?: string;
-  isPrimary?: boolean;
-  isActive?: boolean;
+  id?: number
+  contactId?: number
+  companyId?: number
+  title?: string
+  contactName?: string
+  isPrimary?: boolean
+  isActive?: boolean
 }
 
 export class LeaseAgreementItemModel {
-  id?: number;
-  contactId?: number;
-  companyId?: number;
-  title?: string;
-  contactName?: string;
-  isPrimary?: boolean;
-  isActive?: boolean;
+  id?: number
+  contactId?: number
+  companyId?: number
+  title?: string
+  contactName?: string
+  isPrimary?: boolean
+  isActive?: boolean
 
   constructor(isPrimary?) {
     this.isPrimary = isPrimary

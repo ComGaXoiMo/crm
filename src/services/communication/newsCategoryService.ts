@@ -1,20 +1,28 @@
-import { Category } from '../../models/category'
-import { PagedResultDto } from '../dto/pagedResultDto'
-import http from '../httpService'
+import { Category } from "../../models/category"
+import type { PagedResultDto } from "../dto/pagedResultDto"
+import http from "../httpService"
 
 class NewsCategoryService {
   public async create(body: Category) {
-    const result = await http.post('/api/services/app/NewsCategories/Create', body)
+    const result = await http.post(
+      "/api/services/app/NewsCategories/Create",
+      body
+    )
     return result.data.result
   }
 
   public async update(body: any) {
-    const result = await http.put('/api/services/app/NewsCategories/Update', body)
+    const result = await http.put(
+      "/api/services/app/NewsCategories/Update",
+      body
+    )
     return result.data.result
   }
 
   public async delete(id: number) {
-    const result = await http.delete('api/services/app/Residents/Delete', { params: { id } })
+    const result = await http.delete("api/services/app/Residents/Delete", {
+      params: { id },
+    })
     return result.data
   }
 
@@ -28,8 +36,10 @@ class NewsCategoryService {
   // }
 
   public async getAll(params: any): Promise<PagedResultDto<any>> {
-    const result = await http.get('api/services/app/News/GetListNewsCategory', { params })
-    return {totalCount: 0, items: result.data.result}
+    const result = await http.get("api/services/app/News/GetListNewsCategory", {
+      params,
+    })
+    return { totalCount: 0, items: result.data.result }
   }
 }
 

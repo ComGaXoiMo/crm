@@ -8,29 +8,29 @@ import withRouter from "@components/Layout/Router/withRouter"
 import MailStore from "@stores/activity/mailStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import moment from "moment"
+import dayjs from "dayjs"
 import fileService from "@services/common/fileService"
 import { dateTimeFormat, moduleNames } from "@lib/appconst"
 import FileStore from "@stores/common/fileStore"
 import { validateMessages } from "@lib/validation"
 
 interface Props {
-  visible: boolean;
-  mailStore: MailStore;
-  fileStore: FileStore;
-  inquiryId: any;
-  onClose: () => void;
-  onOk: () => void;
+  visible: boolean
+  mailStore: MailStore
+  fileStore: FileStore
+  inquiryId: any
+  onClose: () => void
+  onOk: () => void
 }
 
 interface State {
-  fileUpload: any;
-  files: any[];
+  fileUpload: any
+  files: any[]
 }
 @inject(Stores.MailStore, Stores.FileStore)
 @observer
 class MailModal extends AppComponentListBase<Props, State> {
-  form: any = React.createRef();
+  form: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -48,7 +48,7 @@ class MailModal extends AppComponentListBase<Props, State> {
       if (this.props.visible) {
         this.form.current?.setFieldsValue({
           ...mailDetail,
-          sendDate: moment(mailDetail?.sendDate),
+          sendDate: dayjs(mailDetail?.sendDate),
         })
       }
     }
@@ -56,25 +56,25 @@ class MailModal extends AppComponentListBase<Props, State> {
   getFile = async (uniqueId) => {
     await this.props.fileStore.getFiles(uniqueId)
     this.setState({ files: this.props.fileStore.currentFiles })
-  };
+  }
   handleBeforeUploadFile = async (file?) => {
     this.setState({ fileUpload: file, files: [file] })
 
     return false
-  };
+  }
   uploadFile = async () => {
     const { mailDetail } = this.props.mailStore
     const formValues = {
       uniqueId: mailDetail?.uniqueId,
       documentName: this.state.fileUpload?.name,
-      uploadDate: moment().toJSON(),
+      uploadDate: dayjs().toJSON(),
     }
     await fileService.uploadDocument(
       moduleNames.mail,
       formValues,
       this.state.fileUpload
     )
-  };
+  }
   onOk = async () => {
     const { mailDetail } = this.props.mailStore
     let params = await this.form.current?.validateFields()
@@ -89,7 +89,7 @@ class MailModal extends AppComponentListBase<Props, State> {
     }
 
     await this.props.onOk()
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,

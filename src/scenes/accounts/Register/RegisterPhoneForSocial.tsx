@@ -1,10 +1,14 @@
 import "./index.less"
 import * as React from "react"
 import { Button, Col, Input, Row, Form, Card } from "antd"
-import { loginSteps } from "@lib/appconst"
+import { firebaseConfig, loginSteps } from "@lib/appconst"
 import { useEffect, useState } from "react"
-import firebase from "firebase/app"
-import "firebase/auth"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+} from "firebase/auth"
 import PhoneInput from "@components/Inputs/PhoneInput/PhoneInput"
 import Countdown from "antd/lib/statistic/Countdown"
 import AuthenticationStore from "@stores/authenticationStore"
@@ -38,12 +42,17 @@ const RegisterPhoneForSocial = inject(
     const [allowResend, setAllowResend] = useState<boolean | undefined>(
       undefined
     )
+
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
+    auth.languageCode = "vi"
     useEffect(() => {
       initFireBase()
     }, [])
 
     const initFireBase = () => {
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "btn-submit-login",
         {
           size: "invisible",
@@ -57,7 +66,6 @@ const RegisterPhoneForSocial = inject(
         }
       )
     }
-
     const sendPhoneCode = async (phoneNumber) => {
       setIsLoading(true)
       const appVerifier = window.recaptchaVerifier
@@ -65,30 +73,30 @@ const RegisterPhoneForSocial = inject(
         setIsLoading(false)
         return
       }
-      window.confirmationResult = await firebase
-        .auth()
-        .signInWithPhoneNumber(phoneNumber, appVerifier)
-        .catch((error) => {
-          setErrorMessage(error.message)
-          window.recaptchaVerifier.render().then(function (widgetId) {
-            grecaptcha.reset(widgetId)
-          })
+      window.confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      ).catch((error) => {
+        setErrorMessage(error.message)
+        window.recaptchaVerifier.render().then(function (widgetId) {
+          grecaptcha.reset(widgetId)
         })
+      })
       setIsLoading(false)
     }
 
     const resendPhoneCode = async (phoneNumber) => {
       setIsLoading(true)
-      const appVerifier = new firebase.auth.RecaptchaVerifier(
-        "btn-submit-login",
-        {
-          size: "invisible",
-        }
-      )
+      const appVerifier = new RecaptchaVerifier(auth, "btn-submit-login", {
+        size: "invisible",
+      })
       setPhoneNumber(phoneNumber)
-      window.confirmationResult = await firebase
-        .auth()
-        .signInWithPhoneNumber(phoneNumber, appVerifier)
+      window.confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      )
         .then(() => setAllowResend(false))
         .catch((error) => {
           setErrorMessage(error.message)
@@ -111,7 +119,7 @@ const RegisterPhoneForSocial = inject(
           .confirm(phoneCode)
           .then(async (user) => {
             await props.authenticationStore!.loginSocial({
-              PhoneNumberIdToken: user.user.Aa,
+              PhoneNumberIdToken: user.user.accessToken,
               phoneNumber: user.user.phoneNumber,
             })
             window.location.href = "/"

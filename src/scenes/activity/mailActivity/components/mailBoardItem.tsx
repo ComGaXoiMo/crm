@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import { MailOutlined } from "@ant-design/icons"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateTimeFormat } from "@lib/appconst"
 import { L } from "@lib/abpUtility"
 // import { Table } from "antd";
@@ -44,7 +44,7 @@ class MailBoardItem extends AppComponentListBase<IMailItemProps> {
               </label>
               <label>
                 {this.L("MAIL_SEND_DATE")}:
-                <strong>{moment(data?.sendDate).format(dateTimeFormat)}</strong>
+                <strong>{dayjs(data?.sendDate).format(dateTimeFormat)}</strong>
               </label>
               <label>
                 {this.L("EMAIL_DESCRIPTION")}:
@@ -53,7 +53,7 @@ class MailBoardItem extends AppComponentListBase<IMailItemProps> {
 
               <label>
                 Created by<strong> {data?.creatorUser?.displayName}</strong> at{" "}
-                {moment(data?.creationTime).format(dateTimeFormat)}
+                {dayjs(data?.creationTime).format(dateTimeFormat)}
               </label>
             </div>
           </div>

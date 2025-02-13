@@ -1,4 +1,4 @@
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
@@ -28,11 +28,12 @@ class ReservationService {
     return result.data.result
   }
   public async getPriorityReservationUnit(params: any): Promise<any> {
- 
-
-    const result = await http.get("api/services/app/InquiryReservation/GetPriorityReservationUnit", {
-      params,
-    })
+    const result = await http.get(
+      "api/services/app/InquiryReservation/GetPriorityReservationUnit",
+      {
+        params,
+      }
+    )
 
     return result.data.result
   }

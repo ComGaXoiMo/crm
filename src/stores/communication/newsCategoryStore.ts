@@ -1,7 +1,7 @@
-import { action, computed, observable, toJS } from 'mobx'
-import { Category } from '../../models/category'
-import newsCategoryService from '../../services/communication/newsCategoryService'
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
+import { action, computed, observable, toJS } from "mobx"
+import newsCategoryService from "../../services/communication/newsCategoryService"
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import type { Category } from "@models/category"
 
 class NewsCategoryStore {
   @observable isLoading!: boolean
@@ -45,7 +45,9 @@ class NewsCategoryStore {
   @action
   async getAll(params: any) {
     this.isLoading = true
-    this.pageResult = await newsCategoryService.getAll(params).finally(() => this.isLoading = false)
+    this.pageResult = await newsCategoryService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @computed

@@ -7,7 +7,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { v4 as uuid } from "uuid"
 import AppConsts, { appPermissions, appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
 import {
@@ -26,29 +26,29 @@ import _, { debounce } from "lodash"
 import { inputPercentFormatter, isNumber } from "@lib/helper"
 const { align } = AppConsts
 export interface IProps {
-  leaseAgreementStore: LeaseAgreementStore;
-  userStore: UserStore;
-  thisTabKey: any;
-  parentTabKeyChoose: any;
-  dataTable: any;
-  leaseAgreementId: any;
-  dealerCommissionAmount: number;
-  listMainDealer: any[];
-  onDatatableChange: (value) => void;
+  leaseAgreementStore: LeaseAgreementStore
+  userStore: UserStore
+  thisTabKey: any
+  parentTabKeyChoose: any
+  dataTable: any
+  leaseAgreementId: any
+  dealerCommissionAmount: number
+  listMainDealer: any[]
+  onDatatableChange: (value) => void
 }
 
 export interface IState {
-  dataTable: any[];
-  editingKey: any;
-  isEdited: any;
-  backupData: any[];
-  listUser: any[];
-  totalPercent: number;
+  dataTable: any[]
+  editingKey: any
+  isEdited: any
+  backupData: any[]
+  listUser: any[]
+  totalPercent: number
 }
 @inject(Stores.LeaseAgreementStore, Stores.UserStore)
 @observer
 class dealerCommTable extends AppComponentListBase<IProps, IState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     dataTable: [] as any,
@@ -57,9 +57,9 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
     backupData: [] as any,
     totalPercent: 0,
     listUser: [] as any,
-  };
+  }
 
-  isEditing = (record: any) => record.key === this.state.editingKey;
+  isEditing = (record: any) => record.key === this.state.editingKey
 
   componentDidMount = () => {
     if (this.props.dataTable.length > 0) {
@@ -68,7 +68,7 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
       this.initData()
     }
     this.getStaff("")
-  };
+  }
   async componentDidUpdate(prevProps, prevState) {
     if (prevState.dataTable !== this.state.dataTable) {
       this.props.onDatatableChange(this.state.dataTable)
@@ -105,10 +105,10 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
       }
     })
     this.setState({ listUser: newListUser })
-  };
+  }
   onSearchDealer = debounce((value) => {
     this.getStaff(value)
-  }, 500);
+  }, 500)
 
   initData = () => {
     const {
@@ -129,7 +129,7 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
       },
     ]
     this.setState({ dataTable })
-  };
+  }
 
   addRecordToTable = async () => {
     await this.setState({
@@ -147,7 +147,7 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
     this.setState({
       editingKey: newRow.key,
     })
-  };
+  }
   saveRow = async (data: any) => {
     const values = await this.formRef.current?.validateFields()
     const newData = [...this.state.dataTable]
@@ -223,13 +223,13 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
 
     this.setState({ isEdited: data?.key ?? "" })
     this.setState({ editingKey: "" })
-  };
+  }
 
   deleteRow = async (index) => {
     const newData = [...this.state.dataTable]
     await newData.splice(index, 1)
     await this.setState({ dataTable: [...newData] })
-  };
+  }
 
   public render() {
     const editPermission = this.isGranted(
@@ -330,7 +330,7 @@ class dealerCommTable extends AppComponentListBase<IProps, IState> {
                       await this.formRef.current?.setFieldsValue({
                         ...record,
                         depositDate: record.depositDate
-                          ? moment(record.depositDate)
+                          ? dayjs(record.depositDate)
                           : "",
                         // dealerName: record.dealerName
                         //   ? `${record.userId}#$${record.dealerName}`

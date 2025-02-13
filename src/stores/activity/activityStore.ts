@@ -1,18 +1,18 @@
 import { action, observable } from "mobx"
 
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import activityService from "@services/activity/activityService"
 import { moduleIds } from "@lib/appconst"
 
 class ActivityStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editActivity!: any;
-  @observable activityStatus!: any[];
-  @observable taskStatus!: any[];
-  @observable taskPriorities!: any[];
-  @observable reminderFormats!: any[];
-  @observable reminderTypes!: any[];
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editActivity!: any
+  @observable activityStatus!: any[]
+  @observable taskStatus!: any[]
+  @observable taskPriorities!: any[]
+  @observable reminderFormats!: any[]
+  @observable reminderTypes!: any[]
 
   constructor() {
     this.tableData = { items: [], totalCount: 0 }

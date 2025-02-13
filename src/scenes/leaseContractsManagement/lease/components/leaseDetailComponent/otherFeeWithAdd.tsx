@@ -8,7 +8,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { v4 as uuid } from "uuid"
 import AppConsts, { appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -314,7 +314,7 @@ class OtherFeesWithAdd extends AppComponentListBase<
                   await this.formRef.current?.setFieldsValue({
                     ...record,
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   await this.setState({

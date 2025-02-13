@@ -1,39 +1,40 @@
 import { L } from "@lib/abpUtility"
-import { Button, Spin } from "antd"
-import React, { useEffect } from "react"
-import firebase from "firebase/app"
-import "firebase/auth"
-import { firebaseConfig } from "@lib/appconst"
+import { Button } from "antd"
+import React from "react"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  OAuthProvider,
+} from "firebase/auth"
 import AuthenticationStore from "@stores/authenticationStore"
-import { useHistory, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { userLayout } from "@components/Layout/Router/router.config"
+import { firebaseConfig } from "@lib/appconst"
 
 interface Props {
   loginMethodsAllow: {
-    allowSelfRegistration: boolean;
-    isAppleAuthenticatorEnabled: boolean;
-    isEmailProviderEnabled: boolean;
-    isGoogleAuthenticatorEnabled: boolean;
-    isMicrosoftAuthenticatorEnabled: boolean;
-    isSmsProviderEnabled: boolean;
-    useCaptchaOnRegistration: boolean;
-  };
-  authenticationStore?: AuthenticationStore;
-  location?: any;
+    allowSelfRegistration: boolean
+    isAppleAuthenticatorEnabled: boolean
+    isEmailProviderEnabled: boolean
+    isGoogleAuthenticatorEnabled: boolean
+    isMicrosoftAuthenticatorEnabled: boolean
+    isSmsProviderEnabled: boolean
+    useCaptchaOnRegistration: boolean
+  }
+  authenticationStore?: AuthenticationStore
+  location?: any
 }
 
 const SocialLogin = (props: Props) => {
-  const [loading, setIsLoading] = React.useState(false)
-  useEffect(() => {
-    if (!firebase.apps.length) initFireBase()
-  }, [])
-  const history = useHistory()
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig)
+  const auth = getAuth(app)
+  auth.languageCode = "vi"
 
-  const initFireBase = () => {
-    firebase.initializeApp(firebaseConfig)
-    firebase.auth().languageCode = "vi"
-    setIsLoading(false)
-  }
+  const navigate = useNavigate()
+
   const location: any = useLocation()
   const handleLogin = async (body) => {
     const checkFirst = await props.authenticationStore!.checkSocial(body)
@@ -47,63 +48,55 @@ const SocialLogin = (props: Props) => {
           ? location.state.from.pathname
           : "/")
     } else if (checkFirst.state === 3) {
-      history.push(userLayout.registerPhoneForSocial.path)
+      navigate(userLayout.registerPhoneForSocial.path)
     }
   }
-  const handleSignInWithGoogle = () => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider()
-    firebase
-      .auth()
-      .signInWithPopup(googleProvider)
-      .then(async (result: any) => {
-        const body = {
-          authProvider: result.credential.signInMethod,
-          providerKey: result.user.uid,
-          providerAccessCode: result.user.Aa,
-        }
-        await handleLogin(body)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  const handleSignInWithGoogle = async () => {
+    const googleProvider = new GoogleAuthProvider()
+    try {
+      const result: any = await signInWithPopup(auth, googleProvider)
+      const body = {
+        authProvider: result.credential.signInMethod,
+        providerKey: result.user.uid,
+        providerAccessCode: result.user.accessToken,
+      }
+      await handleLogin(body)
+    } catch (error) {
+      console.error(error)
+    }
   }
-  const handleAppleLogin = () => {
-    const appleProvider = new firebase.auth.OAuthProvider("apple.com")
+
+  const handleAppleLogin = async () => {
+    const appleProvider = new OAuthProvider("apple.com")
     appleProvider.addScope("email")
     appleProvider.addScope("name")
-    firebase
-      .auth()
-      .signInWithPopup(appleProvider)
-      .then(async (result: any) => {
-        const body = {
-          authProvider: result.credential.signInMethod,
-          providerKey: result.user.uid,
-          providerAccessCode: result.user.Aa,
-        }
-        await handleLogin(body)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    try {
+      const result: any = await signInWithPopup(auth, appleProvider)
+      const body = {
+        authProvider: result.providerId,
+        providerKey: result.user.uid,
+        providerAccessCode: result.user.accessToken,
+      }
+      await handleLogin(body)
+    } catch (error) {
+      console.error(error)
+    }
   }
-  const handleMicrosoftLogin = () => {
-    const microsoftProvider = new firebase.auth.OAuthProvider("microsoft.com")
+  const handleMicrosoftLogin = async () => {
+    const microsoftProvider = new OAuthProvider("microsoft.com")
     microsoftProvider.addScope("mail.read")
     microsoftProvider.addScope("calendars.read")
-    firebase
-      .auth()
-      .signInWithPopup(microsoftProvider)
-      .then(async (result: any) => {
-        const body = {
-          authProvider: result.credential.signInMethod,
-          providerKey: result.user.uid,
-          providerAccessCode: result.user.Aa,
-        }
-        await handleLogin(body)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    try {
+      const result: any = await signInWithPopup(auth, microsoftProvider)
+      const body = {
+        authProvider: result.providerId,
+        providerKey: result.user.uid,
+        providerAccessCode: result.user.accessToken,
+      }
+      await handleLogin(body)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const GoogleIcon = (
@@ -121,9 +114,7 @@ const SocialLogin = (props: Props) => {
     props.loginMethodsAllow.isGoogleAuthenticatorEnabled,
     props.loginMethodsAllow.isMicrosoftAuthenticatorEnabled,
   ].every((method) => method === false)
-  return loading ? (
-    <Spin />
-  ) : (
+  return (
     <div className="text-center w-100">
       {props.loginMethodsAllow.isAppleAuthenticatorEnabled && (
         <div className="d-inline-block  w-100 mx-1">

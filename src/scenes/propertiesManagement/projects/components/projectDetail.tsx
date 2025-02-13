@@ -10,7 +10,6 @@ import Stores from "@stores/storeIdentifier"
 import Summary from "./tabSummary"
 import ProjectStore from "@stores/projects/projectStore"
 import UnitStore from "@stores/projects/unitStore"
-import { RouteComponentProps } from "react-router-dom"
 
 import FileStore from "@stores/common/fileStore"
 import ProjectFloors from "./ProjectFloors"
@@ -24,15 +23,15 @@ import _ from "lodash"
 import TabDocument from "@scenes/inquiriesManagement/inquiriesList/components/detailInquiry/tabDocument"
 import TabProjectUserPermission from "./tabProjectUserPermission"
 import TabContract from "@scenes/propertiesManagement/units/components/tabContract"
-interface IProjectsDetailProps extends RouteComponentProps {
-  projectStore: ProjectStore;
-  unitStore: UnitStore;
-  fileStore: FileStore;
-  appDataStore: AppDataStore;
-  visible: boolean;
-  id: any;
-  onCancel: () => void;
-  onOk: () => void;
+interface IProjectsDetailProps {
+  projectStore: ProjectStore
+  unitStore: UnitStore
+  fileStore: FileStore
+  appDataStore: AppDataStore
+  visible: boolean
+  id: any
+  onCancel: () => void
+  onOk: () => void
 }
 const tabKeys = {
   tabSummaries: "TAB_SUMMARY",
@@ -45,14 +44,14 @@ const tabKeys = {
   tabUserPermission: "TAB_PROJECT_USER_PERMISSION",
 }
 type State = {
-  tabActiveKey: any;
-  projectId: any;
-  isEdit: boolean;
-};
+  tabActiveKey: any
+  projectId: any
+  isEdit: boolean
+}
 @inject(Stores.ProjectStore, Stores.UnitStore)
 @observer
 class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
-  formRef = React.createRef<any>();
+  formRef = React.createRef<any>()
   constructor(props: IProjectsDetailProps) {
     super(props)
     this.state = {
@@ -105,10 +104,10 @@ class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
     // this.formRef.current.setFieldsValue({
     //   projectAddress: this.props.projectStore.editProject?.projectAddress,
     // });
-  };
+  }
   changeTab = (tabKey) => {
     this.setState({ tabActiveKey: tabKey })
-  };
+  }
   handleSave = async (id?) => {
     let formValues = await this.formRef.current?.validateFields()
     if (id) {
@@ -139,20 +138,20 @@ class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
     if (!id) {
       this.handleCancel()
     }
-  };
+  }
   handleEdit = () => {
     this.setState({ isEdit: true })
-  };
+  }
   handleCancel = async () => {
     // await this.formRef.current?.resetFields();
     this.setState({ tabActiveKey: tabKeys.tabSummaries })
     await this.props.onCancel()
-  };
+  }
   handleChangeInfo = async () => {
     // await this.formRef.current?.resetFields();
 
     await this.props.onOk()
-  };
+  }
   public render() {
     const {
       visible,

@@ -1,6 +1,6 @@
 import { L } from "@lib/abpUtility"
 import { renderDateTime } from "@lib/helper"
-import moment from "moment-timezone/moment-timezone"
+import dayjs from "dayjs"
 import AppConsts from "@lib/appconst"
 import { HistoryOutlined } from "@ant-design/icons"
 import { Popover } from "antd"
@@ -18,8 +18,8 @@ const SystemHistoryColumn = {
   readonly: true,
   //   fixed: "right",
   render: (creationTime, row) => {
-    const createdAtAgo = moment(creationTime).fromNow()
-    const updatedAtAgo = moment(row.lastModificationTime).fromNow()
+    const createdAtAgo = dayjs(creationTime).fromNow()
+    const updatedAtAgo = dayjs(row.lastModificationTime).fromNow()
     return (
       <Popover
         placement="right"

@@ -6,12 +6,12 @@ import CurrencyInput from "@components/Inputs/CurrencyInput"
 import Select from "antd/lib/select"
 import PercentInput from "@components/Inputs/PercentInput"
 import TextArea from "antd/lib/input/TextArea"
-import moment from "moment"
+import dayjs from "dayjs"
 import { filterOptionsWithNotSpace, inputNumberFormatter } from "@lib/helper"
 const { formHorizontalLayout } = appConsts
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-  record: any;
+  record: any
   inputType:
     | "number"
     | "percent"
@@ -25,18 +25,18 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     | "selectStatus"
     | "select2"
     | "textarea"
-    | "none";
-  dataIndex: string;
-  title: any;
+    | "none"
+  dataIndex: string
+  title: any
 
-  editing: boolean;
-  index: number;
-  children: React.ReactNode;
-  options: any[];
-  required: any;
-  dateDisable: any;
-  onBlur?: (value) => void;
-  onOptionSearch?: (value) => void;
+  editing: boolean
+  index: number
+  children: React.ReactNode
+  options: any[]
+  required: any
+  dateDisable: any
+  onBlur?: (value) => void
+  onOptionSearch?: (value) => void
 }
 
 export const buildEditableCell = (
@@ -81,8 +81,8 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 }) => {
   const disabledDate = (current) => {
     return dateDisable
-      ? current < moment(dateDisable.startDate).startOf("day") ||
-          current > moment(dateDisable.endDate).endOf("day")
+      ? current < dayjs(dateDisable.startDate).startOf("day") ||
+          current > dayjs(dateDisable.endDate).endOf("day")
       : false
   }
   let inputNode

@@ -2,7 +2,7 @@ import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 import { RowCampaignModel } from "@models/campaign"
 
 class CampaignService {
@@ -49,7 +49,7 @@ class CampaignService {
       params: { id },
     })
     if (result.data.result && result.data.result.birthDate) {
-      result.data.result.birthDate = moment(result.data.result.birthDate)
+      result.data.result.birthDate = dayjs(result.data.result.birthDate)
     }
     return result.data.result
   }

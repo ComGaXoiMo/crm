@@ -8,7 +8,7 @@ import withRouter from "@components/Layout/Router/withRouter"
 import { budgetAppType, yearFormat } from "@lib/appconst"
 import Stores from "@stores/storeIdentifier"
 import { debounce } from "lodash"
-import moment from "moment"
+import dayjs from "dayjs"
 import BudgetAppStore from "@stores/budgetAppStore"
 import projectService from "@services/projects/projectService"
 import { RowBudgetAppModel } from "@models/budgetApp/budgetAppModel"
@@ -33,7 +33,7 @@ class BudgetApp extends AppComponentListBase<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
-      filters: { year: moment().year() },
+      filters: { year: dayjs().year() },
       dataTableUnit: [] as any,
       dataTableRevenue: [] as any,
       listProject: [] as any,
@@ -140,10 +140,10 @@ class BudgetApp extends AppComponentListBase<IProps, IState> {
               format={yearFormat}
               allowClear={false}
               picker="year"
-              defaultValue={moment()}
+              defaultValue={dayjs()}
               placeholder={L("YEAR")}
               onChange={(value) =>
-                this.handleSearch("year", moment(value).year())
+                this.handleSearch("year", dayjs(value).year())
               }
             />
           </Col>

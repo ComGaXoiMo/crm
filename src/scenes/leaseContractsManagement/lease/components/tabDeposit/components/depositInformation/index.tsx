@@ -40,7 +40,7 @@ import { DolarIcon } from "@components/Icon"
 import DepositNoteModal from "./depositNoteModal"
 import CollecttDepositModal from "./collectDepositModal"
 import DepositStore from "@stores/activity/depositStore"
-import moment from "moment"
+import dayjs from "dayjs"
 
 const { align } = AppConsts
 export interface IProps {
@@ -111,7 +111,7 @@ class DepositInformation extends AppComponentListBase<IProps, IState> {
 
     await this.formRef.current?.setFieldsValue({
       ...this.props.depositStore.depositDetail,
-      depositDate: moment(this.props.depositStore.depositDetail?.depositDate),
+      depositDate: dayjs(this.props.depositStore.depositDetail?.depositDate),
     })
 
     await this.setState({ editingKey: record?.id })

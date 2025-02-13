@@ -17,7 +17,7 @@ import { L } from "@lib/abpUtility"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appPermissions, appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
 import { v4 as uuid } from "uuid"
@@ -490,7 +490,7 @@ class CommPhaseDealerTable extends AppComponentListBase<IProps, IState> {
                       await this.formRef.current?.setFieldsValue({
                         ...record,
                         actBillingDate: record.actBillingDate
-                          ? moment(record.actBillingDate)
+                          ? dayjs(record.actBillingDate)
                           : "",
                       })
                       await this.setState({

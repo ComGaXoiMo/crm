@@ -1,39 +1,39 @@
-import {RowData} from "@models/DataTable"
-import moment from "moment-timezone/moment-timezone"
-import { v4 as uuid } from 'uuid'
+import { RowData } from "@models/DataTable"
+import dayjs from "dayjs"
+import { v4 as uuid } from "uuid"
 
 export interface IRowDealPayment {
-  key: string;
-  name?: string;
-  invoiceNo?: string;
-  estDate?: Date;
-  estPercent?: number;
-  paymentTimeLine?: string;
-  estAmount?: number;
-  vatAmount?: number;
-  issued?: string;
-  usdAmount?: number;
-  statusName?: string;
-  statusId?: number;
-  description?: string;
+  key: string
+  name?: string
+  invoiceNo?: string
+  estDate?: Date
+  estPercent?: number
+  paymentTimeLine?: string
+  estAmount?: number
+  vatAmount?: number
+  issued?: string
+  usdAmount?: number
+  statusName?: string
+  statusId?: number
+  description?: string
 }
 
-export class RowDealPaymentModel implements IRowDealPayment, RowData{
-  key: string;
-  name?: string;
-  invoiceNo?: string;
-  estDate?: Date;
-  estPercent?: number;
-  paymentTimeLine?: string;
-  estAmount?: number;
-  vatAmount?: number;
-  issued?: string;
-  usdAmount?: number;
-  statusName?: string;
-  statusId?: number;
-  description?: string;
+export class RowDealPaymentModel implements IRowDealPayment, RowData {
+  key: string
+  name?: string
+  invoiceNo?: string
+  estDate?: Date
+  estPercent?: number
+  paymentTimeLine?: string
+  estAmount?: number
+  vatAmount?: number
+  issued?: string
+  usdAmount?: number
+  statusName?: string
+  statusId?: number
+  description?: string
   constructor(key?) {
-    this.key = key || ''
+    this.key = key || ""
   }
 
   public static assign(obj) {
@@ -41,7 +41,7 @@ export class RowDealPaymentModel implements IRowDealPayment, RowData{
 
     const newObj = Object.assign(new RowDealPaymentModel(), obj)
     newObj.key = uuid()
-    newObj.estDate = newObj.estDate ? moment(newObj.estDate) : null
+    newObj.estDate = newObj.estDate ? dayjs(newObj.estDate) : null
     return newObj
   }
 
@@ -52,23 +52,22 @@ export class RowDealPaymentModel implements IRowDealPayment, RowData{
   }
 }
 
-
-export class RowDealPaymentAdjustModel implements IRowDealPayment, RowData{
-  key: string;
-  name?: string;
-  invoiceNo?: string;
-  estDate?: Date;
-  estPercent?: number;
-  paymentTimeLine?: string;
-  estAmount?: number;
-  vatAmount?: number;
-  issued?: string;
-  usdAmount?: number;
-  statusName?: string;
-  statusId?: number;
-  description?: string;
+export class RowDealPaymentAdjustModel implements IRowDealPayment, RowData {
+  key: string
+  name?: string
+  invoiceNo?: string
+  estDate?: Date
+  estPercent?: number
+  paymentTimeLine?: string
+  estAmount?: number
+  vatAmount?: number
+  issued?: string
+  usdAmount?: number
+  statusName?: string
+  statusId?: number
+  description?: string
   constructor(key?) {
-    this.key = key || ''
+    this.key = key || ""
   }
 
   public static assign(obj) {
@@ -76,7 +75,7 @@ export class RowDealPaymentAdjustModel implements IRowDealPayment, RowData{
 
     const newObj = Object.assign(new RowDealPaymentModel(), obj)
     newObj.key = uuid()
-    newObj.estDate = newObj.estDate ? moment(newObj.estDate) : null
+    newObj.estDate = newObj.estDate ? dayjs(newObj.estDate) : null
     return newObj
   }
 
@@ -86,4 +85,3 @@ export class RowDealPaymentAdjustModel implements IRowDealPayment, RowData{
     return results
   }
 }
-

@@ -34,7 +34,7 @@ import InquiryStore from "@stores/communication/inquiryStore"
 import ContactStore from "@stores/clientManagement/contactStore"
 import AppConsts, { dateDifference } from "@lib/appconst"
 
-import moment from "moment"
+import dayjs from "dayjs"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import UserStore from "@stores/administrator/userStore"
 // import OtherFeesTable from "@scenes/leaseContractsManagement/lease/components/leaseDetailComponent/SCFeeTable";
@@ -128,7 +128,7 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
       editCompanyVisible: false,
       unitId: [] as any,
       otherFeeDate: {} as any,
-      paymetnDate: moment(),
+      paymetnDate: dayjs(),
       dataTableReservation: [] as any,
       listReservationUnit: [] as any,
       rateUSD: 0,
@@ -149,8 +149,8 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
         return {
           id: item?.uniqueId,
           label: item?.name,
-          startDate: moment(item?.startDate).toJSON(),
-          endDate: moment(item?.endDate).toJSON(),
+          startDate: dayjs(item?.startDate).toJSON(),
+          endDate: dayjs(item?.endDate).toJSON(),
         }
       })
 
@@ -188,7 +188,7 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
           ...inquiryDetail,
           inquiryId: inquiryDetail.id,
           statusId: undefined,
-          moveInDate: moment(inquiryDetail?.moveInDate),
+          moveInDate: dayjs(inquiryDetail?.moveInDate),
         })
         await this.addToListReservationUnit(inquiryDetail?.id)
       }
@@ -346,15 +346,15 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
 
     if (startDate && endDate) {
       const res = await dateDifference(
-        moment(startDate).endOf("days"),
-        moment(endDate).endOf("days").add(1, "days")
+        dayjs(startDate).endOf("days"),
+        dayjs(endDate).endOf("days").add(1, "days")
       )
       const leaseTerm = `${res?.years} year(s), ${res?.months} month(s), ${res?.days} day(s)`
       await this.setState({
         leaseTerm: {
           ...res,
-          startDate: moment(startDate).toJSON(),
-          endDate: moment(endDate).toJSON(),
+          startDate: dayjs(startDate).toJSON(),
+          endDate: dayjs(endDate).toJSON(),
         },
       })
       await this.setState({
@@ -406,8 +406,8 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
     } else {
       const formValues = await this.formRef.current?.validateFields()
       const leaseTerm = await dateDifference(
-        moment(formValues?.commencementDate).endOf("days"),
-        moment(formValues?.expiryDate).endOf("days").subtract(1, "days")
+        dayjs(formValues?.commencementDate).endOf("days"),
+        dayjs(formValues?.expiryDate).endOf("days").subtract(1, "days")
       )
       const res = {
         ...formValues,
@@ -539,7 +539,7 @@ class CreateContractModal extends AppComponentListBase<Props, State> {
       return (
         current &&
         current <
-          moment(
+          dayjs(
             this.formRef.current?.getFieldValue("commencementDate")
           ).startOf("days")
       )

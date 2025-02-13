@@ -16,7 +16,7 @@ import ReservationStore from "@stores/activity/reservationStore"
 
 import LeaseInfoModal from "@scenes/leaseContractsManagement/lease/components/leaseInfoModal"
 import AppDataStore from "@stores/appDataStore"
-import moment from "moment"
+import dayjs from "dayjs"
 import ConfirmModal from "../../leaseDetailComponent/confirmModal"
 const { positionUser, leaseStage, leaseStatus } = AppConsts
 type Props = {
@@ -253,8 +253,8 @@ class AmendmentLAModal extends AppComponentListBase<Props, State> {
     } else {
       const formValues = await this.formRef.current?.validateFields()
       const leaseTerm = await dateDifference(
-        moment(formValues?.commencementDate).endOf("days"),
-        moment(formValues?.expiryDate).endOf("days").subtract(1, "days")
+        dayjs(formValues?.commencementDate).endOf("days"),
+        dayjs(formValues?.expiryDate).endOf("days").subtract(1, "days")
       )
       let res = {
         ...formValues,

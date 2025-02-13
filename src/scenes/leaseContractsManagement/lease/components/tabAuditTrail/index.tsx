@@ -9,17 +9,18 @@ import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
 import { renderDateTime } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateTimeFormat } from "@lib/appconst"
-
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
 export interface IAuditTrailProps {
-  parentId: any;
-  leaseAgreementStore: LeaseAgreementStore;
+  parentId: any
+  leaseAgreementStore: LeaseAgreementStore
 }
 export interface IAuditTrailState {
-  maxResultCount: number;
-  skipCount: number;
-  dataTable: any[];
+  maxResultCount: number
+  skipCount: number
+  dataTable: any[]
 }
 
 @inject(Stores.LeaseAgreementStore)
@@ -28,12 +29,12 @@ class AuditTrailLA extends AppComponentListBase<
   IAuditTrailProps,
   IAuditTrailState
 > {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     maxResultCount: 10,
     skipCount: 0,
     dataTable: [] as any,
-  };
+  }
 
   async componentDidMount() {
     await this.handleSearch()
@@ -54,7 +55,7 @@ class AuditTrailLA extends AppComponentListBase<
         await this.handleSearch()
       }
     )
-  };
+  }
 
   handleSearch = async () => {
     await this.props.leaseAgreementStore?.getAuditLogs({
@@ -64,7 +65,7 @@ class AuditTrailLA extends AppComponentListBase<
 
     const dataSort = this.props.leaseAgreementStore?.auditLogResult?.sort(
       function (left, right) {
-        return moment.utc(right.changeTime).diff(moment.utc(left.changeTime))
+        return dayjs.utc(right.changeTime).diff(dayjs.utc(left.changeTime))
       }
     )
 
@@ -82,11 +83,11 @@ class AuditTrailLA extends AppComponentListBase<
         item.propertyName === "MoveOutDate" ||
         item.propertyName === "PaymentDate"
       ) {
-        item.newValueDisplay = moment(item.newValueDisplay).format(
+        item.newValueDisplay = dayjs(item.newValueDisplay).format(
           dateTimeFormat
         )
         if (item.originalValueDisplay) {
-          item.originalValueDisplay = moment(item.originalValueDisplay).format(
+          item.originalValueDisplay = dayjs(item.originalValueDisplay).format(
             dateTimeFormat
           )
         }
@@ -105,7 +106,7 @@ class AuditTrailLA extends AppComponentListBase<
       }
     })
     this.setState({ dataTable: dataTable })
-  };
+  }
 
   render() {
     const columns = [

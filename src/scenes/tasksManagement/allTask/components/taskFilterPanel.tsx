@@ -14,7 +14,7 @@ import Stores from "@stores/storeIdentifier"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import UserStore from "@stores/administrator/userStore"
 import { debounce } from "lodash"
-import moment from "moment"
+import dayjs from "dayjs"
 
 type Props = {
   isMyTask: boolean
@@ -133,7 +133,7 @@ class AllTaskFilterPanel extends AppComponentListBase<Props> {
               className="w-100"
               format={dateFormat}
               onChange={(value) =>
-                this.handleSearch("fromDate", moment(value).toJSON())
+                this.handleSearch("fromDate", dayjs(value).toJSON())
               }
               placeholder={L("FROM_DATE")}
             />
@@ -143,7 +143,7 @@ class AllTaskFilterPanel extends AppComponentListBase<Props> {
               className="w-100"
               format={dateFormat}
               onChange={(value) =>
-                this.handleSearch("toDate", moment(value).toJSON())
+                this.handleSearch("toDate", dayjs(value).toJSON())
               }
               placeholder={L("TO_DATE")}
             />

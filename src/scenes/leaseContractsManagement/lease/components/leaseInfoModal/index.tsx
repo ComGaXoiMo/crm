@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Button,
   Card,
@@ -11,50 +11,50 @@ import {
   Select,
   Table,
   Tag,
-} from "antd";
-import _, { debounce } from "lodash";
-import { L } from "@lib/abpUtility";
-import Stores from "@stores/storeIdentifier";
-import { inject, observer } from "mobx-react";
-import UnitStore from "@stores/projects/unitStore";
-import withRouter from "@components/Layout/Router/withRouter";
-import { AppComponentListBase } from "@components/AppComponentBase";
-import FormSelect from "@components/FormItem/FormSelect";
-import FormInput from "@components/FormItem/FormInput";
-import FormDatePicker from "@components/FormItem/FormDatePicker";
+} from "antd"
+import _, { debounce } from "lodash"
+import { L } from "@lib/abpUtility"
+import Stores from "@stores/storeIdentifier"
+import { inject, observer } from "mobx-react"
+import UnitStore from "@stores/projects/unitStore"
+import withRouter from "@components/Layout/Router/withRouter"
+import { AppComponentListBase } from "@components/AppComponentBase"
+import FormSelect from "@components/FormItem/FormSelect"
+import FormInput from "@components/FormItem/FormInput"
+import FormDatePicker from "@components/FormItem/FormDatePicker"
 // import LeaseDealer from "../leaseDetailComponent/leaseDealer";
-import { v4 as uuid } from "uuid";
-import { validateMessages } from "@lib/validation";
+import { v4 as uuid } from "uuid"
+import { validateMessages } from "@lib/validation"
 import {
   filterOptions,
   inputCurrencyFormatter,
   inputNumberFormatter,
   renderDate,
   renderOptions,
-} from "@lib/helper";
-import UnitStatusModal from "./components/unitStatusModal";
-import InquiryStore from "@stores/communication/inquiryStore";
-import ContactStore from "@stores/clientManagement/contactStore";
-import AppConsts, { appPermissions, dateDifference } from "@lib/appconst";
+} from "@lib/helper"
+import UnitStatusModal from "./components/unitStatusModal"
+import InquiryStore from "@stores/communication/inquiryStore"
+import ContactStore from "@stores/clientManagement/contactStore"
+import AppConsts, { appPermissions, dateDifference } from "@lib/appconst"
 
-import moment from "moment";
-import LeaseAgreementStore from "@stores/communication/leaseAgreementStore";
-import AppDataStore from "@stores/appDataStore";
-import AddUnitModal from "./components/addUnitModal";
-import UserStore from "@stores/administrator/userStore";
-import ReservationStore from "@stores/activity/reservationStore";
-import FeeRentTable from "../leaseDetailComponent/feeRentTable";
-import DiscountFeeTable from "../leaseDetailComponent/discountFeeTable";
-import TextArea from "antd/lib/input/TextArea";
-import { ExclamationCircleFilled, WarningOutlined } from "@ant-design/icons";
-import ChooseBFTemplateModal from "./components/BookingForm/chooseBFTemplateModal";
-import ChooseOLTemplateModal from "./components/OfferLetter/chooseOLTemplateModal";
-import TaskModal from "@scenes/activity/taskActivity/components/taskModal";
-import TaskStore from "@stores/activity/taskStore";
-import ChooseTerminationNoteTemplateModal from "./components/TerminationNote/chooseTerminationNoteTemplateModal";
-import ChooseLATemplateModal from "./components/LAExport/chooseLATemplateModal";
-import OccupierSelect from "@components/Select/OccupierSelect";
-import OtherFeeWithAdd from "../leaseDetailComponent/otherFeeWithAdd";
+import dayjs from "dayjs"
+import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
+import AppDataStore from "@stores/appDataStore"
+import AddUnitModal from "./components/addUnitModal"
+import UserStore from "@stores/administrator/userStore"
+import ReservationStore from "@stores/activity/reservationStore"
+import FeeRentTable from "../leaseDetailComponent/feeRentTable"
+import DiscountFeeTable from "../leaseDetailComponent/discountFeeTable"
+import TextArea from "antd/lib/input/TextArea"
+import { ExclamationCircleFilled, WarningOutlined } from "@ant-design/icons"
+import ChooseBFTemplateModal from "./components/BookingForm/chooseBFTemplateModal"
+import ChooseOLTemplateModal from "./components/OfferLetter/chooseOLTemplateModal"
+import TaskModal from "@scenes/activity/taskActivity/components/taskModal"
+import TaskStore from "@stores/activity/taskStore"
+import ChooseTerminationNoteTemplateModal from "./components/TerminationNote/chooseTerminationNoteTemplateModal"
+import ChooseLATemplateModal from "./components/LAExport/chooseLATemplateModal"
+import OccupierSelect from "@components/Select/OccupierSelect"
+import OtherFeeWithAdd from "../leaseDetailComponent/otherFeeWithAdd"
 const {
   paymentTerm,
   align,
@@ -64,64 +64,64 @@ const {
   term,
   depositLAStatus,
   amendmentItem,
-} = AppConsts;
+} = AppConsts
 type Props = {
-  inquiryStore: InquiryStore;
-  reservationStore: ReservationStore;
-  appDataStore: AppDataStore;
-  userStore: UserStore;
-  contactStore: ContactStore;
-  leaseAgreementStore: LeaseAgreementStore;
-  taskStore: TaskStore;
+  inquiryStore: InquiryStore
+  reservationStore: ReservationStore
+  appDataStore: AppDataStore
+  userStore: UserStore
+  contactStore: ContactStore
+  leaseAgreementStore: LeaseAgreementStore
+  taskStore: TaskStore
 
-  id: any;
-  unitStore: UnitStore;
-  editStatusLA: boolean;
-  isRenew: boolean;
-  formRef: any;
-  listLaStatus: any[];
-  isEdit: boolean;
-  visible: boolean;
-  isAmendment: boolean;
-  listAmendmentItem: any[];
-  checkFullRent: (value) => void;
-  onDataPaymentChange: (value) => void;
-  onDataDiscountChange: (value) => void;
-  onDataOtherFeeChange: (value) => void;
-  onUnitChoose: (value) => void;
-  changePriorty: (value) => void;
-};
+  id: any
+  unitStore: UnitStore
+  editStatusLA: boolean
+  isRenew: boolean
+  formRef: any
+  listLaStatus: any[]
+  isEdit: boolean
+  visible: boolean
+  isAmendment: boolean
+  listAmendmentItem: any[]
+  checkFullRent: (value) => void
+  onDataPaymentChange: (value) => void
+  onDataDiscountChange: (value) => void
+  onDataOtherFeeChange: (value) => void
+  onUnitChoose: (value) => void
+  changePriorty: (value) => void
+}
 type State = {
-  companies: any[];
-  unitModalVisible: boolean;
-  leaseTerm: any;
-  dataPaymentForYear: any[];
-  dataPaymentDiscount: any[];
-  listDealer: any[];
-  listAdmin: any[];
-  listReservationUnit: any[];
-  dataOtherFee: any[];
-  dataIncentive: any[];
-  unitId: any[];
-  addUnitModalVisible: boolean;
-  otherFeeDate: any;
-  listStatusLA: any[];
-  feeRentOption: any[];
-  paymentDate: any;
-  dataTableReservation: any[];
-  paymentTermChoose: any;
-  totalOtherFees: any[];
-  rateUSD: number;
-  myPriority: number;
-  dataDiscount: any[];
-  taskPic: any;
-  taskModalVisible: boolean;
-  chooseBFVisible: boolean;
-  chooseOLVisible: boolean;
-  checkIqrHasEmail: boolean;
-  chooseTerminationNoteVisible: boolean;
-  chooseLATemplateVisible: boolean;
-};
+  companies: any[]
+  unitModalVisible: boolean
+  leaseTerm: any
+  dataPaymentForYear: any[]
+  dataPaymentDiscount: any[]
+  listDealer: any[]
+  listAdmin: any[]
+  listReservationUnit: any[]
+  dataOtherFee: any[]
+  dataIncentive: any[]
+  unitId: any[]
+  addUnitModalVisible: boolean
+  otherFeeDate: any
+  listStatusLA: any[]
+  feeRentOption: any[]
+  paymentDate: any
+  dataTableReservation: any[]
+  paymentTermChoose: any
+  totalOtherFees: any[]
+  rateUSD: number
+  myPriority: number
+  dataDiscount: any[]
+  taskPic: any
+  taskModalVisible: boolean
+  chooseBFVisible: boolean
+  chooseOLVisible: boolean
+  checkIqrHasEmail: boolean
+  chooseTerminationNoteVisible: boolean
+  chooseLATemplateVisible: boolean
+}
 @inject(
   Stores.InquiryStore,
   Stores.TaskStore,
@@ -134,9 +134,9 @@ type State = {
 )
 @observer
 class LeaseInfoModal extends AppComponentListBase<Props, State> {
-  formRef: any = this.props.formRef;
+  formRef: any = this.props.formRef
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       companies: [] as any,
       dataPaymentForYear: [] as any,
@@ -152,7 +152,7 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
       unitId: [] as any,
       listReservationUnit: [] as any,
       otherFeeDate: {} as any,
-      paymentDate: moment(),
+      paymentDate: dayjs(),
       paymentTermChoose: undefined,
       dataDiscount: [] as any,
       listStatusLA: [] as any,
@@ -167,7 +167,7 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
       chooseOLVisible: false,
       taskModalVisible: false,
       taskPic: undefined,
-    };
+    }
   }
   async componentDidUpdate(
     prevProps: Readonly<Props>,
@@ -175,28 +175,28 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
   ) {
     const {
       leaseAgreementStore: { leaseAgreementDetail },
-    } = this.props;
+    } = this.props
 
     if (prevState.dataPaymentForYear !== this.state.dataPaymentForYear) {
       const feeRentOption = this.state.dataPaymentForYear.map((item) => {
         return {
           id: item?.uniqueId,
           label: item?.name,
-          startDate: moment(item?.startDate).toJSON(),
-          endDate: moment(item?.endDate).toJSON(),
-        };
-      });
+          startDate: dayjs(item?.startDate).toJSON(),
+          endDate: dayjs(item?.endDate).toJSON(),
+        }
+      })
 
-      this.setState({ feeRentOption });
+      this.setState({ feeRentOption })
     }
     if (prevState.myPriority !== this.state.myPriority) {
-      this.props.changePriorty(this.state.myPriority);
+      this.props.changePriorty(this.state.myPriority)
     }
     if (prevProps.listLaStatus !== this.props.listLaStatus) {
       if (!this.props.editStatusLA) {
         await this.setState({
           listStatusLA: this.props.listLaStatus,
-        });
+        })
       } else {
         await this.setState({
           listStatusLA: [
@@ -206,23 +206,23 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
               name: leaseAgreementDetail?.status?.name,
             },
           ],
-        });
+        })
       }
     }
   }
   componentDidMount = async () => {
     const {
       leaseAgreementStore: { leaseAgreementDetail },
-    } = this.props;
+    } = this.props
     this.setState({
-      paymentDate: moment(leaseAgreementDetail?.paymentDate).toJSON(),
-    });
-    await this.getContact("");
+      paymentDate: dayjs(leaseAgreementDetail?.paymentDate).toJSON(),
+    })
+    await this.getContact("")
 
     if (!this.props.editStatusLA) {
       await this.setState({
         listStatusLA: this.props.listLaStatus,
-      });
+      })
     } else {
       await this.setState({
         listStatusLA: [
@@ -232,22 +232,22 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
             name: leaseAgreementDetail?.status?.name,
           },
         ],
-      });
+      })
     }
     if (leaseAgreementDetail?.inquiryId) {
       await this.props.inquiryStore.getSimpleInquiry({
         id: leaseAgreementDetail?.inquiryId,
-      });
+      })
     } else {
-      this.getListInquiry("");
+      this.getListInquiry("")
     }
 
-    await this.addToListReservationUnit(leaseAgreementDetail?.inquiryId);
+    await this.addToListReservationUnit(leaseAgreementDetail?.inquiryId)
     if (leaseAgreementDetail?.leaseAgreementUnit[0]?.unitId) {
       if (leaseAgreementDetail?.stageId !== leaseStage.confirm) {
         await this.renderDataReservation(
           leaseAgreementDetail?.leaseAgreementUnit[0]?.unitId
-        );
+        )
       }
     }
 
@@ -260,8 +260,8 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
           name: leaseAgreementDetail?.company?.businessName,
         },
       ],
-    });
-    await this.getCompany(leaseAgreementDetail?.contactId);
+    })
+    await this.getCompany(leaseAgreementDetail?.contactId)
     await this.setState({
       otherFeeDate: {
         startDate: leaseAgreementDetail?.commencementDate,
@@ -274,41 +274,41 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
         startDate: leaseAgreementDetail?.commencementDate,
         endDate: leaseAgreementDetail?.expiryDate,
       },
-    });
+    })
     await this.setState({
       unitId: leaseAgreementDetail?.leaseAgreementUnit,
-    });
-    this.getDealer("");
-    this.getAdmin("");
-    this.paymentTermChange(leaseAgreementDetail?.paymentTerm);
+    })
+    this.getDealer("")
+    this.getAdmin("")
+    this.paymentTermChange(leaseAgreementDetail?.paymentTerm)
     if (this.props?.id) {
       await this.setState({
         dataPaymentForYear: leaseAgreementDetail?.leaseAgreementDetails
           .filter((item) => item?.feeType?.typeId === 0)
           .map((item) => {
             const diffDate = dateDifference(
-              moment(item?.startDate).endOf("days"),
-              moment(item?.endDate).endOf("days").add(1, "days")
-            );
+              dayjs(item?.startDate).endOf("days"),
+              dayjs(item?.endDate).endOf("days").add(1, "days")
+            )
             return {
               ...item,
               month: diffDate?.years * 12 + diffDate.months,
               day: diffDate.days,
               key: uuid(),
-            };
+            }
           }),
         dataPaymentDiscount: leaseAgreementDetail?.leaseAgreementDiscount?.map(
           (item) => {
             const diffDate = dateDifference(
-              moment(item?.startDate).endOf("days"),
-              moment(item?.endDate).endOf("days").add(1, "days")
-            );
+              dayjs(item?.startDate).endOf("days"),
+              dayjs(item?.endDate).endOf("days").add(1, "days")
+            )
             return {
               ...item,
               month: diffDate?.years * 12 + diffDate.months,
               day: diffDate.days,
               key: uuid(),
-            };
+            }
           }
         ),
         dataOtherFee: leaseAgreementDetail?.leaseAgreementDetails.filter(
@@ -316,12 +316,12 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
         ),
         dataIncentive: leaseAgreementDetail?.leaseAgreementIncentive.map(
           (item) => {
-            return { ...item, key: item.id };
+            return { ...item, key: item.id }
           }
         ),
-      });
+      })
     }
-  };
+  }
 
   getListInquiry = async (keyword) => {
     this.props.inquiryStore.getSimpleInquiry({
@@ -330,70 +330,70 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
       isExcludeInquiryLA: true,
       maxResultCount: 10,
       skipCount: 0,
-    });
-  };
+    })
+  }
   getDealer = async (keyword) => {
     await this.props.userStore.getAll({
       maxResultCount: 10,
       skipCount: 0,
       roleId: roles.dealer,
       keyword: keyword,
-    });
-    const lsitUser = [] as any;
+    })
+    const lsitUser = [] as any
     this.props.userStore.users.items.map((i) => {
-      lsitUser.push({ id: i.id, name: i.displayName });
-    });
+      lsitUser.push({ id: i.id, name: i.displayName })
+    })
     const exist =
       this.props.leaseAgreementStore.leaseAgreementDetail?.leaseAgreementUserIncharge?.find(
         (item) => item.positionId === 0
-      );
+      )
     if (exist) {
-      const hasIndex = lsitUser.findIndex((item) => item.id === exist.user?.id);
+      const hasIndex = lsitUser.findIndex((item) => item.id === exist.user?.id)
       if (hasIndex < 0) {
         lsitUser.push({
           id: exist.user?.id,
           name: exist.user?.displayName,
-        });
+        })
       }
     }
 
-    await this.setState({ listDealer: lsitUser });
-  };
+    await this.setState({ listDealer: lsitUser })
+  }
   getAdmin = async (keyword) => {
     await this.props.userStore.getAll({
       maxResultCount: 60,
       skipCount: 0,
       roleId: roles.admin,
       keyword: keyword,
-    });
-    const lsitUser = [] as any;
+    })
+    const lsitUser = [] as any
     const exist =
       this.props.leaseAgreementStore.leaseAgreementDetail?.leaseAgreementUserIncharge?.find(
         (item) => item.positionId === 0
-      );
+      )
     if (exist) {
       lsitUser.push({
         id: exist.user?.id,
         name: exist.user?.displayName,
-      });
+      })
     }
     this.props.userStore.users.items.map((i) => {
-      lsitUser.push({ id: i.id, name: i.name });
-    });
-    this.setState({ listAdmin: lsitUser });
-  };
+      lsitUser.push({ id: i.id, name: i.name })
+    })
+    this.setState({ listAdmin: lsitUser })
+  }
 
   handleSearchAdmin = debounce((keyword) => {
-    this.getAdmin(keyword);
-  }, 400);
+    this.getAdmin(keyword)
+  }, 400)
   getContact = async (keyword?) => {
     this.props.contactStore.getSimpleContact({
       keyword: keyword,
       isActive: true,
       maxResultCount: 10,
       skipCount: 0,
-    });
-  };
+    })
+  }
   getCompany = async (id?) => {
     if (id && this.props.leaseAgreementStore.leaseAgreementDetail?.companyId) {
       this.setState({
@@ -404,74 +404,74 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
               ?.businessName,
           },
         ],
-      });
+      })
     }
-  };
+  }
 
   changeOccupier = async (value) => {
     const occPrimary = (value ?? []).find(
       (item: any) => item?.isPrimary === true
-    );
+    )
     if (occPrimary) {
       this.formRef.current?.setFieldValue(
         "occupier",
         occPrimary?.userTenant?.name
-      );
+      )
     }
-  };
+  }
 
   addToListReservationUnit = async (inquiryId) => {
-    const listReservationUnit = [] as any;
+    const listReservationUnit = [] as any
     const reservationList = await this.props.reservationStore.getAll({
       maxResultCount: 30,
       skipCount: 0,
       inquiryId: inquiryId,
       statusIds: [unitReservationStatus.new, unitReservationStatus.close],
       unitOrder: true,
-    });
+    })
     await reservationList?.items?.map((item) => {
       item.reservationUnit?.map((resUnit) => {
         listReservationUnit.push({
           id: resUnit.unitId,
           name: `${resUnit?.unit.projectCode} - ${resUnit?.unit.unitName}`,
-        });
-      });
-    });
-    await this.setState({ listReservationUnit: listReservationUnit });
+        })
+      })
+    })
+    await this.setState({ listReservationUnit: listReservationUnit })
     if (inquiryId) {
       await this.setState({
         dataTableReservation: this.props.reservationStore.tableData?.items,
-      });
+      })
     }
-  };
+  }
   handleChooseInquiry = async (value) => {
     const inquiry = this.props.inquiryStore.listInquirySimple.find(
       (item) => item.id === value
-    );
+    )
 
     this.setState({
       checkIqrHasEmail: inquiry?.contact?.contactEmail?.length > 0,
-    });
+    })
 
-    await this.addToListReservationUnit(value);
+    await this.addToListReservationUnit(value)
     await this.props.contactStore.addToListSimpleContact({
       id: inquiry?.contactId,
       name: inquiry?.contactName,
       company: [
         { id: inquiry?.companyId, name: inquiry?.company?.businessName },
       ],
-    });
+    })
     await this.setState({
       companies: [
         { id: inquiry?.companyId, name: inquiry?.company?.businessName },
       ],
-    });
-    this.formRef.current?.setFieldValue("contactId", inquiry?.contactId);
-    this.formRef.current?.setFieldValue("occupierName", inquiry?.occupierName);
-    this.formRef.current?.setFieldValue("companyId", inquiry?.companyId);
-    this.formRef.current?.setFieldValue("moveInDate", inquiry?.moveInDate);
-    this.formRef.current?.setFieldValue("userId", inquiry?.creatorUser?.id);
-  };
+    })
+    this.formRef.current?.setFieldValue("contactId", inquiry?.contactId)
+    this.formRef.current?.setFieldValue("occupierName", inquiry?.occupierName)
+    this.formRef.current?.setFieldValue("companyId", inquiry?.companyId)
+    this.formRef.current?.setFieldValue("moveInDate", inquiry?.moveInDate)
+    this.formRef.current?.setFieldValue("userId", inquiry?.creatorUser?.id)
+  }
 
   renderDataReservation = async (unitId?) => {
     await this.props.reservationStore.getMoreAll(
@@ -483,53 +483,53 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
         unitOrder: true,
       },
       this.formRef.current?.getFieldValue("inquiryId")
-    );
+    )
     if (!this.formRef.current?.getFieldValue("inquiryId")) {
-      await this.props.reservationStore.removeDataTable();
+      await this.props.reservationStore.removeDataTable()
     }
     await this.setState({
       dataTableReservation: [
         ...this.props.reservationStore.tableData?.items,
         ...this.props.reservationStore.moreReservations,
       ],
-    });
+    })
     const reservationId = this.props.reservationStore.tableData?.items.find(
       (item) => item.reservationUnit?.find((unit) => unit.unitId === unitId)
-    )?.id;
-    this.formRef.current?.setFieldValue("reservationId", reservationId);
-  };
+    )?.id
+    this.formRef.current?.setFieldValue("reservationId", reservationId)
+  }
 
   dataPaymentChange = async (data) => {
-    this.setState({ dataPaymentForYear: data });
+    this.setState({ dataPaymentForYear: data })
 
-    this.props.onDataPaymentChange(data);
-  };
+    this.props.onDataPaymentChange(data)
+  }
   dataDiscountChange = async (data) => {
-    this.setState({ dataDiscount: data });
+    this.setState({ dataDiscount: data })
 
-    this.props.onDataDiscountChange(data);
-  };
+    this.props.onDataDiscountChange(data)
+  }
   dataOtherFeeChange = async (data) => {
-    this.props.onDataOtherFeeChange(data);
+    this.props.onDataOtherFeeChange(data)
     await this.setState({
       totalOtherFees: data,
-    });
-  };
+    })
+  }
 
   toggleModal = () =>
     this.setState((prevState) => ({
       unitModalVisible: !prevState.unitModalVisible,
-    }));
+    }))
   toggleAddUnitModal = () =>
     this.setState((prevState) => ({
       addUnitModalVisible: !prevState.addUnitModalVisible,
-    }));
+    }))
   isChooseUnit = async (value) => {
-    await this.props.unitStore.get(value[0]);
+    await this.props.unitStore.get(value[0])
     await this.formRef.current?.setFieldValue(
       "unitInfo",
       `${this.props.unitStore.editUnit?.projectCode} - ${this.props.unitStore.editUnit?.unitName}`
-    );
+    )
 
     await this.setState({
       unitId: [
@@ -542,13 +542,13 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
           projectId: this.props.unitStore.editUnit?.projectId,
         },
       ],
-    });
-    this.renderDataReservation(value[0]);
-    this.props.onUnitChoose(this.state.unitId);
-    await this.toggleAddUnitModal();
-  };
+    })
+    this.renderDataReservation(value[0])
+    this.props.onUnitChoose(this.state.unitId)
+    await this.toggleAddUnitModal()
+  }
   onChangeUnitReservation = async (value) => {
-    await this.props.unitStore.get(value);
+    await this.props.unitStore.get(value)
     await this.setState({
       unitId: [
         {
@@ -560,126 +560,124 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
           projectId: this.props.unitStore.editUnit?.projectId,
         },
       ],
-    });
-    this.props.onUnitChoose(this.state.unitId);
-    await this.renderDataReservation(value);
+    })
+    this.props.onUnitChoose(this.state.unitId)
+    await this.renderDataReservation(value)
 
     const myRes = this.state.dataTableReservation.find(
       (item) =>
         item.inquiryId === this.formRef.current?.getFieldValue("inquiryId") &&
         item.reservationUnit.find((unit) => unit.unitId === value)
-    );
+    )
     this.setState({
       myPriority: myRes?.reservationUnit.find((unit) => unit.unitId === value)
         ?.number,
-    });
-  };
+    })
+  }
 
   handleOk = async (params) => {
-    this.props.onUnitChoose(params);
+    this.props.onUnitChoose(params)
     this.formRef.current?.setFieldValue(
       "unitInfo",
       `${this.props.unitStore.editUnit?.projectCode} - ${this.props.unitStore.editUnit?.unitName}`
-    );
-    await this.toggleModal();
+    )
+    await this.toggleModal()
     // await this.getAll();
-  };
+  }
   paymentTermChange = (value) => {
-    const startDate = this.formRef.current?.getFieldValue("commencementDate");
-    this.setState({ paymentTermChoose: value });
+    const startDate = this.formRef.current?.getFieldValue("commencementDate")
+    this.setState({ paymentTermChoose: value })
     if (value === term.oneTimePayment) {
-      this.formRef.current?.setFieldValue("paymentDate", startDate);
+      this.formRef.current?.setFieldValue("paymentDate", startDate)
     }
-  };
+  }
   setValueForLeaseTerm = async () => {
-    const startDate = this.formRef.current?.getFieldValue("commencementDate");
-    const endDate = this.formRef.current?.getFieldValue("expiryDate");
+    const startDate = this.formRef.current?.getFieldValue("commencementDate")
+    const endDate = this.formRef.current?.getFieldValue("expiryDate")
 
     if (startDate && endDate) {
       const res = await dateDifference(
-        moment(startDate).endOf("days"),
-        moment(endDate).endOf("days").add(1, "days")
-      );
+        dayjs(startDate).endOf("days"),
+        dayjs(endDate).endOf("days").add(1, "days")
+      )
 
-      const leaseTerm = `${res?.years} year(s), ${res?.months} month(s), ${res?.days} day(s)`;
+      const leaseTerm = `${res?.years} year(s), ${res?.months} month(s), ${res?.days} day(s)`
       await this.setState({
         leaseTerm: {
           ...res,
-          startDate: moment(startDate).toJSON(),
-          endDate: moment(endDate).toJSON(),
+          startDate: dayjs(startDate).toJSON(),
+          endDate: dayjs(endDate).toJSON(),
         },
-      });
+      })
       await this.setState({
         otherFeeDate: {
           startDate: startDate,
           endDate: endDate,
         },
-      });
-      await this.formRef.current?.setFieldValue("leaseTerm", leaseTerm);
+      })
+      await this.formRef.current?.setFieldValue("leaseTerm", leaseTerm)
     }
-  };
+  }
 
   disabledExpriDateDate = (current) => {
     return (
       current &&
-      current < moment(this.formRef.current?.getFieldValue("commencementDate"))
-    );
-  };
+      current < dayjs(this.formRef.current?.getFieldValue("commencementDate"))
+    )
+  }
   disablePaymentDate = (current) => {
     return (
       current &&
       (current >
-        moment(this.formRef.current?.getFieldValue("expiryDate")).endOf(
-          "day"
-        ) ||
+        dayjs(this.formRef.current?.getFieldValue("expiryDate")).endOf("day") ||
         current <
-          moment(
+          dayjs(
             this.formRef.current?.getFieldValue("commencementDate")
           ).startOf("day"))
-    );
-  };
+    )
+  }
 
   exportBookingForm = () => {
-    this.setState({ chooseBFVisible: true });
-  };
+    this.setState({ chooseBFVisible: true })
+  }
 
   exportTerminationNote = () => {
-    this.setState({ chooseTerminationNoteVisible: true });
-  };
+    this.setState({ chooseTerminationNoteVisible: true })
+  }
   exportLATemplate = () => {
-    this.setState({ chooseLATemplateVisible: true });
-  };
+    this.setState({ chooseLATemplateVisible: true })
+  }
   exportOfferLetter = () => {
-    this.setState({ chooseOLVisible: true });
-  };
+    this.setState({ chooseOLVisible: true })
+  }
   handleChooseDeposit = async (value) => {
     if (value === depositLAStatus.draf) {
-      this.createTask();
+      this.createTask()
     }
-  };
+  }
   createTask = async () => {
     if (this.props.id) {
-      this.props.taskStore.createTask();
-      const dealer = this.formRef.current?.getFieldValue("userId");
-      const pic = this.state.listDealer.find((item) => item.id === dealer);
-      this.setState({ taskPic: [pic] });
+      this.props.taskStore.createTask()
+      const dealer = this.formRef.current?.getFieldValue("userId")
+      const pic = this.state.listDealer.find((item) => item.id === dealer)
+      this.setState({ taskPic: [pic] })
 
-      this.toggleTaskModal();
+      this.toggleTaskModal()
     }
-  };
+  }
   toggleTaskModal = () =>
     this.setState((prevState) => ({
       taskModalVisible: !prevState.taskModalVisible,
-    }));
+    }))
 
   render() {
-    const { companies } = this.state;
+    const { companies } = this.state
     const {
       leaseAgreementStore: { leaseAgreementDetail },
       inquiryStore: { listInquirySimple },
       contactStore: { listContactSimple },
       appDataStore: { depositsStatus },
-    } = this.props;
+    } = this.props
     const columns = [
       {
         title: L("INQUIRY_NAME"),
@@ -725,7 +723,7 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
                     : "default"
                 }
               >{`${item.unit?.unitName} `}</Tag>
-            );
+            )
           }),
       },
       {
@@ -761,18 +759,18 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
         ellipsis: false,
         render: (creatorUser: any) => creatorUser?.displayName,
       },
-    ];
+    ]
     const isLaConfirmed = this.props.isRenew
       ? false
-      : leaseAgreementDetail?.stageId === leaseStage.confirm;
+      : leaseAgreementDetail?.stageId === leaseStage.confirm
     const isLaCancel = this.props.isRenew
       ? false
-      : leaseAgreementDetail?.stageId === leaseStage.drop;
+      : leaseAgreementDetail?.stageId === leaseStage.drop
     const isLaTerminate = this.props.isRenew
       ? false
       : leaseAgreementDetail?.stageId === leaseStage.terminate ||
-        leaseAgreementDetail?.stageId === leaseStage.earlyTerminate;
-    const isFullEdit = this.isGranted(appPermissions.leaseAgreement.fullEdit);
+        leaseAgreementDetail?.stageId === leaseStage.earlyTerminate
+    const isFullEdit = this.isGranted(appPermissions.leaseAgreement.fullEdit)
     return (
       <>
         <Form
@@ -941,8 +939,8 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
                     className="full-width"
                     onSearch={debounce((e) => this.getContact(e), 1000)}
                     onChange={(value) => {
-                      this.formRef.current?.resetFields(["companyId"]);
-                      this.getCompany(value);
+                      this.formRef.current?.resetFields(["companyId"])
+                      this.getCompany(value)
                     }}
                     disabled={
                       !this.props.isEdit ||
@@ -1012,11 +1010,11 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
                     (!isFullEdit && isLaConfirmed)
                   }
                   onChange={(value) => {
-                    this.formRef.current?.resetFields(["paymentDate"]);
+                    this.formRef.current?.resetFields(["paymentDate"])
                     if (!this.props.id) {
-                      this.formRef.current?.setFieldValue("moveInDate", value);
+                      this.formRef.current?.setFieldValue("moveInDate", value)
                     }
-                    this.setValueForLeaseTerm();
+                    this.setValueForLeaseTerm()
                   }}
                 />
               </Col>
@@ -1044,7 +1042,7 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
                   rule={[{ required: true }]}
                   disabledDate={this.disabledExpriDateDate}
                   onChange={() => {
-                    this.setValueForLeaseTerm();
+                    this.setValueForLeaseTerm()
                   }}
                 />
               </Col>
@@ -1063,9 +1061,7 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
                       label="EXTENSION_DATE"
                       disabledDate={(current) =>
                         current <=
-                        moment(
-                          this.formRef.current?.getFieldValue("expiryDate")
-                        )
+                        dayjs(this.formRef.current?.getFieldValue("expiryDate"))
                       }
                       name={"extensionDate"}
                       disabled={!this.props.isEdit}
@@ -1586,8 +1582,8 @@ class LeaseInfoModal extends AppComponentListBase<Props, State> {
           onOk={this.toggleTaskModal}
         />
       </>
-    );
+    )
   }
 }
 
-export default withRouter(LeaseInfoModal);
+export default withRouter(LeaseInfoModal)

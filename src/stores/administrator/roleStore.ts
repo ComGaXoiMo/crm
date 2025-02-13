@@ -1,15 +1,15 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { CreateRoleInput } from '../../services/administrator/role/dto/createRoleInput'
-import { EntityDto } from '../../services/dto/entityDto'
-import { GetAllPermissionsOutput } from '../../services/administrator/role/dto/getAllPermissionsOutput'
-import { GetAllRoleOutput } from '../../services/administrator/role/dto/getAllRoleOutput'
-import { GetRoleAsyncInput } from '../../services/administrator/role/dto/getRolesAsyncInput'
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import { PagedRoleResultRequestDto } from '../../services/administrator/role/dto/PagedRoleResultRequestDto'
-import RoleEditModel from '../../models/roles/roleEditModel'
-import { UpdateRoleInput } from '../../services/administrator/role/dto/updateRoleInput'
-import roleService from '../../services/administrator/role/roleService'
+import type { CreateRoleInput } from "../../services/administrator/role/dto/createRoleInput"
+import { EntityDto } from "../../services/dto/entityDto"
+import { GetAllPermissionsOutput } from "../../services/administrator/role/dto/getAllPermissionsOutput"
+import { GetAllRoleOutput } from "../../services/administrator/role/dto/getAllRoleOutput"
+import type { GetRoleAsyncInput } from "../../services/administrator/role/dto/getRolesAsyncInput"
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import type { PagedRoleResultRequestDto } from "../../services/administrator/role/dto/PagedRoleResultRequestDto"
+import RoleEditModel from "../../models/roles/roleEditModel"
+import type { UpdateRoleInput } from "../../services/administrator/role/dto/updateRoleInput"
+import roleService from "../../services/administrator/role/roleService"
 
 class RoleStore {
   @observable isLoading!: boolean
@@ -28,12 +28,12 @@ class RoleStore {
     this.roleEdit = {
       grantedPermissionNames: [],
       role: {
-        name: '',
-        displayName: '',
-        description: '',
-        id: 0
+        name: "",
+        displayName: "",
+        description: "",
+        id: 0,
       },
-      permissions: [{ name: '', displayName: '', description: '' }]
+      permissions: [{ name: "", displayName: "", description: "" }],
     }
   }
 
@@ -55,7 +55,9 @@ class RoleStore {
   @action
   async delete(entityDto: EntityDto) {
     await roleService.delete(entityDto)
-    this.roles.items = this.roles.items.filter((x: GetAllRoleOutput) => x.id !== entityDto.id)
+    this.roles.items = this.roles.items.filter(
+      (x: GetAllRoleOutput) => x.id !== entityDto.id
+    )
   }
 
   @action
@@ -81,18 +83,24 @@ class RoleStore {
   @action
   async getAll(pagedFilterAndSortedRequest: PagedRoleResultRequestDto) {
     this.isLoading = true
-    const result = await roleService.getAll(pagedFilterAndSortedRequest).finally(() => (this.isLoading = false))
+    const result = await roleService
+      .getAll(pagedFilterAndSortedRequest)
+      .finally(() => (this.isLoading = false))
     this.roles = result
   }
 
   @action
   async getAllRoles() {
-    const result = await roleService.getAll({ keyword: '', skipCount: 0, maxResultCount: 1000 })
+    const result = await roleService.getAll({
+      keyword: "",
+      skipCount: 0,
+      maxResultCount: 1000,
+    })
     this.allRoles = (result.items || []).map((item) => ({
       ...item,
       value: item.id,
       label: item.displayName,
-      group: item.displayName.charAt(0)
+      group: item.displayName.charAt(0),
     }))
     return this.allRoles
   }

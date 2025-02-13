@@ -1,5 +1,5 @@
 import { RowData } from "@models/DataTable"
-import moment from "moment"
+import dayjs from "dayjs"
 
 export interface IRowCompany {
   businessName: string
@@ -73,7 +73,7 @@ export class CompanyDetailModel extends RowData {
     ).map((item) => item.organizationUnitId)
     newObj.parent = { id: obj.parentId, businessName: obj.businessName }
     newObj.licenseIssuedDate = obj.licenseIssuedDate
-      ? moment(obj.licenseIssuedDate)
+      ? dayjs(obj.licenseIssuedDate)
       : null
 
     return newObj

@@ -1,7 +1,7 @@
-import { Status } from '@models/global'
-import { appStatusColors } from '@lib/appconst'
-import { mapActiveStatus } from '@lib/helper'
-import moment from 'moment-timezone/moment-timezone'
+import { Status } from "@models/global"
+import { appStatusColors } from "@lib/appconst"
+import { mapActiveStatus } from "@lib/helper"
+import dayjs from "dayjs"
 
 export interface IAnnouncement {
   id?: number
@@ -45,12 +45,16 @@ export class AnnouncementModel implements IAnnouncement {
     if (!obj) return undefined
 
     const newObj = Object.assign(new AnnouncementModel(), obj)
-    newObj.fromToDate = obj.startDate && obj.endDate ? [moment(obj.startDate), moment(obj.endDate)] : undefined
+    newObj.fromToDate =
+      obj.startDate && obj.endDate
+        ? [dayjs(obj.startDate), dayjs(obj.endDate)]
+        : undefined
     newObj.statusCode = obj.status?.code
     newObj.status = mapActiveStatus(obj.isActive)
-    const isExpired = moment(obj.endDate).isBefore(moment.now())
-    newObj.expiredStatus = isExpired ? new Status('EXPIRED', appStatusColors.expired)
-      : new Status('VALID', appStatusColors.valid)
+    const isExpired = dayjs(obj.endDate).isBefore(dayjs())
+    newObj.expiredStatus = isExpired
+      ? new Status("EXPIRED", appStatusColors.expired)
+      : new Status("VALID", appStatusColors.valid)
     return newObj
   }
 

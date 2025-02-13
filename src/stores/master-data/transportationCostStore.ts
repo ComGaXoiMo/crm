@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import transportationCostService from '../../services/master-data/transportationCostService'
-import { TransportationCostModel } from '@models/master-data/transportationCostModel'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import transportationCostService from "../../services/master-data/transportationCostService"
+import { TransportationCostModel } from "@models/master-data/transportationCostModel"
 
 class TransportationCostStore {
   @observable isLoading!: boolean
@@ -32,7 +32,9 @@ class TransportationCostStore {
   @action
   async filter(params: any) {
     this.isLoading = true
-    this.pagedData = await transportationCostService.filter(params).finally(() => (this.isLoading = false))
+    this.pagedData = await transportationCostService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -53,7 +55,9 @@ class TransportationCostStore {
   @action
   async exportTransportationCost(params: any) {
     this.isLoading = true
-    return await transportationCostService.exportTransportationCost(params).finally(() => (this.isLoading = false))
+    return await transportationCostService
+      .exportTransportationCost(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action

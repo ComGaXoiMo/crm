@@ -1,5 +1,8 @@
-import moment from 'moment-timezone/moment-timezone'
-
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
+dayjs.extend(utc)
+dayjs.extend(timezone)
 export interface IPlanMaintenanceFilter {
   keyword?: string
   projectId?: number
@@ -77,10 +80,10 @@ export class PlanMaintenanceModel {
 
   constructor() {
     this.id = undefined
-    this.name = ''
-    this.guid = ''
-    this.documentId = ''
-    this.fullUnitCode = ''
+    this.name = ""
+    this.guid = ""
+    this.documentId = ""
+    this.fullUnitCode = ""
     this.areaId = undefined
     this.categoryId = undefined
     this.subCategoryId = undefined
@@ -97,12 +100,12 @@ export class PlanMaintenanceModel {
     this.actualPaymentDate = undefined
     this.creationTime = undefined
     this.contactId = undefined
-    this.contactName = ''
-    this.contactEmail = ''
-    this.contactPhone = ''
-    this.description = ''
+    this.contactName = ""
+    this.contactEmail = ""
+    this.contactPhone = ""
+    this.description = ""
     this.contact = {}
-    this.site = ''
+    this.site = ""
     this.teamId = undefined
     this.teamUserId = undefined
     this.observerUserId = undefined
@@ -124,16 +127,28 @@ export class PlanMaintenanceModel {
     const newObj = Object.assign(new PlanMaintenanceModel(), obj)
     newObj.sourceId = obj.sourceId || undefined
     newObj.statusId = obj.statusId || undefined
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : undefined
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : undefined
-    newObj.actualStartDate = obj.actualStartDate ? moment(obj.actualStartDate) : undefined
-    newObj.actualEndDate = obj.actualEndDate ? moment(obj.actualEndDate) : undefined
-    newObj.actualPaymentDate = obj.actualPaymentDate ? moment(obj.actualPaymentDate) : undefined
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : undefined
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : undefined
+    newObj.actualStartDate = obj.actualStartDate
+      ? dayjs(obj.actualStartDate)
+      : undefined
+    newObj.actualEndDate = obj.actualEndDate
+      ? dayjs(obj.actualEndDate)
+      : undefined
+    newObj.actualPaymentDate = obj.actualPaymentDate
+      ? dayjs(obj.actualPaymentDate)
+      : undefined
     newObj.assets = obj.assets
-      ? obj.assets.map((item) => ({ ...item, label: item.assetName, value: item.id }))
+      ? obj.assets.map((item) => ({
+          ...item,
+          label: item.assetName,
+          value: item.id,
+        }))
       : undefined
     newObj.assetIds = obj.assets ? obj.assets.map((item) => item.id) : []
-    newObj.nextStartDate = obj.nextStartDate ? moment(obj.nextStartDate) : undefined
+    newObj.nextStartDate = obj.nextStartDate
+      ? dayjs(obj.nextStartDate)
+      : undefined
     return newObj
   }
 
@@ -181,10 +196,10 @@ export class PlanMaintenanceEventModel {
 
   constructor() {
     this.id = undefined
-    this.name = ''
-    this.guid = ''
-    this.documentId = ''
-    this.fullUnitCode = ''
+    this.name = ""
+    this.guid = ""
+    this.documentId = ""
+    this.fullUnitCode = ""
     this.areaId = undefined
     this.categoryId = undefined
     this.subCategoryId = undefined
@@ -198,10 +213,10 @@ export class PlanMaintenanceEventModel {
     this.actualPaymentDate = undefined
     this.creationTime = undefined
     this.contactId = undefined
-    this.contactName = ''
-    this.contactEmail = ''
-    this.contactPhone = ''
-    this.description = ''
+    this.contactName = ""
+    this.contactEmail = ""
+    this.contactPhone = ""
+    this.description = ""
     this.contact = {}
     this.site = undefined
     this.teamId = undefined
@@ -210,10 +225,10 @@ export class PlanMaintenanceEventModel {
     this.assetIds = []
     this.assets = []
     //calendar
-    this.title = ''
+    this.title = ""
     this.start = undefined
     this.end = undefined
-    this.color = ''
+    this.color = ""
   }
 
   public static assign(obj) {
@@ -222,16 +237,21 @@ export class PlanMaintenanceEventModel {
     const newObj = Object.assign(new PlanMaintenanceEventModel(), obj)
     newObj.sourceId = obj.sourceId || null
     newObj.statusId = obj.statusId || null
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : null
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : null
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : null
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : null
     newObj.assets = obj.assets || null
-    newObj.nextStartDate = obj.nextStartDate ? moment(obj.nextStartDate) : null
-    newObj.start = obj.startDate ? `${moment(moment(obj.startDate)).tz(moment.tz.guess()).format()}` : null
-    newObj.end = obj.endDate ? `${moment(moment(obj.endDate)).tz(moment.tz.guess()).format()}` : null
-    newObj.title = `#${obj.id} ${obj.fullUnitCode || ''} ${obj.name || ''} ${
-      obj.status ? `- ${obj.status.name}` : ''
-    } ${obj.priority ? `- ${obj.priority.name}` : ''}`
-    newObj.color = obj.status && obj.status.colorCode ? obj.status.colorCode : '#333'
+    newObj.nextStartDate = obj.nextStartDate ? dayjs(obj.nextStartDate) : null
+    newObj.start = obj.startDate
+      ? `${dayjs(dayjs(obj.startDate)).tz(dayjs.tz.guess()).format()}`
+      : null
+    newObj.end = obj.endDate
+      ? `${dayjs(dayjs(obj.endDate)).tz(dayjs.tz.guess()).format()}`
+      : null
+    newObj.title = `#${obj.id} ${obj.fullUnitCode || ""} ${obj.name || ""} ${
+      obj.status ? `- ${obj.status.name}` : ""
+    } ${obj.priority ? `- ${obj.priority.name}` : ""}`
+    newObj.color =
+      obj.status && obj.status.colorCode ? obj.status.colorCode : "#333"
     return newObj
   }
 
@@ -265,8 +285,8 @@ export class PlanMaintenanceTaskModel {
 
   constructor() {
     this.id = undefined
-    this.guid = ''
-    this.documentId = ''
+    this.guid = ""
+    this.documentId = ""
     this.planId = undefined
     this.taskStatusId = undefined
     this.teamId = undefined
@@ -282,8 +302,8 @@ export class PlanMaintenanceTaskModel {
     this.effortDay = undefined
     this.effortHour = undefined
     this.effortMinute = undefined
-    this.taskNote = ''
-    this.description = ''
+    this.taskNote = ""
+    this.description = ""
     this.totalCostAmount = 0
   }
 
@@ -294,11 +314,17 @@ export class PlanMaintenanceTaskModel {
     newObj.teamId = obj.team ? obj.team.id : null
     newObj.teamUserId = obj.teamUser ? obj.teamUser.id : null
     newObj.taskStatusId = obj.taskStatusId ? obj.taskStatusId : null
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : null
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : null
-    newObj.scheduleStartDate = obj.scheduleStartDate ? moment(obj.scheduleStartDate) : null
-    newObj.scheduleEndDate = obj.scheduleEndDate ? moment(obj.scheduleEndDate) : null
-    newObj.actualPaymentDate = obj.actualPaymentDate ? moment(obj.actualPaymentDate) : null
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : null
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : null
+    newObj.scheduleStartDate = obj.scheduleStartDate
+      ? dayjs(obj.scheduleStartDate)
+      : null
+    newObj.scheduleEndDate = obj.scheduleEndDate
+      ? dayjs(obj.scheduleEndDate)
+      : null
+    newObj.actualPaymentDate = obj.actualPaymentDate
+      ? dayjs(obj.actualPaymentDate)
+      : null
     return newObj
   }
 

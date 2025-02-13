@@ -6,7 +6,7 @@ import { L, LNotification } from "@lib/abpUtility"
 import { portalLayouts } from "@components/Layout/Router/router.config"
 import * as Push from "push.js"
 import { moduleIds, notificationTypes } from "@lib/appconst"
-import moment from "moment-timezone/moment-timezone"
+import dayjs from "dayjs"
 import { NotificationModel } from "@models/common/notificationModel"
 import "./index.less"
 export interface GlobalHeaderRightProps {
@@ -83,8 +83,8 @@ class NoticeIconView extends Component<GlobalHeaderRightProps> {
       item.notification.data
     ) {
       let { fileExpiredAt } = item.notification.data.properties
-      fileExpiredAt = moment(fileExpiredAt)
-      if (fileExpiredAt.isAfter(moment())) {
+      fileExpiredAt = dayjs(fileExpiredAt)
+      if (fileExpiredAt.isAfter(dayjs())) {
         await fileService.downloadTempFile(item.notification.data.properties)
       } else {
         abp.notify.info(
@@ -164,20 +164,6 @@ class NoticeIconView extends Component<GlobalHeaderRightProps> {
             showViewMore
             onClick={this.changeReadState}
           />
-          {/* <NoticeIcon.Tab
-            tabKey="message"
-            data={noticeData.message}
-            title="News"
-            emptyText="You have read all the messages"
-            showViewMore
-          /> */}
-          {/* <NoticeIcon.Tab
-           tabKey="event"
-          title="Upcoming"
-          emptyText="You have completed all to do"
-          data={noticeData.event}
-          showViewMore
-/> */}
         </NoticeIcon>
       </div>
     )

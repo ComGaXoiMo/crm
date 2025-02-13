@@ -3,19 +3,19 @@ import React from "react"
 import LanguageSelect from "../Header/LanguageSelect"
 import { Avatar } from "antd"
 // import NoticeIconView from "../Header/NoticeIcon/NoticeIconView";
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { CodepenOutlined } from "@ant-design/icons"
 import SessionStore from "@stores/sessionStore"
 import { defaultAvatar, sidebarStatus } from "@lib/appconst"
 import { portalLayouts } from "../Router/router.config"
 
 interface Props {
-  sessionStore: SessionStore;
-  changeMenu: (value: any) => void;
+  sessionStore: SessionStore
+  changeMenu: (value: any) => void
 }
 
 const FooterAppbar = (props: Props) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   React.useEffect(() => {
     props.sessionStore
       .getMyProfilePicture()
@@ -27,7 +27,7 @@ const FooterAppbar = (props: Props) => {
       <a
         onClick={() => {
           props.changeMenu(sidebarStatus.menu)
-          history.push(portalLayouts.dashboard.path)
+          navigate(portalLayouts.dashboard.path)
         }}
       >
         <CodepenOutlined
@@ -42,7 +42,7 @@ const FooterAppbar = (props: Props) => {
       <a
         onClick={() => {
           props.changeMenu(sidebarStatus.account)
-          history.push(portalLayouts.accountConfigMyProfile.path)
+          navigate(portalLayouts.accountConfigMyProfile.path)
         }}
       >
         <span className={`wrap-item `}>

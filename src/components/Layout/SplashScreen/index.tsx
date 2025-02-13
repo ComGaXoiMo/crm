@@ -1,8 +1,9 @@
 import "./index.less"
+import moment from "moment-timezone"
 import React, { Component, useEffect, useState } from "react"
 import abpUserConfigurationService from "@services/abpUserConfigurationService"
 import Utils from "@utils/utils"
-import * as moment from "moment"
+// import * as moment from 'moment'
 import Exception from "@scenes/common/Exception"
 import { themeByEvent, AppConfiguration } from "@lib/appconst"
 import { changeBackgroundByEvent, getCountDownXmasMessage } from "@lib/helper"
@@ -35,18 +36,9 @@ const LoadingSplashScreen: React.FC<LoadingSplashScreenProps> = ({
     <div id="splash-screen" className="app-splash-screen">
       {(!loaderType || loaderType === splashScreens.default) && (
         <div id="splash-default">
-          <div id="load">
-            <div>G</div>
-            <div>N</div>
-            <div>I</div>
-            <div>D</div>
-            <div>A</div>
-            <div>O</div>
-            <div>L</div>
-          </div>
           <div className="wrap-loading">
             Wait a moment while we load your app.
-            {/* <div className="loading-dot">.</div> */}
+            <div className="loading-dot">.</div>
           </div>
         </div>
       )}
@@ -74,7 +66,7 @@ const LoadingSplashScreen: React.FC<LoadingSplashScreenProps> = ({
             </div>
           </div>
           <div className="message">
-            <h3>{loaderMessage}</h3>
+            <h1>{loaderMessage}</h1>
           </div>
         </div>
       )}
@@ -656,6 +648,7 @@ const LoadingSplashScreen: React.FC<LoadingSplashScreenProps> = ({
               {L("SPLASH_SCREEN_AUTO_REDIRECT_AFTER_{0}", redirectAfter)}
               {goNext && (
                 <span className="btn-access pointer" onClick={goNext}>
+                  {" "}
                   <b>{L("BTN_SPLASH_SCREEN_ACCESS")}</b>
                 </span>
               )}
@@ -668,7 +661,7 @@ const LoadingSplashScreen: React.FC<LoadingSplashScreenProps> = ({
 }
 
 function withSplashScreen(WrappedComponent) {
-  return class SplashScreen extends Component {
+  return class a extends Component {
     state = {
       loading: true,
       loaderType: "",
@@ -679,6 +672,7 @@ function withSplashScreen(WrappedComponent) {
     componentDidMount = async () => {
       try {
         const data = await abpUserConfigurationService.getAll()
+
         // Init abp
         if (data) {
           Utils.extend(true, abp, data.data.result)
@@ -686,11 +680,7 @@ function withSplashScreen(WrappedComponent) {
             data.data.result.clock.provider
           )
 
-          moment.locale(abp.localization.currentLanguage.name, {
-            week: {
-              dow: 0, /// Date offset
-            },
-          })
+          moment.locale(abp.localization.currentLanguage.name)
 
           if (abp.clock.provider.supportsMultipleTimezone) {
             moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId)
@@ -702,8 +692,7 @@ function withSplashScreen(WrappedComponent) {
         // Wait splash screen until delay time
         setTimeout(async () => {
           this.setState({ loading: false })
-        }, 500)
-        //  AppConfiguration.appLayoutConfig?.loader?.delayTime || 0)
+        }, AppConfiguration.appLayoutConfig?.loader?.delayTime || 0)
       } catch (error) {
         this.setState({ loading: false, error })
       }
@@ -725,7 +714,6 @@ function withSplashScreen(WrappedComponent) {
       ) {
         loaderMessage = getCountDownXmasMessage(loaderMessage)
       }
-      // this.setState({ loaderType, loaderMessage })
       this.setState({ loaderType, loaderMessage })
       changeBackgroundByEvent(loaderType)
     }
@@ -750,7 +738,7 @@ function withSplashScreen(WrappedComponent) {
       }
 
       if (this.state.error) {
-        return <Exception type="404" />
+        return <Exception />
       }
 
       // otherwise, show the desired route

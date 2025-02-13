@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import Input from "antd/lib/input"
 import { IEmailModel, EmailModel } from "../../../models/common/emailModel"
 import isEqual from "lodash/isEqual"
@@ -13,21 +13,14 @@ import {
 import Button from "antd/es/button"
 import { L } from "@lib/abpUtility"
 import { Tooltip } from "antd"
+import { usePrevious } from "@lib/appconst"
 
 interface EmailsInputProps {
-  value?: IEmailModel[];
-  disabled?: boolean;
-  onChange?: (value: IEmailModel[]) => void;
-  maxLength?: number;
-  disabledProps?: boolean;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  value?: IEmailModel[]
+  disabled?: boolean
+  onChange?: (value: IEmailModel[]) => void
+  maxLength?: number
+  disabledProps?: boolean
 }
 
 const EmailsInput: React.FC<EmailsInputProps> = ({

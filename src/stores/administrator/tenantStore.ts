@@ -1,6 +1,6 @@
 import { action, observable } from "mobx"
 
-import { PagedResultDto } from "../../services/dto/pagedResultDto"
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 // import TenantModel from "../../models/tenants/TenantModel";
 import tenantService from "../../services/administrator/tenant/tenantService"
 

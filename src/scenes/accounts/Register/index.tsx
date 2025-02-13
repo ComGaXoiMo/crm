@@ -10,9 +10,15 @@ import { Button, Card, Col, Row, Form, Input } from "antd"
 import { inject } from "mobx-react"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import "./index.less"
-import firebase from "firebase/app"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth"
+
 import { firebaseConfig } from "@lib/appconst"
 import rules from "./validation"
 
@@ -23,7 +29,7 @@ interface Props {
 const RegisterPage = inject(Stores.AuthenticationStore)(
   observer((props: Props) => {
     const currentYear = new Date().getFullYear()
-    const history = useHistory()
+    const navigate = useNavigate()
     const [code, setCode] = React.useState("")
     const [registerBaseInformation, setRegisterBaseInformation] =
       React.useState<any>(undefined)
@@ -34,16 +40,13 @@ const RegisterPage = inject(Stores.AuthenticationStore)(
     React.useEffect(() => {
       initRecapt()
     }, [])
-
-    const initFireBase = () => {
-      firebase.initializeApp(firebaseConfig)
-      firebase.auth().languageCode = "vi"
-    }
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
+    auth.languageCode = "vi"
 
     const initRecapt = async () => {
-      if (!firebase.apps.length) await initFireBase()
-
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "btn-submit-register",
         {
           size: "invisible",
@@ -69,15 +72,16 @@ const RegisterPage = inject(Stores.AuthenticationStore)(
       if (phoneCheck.state === 1) {
         notifyError("", L("PHONENUMBER_ALREADY_HAVE_ACCOUNT"))
       } else {
-        window.confirmationResult = await firebase
-          .auth()
-          .signInWithPhoneNumber(phoneNumber, appVerifier)
-          .catch((error) => {
-            setErrorMessage(error.message)
-            window.recaptchaVerifier.render().then(function (widgetId) {
-              grecaptcha.reset(widgetId)
-            })
+        window.confirmationResult = await signInWithPhoneNumber(
+          auth,
+          phoneNumber,
+          appVerifier
+        ).catch((error) => {
+          setErrorMessage(error.message)
+          window.recaptchaVerifier.render().then(function (widgetId) {
+            grecaptcha.reset(widgetId)
           })
+        })
         setEnterCodeState(true)
       }
     }
@@ -98,10 +102,10 @@ const RegisterPage = inject(Stores.AuthenticationStore)(
               phoneNumber:
                 registerBaseInformation.prefix +
                 registerBaseInformation.phoneNumber,
-              phoneNumberIdToken: user.user.Aa,
+              phoneNumberIdToken: user.user.accessToken,
             })
             notifySuccess(L("SUCCESSFULLY"), L("REGISTER_SUCCESSFULLY"))
-            history.push(userLayout.accountLogin.path)
+            navigate(userLayout.accountLogin.path)
           })
           .catch((error) => {
             setErrorMessage(error.message)
@@ -163,9 +167,7 @@ const RegisterPage = inject(Stores.AuthenticationStore)(
                             style={{ fontSize: "16px", color: "#d3a429" }}
                           />
                         }
-                        onClick={() =>
-                          history.push(userLayout.accountLogin.path)
-                        }
+                        onClick={() => navigate(userLayout.accountLogin.path)}
                       />
                     </Col>
 

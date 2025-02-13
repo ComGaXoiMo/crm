@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import { ProductTypeModel } from '@models/master-data/productTypeModel'
-import productTypeService from '@services/master-data/productTypeService'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import { ProductTypeModel } from "@models/master-data/productTypeModel"
+import productTypeService from "@services/master-data/productTypeService"
 
 class ProductTypeStore {
   @observable isLoading!: boolean
@@ -41,7 +41,9 @@ class ProductTypeStore {
   @action
   async filter(params: any) {
     this.isLoading = true
-    const result = await productTypeService.filter(params).finally(() => (this.isLoading = false))
+    const result = await productTypeService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
     this.pagedData = result
   }
 
@@ -49,7 +51,9 @@ class ProductTypeStore {
   async getAll(params: any) {
     this.isLoading = true
     params.isActive = true
-    this.productTypes = await productTypeService.getAll(params).finally(() => (this.isLoading = false))
+    this.productTypes = await productTypeService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -70,7 +74,9 @@ class ProductTypeStore {
   @action
   async exportProductType(params: any) {
     this.isLoading = true
-    return await productTypeService.exportProductType(params).finally(() => (this.isLoading = false))
+    return await productTypeService
+      .exportProductType(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action

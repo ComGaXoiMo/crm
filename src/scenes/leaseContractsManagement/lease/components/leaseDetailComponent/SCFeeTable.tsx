@@ -8,7 +8,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { v4 as uuid } from "uuid"
 import AppConsts, { appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -24,20 +24,20 @@ import {
 } from "@components/DataTable/EditableCell"
 const { align } = AppConsts
 export interface ILeaseDealerProps {
-  onDatatableChange: (value) => void;
-  dataTable: any;
-  disabled: boolean;
-  leaseTerm: any;
-  leaseAgreementStore: LeaseAgreementStore;
-  otherFeeDate: any;
+  onDatatableChange: (value) => void
+  dataTable: any
+  disabled: boolean
+  leaseTerm: any
+  leaseAgreementStore: LeaseAgreementStore
+  otherFeeDate: any
 }
 
 export interface ILeaseDealerState {
-  dataTable: any[];
-  editingKey: any;
-  isEdited: any;
-  isSlipFee: any;
-  backupData: any[];
+  dataTable: any[]
+  editingKey: any
+  isEdited: any
+  isSlipFee: any
+  backupData: any[]
 }
 @inject(Stores.LeaseAgreementStore)
 @observer
@@ -45,7 +45,7 @@ class SCFeeTable extends AppComponentListBase<
   ILeaseDealerProps,
   ILeaseDealerState
 > {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     dataTable: [] as any,
@@ -53,9 +53,9 @@ class SCFeeTable extends AppComponentListBase<
     isEdited: "",
     isSlipFee: false,
     backupData: [] as any,
-  };
+  }
 
-  isEditing = (record: any) => record.key === this.state.editingKey;
+  isEditing = (record: any) => record.key === this.state.editingKey
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.otherFeeDate !== this.props.otherFeeDate) {
       this.initData()
@@ -92,7 +92,7 @@ class SCFeeTable extends AppComponentListBase<
     this.setState({
       dataTable: numRow,
     })
-  };
+  }
   initData = () => {
     const numRow = [] as any
 
@@ -111,7 +111,7 @@ class SCFeeTable extends AppComponentListBase<
     this.setState({
       dataTable: numRow,
     })
-  };
+  }
   onSlipFee = async (record?, index?) => {
     const newData = [...this.state.dataTable]
     this.formRef.current?.resetFields()
@@ -125,7 +125,7 @@ class SCFeeTable extends AppComponentListBase<
     this.setState({
       editingKey: newRow.key,
     })
-  };
+  }
   saveRow = async (data: any) => {
     const values = await this.formRef.current?.validateFields()
     const newData = [...this.state.dataTable]
@@ -139,10 +139,10 @@ class SCFeeTable extends AppComponentListBase<
       const mdforRes = {
         amountIncludeVat: values.amount,
         feeTypeId: row.feeTypeId,
-        startDate: moment(row.startDate).toJSON(),
+        startDate: dayjs(row.startDate).toJSON(),
         endDate: values.endDate
-          ? moment(values.endDate).toJSON()
-          : moment(row.endDate).toJSON(),
+          ? dayjs(values.endDate).toJSON()
+          : dayjs(row.endDate).toJSON(),
       }
       const amountVat =
         await this.props.leaseAgreementStore.genVATAmountByFeeType([mdforRes])
@@ -156,8 +156,8 @@ class SCFeeTable extends AppComponentListBase<
         const mdForNextRes = {
           amountIncludeVat: nextRow.amount,
           feeTypeId: nextRow.feeTypeId,
-          startDate: moment(newRes.endDate).add(1, "d").toJSON(),
-          endDate: moment(nextRow.endDate).toJSON(),
+          startDate: dayjs(newRes.endDate).add(1, "d").toJSON(),
+          endDate: dayjs(nextRow.endDate).toJSON(),
         }
         const nextRowAmountVat =
           await this.props.leaseAgreementStore.genVATAmountByFeeType([
@@ -165,7 +165,7 @@ class SCFeeTable extends AppComponentListBase<
           ])
         const nextRes = await {
           ...nextRow,
-          startDate: moment(newRes.endDate).add(1, "d"),
+          startDate: dayjs(newRes.endDate).add(1, "d"),
           vatAmount: nextRowAmountVat,
         }
         await newData.splice(index + 1, 1, { ...nextRes })
@@ -175,7 +175,7 @@ class SCFeeTable extends AppComponentListBase<
 
     this.setState({ isEdited: data?.key ?? "" })
     this.setState({ editingKey: "", isSlipFee: false })
-  };
+  }
   public render() {
     const columns = [
       {
@@ -305,7 +305,7 @@ class SCFeeTable extends AppComponentListBase<
                   await this.formRef.current?.setFieldsValue({
                     ...record,
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   await this.setState({

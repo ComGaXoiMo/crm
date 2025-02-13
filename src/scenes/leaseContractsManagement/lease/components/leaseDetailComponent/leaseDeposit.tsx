@@ -14,7 +14,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons"
 import AppConsts, { appStatusColors } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { buildEditableCell } from "@components/DataTable/EditableCell"
 import { EditableCell } from "@components/DataTable/EditableCell"
 const { align } = AppConsts
@@ -207,7 +207,7 @@ class LeaseDeposit extends AppComponentListBase<
                     ...record,
 
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   this.setState({ editingKey: record.key })

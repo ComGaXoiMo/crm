@@ -1,8 +1,8 @@
 import "./index.less"
 import { MenuProps } from "antd"
 import { isGranted, LMainMenu } from "@lib/abpUtility"
-import { useHistory } from "react-router-dom"
-type MenuItem = Required<MenuProps>["items"][number];
+import { useNavigate } from "react-router-dom"
+type MenuItem = Required<MenuProps>["items"][number]
 
 const getMenuItem = (
   label: React.ReactNode,
@@ -28,7 +28,7 @@ const GetMenuItems = ({
   children,
   permission,
 }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   if (!isGranted(permission)) return null
   // Keep component is cause of error message from development mode
   let label = name
@@ -37,7 +37,7 @@ const GetMenuItems = ({
       <a
         onClick={(e) => {
           e.preventDefault()
-          history.push(path)
+          navigate(path)
         }}
         href={path}
       >

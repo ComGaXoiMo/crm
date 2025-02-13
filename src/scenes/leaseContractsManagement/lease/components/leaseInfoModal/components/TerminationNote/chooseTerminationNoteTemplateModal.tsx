@@ -13,7 +13,7 @@ import _, { debounce } from "lodash"
 import { validateMessages } from "@lib/validation"
 import AppConsts, { dateFormat } from "@lib/appconst"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
-import moment from "moment"
+import dayjs from "dayjs"
 import {
   filterOptions,
   inputCurrencyFormatter,
@@ -86,9 +86,9 @@ class ChooseTerminationNoteTemplateModal extends AppComponentListBase<
 
     const params = {
       ...formValue,
-      createTerminationDate: moment(formValue.createTerminationDate).toJSON(),
-      terminationDate: moment(formValue.terminationDate).toJSON(),
-      depositTransSignDate: moment(formValue.depositTransSignDate).toJSON(),
+      createTerminationDate: dayjs(formValue.createTerminationDate).toJSON(),
+      terminationDate: dayjs(formValue.terminationDate).toJSON(),
+      depositTransSignDate: dayjs(formValue.depositTransSignDate).toJSON(),
       id: this.props.leaseAgreementId,
       templateId: templateId,
       depositTransNo: this.props.leaseAgreementStore?.listLASelect.find(

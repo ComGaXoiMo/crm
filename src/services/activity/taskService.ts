@@ -1,9 +1,9 @@
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
 import AppConsts from "@lib/appconst"
-const{taskStatusForNew}= AppConsts
+const { taskStatusForNew } = AppConsts
 class TaskService {
   public async createOrUpdate(body: any) {
     const result = await http.post(
@@ -46,28 +46,25 @@ class TaskService {
         {
           color: "#9393937d",
           name: "Overdue",
-          id:taskStatusForNew.overDue
+          id: taskStatusForNew.overDue,
         },
         {
           color: "#861ad87d",
-        
+
           name: "DueInThreeDay",
-          id:taskStatusForNew.overDueIn3Day
-  
+          id: taskStatusForNew.overDueIn3Day,
         },
         {
           color: "#ff632ba8",
-         
+
           name: "DueToDay",
-          id:taskStatusForNew.DueToday
-  
+          id: taskStatusForNew.DueToday,
         },
         {
           color: "#12e7eebf",
-         
+
           name: "ToDo",
-          id:taskStatusForNew.todo
-  
+          id: taskStatusForNew.todo,
         },
         ...res.data.result,
       ] || []

@@ -1,25 +1,25 @@
 import { L } from "@lib/abpUtility"
 import { Col, Form, Modal, Row, Select } from "antd"
 import React from "react"
-import moment from "moment"
+import dayjs from "dayjs"
 
 interface Props {
-  dataSend: any;
-  visible: boolean;
-  onClose: () => void;
-  onOk: () => void;
+  dataSend: any
+  visible: boolean
+  onClose: () => void
+  onOk: () => void
 }
 
 interface State {
-  isLoading: boolean;
+  isLoading: boolean
 }
 const dataFake = {
   name: "CT Name",
-  dateSent: moment("2023-04-04T08:07:31.5810056Z"),
+  dateSent: dayjs("2023-04-04T08:07:31.5810056Z"),
 }
 
 export default class SelectUnitModal extends React.PureComponent<Props, State> {
-  form: any = React.createRef();
+  form: any = React.createRef()
 
   constructor(props) {
     super(props)

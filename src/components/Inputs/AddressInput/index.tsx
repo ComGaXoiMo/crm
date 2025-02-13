@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { Input, Tooltip } from "antd"
 import { AddressModel, IAddressModel } from "@models/common/addressModel"
 import isEqual from "lodash/isEqual"
@@ -11,21 +11,14 @@ import {
 import Cascader from "antd/lib/cascader"
 import Button from "antd/es/button"
 import { L } from "@lib/abpUtility"
+import { usePrevious } from "@lib/appconst"
 
 interface AddressInputProps {
-  disabled?: boolean;
-  value?: IAddressModel[];
-  onChange?: (value: IAddressModel[]) => void;
-  maxLength?: number;
-  countries?: any[];
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  disabled?: boolean
+  value?: IAddressModel[]
+  onChange?: (value: IAddressModel[]) => void
+  maxLength?: number
+  countries?: any[]
 }
 
 const AddressInput: React.FC<AddressInputProps> = ({

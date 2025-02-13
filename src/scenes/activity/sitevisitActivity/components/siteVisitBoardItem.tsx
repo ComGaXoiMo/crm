@@ -5,7 +5,7 @@ import { Tag } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import { dateTimeFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { HomeOutlined } from "@ant-design/icons"
 import { L } from "@lib/abpUtility"
 // import { Table } from "antd";
@@ -49,7 +49,7 @@ class ProposalBoardItem extends AppComponentListBase<IProposalItemProps, any> {
               <label>
                 {this.L("SITE_VISIT_DATE_TIME")} :
                 <strong>
-                  {moment(data?.siteVisitTime).format(dateTimeFormat)}
+                  {dayjs(data?.siteVisitTime).format(dateTimeFormat)}
                 </strong>
               </label>
 
@@ -67,7 +67,7 @@ class ProposalBoardItem extends AppComponentListBase<IProposalItemProps, any> {
               </label>
               <label>
                 Created by<strong> {data?.creatorUser?.displayName}</strong> at{" "}
-                {moment(data?.creationTime).format(dateTimeFormat)}
+                {dayjs(data?.creationTime).format(dateTimeFormat)}
               </label>
             </div>
           </div>

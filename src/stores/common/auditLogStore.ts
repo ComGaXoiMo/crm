@@ -1,7 +1,7 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import auditLogService from '../../services/common/auditLogService'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import auditLogService from "../../services/common/auditLogService"
 
 class AuditLogStore {
   @observable isLoading!: boolean
@@ -15,7 +15,9 @@ class AuditLogStore {
   @action
   async getAll(params: any) {
     this.isLoading = true
-    const result = await auditLogService.getAll(params).finally(() => this.isLoading = false)
+    const result = await auditLogService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
     this.auditLogs = result
   }
 }

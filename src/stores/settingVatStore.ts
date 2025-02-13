@@ -1,12 +1,12 @@
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import settingVatService from "@services/settingVatService"
 import { action, observable } from "mobx"
 
 class SettingVatStore {
-  @observable isLoading = false;
+  @observable isLoading = false
 
-  @observable pageResult: PagedResultDto<any> = { totalCount: 0, items: [] };
-  @observable leaseAgreementDetail!: any;
+  @observable pageResult: PagedResultDto<any> = { totalCount: 0, items: [] }
+  @observable leaseAgreementDetail!: any
 
   constructor() {
     this.pageResult = { totalCount: 0, items: [] }
@@ -16,7 +16,7 @@ class SettingVatStore {
     this.pageResult = await settingVatService
       .getAll(params)
       .finally(() => (this.isLoading = false))
-  };
+  }
   @action
   async createOrUpdate(body) {
     this.isLoading = true

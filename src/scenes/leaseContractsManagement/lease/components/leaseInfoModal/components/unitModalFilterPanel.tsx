@@ -12,17 +12,17 @@ import { ReloadOutlined } from "@ant-design/icons"
 import AppDataStore from "@stores/appDataStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import moment from "moment"
+import dayjs from "dayjs"
 type Props = {
-  handleSearch: (filters) => void;
+  handleSearch: (filters) => void
 
-  filter: any;
-  changeTab: any;
-  inquiryId: any;
+  filter: any
+  changeTab: any
+  inquiryId: any
 
-  appDataStore: AppDataStore;
-  onRefresh: () => void;
-};
+  appDataStore: AppDataStore
+  onRefresh: () => void
+}
 
 // type States = {
 //   selectedType: any;
@@ -41,10 +41,10 @@ class UnitModalFilterPanel extends React.Component<Props, any> {
     filters: {
       inquiryId: this.props.inquiryId,
     },
-  };
+  }
   componentDidMount = async () => {
     await this.getProject("")
-  };
+  }
 
   getProject = async (keyword) => {
     const res = await projectService.getAll({
@@ -56,7 +56,7 @@ class UnitModalFilterPanel extends React.Component<Props, any> {
       return { id: i.id, name: i.projectCode }
     })
     this.setState({ listProject: newProjects })
-  };
+  }
 
   handleSearch = async (name, value) => {
     {
@@ -65,26 +65,26 @@ class UnitModalFilterPanel extends React.Component<Props, any> {
       })
       await this.props.handleSearch(this.state.filters)
     }
-  };
+  }
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
     this.setState({ filters: { ...filters, [name]: value } })
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleDateChange = async (value) => {
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
     // await this.handleSearch("fromDate", startDate);
     const { filters } = this.state
     await this.setState({ filters: { ...filters, fromDate: startDate } })
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
 
     await this.handleSearch("toDate", endDate)
-  };
+  }
   render() {
     const {
       appDataStore: { propertyTypes },

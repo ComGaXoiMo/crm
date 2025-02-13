@@ -1,7 +1,13 @@
-import {RowData} from "@models/DataTable"
-import moment from "moment-timezone"
-import {RowDealPaymentAdjustModel, RowDealPaymentModel} from "@models/dealContract/dealPaymentRowModel"
-import {DealDepartmentServiceFee, DealDepartmentServiceFeeAdjust} from "@models/dealContract/dealDepartmentServiceFee"
+import { RowData } from "@models/DataTable"
+import dayjs from "dayjs"
+import {
+  RowDealPaymentAdjustModel,
+  RowDealPaymentModel,
+} from "@models/dealContract/dealPaymentRowModel"
+import {
+  DealDepartmentServiceFee,
+  DealDepartmentServiceFeeAdjust,
+} from "@models/dealContract/dealDepartmentServiceFee"
 
 export interface IRowDealContractCommercial {
   businessName: string
@@ -15,7 +21,9 @@ export interface IRowDealContractCommercial {
   percentCompleted: string
 }
 
-export class RowDealContractCommercialModel implements IRowDealContractCommercial, RowData{
+export class RowDealContractCommercialModel
+  implements IRowDealContractCommercial, RowData
+{
   id?: number
   name?: string
   businessName: string
@@ -29,15 +37,14 @@ export class RowDealContractCommercialModel implements IRowDealContractCommercia
   percentCompleted: string
 
   constructor() {
-    this.businessName = ''
-    this.legalName = ''
+    this.businessName = ""
+    this.legalName = ""
     this.companyId = 0
-    this.statusName = ''
+    this.statusName = ""
     this.statusId = 0
     this.feeAmount = 0
-    this.department = 
-    this.businessLine = ''
-    this.percentCompleted = ''
+    this.department = this.businessLine = ""
+    this.percentCompleted = ""
   }
 
   public static assign(obj) {
@@ -46,10 +53,18 @@ export class RowDealContractCommercialModel implements IRowDealContractCommercia
     const newObj = Object.assign(new RowDealContractCommercialModel(), obj)
     newObj.name = obj.dealName
     newObj.department = obj.organizationUnitName
-    newObj.businessLine = (obj.dealOrganizationUnit || []).map(p => p.organizationUnitName).join(', ')
-    newObj.percentCompleted = obj.percentCompleted ? `${obj.percentCompleted} %` : ''
-    newObj.allDepartment = (obj.dealOrganizationUnit || []).map(p => p.organizationUnitName)
-    newObj.allService = (obj.dealOrganizationUnit || []).map(p => p.instructionName)
+    newObj.businessLine = (obj.dealOrganizationUnit || [])
+      .map((p) => p.organizationUnitName)
+      .join(", ")
+    newObj.percentCompleted = obj.percentCompleted
+      ? `${obj.percentCompleted} %`
+      : ""
+    newObj.allDepartment = (obj.dealOrganizationUnit || []).map(
+      (p) => p.organizationUnitName
+    )
+    newObj.allService = (obj.dealOrganizationUnit || []).map(
+      (p) => p.instructionName
+    )
     return newObj
   }
 
@@ -80,19 +95,27 @@ export class DealContractCommercialDetailModel extends RowData {
     if (!obj) return undefined
 
     const newObj = Object.assign(new DealContractCommercialDetailModel(), obj)
-    newObj.company = {id: obj.companyId, businessName: obj.businessName}
-    newObj.contact = {id: obj.contactId, contactName: obj.contactName}
-    newObj.dealShare = DealDepartmentServiceFee.assigns(obj.dealOrganizationUnit)
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : undefined
-    newObj.expiredDate = obj.expiredDate ? moment(obj.expiredDate) : undefined
-    newObj.draftReport = obj.draftReport ? moment(obj.draftReport) : undefined
-    newObj.finalReport = obj.finalReport ? moment(obj.finalReport) : undefined
-    newObj.commencementDate = obj.commencementDate ? moment(obj.commencementDate) : undefined
-    newObj.reportDate = obj.reportDate ? moment(obj.reportDate) : undefined
+    newObj.company = { id: obj.companyId, businessName: obj.businessName }
+    newObj.contact = { id: obj.contactId, contactName: obj.contactName }
+    newObj.dealShare = DealDepartmentServiceFee.assigns(
+      obj.dealOrganizationUnit
+    )
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : undefined
+    newObj.expiredDate = obj.expiredDate ? dayjs(obj.expiredDate) : undefined
+    newObj.draftReport = obj.draftReport ? dayjs(obj.draftReport) : undefined
+    newObj.finalReport = obj.finalReport ? dayjs(obj.finalReport) : undefined
+    newObj.commencementDate = obj.commencementDate
+      ? dayjs(obj.commencementDate)
+      : undefined
+    newObj.reportDate = obj.reportDate ? dayjs(obj.reportDate) : undefined
     newObj.payment = RowDealPaymentModel.assigns(obj.payment)
-    newObj.paymentAdjust = obj.paymentAdjust ? RowDealPaymentAdjustModel.assigns(obj.paymentAdjust) : []
-    newObj.dealAdjust = (obj.dealAdjust && obj.dealAdjust.length) ? DealDepartmentServiceFeeAdjust.assigns(obj.dealAdjust)
-      : [new DealDepartmentServiceFeeAdjust()]
+    newObj.paymentAdjust = obj.paymentAdjust
+      ? RowDealPaymentAdjustModel.assigns(obj.paymentAdjust)
+      : []
+    newObj.dealAdjust =
+      obj.dealAdjust && obj.dealAdjust.length
+        ? DealDepartmentServiceFeeAdjust.assigns(obj.dealAdjust)
+        : [new DealDepartmentServiceFeeAdjust()]
 
     return newObj
   }

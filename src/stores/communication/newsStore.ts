@@ -1,10 +1,10 @@
-import { action, computed, observable, toJS } from 'mobx'
-import { EditedNews, EditedSingleLanguageNews, NewsModel } from '../../models'
-import newsService from '../../services/communication/newsService'
-import { PagedResultDto } from '@services/dto/pagedResultDto'
-import utils from '../../utils/utils'
-import fileService from '../../services/common/fileService'
-import { moduleNames } from '@lib/appconst'
+import { action, computed, observable, toJS } from "mobx"
+import { EditedNews, EditedSingleLanguageNews, NewsModel } from "../../models"
+import newsService from "../../services/communication/newsService"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
+import utils from "../../utils/utils"
+import fileService from "../../services/common/fileService"
+import { moduleNames } from "@lib/appconst"
 
 class NewsStore {
   @observable isLoading!: boolean
@@ -32,10 +32,24 @@ class NewsStore {
     const languages = utils.getLanguages()
     this.editSingleLanguageNews = languages.reduce<any>((obj, current) => {
       obj[current.name] = {
-        content: (this.editedNews?.contents.find((content) => content.languageName === current.name) || {}).value || '',
+        content:
+          (
+            this.editedNews?.contents.find(
+              (content) => content.languageName === current.name
+            ) || {}
+          ).value || "",
         shortDescription:
-          (this.editedNews?.shortDescriptions.find((desc) => desc.languageName === current.name) || {}).value || '',
-        subject: (this.editedNews?.subjects.find((subject) => subject.languageName === current.name) || {}).value || ''
+          (
+            this.editedNews?.shortDescriptions.find(
+              (desc) => desc.languageName === current.name
+            ) || {}
+          ).value || "",
+        subject:
+          (
+            this.editedNews?.subjects.find(
+              (subject) => subject.languageName === current.name
+            ) || {}
+          ).value || "",
       }
       return obj
     }, {})
@@ -46,9 +60,9 @@ class NewsStore {
     const languages = utils.getLanguages()
     this.editSingleLanguageNews = languages.reduce<any>((obj, current) => {
       obj[current.name] = {
-        content: '',
-        shortDescription: '',
-        subject: ''
+        content: "",
+        shortDescription: "",
+        subject: "",
       }
       return obj
     }, {})
@@ -60,8 +74,8 @@ class NewsStore {
       ...this.editSingleLanguageNews,
       [language]: {
         ...this.editSingleLanguageNews[language],
-        ...data
-      }
+        ...data,
+      },
     }
   }
 
@@ -99,7 +113,9 @@ class NewsStore {
   @action
   async getAll(params: any) {
     this.isLoading = true
-    this.pageResult = await newsService.getAll(params).finally(() => (this.isLoading = false))
+    this.pageResult = await newsService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -110,25 +126,25 @@ class NewsStore {
   computeFormData(data, currentLang) {
     const currentLangData = {
       ...this.editSingleLanguageNews[currentLang],
-      ...data
+      ...data,
     }
     const allLangData = {
       ...toJS(this.editSingleLanguageNews),
-      [currentLang]: currentLangData
+      [currentLang]: currentLangData,
     }
     return {
       subjects: Object.keys(allLangData).map((langKey) => ({
         languageName: langKey,
-        value: allLangData[langKey].subject
+        value: allLangData[langKey].subject,
       })),
       contents: Object.keys(allLangData).map((langKey) => ({
         languageName: langKey,
-        value: allLangData[langKey].content
+        value: allLangData[langKey].content,
       })),
       shortDescriptions: Object.keys(allLangData).map((langKey) => ({
         languageName: langKey,
-        value: allLangData[langKey].shortDescription
-      }))
+        value: allLangData[langKey].shortDescription,
+      })),
     }
   }
 

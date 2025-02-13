@@ -1,7 +1,7 @@
 import http from "@services/httpService"
 import { notifyError, notifySuccess } from "@lib/helper"
 import { L, LNotification } from "@lib/abpUtility"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import { RowContactModel } from "@models/clientManagement/contactModel"
 import { ContactDetailModel } from "@models/clientManagement/contactModel"
 import { downloadFile } from "@lib/helperFile"

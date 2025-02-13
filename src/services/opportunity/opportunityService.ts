@@ -6,7 +6,7 @@ import {
   OpportunityDetailModel,
   RowOpportunityModel,
 } from "@models/opportunity"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 
 class OpportunityService {
   public async create(body: any) {
@@ -102,10 +102,10 @@ class OpportunityService {
 
   public async getWidgetStatusItems(params: any): Promise<any> {
     if (params.dateFrom) {
-      params.dateFrom = moment(params.dateFrom).startOf("date").toDate()
+      params.dateFrom = dayjs(params.dateFrom).startOf("date").toDate()
     }
     if (params.dateTo) {
-      params.dateTo = moment(params.dateTo).toDate()
+      params.dateTo = dayjs(params.dateTo).toDate()
     }
 
     const res = await http.get("api/Statistic/CountOpportunityStatusV1", {
@@ -125,10 +125,10 @@ class OpportunityService {
 
   public async getWidgetStageItems(params: any): Promise<any> {
     if (params.dateFrom) {
-      params.dateFrom = moment(params.dateFrom).startOf("date").toDate()
+      params.dateFrom = dayjs(params.dateFrom).startOf("date").toDate()
     }
     if (params.dateTo) {
-      params.dateTo = moment(params.dateTo).toDate()
+      params.dateTo = dayjs(params.dateTo).toDate()
     }
 
     const res = await http.get("api/Statistic/CountOpportunityStageV1", {

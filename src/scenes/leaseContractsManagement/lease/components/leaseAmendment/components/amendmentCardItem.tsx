@@ -6,7 +6,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { Button, Card, Col, Row, Tag } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import moment from "moment"
+import dayjs from "dayjs"
 import AppConsts, { appPermissions, dateFormat } from "@lib/appconst"
 import { formatCurrency } from "@lib/helper"
 import TextArea from "antd/lib/input/TextArea"
@@ -74,20 +74,20 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                     <strong>{L("COMMENCEMENT_DATE")}</strong>
                   </div>
                   <div className="">
-                    {moment(data?.commencementDate).format(dateFormat)}
+                    {dayjs(data?.commencementDate).format(dateFormat)}
                   </div>
                   <div className="">
                     <strong>{L("EXPIRY_DATE")}</strong>
                   </div>
                   <div className="">
-                    {moment(data?.expiryDate).format(dateFormat)}
+                    {dayjs(data?.expiryDate).format(dateFormat)}
                   </div>
                   <div className="">
                     <strong>{L("TERMINATE")}</strong>
                   </div>
                   <div className="">
                     {data?.terminationDate
-                      ? moment(data?.terminationDate).format(dateFormat)
+                      ? dayjs(data?.terminationDate).format(dateFormat)
                       : "-"}
                   </div>
                 </div>
@@ -199,7 +199,7 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                     <strong>{L("COMMENCEMENT_DATE")}</strong>
                   </div>
                   <div className="flex right-content">
-                    {moment(data?.commencementDate).format(dateFormat)}
+                    {dayjs(data?.commencementDate).format(dateFormat)}
                   </div>
 
                   {dataRent.map((rentItem) => (
@@ -282,7 +282,7 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                     <strong>{L("EXPIRY_DATE")}</strong>
                   </div>
                   <div className="flex right-content">
-                    {moment(data?.expiryDate).format(dateFormat)}
+                    {dayjs(data?.expiryDate).format(dateFormat)}
                   </div>
                   <div></div>
                   <div> </div>
@@ -292,13 +292,13 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                         <strong>{L("FROM")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(rentItem?.startDate).format(dateFormat)}
+                        {dayjs(rentItem?.startDate).format(dateFormat)}
                       </div>{" "}
                       <div className="">
                         <strong>{L("TO")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(rentItem?.endDate).format(dateFormat)}
+                        {dayjs(rentItem?.endDate).format(dateFormat)}
                       </div>
                     </>
                   ))}
@@ -309,13 +309,13 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                         <strong>{L("FROM")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(otherFeeItem?.startDate).format(dateFormat)}
+                        {dayjs(otherFeeItem?.startDate).format(dateFormat)}
                       </div>{" "}
                       <div className="">
                         <strong>{L("TO")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(otherFeeItem?.endDate).format(dateFormat)}
+                        {dayjs(otherFeeItem?.endDate).format(dateFormat)}
                       </div>
                     </>
                   ))}
@@ -326,13 +326,13 @@ class AmendmentCardItem extends AppComponentListBase<IProposalItemProps, any> {
                         <strong>{L("FROM")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(discountItem?.startDate).format(dateFormat)}
+                        {dayjs(discountItem?.startDate).format(dateFormat)}
                       </div>{" "}
                       <div className="">
                         <strong>{L("TO")}</strong>
                       </div>
                       <div className="flex right-content">
-                        {moment(discountItem?.endDate).format(dateFormat)}
+                        {dayjs(discountItem?.endDate).format(dateFormat)}
                       </div>
                     </>
                   ))}

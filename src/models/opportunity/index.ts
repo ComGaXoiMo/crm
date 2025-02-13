@@ -1,60 +1,60 @@
 import { RowData } from "@models/DataTable"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 
 export interface IRowOpportunity {
-  businessName: string;
-  legalName: string;
-  companyId: number;
-  contactName: string;
-  contactId: number;
-  amount: number;
-  allDepartment: string;
-  allService: string;
-  statusName: string;
-  stageName: string;
-  probability: string;
-  contract: string;
-  expectedCloseDate: Date;
-  sourceName: string;
-  clientTypeName: string;
-  primaryAssetClassName: string;
-  primaryInstructionName: string;
-  description?: string;
-  phone?: string;
-  emailAddress?: string;
-  website?: string;
-  vatCode?: string;
-  parentId?: number;
-  parentBusinessName?: string;
-  parentLegalName?: string;
-  leadSourceName?: string;
+  businessName: string
+  legalName: string
+  companyId: number
+  contactName: string
+  contactId: number
+  amount: number
+  allDepartment: string
+  allService: string
+  statusName: string
+  stageName: string
+  probability: string
+  contract: string
+  expectedCloseDate: Date
+  sourceName: string
+  clientTypeName: string
+  primaryAssetClassName: string
+  primaryInstructionName: string
+  description?: string
+  phone?: string
+  emailAddress?: string
+  website?: string
+  vatCode?: string
+  parentId?: number
+  parentBusinessName?: string
+  parentLegalName?: string
+  leadSourceName?: string
 }
 
 export class RowOpportunityModel implements IRowOpportunity {
-  id?: number;
-  name?: string;
-  businessName: string;
-  legalName: string;
-  companyId: number;
-  contactName: string;
-  contactId: number;
-  amount: number;
-  allDepartment: string;
-  allService: string;
-  statusName: string;
-  stageName: string;
-  probability: string;
-  contract: string;
-  expectedCloseDate: Date;
-  sourceName: string;
-  clientTypeName: string;
-  primaryAssetClassName: string;
-  primaryInstructionName: string;
-  isActive?: boolean;
-  lastModificationTime?: string;
-  lastModifierUserId?: number;
-  creationTime?: Date;
-  creatorUserName?: string;
+  id?: number
+  name?: string
+  businessName: string
+  legalName: string
+  companyId: number
+  contactName: string
+  contactId: number
+  amount: number
+  allDepartment: string
+  allService: string
+  statusName: string
+  stageName: string
+  probability: string
+  contract: string
+  expectedCloseDate: Date
+  sourceName: string
+  clientTypeName: string
+  primaryAssetClassName: string
+  primaryInstructionName: string
+  isActive?: boolean
+  lastModificationTime?: string
+  lastModifierUserId?: number
+  creationTime?: Date
+  creatorUserName?: string
   constructor() {
     this.businessName = ""
     this.legalName = ""
@@ -96,7 +96,7 @@ export class RowOpportunityModel implements IRowOpportunity {
     newObj.percentCompleted = `${obj.percentCompleted} %`
     newObj.contract = obj.contractNumber
     newObj.expectedCloseDate = obj.expectedCloseDate
-      ? moment(obj.expectedCloseDate)
+      ? dayjs(obj.expectedCloseDate)
       : null
     return newObj
   }
@@ -109,14 +109,14 @@ export class RowOpportunityModel implements IRowOpportunity {
 }
 
 export class OpportunityDetailModel extends RowData {
-  opportunityContact: any[];
-  opportunityLeadIds?: any[];
-  opportunityUserIds?: any[];
-  company: any;
-  projectIds?: any[];
-  assetClassIds?: any[];
-  expectedCloseDate?: Date;
-  targetStartDate?: Date;
+  opportunityContact: any[]
+  opportunityLeadIds?: any[]
+  opportunityUserIds?: any[]
+  company: any
+  projectIds?: any[]
+  assetClassIds?: any[]
+  expectedCloseDate?: Date
+  targetStartDate?: Date
   constructor() {
     super()
     this.opportunityContact = []
@@ -141,10 +141,10 @@ export class OpportunityDetailModel extends RowData {
       (item) => item.assetClassId
     )
     newObj.expectedCloseDate = obj.expectedCloseDate
-      ? moment(obj.expectedCloseDate)
+      ? dayjs(obj.expectedCloseDate)
       : undefined
     newObj.targetStartDate = obj.targetStartDate
-      ? moment(obj.targetStartDate)
+      ? dayjs(obj.targetStartDate)
       : undefined
 
     return newObj
@@ -158,27 +158,27 @@ export class OpportunityDetailModel extends RowData {
 }
 
 export interface IDepartmentServiceFee {
-  id?: number;
-  opportunityId?: number;
-  organizationUnitId?: number;
-  userId: any;
-  instructionId?: number;
-  isActive: boolean;
-  isPrimary: boolean;
-  feeAmount?: number;
-  name: any;
+  id?: number
+  opportunityId?: number
+  organizationUnitId?: number
+  userId: any
+  instructionId?: number
+  isActive: boolean
+  isPrimary: boolean
+  feeAmount?: number
+  name: any
 }
 
 export class DepartmentServiceFee implements IDepartmentServiceFee {
-  id?: number;
-  opportunityId?: number;
-  organizationUnitId?: number;
-  instructionId?: number;
-  userId: number | undefined;
-  name: string | undefined;
-  isActive: boolean;
-  isPrimary: boolean;
-  feeAmount?: number;
+  id?: number
+  opportunityId?: number
+  organizationUnitId?: number
+  instructionId?: number
+  userId: number | undefined
+  name: string | undefined
+  isActive: boolean
+  isPrimary: boolean
+  feeAmount?: number
 
   constructor(isPrimary?) {
     this.opportunityId = undefined

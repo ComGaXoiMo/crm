@@ -2,21 +2,18 @@ import React from "react"
 import { Button, Col, DatePicker, Form, Row } from "antd"
 import { L } from "@lib/abpUtility"
 import AppConsts, { dateFormat } from "@lib/appconst"
-import { PickerProps } from "antd/lib/date-picker/generatePicker"
-import moment from "moment-timezone/moment-timezone"
 import { DisconnectOutlined, EditOutlined } from "@ant-design/icons"
 const { formVerticalLayout } = AppConsts
 interface FormDatePickerProps {
-  label: string;
-  name: string | string[];
-  rule?;
-  disabled?: boolean;
-  onChange?: any;
-  onSelect?: any;
-  placeholder?: string;
-  dateTimeFormat?: string;
-  dateTimeProps?: PickerProps<moment>;
-  disabledDate?: any;
+  label: string
+  name: string | string[]
+  rule?
+  disabled?: boolean
+  onChange?: any
+  onSelect?: any
+  placeholder?: string
+  dateTimeFormat?: string
+  disabledDate?: any
 }
 
 const FormDatePickerPrefix: React.FC<FormDatePickerProps> = ({
@@ -28,7 +25,6 @@ const FormDatePickerPrefix: React.FC<FormDatePickerProps> = ({
   onSelect,
   placeholder,
   dateTimeFormat = dateFormat,
-  dateTimeProps,
   disabledDate,
 }) => {
   const [canEdit, setCanEdit] = React.useState(false)
@@ -49,8 +45,6 @@ const FormDatePickerPrefix: React.FC<FormDatePickerProps> = ({
             disabled={!canEdit}
             disabledDate={disabledDate}
             onChange={onChange}
-            onSelect={onSelect}
-            {...dateTimeProps}
           />
         </Form.Item>
       </Col>

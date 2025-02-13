@@ -10,21 +10,21 @@ import { L } from "@lib/abpUtility"
 import TaskStore from "@stores/activity/taskStore"
 import Stores from "@stores/storeIdentifier"
 import { appPermissions, dateFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 // import { Table } from "antd";
 
 export interface AllTaskBoardItemProps {
-  data: any;
-  goDetail: () => void;
-  key: any;
-  taskStore: TaskStore;
+  data: any
+  goDetail: () => void
+  key: any
+  taskStore: TaskStore
 }
 
 @inject(Stores.TaskStore)
 @observer
 class AllTaskBoardItem extends AppComponentListBase<AllTaskBoardItemProps> {
-  formRef: any = React.createRef();
-  state = {};
+  formRef: any = React.createRef()
+  state = {}
 
   public render() {
     const {
@@ -79,7 +79,7 @@ class AllTaskBoardItem extends AppComponentListBase<AllTaskBoardItemProps> {
               <p>
                 {L("DUE_DATE")}:
                 <strong>
-                  {moment(this.props.data.dueDate).format(dateFormat)}
+                  {dayjs(this.props.data.dueDate).format(dateFormat)}
                 </strong>
               </p>
               <p>

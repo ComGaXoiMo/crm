@@ -19,7 +19,7 @@ import AppDataStore from "@stores/appDataStore"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import moment from "moment"
+import dayjs from "dayjs"
 import userService from "@services/administrator/user/userService"
 import projectService from "@services/projects/projectService"
 const { RangePicker } = DatePicker
@@ -130,12 +130,12 @@ class LeasesFilterPanel extends AppComponentListBase<Props> {
   }
   handleDateChange = async (value) => {
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
     // await this.handleSearch("fromDate", startDate);
     const { filters } = this.state
     await this.setState({ filters: { ...filters, fromDate: startDate } })
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
 
     await this.handleSearch("toDate", endDate)
   }

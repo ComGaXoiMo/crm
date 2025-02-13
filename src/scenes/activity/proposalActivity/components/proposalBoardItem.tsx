@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react"
 
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import moment from "moment"
+import dayjs from "dayjs"
 import AppConsts, { dateTimeFormat } from "@lib/appconst"
 import { FileSearchOutlined } from "@ant-design/icons"
 import { Tag } from "antd"
@@ -84,7 +84,7 @@ class CallBoardItem extends AppComponentListBase<ICallItemProps, any> {
               </label>
               <label>
                 Created by<strong> {data?.creatorUser?.displayName}</strong> at{" "}
-                {moment(data?.creationTime).format(dateTimeFormat)}
+                {dayjs(data?.creationTime).format(dateTimeFormat)}
               </label>
             </div>
           </div>

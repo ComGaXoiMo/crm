@@ -8,7 +8,7 @@ import FileStore from "../../stores/common/fileStore"
 import { L, LError, LNotification } from "@lib/abpUtility"
 import fileService from "@services/common/fileService"
 import { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface"
-import moment from "moment"
+import dayjs from "dayjs"
 import withRouter from "@components/Layout/Router/withRouter"
 import AppConsts from "@lib/appconst"
 const { documentType } = AppConsts
@@ -16,12 +16,12 @@ const { documentType } = AppConsts
 const confirm = Modal.confirm
 
 interface IImageUploadWrapProps {
-  parentId: string;
-  moduleId: string;
-  type?: string;
-  fileStore: FileStore;
-  acceptedFileTypes?: string[];
-  maxFile?: number;
+  parentId: string
+  moduleId: string
+  type?: string
+  fileStore: FileStore
+  acceptedFileTypes?: string[]
+  maxFile?: number
 }
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -39,7 +39,7 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
     previewOpen: false,
     previewImage: "",
     previewTitle: "",
-  };
+  }
 
   componentDidMount = async () => {
     if (this.props.parentId) {
@@ -47,13 +47,13 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
     } else {
       this.props.fileStore.currentFiles = []
     }
-  };
+  }
 
   componentDidUpdate = async (prevProps) => {
     if (prevProps.parentId !== this.props.parentId) {
       this.initFiles()
     }
-  };
+  }
 
   initFiles = async () => {
     if (!this.props.moduleId || !this.props.parentId) {
@@ -70,11 +70,11 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
     )
 
     await this.setState({ files: listFiles })
-  };
+  }
 
   handleCancel = () => {
     this.setState({ previewOpen: false })
-  };
+  }
   handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile)
@@ -85,7 +85,7 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
       previewTitle:
         file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1),
     })
-  };
+  }
 
   handleRemoveFile = async (file) => {
     // If file already exist in db -> call API remove, otherwise just remove from state list
@@ -106,10 +106,10 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
         this.setState({ files: newFileList })
       },
     })
-  };
+  }
   handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     this.setState({ file: newFileList })
-  };
+  }
 
   handleBeforeUploadFile = (file) => {
     const fileList = [
@@ -154,7 +154,7 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
         } else {
           const params = {
             uniqueId: this.props.parentId,
-            uploadDate: moment().toDate(),
+            uploadDate: dayjs().toDate(),
           }
           fileService
             .uploadDocument(this.props.moduleId, params, file)
@@ -164,14 +164,14 @@ class ImageUploadLogoCRM extends AppComponentListBase<IImageUploadWrapProps> {
     }
 
     return false
-  };
+  }
 
   uploadButton = (
     <div>
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
-  );
+  )
 
   render() {
     return (

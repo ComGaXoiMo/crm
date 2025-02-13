@@ -32,29 +32,29 @@ import Stores from "@stores/storeIdentifier"
 import SettingVatStore from "@stores/settingVatStore"
 import { SettingVatModel } from "@models/settingVat/settingVatModel"
 import { debounce } from "lodash"
-import moment from "moment"
+import dayjs from "dayjs"
 const { align } = AppConsts
 //
 const Search = Input.Search
 
 export interface IVatConfigProps {
-  leaseAgreementStore: LeaseAgreementStore;
-  settingVatStore: SettingVatStore;
+  leaseAgreementStore: LeaseAgreementStore
+  settingVatStore: SettingVatStore
 }
 export interface IVatConfigState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  editingRowKey: any;
-  dataTable: any[];
-  pageSize: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  editingRowKey: any
+  dataTable: any[]
+  pageSize: any
 }
 
 @inject(Stores.LeaseAgreementStore, Stores.SettingVatStore)
 @observer
 class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
-  formRef: any = React.createRef();
-  formRefProjectAddress: any = React.createRef();
+  formRef: any = React.createRef()
+  formRefProjectAddress: any = React.createRef()
 
   constructor(props: IVatConfigProps) {
     super(props)
@@ -82,11 +82,11 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
       pageSize: this.props.settingVatStore.pageResult?.totalCount,
       editingRowKey: "",
     })
-  };
+  }
 
   updateRentRoll = (id) => {
     this.props.settingVatStore.synVATToPaymentUnBill(id)
-  };
+  }
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
   }
@@ -98,8 +98,8 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
       },
       async () => await this.getAll()
     )
-  };
-  isEditing = (record) => record.key === this.state.editingRowKey;
+  }
+  isEditing = (record) => record.key === this.state.editingRowKey
   handleAddRow = () => {
     const newRow = new SettingVatModel()
     this.formRef.current?.setFieldsValue({ ...newRow })
@@ -107,17 +107,17 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
       dataTable: [newRow, ...this.state.dataTable],
       editingRowKey: newRow.key,
     })
-  };
+  }
   editRow = (record) => {
     this.formRef.current?.setFieldsValue({ ...record })
     this.setState({ editingRowKey: record.key })
-  };
+  }
 
   cancelEditRow = (record) => {
     const dataTable = this.props.settingVatStore.pageResult?.items
 
     this.setState({ dataTable, editingRowKey: undefined })
-  };
+  }
   handleCreateOrUpdate = async (record) => {
     try {
       const form = this.formRef.current
@@ -150,14 +150,14 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo)
     }
-  };
+  }
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
     this.setState({ filters: { ...filters, [name]: value } })
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleSearch = async (name, value) => {
     {
@@ -167,7 +167,7 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
       })
       await this.getAll()
     }
-  };
+  }
   renderFilterComponent = () => {
     return (
       <Row gutter={[8, 8]}>
@@ -187,7 +187,7 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
             picker="month"
             placeholder={L("START_DATE")}
             onChange={(value) =>
-              this.handleSearch("startDate", moment(value).toJSON())
+              this.handleSearch("startDate", dayjs(value).toJSON())
             }
           />
         </Col>
@@ -207,7 +207,7 @@ class VatConfig extends AppComponentListBase<IVatConfigProps, IVatConfigState> {
         </div>
       </Row>
     )
-  };
+  }
   public render() {
     const { dataTable, pageSize } = this.state
     const { isLoading } = this.props.settingVatStore

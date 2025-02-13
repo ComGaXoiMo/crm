@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from "dayjs"
 
 export class LARevenueModel {
   public static assign(obj) {
@@ -6,7 +6,7 @@ export class LARevenueModel {
 
     const newObj = Object.assign(new LARevenueModel(), obj)
     newObj.FormatDate = obj.FormatDate
-      ? moment(obj.FormatDate).format("MM/yyyy")
+      ? dayjs(obj.FormatDate).format("MM/yyyy")
       : obj.FormatDate
 
     return newObj
@@ -25,7 +25,7 @@ export class LARevenueLastYearModel {
 
     const newObj = Object.assign(new LARevenueModel(), obj)
     newObj.FormatDate = obj.FormatDate
-      ? moment(obj.FormatDate).add(1, "years").format("MM/yyyy")
+      ? dayjs(obj.FormatDate).add(1, "years").format("MM/yyyy")
       : obj.FormatDate
 
     return newObj

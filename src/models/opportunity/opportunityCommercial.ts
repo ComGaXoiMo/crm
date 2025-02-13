@@ -1,5 +1,5 @@
-import {RowData} from "@models/DataTable"
-import moment from "moment-timezone"
+import { RowData } from "@models/DataTable"
+import dayjs from "dayjs"
 
 export interface IRowOpportunityCommercial {
   businessName: string
@@ -30,9 +30,10 @@ export interface IRowOpportunityCommercial {
   leadSourceName?: string
 }
 
-export class RowOpportunityCommercialModel extends RowData implements IRowOpportunityCommercial{
-  id?: number
-  name?: string
+export class RowOpportunityCommercialModel
+  extends RowData
+  implements IRowOpportunityCommercial
+{
   businessName: string
   legalName: string
   companyId: number
@@ -51,49 +52,53 @@ export class RowOpportunityCommercialModel extends RowData implements IRowOpport
   clientTypeName: string
   primaryAssetClassName: string
   primaryInstructionName: string
-  isActive?: boolean
-  lastModificationTime?: string
   lastModifierUserId?: number
-  creationTime?: Date
-  creatorUserName?: string
   constructor() {
     super()
-    this.businessName = ''
-    this.legalName = ''
+    this.businessName = ""
+    this.legalName = ""
     this.companyId = 0
-    this.contactName = ''
+    this.contactName = ""
     this.contactId = 0
     this.amount = 0
     this.projects = []
-    this.allDepartment = ''
-    this.allService = ''
-    this.statusName = ''
-    this.stageName = ''
-    this.probability = ''
-    this.contract = ''
+    this.allDepartment = ""
+    this.allService = ""
+    this.statusName = ""
+    this.stageName = ""
+    this.probability = ""
+    this.contract = ""
     this.expectedCloseDate = new Date()
-    this.sourceName = ''
-    this.clientTypeName = ''
-    this.primaryAssetClassName = ''
-    this.primaryInstructionName = ''
+    this.sourceName = ""
+    this.clientTypeName = ""
+    this.primaryAssetClassName = ""
+    this.primaryInstructionName = ""
   }
 
   public static assign(obj) {
     if (!obj) return undefined
 
     const newObj = Object.assign(new RowOpportunityCommercialModel(), obj)
-    const primaryContact = (obj.opportunityContact || []).find(p => p.isActive && p.isPrimary)
+    const primaryContact = (obj.opportunityContact || []).find(
+      (p) => p.isActive && p.isPrimary
+    )
     newObj.name = obj.opportunityName
     newObj.contactId = primaryContact?.contactId
     newObj.contactName = primaryContact?.contactName
     newObj.department = obj.organizationUnitName
     newObj.projects = obj.project
-    newObj.allDepartment = (obj.opportunityOrganizationUnit || []).map(p => p.organizationUnitName)
-    newObj.allService = (obj.opportunityOrganizationUnit || []).map(p => p.instructionName)
+    newObj.allDepartment = (obj.opportunityOrganizationUnit || []).map(
+      (p) => p.organizationUnitName
+    )
+    newObj.allService = (obj.opportunityOrganizationUnit || []).map(
+      (p) => p.instructionName
+    )
     newObj.probability = `${obj.probability} %`
     newObj.percentCompleted = `${obj.percentCompleted} %`
     newObj.contract = obj.contractNumber
-    newObj.expectedCloseDate = obj.expectedCloseDate ? moment(obj.expectedCloseDate) : null
+    newObj.expectedCloseDate = obj.expectedCloseDate
+      ? dayjs(obj.expectedCloseDate)
+      : null
     return newObj
   }
 
@@ -121,12 +126,20 @@ export class OpportunityCommercialDetailModel extends RowData {
     if (!obj) return undefined
 
     const newObj = Object.assign(new OpportunityCommercialDetailModel(), obj)
-    newObj.opportunityLeadIds = (obj.opportunityLead || []).map(item => item.userId)
-    newObj.opportunityUserIds = (obj.opportunityUser || []).map(item => item.userId)
-    newObj.company = {id: obj.companyId, businessName: obj.companyName}
-    newObj.projectIds = (obj.project || []).map(item => item.projectId)
-    newObj.assetClassIds = (obj.assetClass || []).map(item => item.assetClassId)
-    newObj.expectedCloseDate = obj.expectedCloseDate ? moment(obj.expectedCloseDate) : undefined
+    newObj.opportunityLeadIds = (obj.opportunityLead || []).map(
+      (item) => item.userId
+    )
+    newObj.opportunityUserIds = (obj.opportunityUser || []).map(
+      (item) => item.userId
+    )
+    newObj.company = { id: obj.companyId, businessName: obj.companyName }
+    newObj.projectIds = (obj.project || []).map((item) => item.projectId)
+    newObj.assetClassIds = (obj.assetClass || []).map(
+      (item) => item.assetClassId
+    )
+    newObj.expectedCloseDate = obj.expectedCloseDate
+      ? dayjs(obj.expectedCloseDate)
+      : undefined
 
     return newObj
   }
@@ -138,13 +151,13 @@ export class OpportunityCommercialDetailModel extends RowData {
   }
 }
 
-export interface IDepartmentServiceFee{
-  id?: number,
-  opportunityId?: number,
-  organizationUnitId?: number,
-  instructionId?: number,
-  isActive: boolean,
-  isPrimary: boolean,
+export interface IDepartmentServiceFee {
+  id?: number
+  opportunityId?: number
+  organizationUnitId?: number
+  instructionId?: number
+  isActive: boolean
+  isPrimary: boolean
   feeAmount?: number
 }
 

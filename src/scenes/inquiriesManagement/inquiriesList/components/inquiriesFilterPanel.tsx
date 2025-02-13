@@ -19,19 +19,19 @@ import AppConsts, {
   rangePickerPlaceholder,
 } from "@lib/appconst"
 import { validateMessages } from "@lib/validation"
-import moment from "moment"
+import dayjs from "dayjs"
 import companyService from "@services/clientManagement/companyService"
 const { activeStatus } = AppConsts
 const { RangePicker } = DatePicker
 type Props = {
-  handleSearch: (filters) => void;
-  filter: any;
-  changeTab: any;
-  onCreate: () => void;
-  appDataStore: any;
-  userStore: UserStore;
-  onRefresh: () => void;
-};
+  handleSearch: (filters) => void
+  filter: any
+  changeTab: any
+  onCreate: () => void
+  appDataStore: any
+  userStore: UserStore
+  onRefresh: () => void
+}
 
 const tabKeys = {
   boardView: L("BOARD_VIEW"),
@@ -40,7 +40,7 @@ const tabKeys = {
 @inject(Stores.AppDataStore, Stores.UserStore)
 @observer
 class InquiryFilterPanel extends AppComponentListBase<Props> {
-  formRef = React.createRef<any>();
+  formRef = React.createRef<any>()
   constructor(props: Props) {
     super(props)
   }
@@ -53,7 +53,7 @@ class InquiryFilterPanel extends AppComponentListBase<Props> {
     listProject: [],
     listCompany: [],
     subStage: [],
-  };
+  }
   async componentDidMount() {
     await Promise.all([
       this.getStaff(""),
@@ -69,20 +69,20 @@ class InquiryFilterPanel extends AppComponentListBase<Props> {
       })
       await this.props.handleSearch(this.state.filters)
     }
-  };
+  }
   changeStage = async (id?) => {
     this.findSubStage(id)
     await this.setState({
       filters: { ...this.state.filters, statusDetailId: undefined },
     })
     this.formRef.current.resetFields()
-  };
+  }
   findSubStage = async (id?) => {
     const subStage = this.props.appDataStore.inquirySubStage.filter(
       (item) => item.parentId === id
     )
     this.setState({ subStage })
-  };
+  }
   getProject = async (keyword) => {
     const res = await projectService.getAll({
       maxResultCount: 10,
@@ -94,7 +94,7 @@ class InquiryFilterPanel extends AppComponentListBase<Props> {
       return { id: i.id, name: i.projectName }
     })
     this.setState({ listProject: newProjects })
-  };
+  }
   getCompany = async (keyword) => {
     const res = await companyService.getAll({
       maxResultCount: 10,
@@ -106,7 +106,7 @@ class InquiryFilterPanel extends AppComponentListBase<Props> {
       return { id: i.id, name: i.businessName }
     })
     this.setState({ listCompany: newList })
-  };
+  }
   getStaff = async (keyword) => {
     await this.props.userStore.getAll({
       maxResultCount: 10,
@@ -119,33 +119,33 @@ class InquiryFilterPanel extends AppComponentListBase<Props> {
       return { id: i.id, name: i.name }
     })
     this.setState({ listUser: lsitUser })
-  };
+  }
 
   handleDateChange = async (value) => {
     console.log(value)
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
     // await this.handleSearch("fromDate", startDate);
     const { filters } = this.state
     await this.setState({ filters: { ...filters, fromDate: startDate } })
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
 
     await this.handleSearch("toDate", endDate)
-  };
+  }
 
   changeTab = async (event) => {
     await this.setState({ selectedType: event.target.value })
     this.handleSearch("statusDetailId", undefined)
     await this.props.changeTab(event)
-  };
+  }
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
     this.setState({ filters: { ...filters, [name]: value } })
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
   render() {
     return (
       <>

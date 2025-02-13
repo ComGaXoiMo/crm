@@ -1,9 +1,10 @@
-import { getNotificationAction } from '../../lib/helper'
-import { ReactNode } from 'react'
-import { getNotificationIconBySeverity } from '@lib/abpUtility'
-import moment from 'moment'
-import { dateFormat } from '@lib/appconst'
-
+import { getNotificationAction } from "../../lib/helper"
+import { ReactNode } from "react"
+import { getNotificationIconBySeverity } from "@lib/abpUtility"
+import dayjs from "dayjs"
+import { dateFormat } from "@lib/appconst"
+import relativeTime from "dayjs/plugin/relativeTime"
+dayjs.extend(relativeTime)
 export class NotificationModel {
   id?: string
   notification: any
@@ -25,8 +26,12 @@ export class NotificationModel {
     const newObj = Object.assign(new NotificationModel(), obj)
     // Hack to adjust date to date with timezone
     const creationTime = obj.notification.creationTime
-    newObj.description = abp.notifications.getFormattedMessageFromUserNotification(obj)
-    newObj.datetime = moment(creationTime).add(3,"d")> moment()? moment(creationTime).fromNow():moment(creationTime).format(dateFormat)
+    newObj.description =
+      abp.notifications.getFormattedMessageFromUserNotification(obj)
+    newObj.datetime =
+      dayjs(creationTime).add(3, "d") > dayjs()
+        ? dayjs(creationTime).fromNow()
+        : dayjs(creationTime).format(dateFormat)
     newObj.key = obj.id
     newObj.read = !!obj.state
     newObj.icon = getNotificationIconBySeverity(obj.notification.severity)

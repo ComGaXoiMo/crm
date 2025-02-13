@@ -1,12 +1,12 @@
 import { action, observable } from "mobx"
 
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import campaignService from "../../services/campaign/campaignService"
 
 class TargetStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editTarget!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editTarget!: any
 
   constructor() {
     this.tableData = { items: [], totalCount: 0 }

@@ -5,15 +5,15 @@ import { inject, observer } from "mobx-react"
 import { Tag } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateFormat, dateTimeFormat } from "@lib/appconst"
 import { SolutionOutlined } from "@ant-design/icons"
 
 // import { Table } from "antd";
 
 export interface AllTaskBoardItemProps {
-  data: any;
-  key: any;
+  data: any
+  key: any
 }
 
 @inject()
@@ -22,8 +22,8 @@ class AllTaskBoardItem extends AppComponentListBase<
   AllTaskBoardItemProps,
   any
 > {
-  formRef: any = React.createRef();
-  state = {};
+  formRef: any = React.createRef()
+  state = {}
 
   public render() {
     const { data } = this.props
@@ -59,7 +59,7 @@ class AllTaskBoardItem extends AppComponentListBase<
               </label>
               <label>
                 {this.L("DUE_DATE")} :
-                <strong>{moment(data?.dueDate).format(dateFormat)}</strong>
+                <strong>{dayjs(data?.dueDate).format(dateFormat)}</strong>
               </label>
               <label>
                 {this.L("TASK_DESCRIPTION")} :
@@ -67,7 +67,7 @@ class AllTaskBoardItem extends AppComponentListBase<
               </label>
               <label>
                 Created by<strong> {data?.creatorUser?.displayName}</strong> at
-                {moment(data?.creationTime).format(dateTimeFormat)}
+                {dayjs(data?.creationTime).format(dateTimeFormat)}
               </label>
             </div>
           </div>

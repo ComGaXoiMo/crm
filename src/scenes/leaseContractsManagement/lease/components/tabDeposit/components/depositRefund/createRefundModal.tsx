@@ -10,7 +10,7 @@ import Stores from "@stores/storeIdentifier"
 import _ from "lodash"
 import { validateMessages } from "@lib/validation"
 import { dateFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import {
   filterOptions,
   formatNumber,
@@ -65,7 +65,7 @@ class CreateRefundModal extends AppComponentListBase<Props, State> {
       ...formValue,
       leaseAgreementId: this.props.leaseAgreementId,
       voucherDate: formValue.voucherDate
-        ? moment(formValue.voucherDate).toJSON()
+        ? dayjs(formValue.voucherDate).toJSON()
         : undefined,
     }
     await this.props.depositStore.createOrUpdateRefund(params)

@@ -28,7 +28,7 @@ import ContactStore from "@stores/clientManagement/contactStore"
 import LocaltionInput from "@components/Inputs/LocaltionInput"
 import RequestModal from "@scenes/clientsManagement/contactsAndLead/components/tabInfo/requestModal"
 import TaskModal from "../../../../activity/taskActivity/components/taskModal"
-import moment from "moment"
+import dayjs from "dayjs"
 import TaskStore from "@stores/activity/taskStore"
 import { debounce } from "lodash"
 // import { debounce } from "lodash";
@@ -201,7 +201,7 @@ class info extends AppComponentListBase<IGeneralProps, IGeneralState> {
     if (this.props.id) {
       const dueDate = await this.props.inquiryStore.getDueDate({
         statusId: id,
-        date: moment().toJSON(),
+        date: dayjs().toJSON(),
       })
       await this.setState({ dueDate: dueDate })
       this.props.taskStore.createTask()

@@ -4,15 +4,21 @@ import { L } from "@lib/abpUtility"
 import { firebaseConfig, StepOTPVariable } from "@lib/appconst"
 import { Button, Modal, Row, Col, Form } from "antd"
 import React from "react"
-import firebase from "firebase"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  signInWithCredential,
+  PhoneAuthProvider,
+  RecaptchaVerifier,
+} from "firebase/auth"
 import tokenAuthService from "@services/tokenAuth/tokenAuthService"
 import { notifyError } from "@lib/helper"
 
 interface Props {
-  visible: boolean;
-  handleClose: () => void;
-  phoneNumberAsUserName: string;
-  handleChangeUsername: (values) => void;
+  visible: boolean
+  handleClose: () => void
+  phoneNumberAsUserName: string
+  handleChangeUsername: (values) => void
 }
 
 const ModalChangePhoneNumber = (props: Props) => {
@@ -25,78 +31,68 @@ const ModalChangePhoneNumber = (props: Props) => {
   React.useEffect(() => {
     initRecapt()
   }, [props.phoneNumberAsUserName, props.visible])
-
-  const initFireBase = () => {
-    firebase.initializeApp(firebaseConfig)
-    firebase.auth().languageCode = "vi"
-  }
+  const app = initializeApp(firebaseConfig)
+  const auth = getAuth(app)
+  auth.languageCode = "vi"
 
   const initRecapt = async () => {
-    return // Return because not using in this app ! == Long ==
-    if (!firebase.apps.length) initFireBase()
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      "recaptButton",
-      {
-        size: "invisible",
-      }
-    )
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptButton", {
+      size: "invisible",
+    })
   }
   const handleSendNewOTP = async (handleSuccess) => {
     setLoading(true)
     const values = await formPhoneNumber.validateFields()
     const phoneNumber = values.prefix + values.phoneNumber
     const res = await tokenAuthService.checkPhoneNumber(phoneNumber)
-    if (res.state) {
-      if (res.state === 1) {
-        notifyError(L("PHONE_NUMBER_ALREADY_EXIST"), "")
-      } else {
-        const applicationVerifier = new firebase.auth.RecaptchaVerifier(
-          "recaptcha-container",
-          {
-            size: "invisible",
-          }
-        )
-        const provider = new firebase.auth.PhoneAuthProvider()
-        await provider
-          .verifyPhoneNumber(phoneNumber, applicationVerifier)
-          .then(function (verificationId) {
-            setVerifyId(verificationId)
-          })
-          .then(() => handleSuccess())
-          .catch((error) => {
-            setErrorMessage(error.message)
-            window.recaptchaVerifier.render().then(function (widgetId) {
-              grecaptcha.reset(widgetId)
-            })
-          })
-      }
+    if (res.state === 1) {
+      notifyError(L("PHONE_NUMBER_ALREADY_EXIST"), "")
+      setLoading(false)
+      return
+    }
+
+    try {
+      const applicationVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        { size: "invisible" }
+      )
+      const provider = new PhoneAuthProvider(auth)
+      const verificationId = await provider.verifyPhoneNumber(
+        phoneNumber,
+        applicationVerifier
+      )
+      setVerifyId(verificationId)
+      handleSuccess()
+    } catch (error: any) {
+      setErrorMessage(error.message)
+      window.recaptchaVerifier
+        .render()
+        .then((widgetId) => grecaptcha.reset(widgetId))
     }
     setLoading(false)
   }
   const handleUpdatePhoneNumber = async () => {
     setLoading(true)
-    const phoneCredential = firebase.auth.PhoneAuthProvider.credential(
-      verifyId,
-      newOTPCode
-    )
-    return firebase
-      .auth()
-      .signInWithCredential(phoneCredential)
-      .then((user: any) => {
-        if (user.user.Aa)
-          props.handleChangeUsername({
-            idToken: user.user.Aa,
-            phoneNumber: user.user.phoneNumber,
-          })
-        setLoading(false)
-      })
-      .catch((error) => {
-        setErrorMessage(error.message)
-        setLoading(false)
-        window.recaptchaVerifier.render().then(function (widgetId) {
-          grecaptcha.reset(widgetId)
+    const phoneCredential = PhoneAuthProvider.credential(verifyId, newOTPCode)
+    try {
+      const userCredential: any = await signInWithCredential(
+        auth,
+        phoneCredential
+      )
+      if (userCredential.user.accessToken) {
+        props.handleChangeUsername({
+          idToken: userCredential.user.accessToken,
+          phoneNumber: userCredential.user.phoneNumber,
         })
-      })
+      }
+    } catch (error: any) {
+      setErrorMessage(error.message)
+      window.recaptchaVerifier
+        .render()
+        .then((widgetId) => grecaptcha.reset(widgetId))
+    }
+    setLoading(false)
   }
   return (
     <Modal

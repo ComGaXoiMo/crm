@@ -23,28 +23,28 @@ import FileStore from "@stores/common/fileStore"
 import rules from "./validation"
 import { validateMessages } from "@lib/validation"
 import AppConsts, { dateFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 const { documentType } = AppConsts
 interface Props {
-  form: any;
-  appDataStore: AppDataStore;
-  fileStore: FileStore;
+  form: any
+  appDataStore: AppDataStore
+  fileStore: FileStore
 
-  visible: boolean;
-  onClose: () => void;
-  onOk: (file) => Promise<any>;
+  visible: boolean
+  onClose: () => void
+  onOk: (file) => Promise<any>
 }
 
 interface State {
-  file?: any;
-  uploading?: boolean;
+  file?: any
+  uploading?: boolean
 }
 
 @inject(Stores.AppDataStore, Stores.FileStore)
 @observer
 class CreateDocumentModal extends AppComponentListBase<Props, State> {
   // form = React.createRef<FormInstance>();
-  form = this.props.form;
+  form = this.props.form
   constructor(props) {
     super(props)
     this.state = {
@@ -58,11 +58,11 @@ class CreateDocumentModal extends AppComponentListBase<Props, State> {
     this.props.onOk(this.state.file).finally(() => {
       this.setState({ uploading: false, file: undefined })
     })
-  };
+  }
   handleClose = async () => {
     this.props.onClose()
     this.setState({ file: undefined })
-  };
+  }
   beforeUpload = (file) => {
     const isLt2M = file.size / 1024 / 1024 < 20
     if (!isLt2M) {
@@ -73,14 +73,14 @@ class CreateDocumentModal extends AppComponentListBase<Props, State> {
     }
 
     return false
-  };
+  }
   handleBeforeUploadFile = (file?) => {
     const docName = this.form.current?.getFieldValue("documentName")
     if (!docName || docName?.lenght === 0) {
       this.form.current?.setFieldValue("documentName", file?.name)
     }
     this.setState({ file: file })
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,
@@ -137,7 +137,7 @@ class CreateDocumentModal extends AppComponentListBase<Props, State> {
                   label={L("UPLOAD_DATE")}
                   name="uploadDate"
                   rules={rules.required}
-                  initialValue={moment()}
+                  initialValue={dayjs()}
                 >
                   <DatePicker className="w-100" format={dateFormat} />
                 </Form.Item>

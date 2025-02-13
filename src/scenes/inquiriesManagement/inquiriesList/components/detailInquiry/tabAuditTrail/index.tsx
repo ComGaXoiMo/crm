@@ -9,17 +9,18 @@ import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
 import { renderDateTime } from "@lib/helper"
 import InquiryStore from "@stores/communication/inquiryStore"
-import moment from "moment"
-
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
 export interface IAuditTrailProps {
-  parentId: any;
-  visible: any;
-  inquiryStore: InquiryStore;
+  parentId: any
+  visible: any
+  inquiryStore: InquiryStore
 }
 export interface IAuditTrailState {
-  dataTable: any[];
-  maxResultCount: number;
-  skipCount: number;
+  dataTable: any[]
+  maxResultCount: number
+  skipCount: number
 }
 
 @inject(Stores.InquiryStore)
@@ -28,12 +29,12 @@ class AuditTrail extends AppComponentListBase<
   IAuditTrailProps,
   IAuditTrailState
 > {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     dataTable: [] as any,
     maxResultCount: 10,
     skipCount: 0,
-  };
+  }
 
   async componentDidMount() {
     await this.handleSearch()
@@ -54,7 +55,7 @@ class AuditTrail extends AppComponentListBase<
         await this.handleSearch()
       }
     )
-  };
+  }
 
   handleSearch = async () => {
     const { parentId } = this.props
@@ -64,11 +65,11 @@ class AuditTrail extends AppComponentListBase<
     })
     const dataTable = await this.props.inquiryStore.auditLogResult.sort(
       function (left, right) {
-        return moment.utc(right.changeTime).diff(moment.utc(left.changeTime))
+        return dayjs.utc(right.changeTime).diff(dayjs.utc(left.changeTime))
       }
     )
     this.setState({ dataTable })
-  };
+  }
 
   render() {
     const columns = [

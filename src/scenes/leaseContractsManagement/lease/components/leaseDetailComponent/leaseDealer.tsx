@@ -13,25 +13,25 @@ import {
   EditFilled,
 } from "@ant-design/icons"
 import AppConsts, { appStatusColors } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { buildEditableCell } from "@components/DataTable/EditableCell"
 import { EditableCell } from "@components/DataTable/EditableCell"
 import withRouter from "@components/Layout/Router/withRouter"
 const { align } = AppConsts
 export interface ILeaseDealerProps {
-  commisionAmount: any;
-  onDatatableChange: (value) => void;
-  dataTable: any;
-  disabled: boolean;
-  leaseTerm: any;
+  commisionAmount: any
+  onDatatableChange: (value) => void
+  dataTable: any
+  disabled: boolean
+  leaseTerm: any
 }
 
 export interface ILeaseDealerState {
-  maxResultCount: number;
-  skipCount: number;
-  editingKey: any;
-  isEdited: any;
-  dataTable: any[];
+  maxResultCount: number
+  skipCount: number
+  editingKey: any
+  isEdited: any
+  dataTable: any[]
 }
 
 @inject()
@@ -40,7 +40,7 @@ class LeaseDealer extends AppComponentListBase<
   ILeaseDealerProps,
   ILeaseDealerState
 > {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     maxResultCount: 10,
@@ -48,11 +48,11 @@ class LeaseDealer extends AppComponentListBase<
     editingKey: "",
     isEdited: "",
     dataTable: [] as any,
-  };
+  }
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
   }
-  isEditing = (record: any) => record.key === this.state.editingKey;
+  isEditing = (record: any) => record.key === this.state.editingKey
 
   async componentDidMount() {
     await this.fetchData()
@@ -95,7 +95,7 @@ class LeaseDealer extends AppComponentListBase<
       })
     })
     await this.setState({ dataTable: numRow })
-  };
+  }
   fetchData = async () => {
     const numRow = [] as any
     let i = 0
@@ -116,7 +116,7 @@ class LeaseDealer extends AppComponentListBase<
       })
     }
     await this.setState({ dataTable: numRow })
-  };
+  }
 
   handleAddRow = () => {
     this.formRef.current.resetFields()
@@ -126,7 +126,7 @@ class LeaseDealer extends AppComponentListBase<
 
     this.setState({ dataTable: newData })
     this.setState({ editingKey: newRow.key })
-  };
+  }
 
   saveRow = async (record?) => {
     const values = await this.formRef.current?.validateFields()
@@ -149,7 +149,7 @@ class LeaseDealer extends AppComponentListBase<
     }
     this.setState({ isEdited: record?.key ?? "" })
     this.setState({ editingKey: "" })
-  };
+  }
   public render() {
     const columns = [
       {
@@ -228,7 +228,7 @@ class LeaseDealer extends AppComponentListBase<
                     ...record,
 
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   this.setState({ editingKey: record.key })

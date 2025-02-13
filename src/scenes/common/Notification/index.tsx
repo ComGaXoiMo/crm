@@ -12,13 +12,9 @@ import AppConst, {
   notificationTypes,
 } from "@lib/appconst"
 import notificationService from "../../../services/common/notificationService"
-import moment from "moment-timezone/moment-timezone"
+import dayjs from "dayjs"
 // import Icon from "@ant-design/icons";
-import {
-  CheckOutlined,
-  DownloadOutlined,
-  EyeOutlined,
-} from "@ant-design/icons"
+import { CheckOutlined, DownloadOutlined, EyeOutlined } from "@ant-design/icons"
 import fileService from "@services/common/fileService"
 import { portalLayouts } from "@components/Layout/Router/router.config"
 const { align } = AppConst
@@ -48,16 +44,16 @@ const notificationStates = [
 const { RangePicker } = DatePicker
 
 export interface INotificationsProps {
-  history: any;
+  history: any
 }
 
 export interface INotificationsState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  totalCount: number;
-  loading: boolean;
-  notifications: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  totalCount: number
+  loading: boolean
+  notifications: any
 }
 
 class Notifications extends AppComponentListBase<
@@ -71,7 +67,7 @@ class Notifications extends AppComponentListBase<
     notifications: [],
     loading: false,
     filters: { projectId: undefined, buildingId: undefined, state: "0" },
-  };
+  }
 
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
@@ -93,7 +89,7 @@ class Notifications extends AppComponentListBase<
       notifications: result.items,
       totalCount: result.totalCount,
     })
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -103,7 +99,7 @@ class Notifications extends AppComponentListBase<
       },
       async () => await this.getAll()
     )
-  };
+  }
 
   changeReadState = async (item: any) => {
     if (!item.read) {
@@ -119,7 +115,7 @@ class Notifications extends AppComponentListBase<
     }
 
     abp.event.trigger("abp.notifications.refresh")
-  };
+  }
 
   handleDownloadFile = async (item: any) => {
     if (!item.read) {
@@ -139,8 +135,8 @@ class Notifications extends AppComponentListBase<
       item.notification.data
     ) {
       let { fileExpiredAt } = item.notification.data.properties
-      fileExpiredAt = moment(fileExpiredAt)
-      if (fileExpiredAt.isAfter(moment())) {
+      fileExpiredAt = dayjs(fileExpiredAt)
+      if (fileExpiredAt.isAfter(dayjs())) {
         await fileService.downloadTempFile(item.notification.data.properties)
       } else {
         abp.notify.info(
@@ -153,7 +149,7 @@ class Notifications extends AppComponentListBase<
     }
 
     abp.event.trigger("abp.notifications.refresh")
-  };
+  }
 
   handleGoToDetail = async (item: any) => {
     if (!item.read) {
@@ -189,7 +185,7 @@ class Notifications extends AppComponentListBase<
     }
 
     abp.event.trigger("abp.notifications.refresh")
-  };
+  }
 
   handleNoticeClear = async (title: string, key: string) => {
     await notificationService.setAllNotificationAsRead()
@@ -199,7 +195,7 @@ class Notifications extends AppComponentListBase<
     })
 
     this.setState({ notifications })
-  };
+  }
 
   handleSearch = (name, value) => {
     const { filters } = this.state
@@ -209,18 +205,18 @@ class Notifications extends AppComponentListBase<
         await this.getAll()
       }
     )
-  };
+  }
 
   handleDateChange = (value) => {
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
     const { filters } = this.state
     this.setState({ filters: { ...filters, startDate, endDate } }, async () => {
       await this.getAll()
     })
-  };
+  }
 
   public render() {
     const { filters, notifications, totalCount, loading } = this.state

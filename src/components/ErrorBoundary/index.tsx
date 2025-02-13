@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { withRouter } from 'react-router-dom'
-import Exception from '@scenes/common/Exception'
+import * as React from "react"
+import Exception from "@scenes/common/Exception"
+import withRouter from "@components/Layout/Router/withRouter"
 
 class ErrorBoundaryWithRouter extends React.Component<any, any> {
   constructor(props) {
@@ -10,7 +10,11 @@ class ErrorBoundaryWithRouter extends React.Component<any, any> {
 
   componentDidMount(): void {
     if (this.props.error) {
-      this.setState({hasError: true, error: this.props.error, errorInfo: this.props.error})
+      this.setState({
+        hasError: true,
+        error: this.props.error,
+        errorInfo: this.props.error,
+      })
     }
   }
 
@@ -18,18 +22,13 @@ class ErrorBoundaryWithRouter extends React.Component<any, any> {
     this.setState({
       hasError: true,
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     })
   }
 
   render() {
     if (this.state.hasError) {
-      return (
-        <Exception type="500" fromErrorBoundary={true}
-                   error={this.state.error}
-                   errorDetail={this.state.errorInfo?.componentStack}
-        />
-      )
+      return <Exception fromErrorBoundary={true} />
     }
     // Render children if there's no error
     return this.props.children

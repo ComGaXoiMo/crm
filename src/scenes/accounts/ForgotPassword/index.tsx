@@ -13,18 +13,23 @@ import { userLayout } from "@components/Layout/Router/router.config"
 import { LockOutlined } from "@ant-design/icons"
 import Input6VerifyCode from "@components/Inputs/InputVerifyCode/Input6VerifyCode"
 import accountService from "@services/account/accountService"
-import firebase from "firebase"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth"
 import { notifySuccess } from "@lib/helper"
 import { firebaseConfig } from "@lib/appconst"
 
 declare let abp: any
 
 export interface IForgotPasswordProps {
-  sessionStore?: SessionStore;
-  accountStore?: AccountStore;
-  history: any;
-  location: any;
-  form: any;
+  sessionStore?: SessionStore
+  accountStore?: AccountStore
+  history: any
+  location: any
+  form: any
 }
 
 const forgotPassword = {
@@ -37,7 +42,7 @@ const forgotPassword = {
 @inject(Stores.SessionStore, Stores.AccountStore)
 @observer
 class ForgotPassword extends React.Component<IForgotPasswordProps> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     emailAddress: "",
     deviceReceiveConfirmCode: 0,
@@ -46,13 +51,11 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
     idToken: "",
     forgotPasswordStep: forgotPassword.sendRequest,
     userNameOrEmailAddress: "",
-  };
+  }
+  app = initializeApp(firebaseConfig)
+  auth = getAuth(this.app)
 
   componentDidMount(): void {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig)
-      firebase.auth().languageCode = "vi"
-    }
     const params = new URLSearchParams(this.props.location?.search)
     const emailAddress = params.get("emailaddress")
     const resetCode = params.get("resetCode")
@@ -77,9 +80,7 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
               forgotPasswordStep: forgotPassword.resetPassword,
               emailAddress: values.emailAddress,
             })
-            abp.notify.success(
-              LNotification("REQUEST_FORGOT_PASSWORD_SUCCESS")
-            )
+            abp.notify.success(LNotification("REQUEST_FORGOT_PASSWORD_SUCCESS"))
           }
           break
         }
@@ -100,15 +101,16 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
         }
       }
     }
-  };
+  }
 
   backToLogin = () => {
     this.props.history.push(userLayout.accountLogin.path)
-  };
+  }
 
   handleSendUsername = async () => {
     const form = this.formRef.current
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      this.auth,
       "recaptcha-container",
       {
         size: "invisible",
@@ -126,18 +128,16 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
 
       if (data.state) {
         if (data.state === 2) {
-          window.confirmationResult = await firebase
-            .auth()
-            .signInWithPhoneNumber(
-              formValues.userNameOrEmailAddress,
-              window.recaptchaVerifier
-            )
-            .catch((error) => {
-              this.setState({ errorMessage: error.message })
-              window.recaptchaVerifier.render().then(function (widgetId) {
-                grecaptcha.reset(widgetId)
-              })
+          window.confirmationResult = await signInWithPhoneNumber(
+            this.auth,
+            formValues.userNameOrEmailAddress,
+            window.recaptchaVerifier
+          ).catch((error) => {
+            this.setState({ errorMessage: error.message })
+            window.recaptchaVerifier.render().then(function (widgetId) {
+              grecaptcha.reset(widgetId)
             })
+          })
         }
 
         this.setState({
@@ -146,7 +146,7 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
         await notifySuccess("", L(data.message))
       }
     }
-  };
+  }
 
   handleConfirmCode = async () => {
     if (this.state.code.length !== 6) return
@@ -158,7 +158,7 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
       await confirmationResult
         .confirm(this.state.code)
         .then(async (user) => {
-          this.setState({ idToken: user.user.Aa })
+          this.setState({ idToken: user.user.accessToken })
           this.setState({ forgotPasswordStep: forgotPassword.resetPassword })
         })
         .catch((error) => {
@@ -166,7 +166,7 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
         })
     }
     this.setState({ forgotPasswordStep: forgotPassword.resetPassword })
-  };
+  }
   handleResetPassword = async () => {
     const params = new URLSearchParams(this.props.location?.search)
     const emailAddress =
@@ -182,7 +182,7 @@ class ForgotPassword extends React.Component<IForgotPasswordProps> {
 
     await notifySuccess(L("SUCCESSFULLY"), L("RESET_PASSWORD_SUCCESSFULLY"))
     this.setState({ forgotPasswordStep: forgotPassword.finish })
-  };
+  }
 
   public render() {
     const { forgotPasswordStep } = this.state

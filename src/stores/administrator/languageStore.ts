@@ -1,14 +1,15 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { EntityDto } from '../../services/dto/entityDto'
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import {
+import { EntityDto } from "../../services/dto/entityDto"
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import type {
   PagedLanguageResultRequestDto,
-  PagedLanguageTextResultRequestDto
-} from '../../services/administrator/language/dto/PagedLanguageResultRequestDto'
-import { Language } from '../../services/administrator/language/dto/language'
-import { LanguageTextDto, LanguageTextInputDto } from '../../services/administrator/language/dto/languageTextDto'
-import languageService from '../../services/administrator/language/languageService'
+  PagedLanguageTextResultRequestDto,
+} from "../../services/administrator/language/dto/PagedLanguageResultRequestDto"
+import type { Language } from "../../services/administrator/language/dto/language"
+import { LanguageTextDto } from "../../services/administrator/language/dto/languageTextDto"
+import type { LanguageTextInputDto } from "../../services/administrator/language/dto/languageTextDto"
+import languageService from "../../services/administrator/language/languageService"
 
 class LanguageStore {
   @observable isLoading!: boolean
@@ -35,7 +36,9 @@ class LanguageStore {
   @action
   async delete(entityDto: EntityDto) {
     await languageService.delete(entityDto)
-    this.languages.items = this.languages.items.filter((x) => x.id !== entityDto.id)
+    this.languages.items = this.languages.items.filter(
+      (x) => x.id !== entityDto.id
+    )
   }
 
   @action
@@ -53,25 +56,27 @@ class LanguageStore {
   async createLanguage() {
     this.editLanguage = {
       id: 0,
-      name: '',
-      icon: '',
-      isEnabled: true
+      name: "",
+      icon: "",
+      isEnabled: true,
     }
   }
   @action
   async createLanguageText(languageText?) {
     this.editLanguageText = languageText || {
-      languageName: '',
-      sourceName: '',
-      key: '',
-      value: ''
+      languageName: "",
+      sourceName: "",
+      key: "",
+      value: "",
     }
   }
 
   @action
   async getAll(pagedFilterAndSortedRequest: PagedLanguageResultRequestDto) {
     this.isLoading = true
-    const result = await languageService.getAll(pagedFilterAndSortedRequest).finally(() => this.isLoading = false)
+    const result = await languageService
+      .getAll(pagedFilterAndSortedRequest)
+      .finally(() => (this.isLoading = false))
     this.languages = result
   }
 
@@ -79,14 +84,20 @@ class LanguageStore {
   @action
   async createOrUpdateLanguageText(body) {
     this.isLoading = true
-    const result = await languageService.createOrUpdateLanguageText(body).finally(() => this.isLoading = false)
+    const result = await languageService
+      .createOrUpdateLanguageText(body)
+      .finally(() => (this.isLoading = false))
     this.languageTexts.items.push(result)
   }
 
   @action
-  async getAllLanguageText(pagedFilterAndSortedRequest: PagedLanguageTextResultRequestDto) {
+  async getAllLanguageText(
+    pagedFilterAndSortedRequest: PagedLanguageTextResultRequestDto
+  ) {
     this.isLoading = true
-    const result = await languageService.getAllLanguageText(pagedFilterAndSortedRequest).finally(() => this.isLoading = false)
+    const result = await languageService
+      .getAllLanguageText(pagedFilterAndSortedRequest)
+      .finally(() => (this.isLoading = false))
     this.languageTexts = result
   }
 

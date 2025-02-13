@@ -1,21 +1,22 @@
 import React from "react"
 import { Button, Col, Pagination, Row } from "antd"
-import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
 import { isGranted, L } from "../../lib/abpUtility"
 import "./DataTable.less"
+import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
 
 export interface IDataTableProps {
-  title?: string;
-  keywordPlaceholder?: string;
-  textAddNew?: string;
-  onCreate?: () => void;
-  onRefresh?: () => void;
-  disable?: boolean;
-  pagination?: any;
-  createPermission?: string;
-  handleRefresh?: (key, value) => void;
-  actionComponent?: () => void;
-  filterComponent?: any;
+  title?: string
+  keywordPlaceholder?: string
+  textAddNew?: string
+  onCreate?: any
+  onRefresh?: any
+  disable?: boolean
+  pagination?: any
+  createPermission?: string
+  handleRefresh?: (key, value) => void
+  actionComponent?: any
+  filterComponent?: any
+  children?: any
 }
 
 const DataTable: React.FunctionComponent<IDataTableProps> = ({

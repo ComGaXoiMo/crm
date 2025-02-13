@@ -11,7 +11,7 @@ import Stores from "@stores/storeIdentifier"
 import _ from "lodash"
 import { validateMessages } from "@lib/validation"
 import AppConsts, { dateFormat } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter, renderOptions } from "@lib/helper"
 import DepositStore from "@stores/activity/depositStore"
 import NotificationTemplateStore from "@stores/notificationTemplate/notificationTemplateStore"
@@ -88,8 +88,8 @@ class DepositNoteModal extends AppComponentListBase<Props, State> {
     const formValue = await this.formRef.current?.validateFields()
 
     const params = {
-      depositDate: moment(formValue.depositDate).toJSON(),
-      payableDate: moment(formValue.payableDate).toJSON(),
+      depositDate: dayjs(formValue.depositDate).toJSON(),
+      payableDate: dayjs(formValue.payableDate).toJSON(),
       id: formValue.id,
       templateId: templateId,
     }
@@ -161,7 +161,7 @@ class DepositNoteModal extends AppComponentListBase<Props, State> {
                     onChange={(value) => {
                       this.formRef.current?.setFieldValue(
                         "payableDate",
-                        moment(value).add(3, "days")
+                        dayjs(value).add(3, "days")
                       )
                     }}
                     className="w-100"

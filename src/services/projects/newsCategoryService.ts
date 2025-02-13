@@ -1,5 +1,5 @@
 import { Category } from "../../models/category"
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 
 class NewsCategoryService {

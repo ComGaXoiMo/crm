@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import truckBrandService from '../../services/master-data/truckBrandService'
-import { TruckBrandModel } from '@models/master-data/truckBrandModel'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import truckBrandService from "../../services/master-data/truckBrandService"
+import { TruckBrandModel } from "@models/master-data/truckBrandModel"
 
 class TruckBrandStore {
   @observable isLoading!: boolean
@@ -51,14 +51,18 @@ class TruckBrandStore {
   @action
   async filter(params: any) {
     this.isLoading = true
-    this.pagedData = await truckBrandService.filter(params).finally(() => (this.isLoading = false))
+    this.pagedData = await truckBrandService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
   async getAll(params: any) {
     this.isLoading = true
     params.isActive = true
-    this.truckBrands = await truckBrandService.getAll(params).finally(() => (this.isLoading = false))
+    this.truckBrands = await truckBrandService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -69,7 +73,9 @@ class TruckBrandStore {
   @action
   async exportTruckBrand(params: any) {
     this.isLoading = true
-    return await truckBrandService.exportTruckBrand(params).finally(() => (this.isLoading = false))
+    return await truckBrandService
+      .exportTruckBrand(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action

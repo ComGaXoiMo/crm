@@ -9,23 +9,23 @@ import InquiriesBoardItem from "./inquiriesBoardItem"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import Stores from "@stores/storeIdentifier"
 import InquiryStore from "@stores/communication/inquiryStore"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 
 import InfiniteScroll from "react-infinite-scroller"
 import { debounce } from "lodash"
 
 export interface IUnitProps {
-  index: any;
-  data: any;
-  goDetail: (id) => void;
-  status: any;
-  inquiryStore: InquiryStore;
-  filter: any;
-  visible: any;
+  index: any
+  data: any
+  goDetail: (id) => void
+  status: any
+  inquiryStore: InquiryStore
+  filter: any
+  visible: any
 }
 export interface IInquiriesListState {
-  data: PagedResultDto<any>;
-  isLoading: boolean;
+  data: PagedResultDto<any>
+  isLoading: boolean
 }
 @inject(Stores.InquiryStore)
 @observer
@@ -33,11 +33,11 @@ class InquiriesList extends AppComponentListBase<
   IUnitProps,
   IInquiriesListState
 > {
-  myRef: any = React.createRef();
+  myRef: any = React.createRef()
   state = {
     data: [] as any,
     isLoading: false,
-  };
+  }
   async componentDidMount() {
     this.setState({ data: this.props.data })
     await this.initData()
@@ -57,7 +57,7 @@ class InquiriesList extends AppComponentListBase<
   }
   initData = async () => {
     console.log("init")
-  };
+  }
 
   handleLoadMore = debounce(async () => {
     await this.setState({ isLoading: true })
@@ -71,7 +71,7 @@ class InquiriesList extends AppComponentListBase<
     } catch (error) {
       await this.setState({ isLoading: false })
     }
-  }, 500);
+  }, 500)
 
   public render() {
     return (

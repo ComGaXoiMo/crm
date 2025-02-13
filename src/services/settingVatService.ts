@@ -1,14 +1,17 @@
 import { LNotification } from "@lib/abpUtility"
 import { notifySuccess } from "@lib/helper"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import http from "./httpService"
 import { SettingVatModel } from "@models/settingVat/settingVatModel"
 
 class SettingVatService {
   public async getAll(params: any): Promise<PagedResultDto<any>> {
-    const res = await http.get("api/services/app/SettingVATAppServices/GetAll", {
-      params,
-    })
+    const res = await http.get(
+      "api/services/app/SettingVATAppServices/GetAll",
+      {
+        params,
+      }
+    )
     const { result } = res.data
 
     result.items = SettingVatModel.assigns(result.items)

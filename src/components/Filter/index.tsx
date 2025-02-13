@@ -9,10 +9,11 @@ import {
 // import { L } from "@lib/abpUtility";
 
 export interface IFilterProps {
-  title?: string;
-  showHeader?: boolean;
-  handleRefresh?: () => void;
-  actionGroups?: () => void;
+  title?: string
+  showHeader?: boolean
+  handleRefresh?: () => void
+  actionGroups?: () => void
+  children?: any
 }
 
 const Filter: React.FunctionComponent<IFilterProps> = ({

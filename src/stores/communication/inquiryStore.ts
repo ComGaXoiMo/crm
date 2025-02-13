@@ -1,27 +1,27 @@
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import inquiryService from "@services/projects/inquiryService"
 import { action, observable } from "mobx"
 
 class InquiryStore {
-  @observable isLoading = false;
-  @observable source: Array<any> = [];
-  @observable status: Array<any> = [];
-  @observable pageResult: PagedResultDto<any> = { totalCount: 0, items: [] };
-  @observable inquiryDetail!: any;
-  @observable matchingListing!: any;
-  @observable listStatus: any;
-  @observable auditLogResult: any;
-  @observable listInquiryBoardView: any;
+  @observable isLoading = false
+  @observable source: Array<any> = []
+  @observable status: Array<any> = []
+  @observable pageResult: PagedResultDto<any> = { totalCount: 0, items: [] }
+  @observable inquiryDetail!: any
+  @observable matchingListing!: any
+  @observable listStatus: any
+  @observable auditLogResult: any
+  @observable listInquiryBoardView: any
   @observable matchingInquiry: PagedResultDto<any> = {
     totalCount: 0,
     items: [],
-  };
+  }
   @observable pageResultActivity: PagedResultDto<any> = {
     totalCount: 0,
     items: [],
-  };
+  }
 
-  @observable listInquirySimple: Array<any> = [];
+  @observable listInquirySimple: Array<any> = []
 
   constructor() {
     this.listStatus = []
@@ -31,14 +31,14 @@ class InquiryStore {
     const res = await inquiryService.getCategories()
     this.status = res.filter((item) => item.typeCode === "InquiryStatus")
     this.source = res.filter((item) => item.typeCode === "InquirySource")
-  };
+  }
 
   @action getAll = async (params) => {
     this.isLoading = true
     this.pageResult = await inquiryService
       .getAll(params)
       .finally(() => (this.isLoading = false))
-  };
+  }
 
   @action
   async getAllByStatus(params: any) {
@@ -70,7 +70,7 @@ class InquiryStore {
     this.auditLogResult = await inquiryService
       .getAuditLogs(params)
       .finally(() => (this.isLoading = false))
-  };
+  }
   @action
   async createOrUpdate(body) {
     this.isLoading = true
@@ -91,8 +91,8 @@ class InquiryStore {
     const result = await inquiryService
       .createOrUpdate({ ...newBody })
       .finally(() => (this.isLoading = false))
-    
-    this.inquiryDetail =result
+
+    this.inquiryDetail = result
     return result
   }
 
@@ -153,7 +153,7 @@ class InquiryStore {
     const res = await inquiryService
       .getSimpleInquiry(params)
       .finally(() => (this.isLoading = false))
-      this.listInquirySimple = res
+    this.listInquirySimple = res
   }
   @action async getDueDate(params) {
     const res = await inquiryService.getDueDate(params)
@@ -165,7 +165,7 @@ class InquiryStore {
     this.pageResultActivity = await inquiryService
       .getAllActivity(params)
       .finally(() => (this.isLoading = false))
-  };
+  }
 }
 
 export default InquiryStore

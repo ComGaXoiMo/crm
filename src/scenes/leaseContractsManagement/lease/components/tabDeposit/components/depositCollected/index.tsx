@@ -16,7 +16,7 @@ import { L, LNotification } from "@lib/abpUtility"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appPermissions, appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import {
   inputCurrencyFormatter,
   renderDate,
@@ -93,10 +93,10 @@ class DepositCollect extends AppComponentListBase<
     await this.formRef.current?.setFieldsValue({
       ...this.props.depositStore.collectDetail,
       receiptDate: this.props.depositStore.collectDetail?.receiptDate
-        ? moment(this.props.depositStore.collectDetail?.receiptDate)
+        ? dayjs(this.props.depositStore.collectDetail?.receiptDate)
         : undefined,
       paymentDate: this.props.depositStore.collectDetail?.paymentDate
-        ? moment(this.props.depositStore.collectDetail?.paymentDate)
+        ? dayjs(this.props.depositStore.collectDetail?.paymentDate)
         : undefined,
     })
 

@@ -6,10 +6,10 @@ import CurrencyInput from "@components/Inputs/CurrencyInput"
 import Select from "antd/lib/select"
 import PercentInput from "@components/Inputs/PercentInput"
 import TextArea from "antd/lib/input/TextArea"
-import moment from "moment"
+import dayjs from "dayjs"
 
 interface EditableRowProps {
-  index: number;
+  index: number
 }
 const EditableContext = React.createContext<FormInstance<any> | null>(null)
 export const EditableRowOnClick: React.FC<EditableRowProps> = ({
@@ -26,7 +26,7 @@ export const EditableRowOnClick: React.FC<EditableRowProps> = ({
   )
 }
 interface EditTableCellProps extends React.HTMLAttributes<HTMLElement> {
-  record: any;
+  record: any
   inputType:
     | "number"
     | "percent"
@@ -36,18 +36,18 @@ interface EditTableCellProps extends React.HTMLAttributes<HTMLElement> {
     | "currency"
     | "select"
     | "textarea"
-    | "dateRange";
-  dataIndex: string;
-  title: any;
-  editable: boolean;
-  handleSave: (record: any) => void;
-  index: number;
-  children: React.ReactNode;
-  options: any[];
-  required: any;
-  onBlur?: (value) => void;
-  locale?: string;
-  symbol?: string;
+    | "dateRange"
+  dataIndex: string
+  title: any
+  editable: boolean
+  handleSave: (record: any) => void
+  index: number
+  children: React.ReactNode
+  options: any[]
+  required: any
+  onBlur?: (value) => void
+  locale?: string
+  symbol?: string
 }
 
 export const buildEditTableCellOnClick = (
@@ -94,7 +94,7 @@ export const EditTableCellOnClick: React.FC<EditTableCellProps> = ({
 }) => {
   const disabledDate = (current) => {
     return options
-      ? current >= moment(record.startDate) || current <= moment(record.endDate)
+      ? current >= dayjs(record.startDate) || current <= dayjs(record.endDate)
       : false
   }
   let inputNode
@@ -185,7 +185,7 @@ export const EditTableCellOnClick: React.FC<EditTableCellProps> = ({
   let childNode = children
   if (inputType === "dateRange") {
     if (record[dataIndex]) {
-      children = moment(record[dataIndex]).format("MM/YYYY")
+      children = dayjs(record[dataIndex]).format("MM/YYYY")
     }
   }
 

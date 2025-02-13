@@ -1,8 +1,8 @@
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 
 class CalendarService {
   public async create(body: any) {
@@ -48,16 +48,16 @@ class CalendarService {
       params: { id },
     })
     if (result.data.result && result.data.result.birthDate) {
-      result.data.result.birthDate = moment(result.data.result.birthDate)
+      result.data.result.birthDate = dayjs(result.data.result.birthDate)
     }
     return result.data.result
   }
 
   public async getAll(params: any): Promise<PagedResultDto<any>> {
     const res = await http.get("api/services/app/Residents/GetAll", { params })
-    const { result } = res.data;
-    (result.items || []).forEach((item) => {
-      (item.units || []).forEach((unit) => {
+    const { result } = res.data
+    ;(result.items || []).forEach((item) => {
+      ;(item.units || []).forEach((unit) => {
         unit.fullUnitCode = unit.unit?.fullUnitCode
         unit.projectName = unit.unit?.project?.name
       })

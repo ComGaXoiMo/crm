@@ -4,7 +4,8 @@ import * as React from "react"
 
 import { Button, Card, Col, Row } from "antd"
 import { inject, observer } from "mobx-react"
-import firebase from "firebase/app"
+import { initializeApp } from "firebase/app"
+import { getAuth } from "firebase/auth"
 import AccountStore from "../../../stores/accountStore"
 import AuthenticationStore from "../../../stores/authenticationStore"
 import { L } from "../../../lib/abpUtility"
@@ -19,12 +20,12 @@ import { MailOutlined, PhoneOutlined } from "@ant-design/icons"
 declare let abp: any
 
 export interface ILoginProps {
-  authenticationStore?: AuthenticationStore;
-  sessionStore?: SessionStore;
-  accountStore?: AccountStore;
-  history: any;
-  location: any;
-  form: any;
+  authenticationStore?: AuthenticationStore
+  sessionStore?: SessionStore
+  accountStore?: AccountStore
+  history: any
+  location: any
+  form: any
 }
 
 @inject(Stores.AuthenticationStore, Stores.SessionStore, Stores.AccountStore)
@@ -42,13 +43,14 @@ class Login extends React.Component<ILoginProps> {
       isSmsProviderEnabled: false,
       useCaptchaOnRegistration: false,
     },
-  };
+  }
 
   async componentDidMount() {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig)
-      firebase.auth().languageCode = "vi"
-    }
+    console.log("ss")
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
+    auth.languageCode = "vi"
+
     const res = await this.props.authenticationStore!.getMethod()
     this.setState({ loginMethodsAllow: res.twoFactorLogin })
   }
@@ -62,7 +64,7 @@ class Login extends React.Component<ILoginProps> {
       window.location =
         state && state.from.pathname !== "/" ? state.from.pathname : "/"
     }
-  };
+  }
 
   public render() {
     const { method, loginMethodsAllow } = this.state

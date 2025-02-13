@@ -2,8 +2,6 @@ import React from "react"
 import { DatePicker, Form } from "antd"
 import { L } from "@lib/abpUtility"
 import AppConsts, { dateFormat } from "@lib/appconst"
-import { PickerProps } from "antd/lib/date-picker/generatePicker"
-import moment from "moment-timezone/moment-timezone"
 const { formVerticalLayout } = AppConsts
 interface FormDatePickerProps {
   label: string
@@ -14,7 +12,6 @@ interface FormDatePickerProps {
   onSelect?: any
   placeholder?: string
   dateTimeFormat?: string
-  dateTimeProps?: PickerProps<moment>
   disabledDate?: any
   className?: any
 }
@@ -28,7 +25,6 @@ const FormDatePicker: React.FC<FormDatePickerProps> = ({
   onSelect,
   placeholder,
   dateTimeFormat = dateFormat,
-  dateTimeProps,
   disabledDate,
   className,
 }) => {
@@ -47,8 +43,6 @@ const FormDatePicker: React.FC<FormDatePickerProps> = ({
         disabled={disabled}
         disabledDate={disabledDate}
         onChange={onChange}
-        onSelect={onSelect}
-        {...dateTimeProps}
       />
     </Form.Item>
   )

@@ -12,26 +12,26 @@ import withRouter from "@components/Layout/Router/withRouter"
 import TenantDetailModal from "./components/tenantDetailModal"
 import TenantStore from "@stores/administrator/tenantStore"
 import Stores from "@stores/storeIdentifier"
-import moment from "moment"
+import dayjs from "dayjs"
 import { appPermissions, dateFormat } from "@lib/appconst"
 import { AppComponentListBase } from "@components/AppComponentBase"
 const confirm = Modal.confirm
 
 export interface ITenantProps {
-  tenantStore: TenantStore;
+  tenantStore: TenantStore
 }
 
 export interface ITenantState {
-  maxResultCount: number;
-  skipCount: number;
-  visible: boolean;
-  filters: any;
+  maxResultCount: number
+  skipCount: number
+  visible: boolean
+  filters: any
 }
 
 @inject(Stores.TenantStore)
 @observer
 class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     maxResultCount: 10,
@@ -39,7 +39,7 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
     visible: false,
 
     filters: {},
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -52,7 +52,7 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -62,10 +62,10 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = (filters) => {
     this.setState({ filters }, this.getAll)
-  };
+  }
   gotoDetail = async (id?) => {
     if (id) {
       await this.props.tenantStore.get(id)
@@ -76,7 +76,7 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
 
       this.setState({ visible: true })
     }
-  };
+  }
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
     confirm({
@@ -92,7 +92,7 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
         self.handleTableChange({ current: 1, pageSize: 10 })
       },
     })
-  };
+  }
   public render() {
     const {
       tenantStore: { tableData, isLoading },
@@ -189,7 +189,7 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
                       >
                         <label>
                           {L("MOVE_IN")}:
-                          {moment(unit.moveInDate).format(dateFormat)}
+                          {dayjs(unit.moveInDate).format(dateFormat)}
                         </label>
                       </div>
                     </Col>

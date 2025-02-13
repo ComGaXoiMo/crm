@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import Input from "antd/lib/input"
 import {
   IContactItemModel,
@@ -14,20 +14,13 @@ import {
 import ContactSelect from "@components/Select/ContactSelect"
 import Button from "antd/es/button"
 import { L } from "@lib/abpUtility"
+import { usePrevious } from "@lib/appconst"
 
 interface ContactsSelectProps {
-  value?: IContactItemModel[];
-  onChange?: (value: IContactItemModel[]) => void;
-  maxLength?: number;
-  companyId?: number;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  value?: IContactItemModel[]
+  onChange?: (value: IContactItemModel[]) => void
+  maxLength?: number
+  companyId?: number
 }
 
 export const ContactsSelect: React.FC<ContactsSelectProps> = ({
@@ -67,10 +60,7 @@ export const ContactsSelect: React.FC<ContactsSelectProps> = ({
   }
 
   const addContact = () => {
-    triggerChange([
-      ...currentValue,
-      new ContactItemModel(!currentValue.length),
-    ])
+    triggerChange([...currentValue, new ContactItemModel(!currentValue.length)])
   }
 
   const deleteContact = (contact, index) => {

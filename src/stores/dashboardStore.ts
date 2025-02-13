@@ -6,7 +6,7 @@ import {
 } from "@models/dashboard/overview"
 import dashboardService from "@services/dashboardService"
 import { action, observable } from "mobx"
-import moment from "moment"
+import dayjs from "dayjs"
 const { leaseStage, dashboardOccType } = AppConsts
 class DashboardStore {
   @observable isLoading!: boolean
@@ -148,8 +148,8 @@ class DashboardStore {
     this.isLoading = true
     const res = await dashboardService
       .getDashboard({
-        fromDate: moment().startOf("month").endOf("day").toJSON(),
-        toDate: moment().endOf("day").toJSON(),
+        fromDate: dayjs().startOf("month").endOf("day").toJSON(),
+        toDate: dayjs().endOf("day").toJSON(),
         nameStore: "ReportUnitCurrentStatusByType",
         // ReportUnitCurrentStatusByType
       })
@@ -161,8 +161,8 @@ class DashboardStore {
     this.isLoading = true
     const res = await dashboardService
       .getDashboard({
-        fromDate: moment().startOf("month").toJSON(),
-        toDate: moment().toJSON(),
+        fromDate: dayjs().startOf("month").toJSON(),
+        toDate: dayjs().toJSON(),
         nameStore: "SpReportAVGByProject",
       })
       .finally(() => (this.isLoading = false))
@@ -296,8 +296,8 @@ class DashboardStore {
     this.isLoading = true
     const res = await dashboardService
       .getDashboard({
-        fromDate: moment().startOf("year").toJSON(),
-        toDate: moment().endOf("year").toJSON(),
+        fromDate: dayjs().startOf("year").toJSON(),
+        toDate: dayjs().endOf("year").toJSON(),
         nameStore: "SpReportRevenueProject",
       })
       .finally(() => (this.isLoading = false))
@@ -549,12 +549,12 @@ class DashboardStore {
   }
   @action public async getDashboardUnitCountOccByMonth(params?) {
     const thisParams = {
-      fromDate: moment()
+      fromDate: dayjs()
         .subtract(11, "months")
         .startOf("months")
         .endOf("days")
         .toJSON(),
-      toDate: moment().endOf("months").endOf("days").toJSON(),
+      toDate: dayjs().endOf("months").endOf("days").toJSON(),
     }
     this.isLoading = true
     const res = await dashboardService
@@ -570,21 +570,21 @@ class DashboardStore {
 
   @action public async getDashboardLARevenueDetails(params?) {
     const thisParams = {
-      fromDate: moment()
+      fromDate: dayjs()
         .subtract(11, "months")
         .startOf("months")
         .endOf("days")
         .toJSON(),
-      toDate: moment().endOf("days").toJSON(),
+      toDate: dayjs().endOf("days").toJSON(),
     }
     const lastParams = {
-      fromDate: moment()
+      fromDate: dayjs()
         .subtract(1, "years")
         .subtract(11, "months")
         .startOf("months")
         .endOf("days")
         .toJSON(),
-      toDate: moment().subtract(1, "years").endOf("days").toJSON(),
+      toDate: dayjs().subtract(1, "years").endOf("days").toJSON(),
     }
     this.isLoading = true
     const res = await dashboardService

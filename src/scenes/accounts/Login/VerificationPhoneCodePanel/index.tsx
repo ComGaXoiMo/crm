@@ -9,27 +9,27 @@ import { L } from "../../../../lib/abpUtility"
 import SessionStore from "../../../../stores/sessionStore"
 import { validateMessages } from "@lib/validation"
 import rules from "@scenes/accounts/Login/index.validation"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { userLayout } from "@components/Layout/Router/router.config"
 
 export interface ILoginProps {
-  authenticationStore?: AuthenticationStore;
-  sessionStore?: SessionStore;
-  accountStore?: AccountStore;
-  history: any;
-  location: any;
-  verifyPhone: (code) => void;
+  authenticationStore?: AuthenticationStore
+  sessionStore?: SessionStore
+  accountStore?: AccountStore
+  history: any
+  location: any
+  verifyPhone: (code) => void
 }
 
 function VerificationPhoneCodePanel(props: ILoginProps) {
   const handleVerifyPhoneCode = async (values) => {
     props.verifyPhone(values.userNameOrEmailAddress)
   }
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleForgotPasswordClick = () => {
     const forgotPasswordPath = userLayout.forgotPassword.path
-    history.push(forgotPasswordPath)
+    navigate(forgotPasswordPath)
   }
 
   return (

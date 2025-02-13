@@ -1,6 +1,6 @@
 import { RowData } from "@models/DataTable"
 import AppConsts, { AppConfiguration } from "@lib/appconst"
-import moment from "moment-timezone/moment-timezone"
+import dayjs from "dayjs"
 import { v4 as uuid } from "uuid"
 import { buildFileUrl } from "@lib/helper"
 
@@ -16,8 +16,8 @@ export interface IRowProject {
 }
 
 export class RowProjectModel extends RowData implements IRowProject {
-  id?: number
-  name?: string
+  declare id?: number
+  declare name?: string
   urlMainPhoto: string
   projectGrades: any
   projectTypes: any
@@ -82,8 +82,8 @@ export class RowProjectModel extends RowData implements IRowProject {
 }
 
 export class ProjectDetailModel extends RowData implements IRowProject {
-  id?: number
-  name?: string
+  declare id?: number
+  declare name?: string
   urlMainPhoto: string
   projectGrades: any
   projectTypes: any
@@ -134,16 +134,16 @@ export class ProjectDetailModel extends RowData implements IRowProject {
       name: item.legalName,
     }))
     newObj.launchingTime = obj.launchingTime
-      ? moment(obj.launchingTime)
+      ? dayjs(obj.launchingTime)
       : undefined
-    newObj.builtDate = obj.builtDate ? moment(obj.builtDate) : undefined
+    newObj.builtDate = obj.builtDate ? dayjs(obj.builtDate) : undefined
     newObj.effectiveDate = obj.effectiveDate
-      ? moment(obj.effectiveDate)
+      ? dayjs(obj.effectiveDate)
       : undefined
     newObj.yearRenovated = obj.yearRenovated
-      ? moment(obj.yearRenovated)
+      ? dayjs(obj.yearRenovated)
       : undefined
-    newObj.outOfDate = obj.outOfDate ? moment(obj.outOfDate) : undefined
+    newObj.outOfDate = obj.outOfDate ? dayjs(obj.outOfDate) : undefined
     newObj.projectAddress =
       obj.projectAddress && obj.projectAddress.length
         ? obj.projectAddress[0]

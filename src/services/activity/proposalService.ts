@@ -1,4 +1,4 @@
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
@@ -82,9 +82,12 @@ class ProposalService {
       notifyError(L("Error"), L("EntityNotFound"))
     }
 
-    const result = await http.get("api/services/app/PublicProposal/GetProposal", {
-      params: { uniqueId },
-    })
+    const result = await http.get(
+      "api/services/app/PublicProposal/GetProposal",
+      {
+        params: { uniqueId },
+      }
+    )
 
     return result.data.result
   }
@@ -106,14 +109,12 @@ class ProposalService {
     const result = await http.get(
       "api/services/app/Documents/GetUnitPictures",
       {
-        params: {uniqueId },
-
+        params: { uniqueId },
       }
     )
 
     return result.data.result
   }
-
 }
 
 export default new ProposalService()

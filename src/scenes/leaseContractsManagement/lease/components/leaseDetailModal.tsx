@@ -42,7 +42,7 @@ import AppConsts, {
 import _ from "lodash"
 import GeneratePaymentModal from "./generatePaymentModal"
 import TerminateModal from "./leaseDetailComponent/terminateModal"
-import moment from "moment"
+import dayjs from "dayjs"
 import DroppedModal from "./leaseDetailComponent/droppedModal"
 import { validateMessages } from "@lib/validation"
 import TabAuditTrail from "./tabAuditTrail"
@@ -288,8 +288,8 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
     } else {
       const formValues = await this.formRef.current?.validateFields()
       const leaseTerm = await dateDifference(
-        moment(formValues?.commencementDate).endOf("days"),
-        moment(formValues?.expiryDate).endOf("days").add(1, "days")
+        dayjs(formValues?.commencementDate).endOf("days"),
+        dayjs(formValues?.expiryDate).endOf("days").add(1, "days")
       )
       let res = {
         ...formValues,

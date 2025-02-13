@@ -1,23 +1,16 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { InputNumber } from "antd"
 import isEqual from "lodash/isEqual"
 import { inputPercentFormatter, inputPercentParse } from "../../../lib/helper"
+import { usePrevious } from "@lib/appconst"
 
 interface PercentInputProps {
-  value?: number;
-  onChange?: (value) => void;
-  max?: number;
-  min?: number;
-  symbol?: string;
-  locale?: string;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  value?: number
+  onChange?: (value) => void
+  max?: number
+  min?: number
+  symbol?: string
+  locale?: string
 }
 
 const PercentInput: React.FC<PercentInputProps> = ({

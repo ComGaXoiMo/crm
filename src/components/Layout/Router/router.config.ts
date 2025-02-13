@@ -341,17 +341,7 @@ export const portalLayouts: any = {
     ),
   },
   //TODO: pmh
-  dashboards: {
-    path: "/dashboards",
-    name: "DASHBOARDS",
-    title: "dashboards",
-    permission: appPermissions.report.page,
-    layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
-    component: LoadableComponent(
-      () => import("../../../scenes/dashboardsManagement")
-    ),
-  },
+
   properties: {
     path: "/properties",
     name: "PROPERTIES",
@@ -487,7 +477,6 @@ export const routers: any = {
 }
 
 export const appMenuGroups: any = [
-  routers.dashboards,
   routers.properties,
   routers.clients,
   routers.inquiries,

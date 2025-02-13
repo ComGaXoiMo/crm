@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import masterDataService from '../../services/administrator/masterDataService'
-import { initMultiLanguageField } from '@lib/helper'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import masterDataService from "../../services/administrator/masterDataService"
+import { initMultiLanguageField } from "@lib/helper"
 
 class MasterDataStore {
   @observable isLoading!: boolean
@@ -18,7 +18,7 @@ class MasterDataStore {
   @action
   async update(body: any) {
     this.isLoading = true
-    await masterDataService.update(body).finally(() => this.isLoading = false)
+    await masterDataService.update(body).finally(() => (this.isLoading = false))
   }
 
   @action
@@ -43,12 +43,12 @@ class MasterDataStore {
     this.editMasterData = {
       id: 0,
       isActive: true,
-      code: '',
-      description: '',
+      code: "",
+      description: "",
       names: initMultiLanguageField(),
-      target: '',
-      parentCode: '',
-      tenantType: ''
+      target: "",
+      parentCode: "",
+      tenantType: "",
     }
   }
 }

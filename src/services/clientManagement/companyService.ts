@@ -1,4 +1,4 @@
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import http from "../httpService"
 import { notifyError, notifySuccess } from "@lib/helper"
 import { L, LNotification } from "@lib/abpUtility"

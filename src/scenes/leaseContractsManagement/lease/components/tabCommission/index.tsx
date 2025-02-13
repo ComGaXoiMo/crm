@@ -32,7 +32,7 @@ import Stores from "@stores/storeIdentifier"
 import { EditOutlined, RollbackOutlined, SaveOutlined } from "@ant-design/icons"
 import CommissionPhaseDealer from "./components/commissionPhaseDealer"
 import rules from "./validation"
-import moment from "moment"
+import dayjs from "dayjs"
 import _ from "lodash"
 import AppConsts, { appPermissions, dateFormat } from "@lib/appconst"
 const { Panel } = Collapse
@@ -132,7 +132,7 @@ class Commission extends AppComponentListBase<Props, States> {
             return {
               ...item,
               key: uuid(),
-              billingDate: moment(item?.billingDate).toJSON(),
+              billingDate: dayjs(item?.billingDate).toJSON(),
               departmentCommissionAmount:
                 this.props.leaseAgreementStore.lACommission
                   ?.departmentCommissionAmount,
@@ -259,18 +259,18 @@ class Commission extends AppComponentListBase<Props, States> {
             (item?.dealerCommissionAmount * item?.percent) / 100,
           departmentCommissionAmountByPhase:
             (item?.departmentCommissionAmount * item?.percent) / 100,
-          billingDate: moment(item.billingDate).toJSON(),
+          billingDate: dayjs(item.billingDate).toJSON(),
           numPhase: index + 1,
-          actBillingDate: moment(item.actBillingDate).toJSON(),
+          actBillingDate: dayjs(item.actBillingDate).toJSON(),
         }
       })
     } else {
       dataPhaseTable = this.state.dataPhaseTable.map((item, index) => {
         return {
           ...item,
-          billingDate: moment(item.billingDate).toJSON(),
+          billingDate: dayjs(item.billingDate).toJSON(),
           numPhase: index + 1,
-          actBillingDate: moment(item.actBillingDate).toJSON(),
+          actBillingDate: dayjs(item.actBillingDate).toJSON(),
         }
       })
     }
@@ -478,7 +478,7 @@ class Commission extends AppComponentListBase<Props, States> {
                   <div className="width-max-content">
                     <strong>{L("COMMENCEMENT_DATE")}: </strong>
                     <span>
-                      {moment(leaseAgreementDetail.commencementDate).format(
+                      {dayjs(leaseAgreementDetail.commencementDate).format(
                         dateFormat
                       )}
                     </span>
@@ -486,7 +486,7 @@ class Commission extends AppComponentListBase<Props, States> {
                   <div className="width-max-content">
                     <strong>{L("EXPIRY_DATE")}: </strong>
                     <span>
-                      {moment(leaseAgreementDetail.expiryDate).format(
+                      {dayjs(leaseAgreementDetail.expiryDate).format(
                         dateFormat
                       )}
                     </span>
@@ -508,13 +508,11 @@ class Commission extends AppComponentListBase<Props, States> {
                       </div>
                       <div>
                         <strong>{L("START_DATE")}: </strong>
-                        <span>
-                          {moment(item?.startDate).format(dateFormat)}
-                        </span>
+                        <span>{dayjs(item?.startDate).format(dateFormat)}</span>
                       </div>
                       <div>
                         <strong>{L("END_DATE")}: </strong>
-                        <span>{moment(item?.endDate).format(dateFormat)}</span>
+                        <span>{dayjs(item?.endDate).format(dateFormat)}</span>
                       </div>
                     </div>
                   ))}

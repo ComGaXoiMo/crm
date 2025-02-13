@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import Input from "antd/lib/input"
 import {
   ICompanyItemModel,
@@ -9,21 +9,14 @@ import isEqual from "lodash/isEqual"
 import CompanySelect from "@components/Select/CompanySelect"
 import { Button } from "antd"
 import { L } from "@lib/abpUtility"
+import { usePrevious } from "@lib/appconst"
 interface CompaniesSelectProps {
-  value?: ICompanyItemModel[];
-  disabled?: boolean;
+  value?: ICompanyItemModel[]
+  disabled?: boolean
 
-  onChange?: (value) => void;
-  handleUseCompanyAddress?: (company) => void;
-  maxLength?: number;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  onChange?: (value) => void
+  handleUseCompanyAddress?: (company) => void
+  maxLength?: number
 }
 
 export const CompaniesSelect: React.FC<CompaniesSelectProps> = ({
@@ -64,10 +57,7 @@ export const CompaniesSelect: React.FC<CompaniesSelectProps> = ({
   // };
 
   const addCompany = () => {
-    triggerChange([
-      ...currentValue,
-      new CompanyItemModel(!currentValue.length),
-    ])
+    triggerChange([...currentValue, new CompanyItemModel(!currentValue.length)])
   }
 
   // const deleteCompany = (company, index) => {

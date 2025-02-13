@@ -5,27 +5,27 @@ import Form, { FormInstance } from "antd/lib/form"
 import { portalLayouts } from "@components/Layout/Router/router.config"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateFormat } from "@lib/appconst"
 
 interface Props {
-  id: any;
-  history: any;
-  visible: boolean;
-  onClose: () => void;
-  onOk: (file, packageId) => Promise<any>;
+  id: any
+  history: any
+  visible: boolean
+  onClose: () => void
+  onOk: (file, packageId) => Promise<any>
 }
 
 interface State {
-  file?: any;
-  uploading?: boolean;
+  file?: any
+  uploading?: boolean
 }
 const dataFake = {
   title: "001",
-  date: moment("2023-04-04T08:07:31.5810056Z"),
+  date: dayjs("2023-04-04T08:07:31.5810056Z"),
 }
 class DetailProposalModal extends AppComponentListBase<Props, State> {
-  form = React.createRef<FormInstance>();
+  form = React.createRef<FormInstance>()
 
   constructor(props) {
     super(props)
@@ -43,7 +43,7 @@ class DetailProposalModal extends AppComponentListBase<Props, State> {
   gotoDetail = (id?) => {
     const { history } = this.props
     history.push(portalLayouts.proposals.path.replace(":id", id))
-  };
+  }
   render(): React.ReactNode {
     const { visible, onClose } = this.props
 

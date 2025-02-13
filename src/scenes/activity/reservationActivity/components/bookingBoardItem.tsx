@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react"
 import { Tag } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import moment from "moment"
+import dayjs from "dayjs"
 import AppConsts, { dateTimeFormat } from "@lib/appconst"
 import { FlagOutlined, UserOutlined } from "@ant-design/icons"
 import { L } from "@lib/abpUtility"
@@ -99,20 +99,20 @@ class ProposalBoardItem extends AppComponentListBase<IProposalItemProps, any> {
                 <label>
                   {this.L("RESERVATION_DATE_TIME")} :
                   <strong>
-                    {moment(data?.reservationTime).format(dateTimeFormat)}
+                    {dayjs(data?.reservationTime).format(dateTimeFormat)}
                   </strong>
                 </label>
                 <label>
                   {this.L("EXPRIY_DATE")} :
                   {data?.expiryDate && (
                     <strong>
-                      {moment(data?.expiryDate).format(dateTimeFormat)}
+                      {dayjs(data?.expiryDate).format(dateTimeFormat)}
                     </strong>
                   )}
                 </label>
                 <label>
                   Created by<strong> {data?.creatorUser?.displayName}</strong>{" "}
-                  at {moment(data?.creationTime).format(dateTimeFormat)}
+                  at {dayjs(data?.creationTime).format(dateTimeFormat)}
                 </label>
               </div>
             </div>

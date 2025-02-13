@@ -13,7 +13,7 @@ import _ from "lodash"
 import { validateMessages } from "@lib/validation"
 import AppConsts, { dateFormat } from "@lib/appconst"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
-import moment from "moment"
+import dayjs from "dayjs"
 import ExportFDReview from "./exportFDReview"
 const { notifiType } = AppConsts
 
@@ -68,7 +68,7 @@ class ChooseBFTemplateModal extends AppComponentListBase<Props, State> {
     const formValue = await this.formRef.current?.validateFields()
 
     const params = {
-      bookingDate: moment(formValue.bookingDate).toJSON(),
+      bookingDate: dayjs(formValue.bookingDate).toJSON(),
       id: this.props.leaseAgreementId,
       templateId: templateId,
     }

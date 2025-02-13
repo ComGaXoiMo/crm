@@ -6,7 +6,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import withRouter from "@components/Layout/Router/withRouter"
 import TaskStore from "@stores/activity/taskStore"
 import { addItemToList, filterOptions } from "@lib/helper"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inject, observer } from "mobx-react"
 import Stores from "@stores/storeIdentifier"
 import userService from "@services/administrator/user/userService"
@@ -14,7 +14,7 @@ import _ from "lodash"
 import AppDataStore from "@stores/appDataStore"
 import { dateFormat } from "@lib/appconst"
 import inquiryService from "@services/projects/inquiryService"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 
 interface Props {
   visible: boolean
@@ -52,18 +52,15 @@ class TaskModal extends AppComponentListBase<Props, State> {
         if (taskDetail?.id) {
           this.form.current?.setFieldsValue({
             ...taskDetail,
-            dueDate: moment(taskDetail?.dueDate),
+            dueDate: dayjs(taskDetail?.dueDate),
             remindDate: taskDetail?.remindDate
-              ? moment(taskDetail?.remindDate)
+              ? dayjs(taskDetail?.remindDate)
               : undefined,
             userIds: taskDetail?.inquiryTaskUser?.map((item) => item?.userId),
           })
         }
         if (this.props.dueDate) {
-          this.form.current?.setFieldValue(
-            "dueDate",
-            moment(this.props.dueDate)
-          )
+          this.form.current?.setFieldValue("dueDate", dayjs(this.props.dueDate))
         }
         if (this.props.listPic) {
           const newListUser = [...this.state.listUser]
@@ -139,7 +136,7 @@ class TaskModal extends AppComponentListBase<Props, State> {
     await this.setState({ listInquiry: listInquiries })
   }
   disableDate = (current) => {
-    return current > moment(this.form.current?.getFieldValue("dueDate"))
+    return current > dayjs(this.form.current?.getFieldValue("dueDate"))
   }
   render(): React.ReactNode {
     const {

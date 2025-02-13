@@ -5,7 +5,7 @@ import * as React from "react"
 import { Button, Col, Row, Form } from "antd"
 import AccountStore from "../../../../stores/accountStore"
 import AuthenticationStore from "../../../../stores/authenticationStore"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import SessionStore from "../../../../stores/sessionStore"
 import rules from "./index.validation"
 import { validateMessages } from "../../../../lib/validation"
@@ -16,12 +16,12 @@ import FormInputPassword from "@components/FormItem/FormInput/FormInputPassword"
 import { L } from "@lib/abpUtility"
 
 export interface ILoginProps {
-  authenticationStore?: AuthenticationStore;
-  sessionStore?: SessionStore;
-  accountStore?: AccountStore;
-  history: any;
-  location: any;
-  handleBack: () => void;
+  authenticationStore?: AuthenticationStore
+  sessionStore?: SessionStore
+  accountStore?: AccountStore
+  history: any
+  location: any
+  handleBack: () => void
 }
 
 function SystemAccountLoginPanel(props: ILoginProps) {
@@ -42,11 +42,11 @@ function SystemAccountLoginPanel(props: ILoginProps) {
           : "/inquiries") //default login
     }
   }
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleForgotPasswordClick = () => {
     const forgotPasswordPath = userLayout.forgotPassword.path
-    history.push(forgotPasswordPath)
+    navigate(forgotPasswordPath)
   }
   return (
     <Form

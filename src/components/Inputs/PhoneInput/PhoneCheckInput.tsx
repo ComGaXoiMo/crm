@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { Form, Input, Select } from "antd"
 import { IPhoneModel, PhoneModel } from "../../../models/common/phoneModel"
 import isEqual from "lodash/isEqual"
 import Button from "antd/es/button"
 import { FileSearchOutlined } from "@ant-design/icons"
+import { usePrevious } from "@lib/appconst"
 
 interface PhonesInputProps {
-  value?: IPhoneModel[];
-  onChange?: (value: IPhoneModel[]) => void;
-  maxLength?: number;
-  disableProps?: boolean;
-  fieldName?: string;
-  onCheckPhone: (phone) => void;
-  disabled?: boolean;
-}
-
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+  value?: IPhoneModel[]
+  onChange?: (value: IPhoneModel[]) => void
+  maxLength?: number
+  disableProps?: boolean
+  fieldName?: string
+  onCheckPhone: (phone) => void
+  disabled?: boolean
 }
 
 const defaultValue = {

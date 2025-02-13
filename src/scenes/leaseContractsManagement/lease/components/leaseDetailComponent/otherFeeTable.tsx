@@ -8,7 +8,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import { v4 as uuid } from "uuid"
 import AppConsts, { appStatusColors } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -127,8 +127,8 @@ class OtherFeesTable extends AppComponentListBase<
       const mdforRes = {
         amountIncludeVat: values.amountIncludeVat,
         feeTypeId: row.feeTypeId,
-        startDate: moment(row.startDate).toJSON(),
-        endDate: moment(row.endDate).toJSON(),
+        startDate: dayjs(row.startDate).toJSON(),
+        endDate: dayjs(row.endDate).toJSON(),
       }
       const res = await this.props.leaseAgreementStore.genVATAmountByFeeType([
         mdforRes,
@@ -272,7 +272,7 @@ class OtherFeesTable extends AppComponentListBase<
                   await this.formRef.current?.setFieldsValue({
                     ...record,
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   await this.setState({

@@ -11,24 +11,24 @@ import TextArea from "antd/lib/input/TextArea"
 import { dateTimeFormat } from "@lib/appconst"
 import SiteVisitStore from "@stores/activity/siteVisitStore"
 import inquiryService from "@services/projects/inquiryService"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 interface Props {
-  visible: boolean;
-  onCancel: () => void;
-  onOk: () => void;
-  data: any;
-  inquiryId: any;
-  siteVisitStore: SiteVisitStore;
+  visible: boolean
+  onCancel: () => void
+  onOk: () => void
+  data: any
+  inquiryId: any
+  siteVisitStore: SiteVisitStore
 }
 
 interface State {
-  listInquiry: any[];
+  listInquiry: any[]
 }
 
 @inject(Stores.SiteVisitStore)
 @observer
 class AddSiteVisitModal extends AppComponentListBase<Props, State> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -60,7 +60,7 @@ class AddSiteVisitModal extends AppComponentListBase<Props, State> {
       }
     })
     this.setState({ listInquiry })
-  };
+  }
   handleOk = async () => {
     let params = await this.formRef.current?.validateFields()
     params = await {
@@ -76,7 +76,7 @@ class AddSiteVisitModal extends AppComponentListBase<Props, State> {
       skipCount: 0,
     })
     this.props.onOk()
-  };
+  }
   render(): React.ReactNode {
     const { listInquiry } = this.state
 

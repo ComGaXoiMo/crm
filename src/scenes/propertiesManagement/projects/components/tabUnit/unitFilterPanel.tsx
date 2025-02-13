@@ -13,19 +13,19 @@ import AppDataStore from "@stores/appDataStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
 import AppConsts, { dateFormat, rangePickerPlaceholder } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 const { RangePicker } = DatePicker
 const { activeStatus } = AppConsts
 type Props = {
-  handleSearch: (filters) => void;
-  tabKeys: any;
-  filter: any;
-  changeTab: any;
-  projectId;
-  onCreateProject: () => void;
-  appDataStore: AppDataStore;
-  onRefresh: () => void;
-};
+  handleSearch: (filters) => void
+  tabKeys: any
+  filter: any
+  changeTab: any
+  projectId
+  onCreateProject: () => void
+  appDataStore: AppDataStore
+  onRefresh: () => void
+}
 
 // type States = {
 //   selectedType: any;
@@ -45,13 +45,13 @@ class UnitsFilterPanel extends React.Component<Props, any> {
     filters: {
       projectId: this.props.projectId,
     } as any,
-  };
+  }
   componentDidMount = async () => {
     await this.getProject("")
     if (this.props.projectId) {
       await this.getFloorResult(this.props.projectId, "")
     }
-  };
+  }
   async componentDidUpdate(prevProps) {
     if (prevProps.projectId !== this.props.projectId) {
       await this.getFloorResult(this.props.projectId, "")
@@ -67,13 +67,13 @@ class UnitsFilterPanel extends React.Component<Props, any> {
       return { id: i.id, name: i.projectName }
     })
     this.setState({ listProject: newProjects })
-  };
+  }
   getFloorResult = async (id, keyword) => {
     const res = await projectService.getFloors(id, {
       isActive: true,
     })
     await this.setState({ listFloor: res })
-  };
+  }
 
   handleSearch = async (name, value) => {
     {
@@ -82,26 +82,26 @@ class UnitsFilterPanel extends React.Component<Props, any> {
       })
       await this.props.handleSearch(this.state.filters)
     }
-  };
+  }
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
     this.setState({ filters: { ...filters, [name]: value } })
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleDateChange = async (value) => {
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
     // await this.handleSearch("fromDate", startDate);
     const { filters } = this.state
     await this.setState({ filters: { ...filters, fromDate: startDate } })
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
 
     await this.handleSearch("toDate", endDate)
-  };
+  }
   render() {
     const {
       appDataStore: { propertyTypes, unitStatus },

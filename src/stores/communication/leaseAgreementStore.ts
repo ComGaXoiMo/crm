@@ -1,4 +1,4 @@
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import leaseAgreementService from "@services/projects/leaseAgreementService"
 import { action, observable } from "mobx"
 

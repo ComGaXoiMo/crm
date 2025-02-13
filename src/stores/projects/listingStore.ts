@@ -1,18 +1,17 @@
 import listingService from "@services/projects/listingService"
 import { action, observable } from "mobx"
-import moment from "moment"
+import dayjs from "dayjs"
 
 // import type { PagedResultDto } from "../../services/dto/pagedResultDto";
 
 class ListingStore {
-  @observable isLoading = false;
-  @observable tableData: Array<any> = [];
-  @observable totalItems = 0;
-  @observable listingStatus: Array<any> = [];
-  @observable listingType: Array<any> = [];
-  @observable listingDetailData: any;
-  @observable listingCompare: Array<any> = [];
-
+  @observable isLoading = false
+  @observable tableData: Array<any> = []
+  @observable totalItems = 0
+  @observable listingStatus: Array<any> = []
+  @observable listingType: Array<any> = []
+  @observable listingDetailData: any
+  @observable listingCompare: Array<any> = []
 
   @action async getAllListing(params) {
     this.isLoading = true
@@ -52,9 +51,9 @@ class ListingStore {
   @action async getListingDetail(id) {
     this.isLoading = true
     const res = await listingService.getListingDetail(id)
-    res.dateAvailable = moment(res.dateAvailable)
-    res.endDate = moment(res.endDate)
-    res.publishDate = moment(res.publishDate)
+    res.dateAvailable = dayjs(res.dateAvailable)
+    res.endDate = dayjs(res.endDate)
+    res.publishDate = dayjs(res.publishDate)
     this.listingDetailData = res
     this.isLoading = false
   }

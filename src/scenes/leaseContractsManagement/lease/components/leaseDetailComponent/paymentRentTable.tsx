@@ -7,7 +7,7 @@ import { L } from "@lib/abpUtility"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appStatusColors, dateDifference } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter, inputCurrencyUSAFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -22,23 +22,23 @@ import {
 } from "@components/DataTable/EditableCell"
 const { align } = AppConsts
 export interface ILeaseDealerProps {
-  leaseTerm: any;
-  paymentTermChoose: any;
-  onDatatableChange: (value) => void;
-  dataTable: any;
-  disabled: any;
-  datePayment: any;
-  form: any;
-  leaseAgreementStore: LeaseAgreementStore;
-  totalOtherFee: number;
+  leaseTerm: any
+  paymentTermChoose: any
+  onDatatableChange: (value) => void
+  dataTable: any
+  disabled: any
+  datePayment: any
+  form: any
+  leaseAgreementStore: LeaseAgreementStore
+  totalOtherFee: number
 }
 
 export interface ILeaseDealerState {
-  dataTable: any[];
-  editingKey: any;
-  isEdited: any;
-  isSlipFee: any;
-  backupData: any[];
+  dataTable: any[]
+  editingKey: any
+  isEdited: any
+  isSlipFee: any
+  backupData: any[]
 }
 @inject(Stores.LeaseAgreementStore)
 @observer
@@ -46,17 +46,17 @@ class PaymentRentTable extends AppComponentListBase<
   ILeaseDealerProps,
   ILeaseDealerState
 > {
-  formRef: any = React.createRef();
-  formParent: any = this.props.form;
+  formRef: any = React.createRef()
+  formParent: any = this.props.form
   state = {
     dataTable: [] as any,
     editingKey: "",
     isEdited: "",
     isSlipFee: false,
     backupData: [] as any,
-  };
+  }
 
-  isEditing = (record: any) => record.key === this.state.editingKey;
+  isEditing = (record: any) => record.key === this.state.editingKey
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.leaseTerm !== this.props.leaseTerm) {
@@ -86,7 +86,7 @@ class PaymentRentTable extends AppComponentListBase<
   }
   initData = () => {
     this.setState({ dataTable: this.props.dataTable })
-  };
+  }
   totalOtherFeeChange = async () => {
     const newTBSubtractOtherFee = [] as any
     await this.state.dataTable.map((item) => {
@@ -96,7 +96,7 @@ class PaymentRentTable extends AppComponentListBase<
       })
     })
     await this.setState({ dataTable: newTBSubtractOtherFee })
-  };
+  }
   fetchData = async () => {
     const {
       leaseTerm,
@@ -106,16 +106,16 @@ class PaymentRentTable extends AppComponentListBase<
     const numRow = [] as any
     let i = 0
 
-    if (moment(leaseTerm?.startDate).endOf("day") < moment(datePayment)) {
+    if (dayjs(leaseTerm?.startDate).endOf("day") < dayjs(datePayment)) {
       const afterDateDiff = dateDifference(
-        moment(leaseTerm?.startDate).endOf("days"),
-        moment(moment(datePayment)).endOf("days")
+        dayjs(leaseTerm?.startDate).endOf("days"),
+        dayjs(dayjs(datePayment)).endOf("days")
       )
       listMainFeeType.map((item) => {
         numRow.push({
           key: `afterPayment`,
-          startDate: moment(leaseTerm?.startDate),
-          endDate: moment(datePayment)?.subtract(1, "d"),
+          startDate: dayjs(leaseTerm?.startDate),
+          endDate: dayjs(datePayment)?.subtract(1, "d"),
           year: L("AFTER_PAYMENT"),
           leaseTermMonth: `${
             afterDateDiff?.years > 0 || afterDateDiff?.months > 0
@@ -133,21 +133,21 @@ class PaymentRentTable extends AppComponentListBase<
     }
 
     const dateBeforPayment = await dateDifference(
-      moment(datePayment).endOf("days"),
-      moment(leaseTerm?.endDate).endOf("days").add(1, "days")
+      dayjs(datePayment).endOf("days"),
+      dayjs(leaseTerm?.endDate).endOf("days").add(1, "days")
     )
     let startDate = datePayment
     for (i = 0; i < dateBeforPayment?.years; i++) {
       const paymentDateDiff = dateDifference(
-        moment(startDate).endOf("days"),
-        moment(moment(startDate).endOf("days").add(1, "years"))
+        dayjs(startDate).endOf("days"),
+        dayjs(dayjs(startDate).endOf("days").add(1, "years"))
       )
       listMainFeeType.map((item) => {
         numRow.push({
           key: `${item.id}${i}`,
           year: `Year ${i + 1}`,
-          startDate: moment(startDate),
-          endDate: moment(startDate).add(1, "years")?.subtract(1, "d"),
+          startDate: dayjs(startDate),
+          endDate: dayjs(startDate).add(1, "years")?.subtract(1, "d"),
           leaseTermMonth: `${
             paymentDateDiff?.years > 0 || paymentDateDiff?.months > 0
               ? `${paymentDateDiff?.years * 12 + paymentDateDiff?.months}`
@@ -161,15 +161,15 @@ class PaymentRentTable extends AppComponentListBase<
           vatAmount: 0,
         })
       })
-      startDate = moment(startDate).add(1, "years")
+      startDate = dayjs(startDate).add(1, "years")
     }
     if (dateBeforPayment?.months > 0 || dateBeforPayment?.days > 0) {
       listMainFeeType.map((item) => {
         numRow.push({
           key: "surplus",
           year: `Year ${i + 1} `,
-          startDate: moment(startDate),
-          endDate: moment(leaseTerm?.endDate),
+          startDate: dayjs(startDate),
+          endDate: dayjs(leaseTerm?.endDate),
           feeTypeId: item.id,
           leaseTermMonth: `${
             dateBeforPayment?.months > 0 ? `${dateBeforPayment?.months}` : ""
@@ -184,7 +184,7 @@ class PaymentRentTable extends AppComponentListBase<
       })
     }
     await this.setState({ dataTable: numRow })
-  };
+  }
 
   saveRow = async (data: any) => {
     const values = await this.formRef.current?.validateFields()
@@ -199,17 +199,17 @@ class PaymentRentTable extends AppComponentListBase<
       const row = newData[index]
 
       const dateBeforPayment = await dateDifference(
-        moment(values.startDate ?? row.startDate).endOf("days"),
-        moment(row.endDate).endOf("days").add(1, "days")
+        dayjs(values.startDate ?? row.startDate).endOf("days"),
+        dayjs(row.endDate).endOf("days").add(1, "days")
       )
 
       const mdforRes = {
         amountIncludeVat: values.amountIncludeVat,
         feeTypeId: row.feeTypeId,
         startDate: values.startDate
-          ? moment(values.startDate).toJSON()
-          : moment(row.startDate).toJSON(),
-        endDate: moment(row.endDate).toJSON(),
+          ? dayjs(values.startDate).toJSON()
+          : dayjs(row.startDate).toJSON(),
+        endDate: dayjs(row.endDate).toJSON(),
         numMonth: dateBeforPayment?.years * 12 + dateBeforPayment?.months,
         numDay: dateBeforPayment?.days,
       }
@@ -231,7 +231,7 @@ class PaymentRentTable extends AppComponentListBase<
 
     this.setState({ isEdited: data?.key ?? "" })
     this.setState({ editingKey: "", isSlipFee: false })
-  };
+  }
 
   public render() {
     const columns = [
@@ -396,7 +396,7 @@ class PaymentRentTable extends AppComponentListBase<
                   await this.formRef.current?.setFieldsValue({
                     ...record,
                     depositDate: record.depositDate
-                      ? moment(record.depositDate)
+                      ? dayjs(record.depositDate)
                       : "",
                   })
                   await this.setState({

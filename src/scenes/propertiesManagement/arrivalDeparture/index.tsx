@@ -7,31 +7,31 @@ import { Table } from "antd"
 import ArrivalDeparturesFilterPanel from "./components/arrivalDepartureFilterPanel"
 import AppDataStore from "@stores/appDataStore"
 import ProjectStore from "@stores/projects/projectStore"
-import { withRouter } from "react-router-dom"
 import { L } from "@lib/abpUtility"
 import AppConsts from "@lib/appconst"
 import UnitStore from "@stores/projects/unitStore"
 import Stores from "@stores/storeIdentifier"
+import withRouter from "@components/Layout/Router/withRouter"
 const { align } = AppConsts
 export interface IProjectProps {
-  history: any;
-  appDataStore: AppDataStore;
-  projectStore: ProjectStore;
-  unitStore: UnitStore;
+  history: any
+  appDataStore: AppDataStore
+  projectStore: ProjectStore
+  unitStore: UnitStore
 }
 
 export interface IProjectState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  projectProvinces: any[];
-  projectId: number;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  projectProvinces: any[]
+  projectId: number
 }
 
 @inject(Stores.UnitStore)
 @observer
 class ArrivalDeparture extends React.Component<any> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     maxResultCount: 10,
@@ -39,7 +39,7 @@ class ArrivalDeparture extends React.Component<any> {
     projectId: 0,
     projectProvinces: [],
     filters: {},
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -53,7 +53,7 @@ class ArrivalDeparture extends React.Component<any> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -63,10 +63,10 @@ class ArrivalDeparture extends React.Component<any> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = (filters) => {
     this.setState({ filters }, this.getAll)
-  };
+  }
 
   gotoDetail = async (id?) => {
     if (id) {
@@ -76,7 +76,7 @@ class ArrivalDeparture extends React.Component<any> {
       // this.setState({ idBatch: null })
       this.setState({ unitId: undefined, visible: true })
     }
-  };
+  }
   public render() {
     const {
       unitStore: { isLoading, tableData },

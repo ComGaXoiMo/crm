@@ -1,9 +1,8 @@
-@import '../../../../../node_modules/antd/lib/style/themes/default.less';
-
 .menu {
   :global(.anticon) {
     margin-right: 8px;
   }
+
   :global(.ant-dropdown-menu-item) {
     width: 160px;
   }
@@ -14,7 +13,8 @@
   font-size: 14px;
   vertical-align: top;
   line-height: 64px;
-  > svg {
+
+  >svg {
     position: relative;
     top: 2px;
   }
@@ -28,19 +28,24 @@
   .icon {
     display: inline-block;
   }
+
   .language-name {
     display: none;
   }
 }
+
 .auth-language {
   color: @text-color;
+
   .icon {
     display: none !important;
   }
+
   .language-name {
     display: inline-block !important;
     opacity: 0.8;
     cursor: pointer;
+
     &.active {
       opacity: 1 !important;
     }

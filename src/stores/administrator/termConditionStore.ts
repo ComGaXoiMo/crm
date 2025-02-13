@@ -1,7 +1,7 @@
-import { PagedResultDto } from '@services/dto/pagedResultDto'
-import { TermConditionDetailModel } from '@models/termCondition'
-import { action, observable } from 'mobx'
-import termConditionService from '@services/administrator/termConditionService'
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
+import { TermConditionDetailModel } from "@models/termCondition"
+import { action, observable } from "mobx"
+import termConditionService from "@services/administrator/termConditionService"
 
 class TermConditionStore {
   @observable pagedResult!: PagedResultDto<TermConditionDetailModel>
@@ -11,7 +11,7 @@ class TermConditionStore {
   constructor() {
     this.pagedResult = {
       items: [],
-      totalCount: 0
+      totalCount: 0,
     }
   }
 

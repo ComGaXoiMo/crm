@@ -1,6 +1,6 @@
 import { L, LNotification } from "@lib/abpUtility"
 import { notifyError, notifySuccess } from "@lib/helper"
-import { PagedResultDto } from "@services/dto/pagedResultDto"
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import http from "../httpService"
 import {
   ActivityModel,

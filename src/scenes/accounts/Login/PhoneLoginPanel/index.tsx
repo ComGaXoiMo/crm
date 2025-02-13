@@ -8,12 +8,16 @@ import SessionStore from "../../../../stores/sessionStore"
 import rules from "./index.validation"
 import { validateMessages } from "../../../../lib/validation"
 import { userLayout } from "@components/Layout/Router/router.config"
-import { loginSteps, phoneStatus } from "@lib/appconst"
+import { firebaseConfig, loginSteps, phoneStatus } from "@lib/appconst"
 import { useEffect, useState } from "react"
-import { useHistory, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth"
 
-import firebase from "firebase/app"
-import "firebase/auth"
 import PhoneInput from "@components/Inputs/PhoneInput/PhoneInput"
 import Countdown from "antd/lib/statistic/Countdown"
 import { LeftOutlined } from "@ant-design/icons"
@@ -30,13 +34,17 @@ export interface IPhoneLoginPanelProps {
 }
 
 function PhoneLoginPanel(props: IPhoneLoginPanelProps) {
+  const app = initializeApp(firebaseConfig)
+  const auth = getAuth(app)
+  auth.languageCode = "vi"
+
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(loginSteps.login)
   const [errorMessage, setErrorMessage] = useState("")
   const [phoneNumberStatus, setPhoneNumberStatus] = useState(
     phoneStatus.undefined
   )
-  const history = useHistory()
+  const navigate = useNavigate()
   const [phoneNumber, setPhoneNumber] = useState<any>(undefined)
   const [allowResend, setAllowResend] = useState<boolean | undefined>(undefined)
   useEffect(() => {
@@ -44,19 +52,16 @@ function PhoneLoginPanel(props: IPhoneLoginPanelProps) {
   }, [])
 
   const initFireBase = () => {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      "btn-submit-login",
-      {
-        size: "invisible",
-        callback: (response) => {
-          setStep(loginSteps.projectSelect)
-          setIsLoading(false)
-        },
-        "expired-callback": () => {
-          setIsLoading(false)
-        },
-      }
-    )
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "btn-submit-login", {
+      size: "invisible",
+      callback: (response) => {
+        setStep(loginSteps.projectSelect)
+        setIsLoading(false)
+      },
+      "expired-callback": () => {
+        setIsLoading(false)
+      },
+    })
   }
 
   const sendPhoneCode = async (phoneNumber) => {
@@ -71,30 +76,33 @@ function PhoneLoginPanel(props: IPhoneLoginPanelProps) {
     )
     setPhoneNumberStatus(phoneCheck.state)
     setPhoneNumber(phoneNumber)
-    window.confirmationResult = await firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .catch((error) => {
-        setErrorMessage(error.message)
-        window.recaptchaVerifier.render().then(function (widgetId) {
-          grecaptcha.reset(widgetId)
-        })
-      })
+
+    try {
+      window.confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      )
+    } catch (error: any) {
+      setErrorMessage(error.message)
+      window.recaptchaVerifier
+        .render()
+        .then((widgetId) => grecaptcha.reset(widgetId))
+    }
     setIsLoading(false)
   }
 
   const resendPhoneCode = async (phoneNumber) => {
     setIsLoading(true)
-    const appVerifier = new firebase.auth.RecaptchaVerifier(
-      "btn-submit-login",
-      {
-        size: "invisible",
-      }
-    )
+    const appVerifier = new RecaptchaVerifier(auth, "btn-submit-login", {
+      size: "invisible",
+    })
     setPhoneNumber(phoneNumber)
-    window.confirmationResult = await firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
+    window.confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      appVerifier
+    )
       .then(() => setAllowResend(false))
       .catch((error) => {
         setErrorMessage(error.message)
@@ -131,7 +139,7 @@ function PhoneLoginPanel(props: IPhoneLoginPanelProps) {
           }
           if (phoneNumberStatus === 3) {
             props.authenticationStore!.phoneLoginModel = user.user
-            history.push(userLayout.registerByOTP.path)
+            navigate(userLayout.registerByOTP.path)
           }
         })
         .catch((error) => {

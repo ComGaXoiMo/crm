@@ -8,30 +8,32 @@ import { inject, observer } from "mobx-react"
 import AppConsts, { dateDifference, dateFormat } from "@lib/appconst"
 import _ from "lodash"
 import DataTable from "@components/DataTable"
-import moment from "moment"
+import dayjs from "dayjs"
 import { formatCurrency } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
 const { align, term } = AppConsts
 interface Props {
-  visible: boolean;
-  onClose: () => void;
-  onOk: (params) => void;
-  leaseAgreementId: any;
-  dataForGenrerate: any;
-  otherFee: any;
-  leaseAgreementStore: LeaseAgreementStore;
+  visible: boolean
+  onClose: () => void
+  onOk: (params) => void
+  leaseAgreementId: any
+  dataForGenrerate: any
+  otherFee: any
+  leaseAgreementStore: LeaseAgreementStore
 }
 
 interface State {
-  dataTable: any[];
-  firstPeriodTime: any;
-  feeToGenarate: any[];
+  dataTable: any[]
+  firstPeriodTime: any
+  feeToGenarate: any[]
 }
 
 @inject(Stores.LeaseAgreementStore)
 @observer
 class GeneratePaymentModal extends AppComponentListBase<Props, State> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -44,9 +46,9 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
   async componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible) {
       if (this.props.visible) {
-        const firstPeriodTime = moment(
+        const firstPeriodTime = dayjs(
           this.props.dataForGenrerate.paymentDate
-        ).diff(moment(this.props.dataForGenrerate.commencementDate), "days")
+        ).diff(dayjs(this.props.dataForGenrerate.commencementDate), "days")
         await this.setState({ firstPeriodTime })
         await this.initData()
       }
@@ -54,18 +56,18 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
   }
   checkisFullPeriod = (startPeriod, endPeriod) => {
     return (
-      moment(endPeriod).add(1, "days").diff(moment(startPeriod), "days") ===
-      moment(startPeriod)
+      dayjs(endPeriod).add(1, "days").diff(dayjs(startPeriod), "days") ===
+      dayjs(startPeriod)
         .add(this.props.dataForGenrerate?.paymentTerm.countMonth, "months")
-        .diff(moment(startPeriod), "days")
+        .diff(dayjs(startPeriod), "days")
     )
-  };
+  }
   filteredData = (data, fromDate, toDate) => {
     const res = data.filter((item) => {
-      const itemFrom = moment(item.startDate)
-      const itemTo = moment(item.endDate)
-      const filterStartDate = moment(fromDate)
-      const filterEndDate = moment(toDate)
+      const itemFrom = dayjs(item.startDate)
+      const itemTo = dayjs(item.endDate)
+      const filterStartDate = dayjs(fromDate)
+      const filterEndDate = dayjs(toDate)
       return (
         itemFrom.isBetween(filterStartDate, filterEndDate, null, "[]") ||
         itemTo.isBetween(filterStartDate, filterEndDate, null, "[]") ||
@@ -74,7 +76,7 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       )
     })
     return res
-  };
+  }
   countAmountByDate = async (startPeriod, endPeriod) => {
     // const { dataForGenrerate } = this.props;
     let rentPeriod = 0
@@ -91,27 +93,27 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
 
     await feeInPeriod.map(async (item) => {
       const dateBeforPayment = dateDifference(
-        moment(item?.startDate).endOf("days"),
-        moment(item?.endDate).endOf("days").add(1, "days")
+        dayjs(item?.startDate).endOf("days"),
+        dayjs(item?.endDate).endOf("days").add(1, "days")
       )
 
       if (
-        !moment(item.startDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        !dayjs(item.startDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         ) &&
-        moment(item.endDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        dayjs(item.endDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         )
       ) {
         const dateBefor = dateDifference(
-          moment(startPeriod).endOf("days"),
-          moment(item.endDate).endOf("days").add(1, "days")
+          dayjs(startPeriod).endOf("days"),
+          dayjs(item.endDate).endOf("days").add(1, "days")
         )
         const monthLast = await this.getDateByNumDay(
           item.endDate,
@@ -119,23 +121,23 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
         )
         const rentOfDay =
           (item?.amountIncludeVat * monthLast.last) /
-            moment(item.endDate).daysInMonth() +
+            dayjs(item.endDate).daysInMonth() +
           (item?.amountIncludeVat * monthLast.first) /
-            moment(item.endDate).subtract(1, "months").daysInMonth()
+            dayjs(item.endDate).subtract(1, "months").daysInMonth()
 
         beforeFee =
           item?.amountIncludeVat * (dateBefor.years * 12 + dateBefor.months) +
           rentOfDay
       } else if (
-        moment(item.startDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        dayjs(item.startDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         ) &&
-        moment(item.endDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        dayjs(item.endDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         )
@@ -146,53 +148,53 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
         )
         const rentOfDay =
           (item?.amountIncludeVat * monthLast.last) /
-            moment(item.endDate).daysInMonth() +
+            dayjs(item.endDate).daysInMonth() +
           (item?.amountIncludeVat * monthLast.first) /
-            moment(item.endDate).subtract(1, "months").daysInMonth()
+            dayjs(item.endDate).subtract(1, "months").daysInMonth()
         betwenFee =
           betwenFee +
           item?.amountIncludeVat *
             (dateBeforPayment.years * 12 + dateBeforPayment.months) +
           rentOfDay
       } else if (
-        moment(item.startDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        dayjs(item.startDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         ) &&
-        !moment(item.endDate).isBetween(
-          moment(startPeriod).startOf("day"),
-          moment(endPeriod).endOf("day"),
+        !dayjs(item.endDate).isBetween(
+          dayjs(startPeriod).startOf("day"),
+          dayjs(endPeriod).endOf("day"),
           null,
           "[]"
         )
       ) {
         const dateAfter = dateDifference(
-          moment(item?.startDate).endOf("days"),
-          moment(endPeriod).endOf("days").add(1, "days")
+          dayjs(item?.startDate).endOf("days"),
+          dayjs(endPeriod).endOf("days").add(1, "days")
         )
         const monthLast = await this.getDateByNumDay(endPeriod, dateAfter.days)
 
         const rentOfDay =
           (item?.amountIncludeVat * monthLast.last) /
-            moment(endPeriod).daysInMonth() +
+            dayjs(endPeriod).daysInMonth() +
           (item?.amountIncludeVat * monthLast.first) /
-            moment(endPeriod).subtract(1, "months").daysInMonth()
+            dayjs(endPeriod).subtract(1, "months").daysInMonth()
 
         afterFee =
           item?.amountIncludeVat * (dateAfter.years * 12 + dateAfter.months) +
           rentOfDay
       } else if (startPeriod >= item.startDate && endPeriod <= item.endDate) {
         const datePeriodDiff = dateDifference(
-          moment(startPeriod).endOf("days"),
-          moment(endPeriod).endOf("days").add(1, "days")
+          dayjs(startPeriod).endOf("days"),
+          dayjs(endPeriod).endOf("days").add(1, "days")
         )
         PeriodINFeeRent =
           item?.amountIncludeVat *
             (datePeriodDiff.years * 12 + datePeriodDiff.months) +
           (item?.amountIncludeVat * datePeriodDiff.days) /
-            moment(endPeriod).daysInMonth()
+            dayjs(endPeriod).daysInMonth()
 
         // PeriodINFeeRent =
         //   item?.amountIncludeVat * dataForGenrerate?.paymentTerm.countMonth;
@@ -200,12 +202,12 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
     })
     rentPeriod = beforeFee + betwenFee + afterFee + PeriodINFeeRent
     return rentPeriod
-  };
+  }
 
   getDateByNumDay = async (date, numday) => {
     let last = numday
 
-    const first = numday - moment(date).date()
+    const first = numday - dayjs(date).date()
     if (first > 0) {
       last = numday - first
     }
@@ -213,16 +215,16 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       first: first > 0 ? first : 0,
       last: last,
     }
-  };
+  }
 
   addToSchdulePayment = async (startPeriod, endPeriod, rowIndex) => {
     const dateBeforPayment = dateDifference(
-      moment(startPeriod).endOf("days"),
-      moment(endPeriod).endOf("days").add(1, "days")
+      dayjs(startPeriod).endOf("days"),
+      dayjs(endPeriod).endOf("days").add(1, "days")
     )
     const amountCount = await this.countAmountByDate(
-      moment(startPeriod).toJSON(),
-      moment(endPeriod).toJSON()
+      dayjs(startPeriod).toJSON(),
+      dayjs(endPeriod).toJSON()
     )
     // let amountCount = await this.breakPeriodToMonth(startPeriod, endPeriod);
     const newRentPeriod = {
@@ -239,7 +241,7 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
     return {
       rent: newRentPeriod,
     }
-  };
+  }
 
   initData = async () => {
     const { dataForGenrerate, otherFee } = this.props
@@ -249,40 +251,40 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       const initRow = { ...item }
       const discount = dataForGenrerate?.feeDiscount.filter(
         (discountFee) =>
-          moment(discountFee?.startDate) >= moment(item?.startDate) &&
-          moment(discountFee?.endDate) <= moment(item?.endDate)
+          dayjs(discountFee?.startDate) >= dayjs(item?.startDate) &&
+          dayjs(discountFee?.endDate) <= dayjs(item?.endDate)
       )
       if (discount.length > 0) {
         const indexFind = _.findIndex(newTB, (e) => {
           return e?.startDate == item?.startDate
         })
         newTB.splice(indexFind, 1)
-        let startDateDiscount = moment(item?.startDate)
-        const endDateDiscount = moment(item?.endDate)
+        let startDateDiscount = dayjs(item?.startDate)
+        const endDateDiscount = dayjs(item?.endDate)
         discount.map((discountItem) => {
           if (
-            moment(discountItem?.startDate) >
-            moment(startDateDiscount).add(1, "days")
+            dayjs(discountItem?.startDate) >
+            dayjs(startDateDiscount).add(1, "days")
           ) {
             const before = {
               ...initRow,
               name:
-                moment(startDateDiscount) > moment(item?.startDate)
+                dayjs(startDateDiscount) > dayjs(item?.startDate)
                   ? "between"
                   : "before",
               startDate:
-                moment(startDateDiscount) > moment(item?.startDate)
-                  ? moment(startDateDiscount).add(1, "days").toJSON()
-                  : moment(startDateDiscount).toJSON(),
-              endDate: moment(discountItem?.startDate)
+                dayjs(startDateDiscount) > dayjs(item?.startDate)
+                  ? dayjs(startDateDiscount).add(1, "days").toJSON()
+                  : dayjs(startDateDiscount).toJSON(),
+              endDate: dayjs(discountItem?.startDate)
                 .subtract(1, "days")
                 .toJSON(),
             }
             newTB.splice(index, 0, before)
           }
           if (
-            moment(discountItem?.startDate) >= moment(startDateDiscount) &&
-            moment(discountItem?.endDate) <= moment(endDateDiscount)
+            dayjs(discountItem?.startDate) >= dayjs(startDateDiscount) &&
+            dayjs(discountItem?.endDate) <= dayjs(endDateDiscount)
           ) {
             const main = {
               ...initRow,
@@ -291,17 +293,17 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
               amountIncludeVat:
                 discountItem?.rentIncludeVat -
                 discountItem?.discountIncludeVatPerMonth,
-              startDate: moment(discountItem?.startDate).toJSON(),
-              endDate: moment(discountItem?.endDate).toJSON(),
+              startDate: dayjs(discountItem?.startDate).toJSON(),
+              endDate: dayjs(discountItem?.endDate).toJSON(),
             }
             newTB.splice(index, 0, main)
           }
-          if (moment(discountItem?.endDate) < moment(endDateDiscount)) {
+          if (dayjs(discountItem?.endDate) < dayjs(endDateDiscount)) {
             const after = {
               ...initRow,
               name: "after",
-              startDate: moment(discountItem?.endDate).add(1, "days").toJSON(),
-              endDate: moment(endDateDiscount).toJSON(),
+              startDate: dayjs(discountItem?.endDate).add(1, "days").toJSON(),
+              endDate: dayjs(endDateDiscount).toJSON(),
             }
             const oldAfterIndex = newTB.findIndex(
               (tbItem) => tbItem.name === "after"
@@ -312,12 +314,12 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
             newTB.splice(index, 0, after)
           }
 
-          startDateDiscount = moment(discountItem?.endDate)
+          startDateDiscount = dayjs(discountItem?.endDate)
         })
       }
     })
     await newTB.sort(function (left, right) {
-      return moment.utc(left.startDate).diff(moment.utc(right.startDate))
+      return dayjs.utc(left.startDate).diff(dayjs.utc(right.startDate))
     })
     const dataGropRent = [] as any
     const otherFeeRent = otherFee.reduce(
@@ -351,8 +353,8 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       }),
     })
     if (dataForGenrerate?.paymentTerm?.id === term.oneTimePayment) {
-      const startPeriod = moment(dataForGenrerate?.commencementDate).toJSON()
-      const endPeriod = moment(dataForGenrerate?.expiryDate).toJSON()
+      const startPeriod = dayjs(dataForGenrerate?.commencementDate).toJSON()
+      const endPeriod = dayjs(dataForGenrerate?.expiryDate).toJSON()
       const newPeriod = await this.addToSchdulePayment(
         startPeriod,
         endPeriod,
@@ -363,8 +365,8 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       await this.setState({ dataTable: schedulePayment })
     } else {
       if (this.state.firstPeriodTime > 0) {
-        const startPeriod = moment(dataForGenrerate?.commencementDate).toJSON()
-        const endPeriod = moment(dataForGenrerate?.paymentDate)
+        const startPeriod = dayjs(dataForGenrerate?.commencementDate).toJSON()
+        const endPeriod = dayjs(dataForGenrerate?.paymentDate)
           .subtract(1, "days")
           .toJSON()
 
@@ -380,21 +382,21 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
       do {
         i++
 
-        const startPeriod = await moment(startDate).toJSON()
-        let endPeriod = await moment(startPeriod)
+        const startPeriod = await dayjs(startDate).toJSON()
+        let endPeriod = await dayjs(startPeriod)
           .add(dataForGenrerate?.paymentTerm?.countMonth, "months")
           .subtract(1, "days")
           .toJSON()
 
         if (
-          moment(endPeriod).endOf("months") <
-          moment(dataForGenrerate?.paymentDate)
+          dayjs(endPeriod).endOf("months") <
+          dayjs(dataForGenrerate?.paymentDate)
         ) {
-          endPeriod = await moment(endPeriod)
+          endPeriod = await dayjs(endPeriod)
             .set(
               "date",
               parseInt(
-                moment(endPeriod)
+                dayjs(endPeriod)
                   .endOf("months")
                   .subtract(1, "days")
                   .format("DD")
@@ -402,8 +404,8 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
             )
             .toJSON()
         }
-        if (moment(endPeriod) > moment(dataForGenrerate?.expiryDate)) {
-          endPeriod = await moment(dataForGenrerate?.expiryDate).toJSON()
+        if (dayjs(endPeriod) > dayjs(dataForGenrerate?.expiryDate)) {
+          endPeriod = await dayjs(dataForGenrerate?.expiryDate).toJSON()
         }
         const newPeriod = await this.addToSchdulePayment(
           startPeriod,
@@ -411,49 +413,49 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
           i
         )
         if (
-          moment(startPeriod)
+          dayjs(startPeriod)
             .add(dataForGenrerate?.paymentTerm?.countMonth, "months")
             .endOf("months")
-            .format("DD") >= moment(dataForGenrerate?.paymentDate).format("DD")
+            .format("DD") >= dayjs(dataForGenrerate?.paymentDate).format("DD")
         ) {
-          startDate = await moment(startPeriod)
+          startDate = await dayjs(startPeriod)
             .add(dataForGenrerate?.paymentTerm?.countMonth, "months")
             .set(
               "date",
-              parseInt(moment(dataForGenrerate?.paymentDate).format("DD"))
+              parseInt(dayjs(dataForGenrerate?.paymentDate).format("DD"))
             )
             .toJSON()
         } else {
-          startDate = await moment(startPeriod)
+          startDate = await dayjs(startPeriod)
             .add(dataForGenrerate?.paymentTerm?.countMonth, "months")
 
             .toJSON()
         }
         await schedulePayment.push(newPeriod?.rent)
-      } while (moment(startDate) < moment(dataForGenrerate?.expiryDate))
+      } while (dayjs(startDate) < dayjs(dataForGenrerate?.expiryDate))
 
       const scheduleRemoveDate = schedulePayment.filter(
         (item) =>
-          moment(item.endDate) <=
-          moment(dataForGenrerate.expiryDate).add(
+          dayjs(item.endDate) <=
+          dayjs(dataForGenrerate.expiryDate).add(
             dataForGenrerate?.paymentTerm?.countMonth,
             "month"
           )
       )
       this.setState({ dataTable: scheduleRemoveDate })
     }
-  };
+  }
   onOk = async () => {
     const dataSend = [...this.state.dataTable].map((item) => {
       return {
         ...item,
-        startDate: moment(item.startDate).endOf("days").toJSON(),
-        endDate: moment(item.endDate).endOf("days").toJSON(),
+        startDate: dayjs(item.startDate).endOf("days").toJSON(),
+        endDate: dayjs(item.endDate).endOf("days").toJSON(),
       }
     })
 
     this.props.onOk(dataSend)
-  };
+  }
   render(): React.ReactNode {
     const {
       dataForGenrerate,
@@ -545,7 +547,7 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
                 <Col sm={{ span: 6 }}>
                   <strong>
                     {L("COMMENCEMENT_DATE")}:{"  "}
-                    {moment(dataForGenrerate.commencementDate).format(
+                    {dayjs(dataForGenrerate.commencementDate).format(
                       dateFormat
                     )}
                   </strong>
@@ -553,13 +555,13 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
                 <Col sm={{ span: 6 }}>
                   <strong>
                     {L("PAYMENT_DATE")}:{"  "}
-                    {moment(dataForGenrerate.paymentDate).format(dateFormat)}
+                    {dayjs(dataForGenrerate.paymentDate).format(dateFormat)}
                   </strong>
                 </Col>
                 <Col sm={{ span: 6 }}>
                   <strong>
                     {L("EXPIRY_DATE")}:{"  "}
-                    {moment(dataForGenrerate.expiryDate).format(dateFormat)}
+                    {dayjs(dataForGenrerate.expiryDate).format(dateFormat)}
                   </strong>
                 </Col>
                 <Col sm={{ span: 24 }}>

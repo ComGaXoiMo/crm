@@ -9,13 +9,13 @@ import { EntityDto } from "../../../services/dto/entityDto"
 import { L, LNotification } from "../../../lib/abpUtility"
 import Stores from "../../../stores/storeIdentifier"
 import LanguageStore from "../../../stores/administrator/languageStore"
-import DataTable from "../../../components/DataTable"
 import { appPermissions } from "../../../lib/appconst"
 import debounce from "lodash/debounce"
 import getColumns from "./columns"
 import Search from "antd/es/input/Search"
 import withRouter from "@components/Layout/Router/withRouter"
 import LanguageDetailModal from "./components/languageDetailModal"
+import DataTable from "@components/DataTable"
 export interface ILanguageProps {
   history: any
   languageStore: LanguageStore

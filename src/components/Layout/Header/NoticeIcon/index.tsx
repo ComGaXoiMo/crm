@@ -39,12 +39,15 @@ export interface NoticeIconProps {
   viewMoreText?: string
   clearClose?: boolean
   emptyImage?: string
-  children: React.ReactElement<NoticeIconTabProps>[]
+  children?: React.ReactNode
 }
 
 const NoticeIcon: React.FC<NoticeIconProps> & {
   Tab: typeof NoticeList
-} = (props) => {
+} = ({
+  emptyImage = "https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg",
+  ...props
+}) => {
   const getNotificationBox = (): React.ReactNode => {
     const {
       children,
@@ -67,7 +70,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
           className={"antd-tab-cusstom"}
           type="card"
         >
-          {([children] || []).map((child: any) => {
+          {React.Children.toArray(children).map((child: any) => {
             if (!child) {
               return ""
             }
@@ -81,10 +84,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
               emptyText,
               icon,
             } = child.props
-            // const len = data?.length || 0;
-            // const msgCount = count || count === 0 ? count : len;
-            // const tabTitle: string =
-            //   msgCount > 0 ? `${title} (${msgCount})` : title;
+
             return (
               <TabPane className={"color-tab"} tab={tabKey} key={tabKey}>
                 <NoticeList
@@ -152,11 +152,6 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
   )
 }
 
-NoticeIcon.defaultProps = {
-  emptyImage:
-    "https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg",
-}
-
-NoticeIcon.Tab = NoticeList
+NoticeIcon.Tab = NoticeList as unknown as React.FC<NoticeIconTabProps>
 
 export default NoticeIcon

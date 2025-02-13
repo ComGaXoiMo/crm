@@ -8,7 +8,8 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appStatusColors, dateDifference } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
 import { v4 as uuid } from "uuid"
-import moment from "moment"
+import dayjs from "dayjs"
+import isBetween from "dayjs/plugin/isBetween"
 import { formatNumber, inputCurrencyFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -24,6 +25,7 @@ import {
   buildEditableCell,
 } from "@components/DataTable/EditableCell"
 const { align } = AppConsts
+dayjs.extend(isBetween)
 export interface ILeaseDealerProps {
   leaseTerm: any
   paymentTermChoose: any
@@ -123,25 +125,25 @@ class DiscountFeeTable extends AppComponentListBase<
       const row = newData[index]
 
       const dateBeforPayment = await dateDifference(
-        moment(values.startDate).endOf("days"),
-        moment(values.endDate).endOf("days").add(1, "days")
+        dayjs(values.startDate).endOf("days"),
+        dayjs(values.endDate).endOf("days").add(1, "days")
       )
       const rentInTime = this.props.dataTableRent.find(
         (item) =>
-          moment(item?.startDate).startOf("days") <= moment(values.startDate) &&
-          moment(item?.endDate).endOf("days") >= moment(values.endDate)
+          dayjs(item?.startDate).startOf("days") <= dayjs(values.startDate) &&
+          dayjs(item?.endDate).endOf("days") >= dayjs(values.endDate)
       )
       const rentIsDuplicate = DataWithNotItemChoose.find(
         (item) =>
-          moment(values.startDate).isBetween(
-            moment(item?.startDate).startOf("day"),
-            moment(item?.endDate).endOf("day"),
+          dayjs(values.startDate).isBetween(
+            dayjs(item?.startDate).startOf("day"),
+            dayjs(item?.endDate).endOf("day"),
             null,
             "[]"
           ) ||
-          moment(values.endDate).isBetween(
-            moment(item?.startDate).startOf("day"),
-            moment(item?.endDate).endOf("day"),
+          dayjs(values.endDate).isBetween(
+            dayjs(item?.startDate).startOf("day"),
+            dayjs(item?.endDate).endOf("day"),
             null,
             "[]"
           )
@@ -261,8 +263,8 @@ class DiscountFeeTable extends AppComponentListBase<
   }
   getAmount = (data, laAmountInclVat, laAmountExclVat) => {
     const dataToGetAmountAfterDiscount = {
-      startDate: moment(data?.startDate).toJSON(),
-      endDate: moment(data?.endDate).toJSON(),
+      startDate: dayjs(data?.startDate).toJSON(),
+      endDate: dayjs(data?.endDate).toJSON(),
       lAAmountDiscountIncludeVAT: laAmountInclVat,
       lAAmountDiscountExcludeVat: laAmountExclVat,
       discountIncludeVatPerMonth: data?.discountIncludeVatPerMonth,
@@ -311,8 +313,8 @@ class DiscountFeeTable extends AppComponentListBase<
             false,
             [{ required: true, message: "Please input this field" }],
             {
-              startDate: moment(this.props.leaseTerm?.startDate).toJSON(),
-              endDate: moment(this.props.leaseTerm?.endDate)
+              startDate: dayjs(this.props.leaseTerm?.startDate).toJSON(),
+              endDate: dayjs(this.props.leaseTerm?.endDate)
                 .add(1, "days")
                 .toJSON(),
             }
@@ -335,8 +337,8 @@ class DiscountFeeTable extends AppComponentListBase<
             true,
             [{ required: true, message: "Please input this field" }],
             {
-              startDate: moment(this.props.leaseTerm?.startDate).toJSON(),
-              endDate: moment(this.props.leaseTerm?.endDate).toJSON(),
+              startDate: dayjs(this.props.leaseTerm?.startDate).toJSON(),
+              endDate: dayjs(this.props.leaseTerm?.endDate).toJSON(),
             }
           ),
       },
@@ -507,8 +509,8 @@ class DiscountFeeTable extends AppComponentListBase<
                 onClick={async () => {
                   await this.formRef.current?.setFieldsValue({
                     ...record,
-                    startDate: record.startDate ? moment(record.startDate) : "",
-                    endDate: record.endDate ? moment(record.endDate) : "",
+                    startDate: record.startDate ? dayjs(record.startDate) : "",
+                    endDate: record.endDate ? dayjs(record.endDate) : "",
                   })
                   await this.setState({
                     backupData: [...this.state.dataTable],

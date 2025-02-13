@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Avatar, Modal, notification, Tooltip, Select, Tag, Badge } from "antd"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 import * as XLSX from "xlsx-js-style"
 import AppConsts, {
   cookieKeys,
@@ -81,10 +81,10 @@ export const convertFilterDate = (
   const fName = fromName ? fromName : "fromDate"
   const tName = toName ? toName : "toDate"
   const fromDate = newDatePicker
-    ? moment(newDatePicker[0]).endOf("days").toJSON()
+    ? dayjs(newDatePicker[0]).endOf("days").toJSON()
     : undefined
   const toDate = newDatePicker
-    ? moment(newDatePicker[1]).endOf("days").toJSON()
+    ? dayjs(newDatePicker[1]).endOf("days").toJSON()
     : undefined
   return { ...currentFilter, [fName]: fromDate, [tName]: toDate }
 }
@@ -286,20 +286,20 @@ export function mapMultiLanguageField(existLangs) {
 
 export function isBetween(start, end, current) {
   // Format date to remove second
-  const startStr = moment(start).format("MM/DD/YYYY HH:mm")
-  const endStr = moment(end).format("MM/DD/YYYY HH:mm")
-  const currentStr = moment(current).format("MM/DD/YYYY HH:mm")
-  const mStart = moment(startStr)
-  const mEnd = moment(endStr)
-  const mCurrent = moment(currentStr)
+  const startStr = dayjs(start).format("MM/DD/YYYY HH:mm")
+  const endStr = dayjs(end).format("MM/DD/YYYY HH:mm")
+  const currentStr = dayjs(current).format("MM/DD/YYYY HH:mm")
+  const mStart = dayjs(startStr)
+  const mEnd = dayjs(endStr)
+  const mCurrent = dayjs(currentStr)
   return mStart.isBefore(mCurrent) && mEnd.isAfter(mCurrent)
 }
 
 export function isSame(timeA, timeB) {
-  const timeAStr = moment(timeA).format("MM/DD/YYYY HH:mm")
-  const timeBStr = moment(timeB).format("MM/DD/YYYY HH:mm")
-  const mTimeA = moment(timeAStr)
-  const mTimeB = moment(timeBStr)
+  const timeAStr = dayjs(timeA).format("MM/DD/YYYY HH:mm")
+  const timeBStr = dayjs(timeB).format("MM/DD/YYYY HH:mm")
+  const mTimeA = dayjs(timeAStr)
+  const mTimeB = dayjs(timeBStr)
 
   return mTimeA.isSame(mTimeB)
 }
@@ -498,7 +498,7 @@ export function renderPercent(value) {
 export function renderMonth(value) {
   if (value) {
     // TODO using global format
-    value = moment(value).format("MM/YYYY")
+    value = dayjs(value).format("MM/YYYY")
   }
 
   return value
@@ -506,7 +506,7 @@ export function renderMonth(value) {
 export function renderDate(value) {
   if (value) {
     // TODO using global format
-    value = moment(value).format(dateFormat)
+    value = dayjs(value).format(dateFormat)
   }
 
   return value
@@ -514,7 +514,7 @@ export function renderDate(value) {
 export function renderQuarter(value) {
   if (value) {
     // TODO using global format
-    value = `Q${moment(value).format("Q-YYYY")}`
+    value = `Q${dayjs(value).format("Q-YYYY")}`
   }
 
   return value
@@ -522,7 +522,7 @@ export function renderQuarter(value) {
 export function renderDateTime(value) {
   if (value) {
     // TODO using global format
-    value = moment(value).format("DD/MM/YYYY HH:mm")
+    value = dayjs(value).format("DD/MM/YYYY HH:mm")
   }
 
   return value
@@ -531,7 +531,7 @@ export function renderDateTime(value) {
 export function renderTime(value) {
   if (value) {
     // TODO using global format
-    value = moment(value).format("HH:mm")
+    value = dayjs(value).format("HH:mm")
   }
 
   return value

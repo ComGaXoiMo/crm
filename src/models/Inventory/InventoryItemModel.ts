@@ -1,4 +1,4 @@
-import moment from 'moment-timezone/moment-timezone'
+import dayjs from "dayjs"
 
 export interface IInventoryItemName {
   languageName: string
@@ -6,8 +6,8 @@ export interface IInventoryItemName {
 }
 
 export enum IInventoryStockTypes {
-  stockIn = 'INVENTORY_STOCK_IN',
-  stockOut = 'INVENTORY_STOCK_OUT'
+  stockIn = "INVENTORY_STOCK_IN",
+  stockOut = "INVENTORY_STOCK_OUT",
 }
 
 export interface IInventoryItem {
@@ -44,18 +44,18 @@ export class InventoryItemModel {
 
   constructor() {
     this.id = 0
-    this.name = ''
+    this.name = ""
     this.categoryId = 0
-    this.description = ''
-    this.locationUseAt = ''
-    this.typeDescription = ''
+    this.description = ""
+    this.locationUseAt = ""
+    this.typeDescription = ""
     this.minimumBalance = 0
     this.locationId = undefined
-    this.locationRackNo = ''
-    this.locationRowNo = ''
-    this.locationOther = ''
-    this.rating = ''
-    this.colourCode = ''
+    this.locationRackNo = ""
+    this.locationRowNo = ""
+    this.locationOther = ""
+    this.rating = ""
+    this.colourCode = ""
   }
 
   public static assign(obj) {
@@ -105,12 +105,12 @@ export class InventoryStockInModel {
     this.companyId = undefined
     this.brandId = undefined
     this.locationId = undefined
-    this.inputDate = moment()
+    this.inputDate = dayjs().toDate()
     this.quantity = undefined
     this.cost = undefined
     this.unitPrice = undefined
-    this.description = ''
-    this.deliveryNo = ''
+    this.description = ""
+    this.deliveryNo = ""
   }
 
   public static assign(obj) {
@@ -122,7 +122,7 @@ export class InventoryStockInModel {
     newObj.companyId = obj.companyId
     newObj.brandId = obj.brandId
     newObj.locationId = obj.locationId
-    newObj.inputDate = obj.inputDate ? moment(obj.inputDate) : undefined
+    newObj.inputDate = obj.inputDate ? dayjs(obj.inputDate) : undefined
     newObj.quantity = obj.quantity
     newObj.cost = obj.cost
     newObj.unitPrice = obj.unitPrice
@@ -151,9 +151,9 @@ export class InventoryStockOutModel {
     this.id = 0
     this.inventoryId = 0
     this.parentId = 0
-    this.outputDate = moment()
+    this.outputDate = dayjs().toDate()
     this.quantity = 0
-    this.description = ''
+    this.description = ""
   }
 
   public static assign(obj) {
@@ -163,7 +163,7 @@ export class InventoryStockOutModel {
     newObj.id = obj.id
     newObj.inventoryId = obj.inventoryId
     newObj.parentId = obj.parentId
-    newObj.outputDate = obj.outputDate ? moment(obj.outputDate) : undefined
+    newObj.outputDate = obj.outputDate ? dayjs(obj.outputDate) : undefined
     newObj.quantity = obj.quantity
     newObj.description = obj.description
 

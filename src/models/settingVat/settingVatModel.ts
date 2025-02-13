@@ -1,13 +1,13 @@
-import moment from "moment"
+import dayjs from "dayjs"
 
 import { v4 as uuid } from "uuid"
 export class SettingVatModel {
-  id?: number;
-  name?: string;
-  vatPercent: any;
-  startDate: any;
-  endDate: any;
-  key: any;
+  id?: number
+  name?: string
+  vatPercent: any
+  startDate: any
+  endDate: any
+  key: any
 
   constructor() {
     this.name = ""
@@ -19,11 +19,9 @@ export class SettingVatModel {
 
     const newObj = Object.assign(new SettingVatModel(), obj)
 
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : undefined
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : undefined
-    newObj.creationTime = obj.creationTime
-      ? moment(obj.creationTime)
-      : undefined
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : undefined
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : undefined
+    newObj.creationTime = obj.creationTime ? dayjs(obj.creationTime) : undefined
     newObj.key = uuid()
     return newObj
   }
@@ -35,12 +33,12 @@ export class SettingVatModel {
   }
 }
 export class RowVatConfigModel {
-  id?: number;
-  name?: string;
-  vatPercent: any;
-  startDate: any;
-  endDate: any;
-  key: any;
+  id?: number
+  name?: string
+  vatPercent: any
+  startDate: any
+  endDate: any
+  key: any
 
   constructor() {
     this.name = ""
@@ -52,8 +50,8 @@ export class RowVatConfigModel {
 
     const newObj = Object.assign(new RowVatConfigModel(), obj)
     newObj.name = obj.name
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : undefined
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : undefined
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : undefined
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : undefined
     newObj.key = uuid()
     return newObj
   }

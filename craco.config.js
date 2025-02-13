@@ -1,8 +1,8 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CracoLessPlugin = require("craco-less");
-const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const CracoLessPlugin = require("craco-less")
+const path = require("path")
 // Don't open the browser during development
-process.env.BROWSER = "none";
+process.env.BROWSER = "none"
 
 module.exports = {
   plugins: [
@@ -12,18 +12,23 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              "@white-color": "#ffffff",
-              "@primary-color": "#FEC20C",
-              "@text-color": "#333",
+              "@primary-color": "#3ba1afd4",
+              "@text-color": "#000000",
               "@color-error": "rgba(231, 105, 95, 1)",
               "@color-success": "rgba(82, 203, 103, 1)",
               "@place-holder-text": "rgba(29, 68, 73, 0.32)",
-              "@border-color": "#cccccc",
+              "@border-color": "#e8e8e8",
               "@border-primary-color": "rgba(110, 186, 196, 0.4)",
               "@layout-bg-color": "#F2F4F8",
               "@padding-md": "16px",
               "@control-padding-horizontal": "@padding-md",
               "@height-lg": "44px",
+              "@screen-md-min": "600px",
+              "@screen-sm": "600px",
+              "@primary-6": "black",
+              "@error-color": "#f5222d",
+              "@text-color-secondary": "#fff",
+              "@border-color-base": "#dee2e6",
             },
             javascriptEnabled: true,
           },
@@ -45,7 +50,7 @@ module.exports = {
     plugins: [],
     configure: (webpackConfig, { env, paths }) => {
       if (!webpackConfig.plugins) {
-        config.plugins = [];
+        config.plugins = []
       }
 
       webpackConfig.plugins.push(
@@ -78,9 +83,9 @@ module.exports = {
                 },
               ],
             })
-      );
+      )
 
-      return webpackConfig;
+      return webpackConfig
     },
   },
-};
+}

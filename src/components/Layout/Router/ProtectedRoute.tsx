@@ -1,51 +1,37 @@
 import * as React from "react"
-
-import { Redirect, Route } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 import { isGranted } from "@lib/abpUtility"
 import { userLayout } from "@components/Layout/Router/router.config"
 
 declare let abp: any
 
-const ProtectedRoute = ({
-  path,
-  component: Component,
-  routedata,
+interface ProtectedRouteProps {
+  children?: React.ReactNode | any
+  permission?: string
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
   permission,
-  render,
-  ...rest
-}: any) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (!abp.session.userId) {
-          return (
-            <Redirect
-              to={{
-                pathname: userLayout.accountLogin.path,
-                state: { from: props.location },
-              }}
-            />
-          )
-        }
-        if (permission && !isGranted(permission)) {
-          return (
-            <Redirect
-              to={{
-                pathname: "/exception?type=401",
-                state: { from: props.location },
-              }}
-            />
-          )
-        }
-        return Component ? (
-          <Component {...props} routedata={routedata} />
-        ) : (
-          render(props)
-        )
-      }}
-    />
-  )
+}) => {
+  const location = useLocation()
+  if (!abp.session.userId) {
+    return (
+      <Navigate
+        to={userLayout.accountLogin.path}
+        state={{ from: location }}
+        replace
+      />
+    )
+  }
+
+  if (permission && !isGranted(permission)) {
+    return (
+      <Navigate to="/exception?type=401" state={{ from: location }} replace />
+    )
+  }
+
+  return <>{children}</>
 }
 
 export default ProtectedRoute

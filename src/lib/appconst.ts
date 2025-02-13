@@ -35,11 +35,13 @@ export const defaultLocation = {
   lat: 10.8230989,
   lng: 106.6296638,
 }
-export const usePrevious = (value) => {
-  const ref = useRef()
+export const usePrevious = <T>(value: T): T | undefined => {
+  const ref = useRef<T | undefined>(undefined)
+
   useEffect(() => {
     ref.current = value
-  })
+  }, [value])
+
   return ref.current
 }
 

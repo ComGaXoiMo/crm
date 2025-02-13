@@ -1,4 +1,4 @@
-import { PagedResultDto } from "../dto/pagedResultDto"
+import type { PagedResultDto } from "../dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "@lib/abpUtility"
 import { notifyError, notifySuccess } from "@lib/helper"
@@ -38,7 +38,7 @@ class NewsService {
       notifyError(L("ERROR"), L("ENTITY_NOT_FOUND"))
     }
 
-    const result = await http.get(`/api/News/Get` ,  {params: {id}})
+    const result = await http.get(`/api/News/Get`, { params: { id } })
     return result.data.result
   }
 
@@ -53,7 +53,7 @@ class NewsService {
 
   public async getAll(params: any): Promise<PagedResultDto<any>> {
     const paramsCategory: any = {}
-    if (params.CategoryIds && params.CategoryIds !== []) {
+    if (params.CategoryIds && params.CategoryIds.length > 0) {
       const newCategoryIds = params.CategoryIds.split(",")
       newCategoryIds.map((cat, index) => {
         paramsCategory[`CategoryIds[${index}]`] = cat
@@ -84,7 +84,7 @@ class NewsService {
   }
   public getCategories = async () => {
     return (await http.get("api/Category/GetListNewsCategory")).data.result
-  };
+  }
 }
 
 export default new NewsService()

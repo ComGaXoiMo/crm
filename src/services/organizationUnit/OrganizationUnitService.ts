@@ -1,7 +1,7 @@
 import http from "@services/httpService"
 import { notifySuccess } from "@lib/helper"
 import { LNotification } from "@lib/abpUtility"
-// import { PagedResultDto } from "@services/dto/pagedResultDto";
+// import type { PagedResultDto } from "@services/dto/pagedResultDto";
 import { RowOUModel } from "@models/organizationUnit/OUModel"
 
 class OrganizationUnitService {

@@ -1,40 +1,42 @@
 import "./PublicLayout.less"
-
-import * as React from "react"
-
-import { Redirect, Route, Switch } from "react-router-dom"
-
+import React from "react"
+import { Routes, Route, Navigate, useLocation } from "react-router-dom"
 import { Layout } from "antd"
-import DocumentTitle from "react-document-title"
+import { Helmet } from "react-helmet-async"
 import { publicLayout } from "./Router/router.config"
 import utils from "../../utils/utils"
+
 const { Content } = Layout
 
-class PublicLayout extends React.Component<any> {
-  render() {
-    const {
-      location: { pathname },
-    } = this.props
+const PublicLayout: React.FC = () => {
+  const location = useLocation()
 
-    return (
-      <DocumentTitle title={utils.getPageTitle(pathname)}>
-        <Content className="container">
-          <Switch>
-            {Object.keys(publicLayout).map((pageName: any, index: number) => (
-              <Route
-                key={index}
-                path={publicLayout[pageName].path}
-                component={publicLayout[pageName].component}
-                exact={publicLayout[pageName].exact}
-              />
-            ))}
+  return (
+    <>
+      {/* Thay DocumentTitle bằng Helmet */}
+      <Helmet>
+        <title>{utils.getPageTitle(location.pathname)}</title>
+      </Helmet>
 
-            <Redirect from="/account" to="/account/login" />
-          </Switch>
-        </Content>
-      </DocumentTitle>
-    )
-  }
+      <Content className="container">
+        <Routes>
+          {Object.keys(publicLayout).map((pageName: any, index: number) => (
+            <Route
+              key={index}
+              path={publicLayout[pageName].path}
+              element={publicLayout[pageName].component}
+            />
+          ))}
+
+          {/* Thay Redirect bằng Navigate */}
+          <Route
+            path="/account"
+            element={<Navigate to="/account/login" replace />}
+          />
+        </Routes>
+      </Content>
+    </>
+  )
 }
 
 export default PublicLayout

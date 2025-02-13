@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Input, Tabs } from 'antd'
-import { arrayToObject } from '../../../lib/helper'
-import { ILanguageValue } from '../../../models/global'
-import isEqual from 'lodash/isEqual'
+import React, { useState, useEffect } from "react"
+import { Input, Tabs } from "antd"
+import { arrayToObject } from "../../../lib/helper"
+import { ILanguageValue } from "../../../models/global"
+import isEqual from "lodash/isEqual"
+import { usePrevious } from "@lib/appconst"
 const { TextArea } = Input
 const { TabPane } = Tabs
 
@@ -12,27 +13,29 @@ interface MultiLanguageTextAreaProps {
   maxLength?: number
 }
 
-const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
-}
-
 const currentLanguage = abp.localization.currentLanguage.name
 
-const MultiLanguageTextArea: React.FC<MultiLanguageTextAreaProps> = ({ value = [], onChange, maxLength }) => {
+const MultiLanguageTextArea: React.FC<MultiLanguageTextAreaProps> = ({
+  value = [],
+  onChange,
+  maxLength,
+}) => {
   const previousValue = usePrevious(value)
-  const [languageValue, setLanguageValue] = useState(arrayToObject(value, 'languageName', 'value'))
+  const [languageValue, setLanguageValue] = useState(
+    arrayToObject(value, "languageName", "value")
+  )
   const [selectedLanguage, setSelectedLanguage] = useState(
-    currentLanguage && currentLanguage.length ? currentLanguage : value && value.length ? value[0].languageName : ''
+    currentLanguage && currentLanguage.length
+      ? currentLanguage
+      : value && value.length
+      ? value[0].languageName
+      : ""
   )
 
   useEffect(() => {
     if (previousValue && !isEqual(previousValue, value)) {
-      setLanguageValue(arrayToObject(value, 'languageName', 'value'))
-      setSelectedLanguage(value && value.length ? value[0].languageName : '')
+      setLanguageValue(arrayToObject(value, "languageName", "value"))
+      setSelectedLanguage(value && value.length ? value[0].languageName : "")
     }
   }, [value])
 
@@ -55,7 +58,8 @@ const MultiLanguageTextArea: React.FC<MultiLanguageTextAreaProps> = ({ value = [
         <TabPane
           tab={
             <>
-              <i className={language.icon} /> <span className="ml-1">{language.languageName}</span>
+              <i className={language.icon} />{" "}
+              <span className="ml-1">{language.languageName}</span>
             </>
           }
           key={language.languageName}

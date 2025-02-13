@@ -5,7 +5,7 @@ import { RowData } from "@models/DataTable"
 import AppConsts, { AppConfiguration } from "@lib/appconst"
 import { v4 as uuid } from "uuid"
 import { buildFileUrl } from "@lib/helper"
-import moment from "moment"
+import dayjs from "dayjs"
 export class ProjectSettingModel {
   id: number
   projectId: number
@@ -264,8 +264,8 @@ export class RowProjectModel extends RowData implements IRowProject {
       id: item.companyId,
       name: item.legalName,
     }))
-    newObj.builtDate = obj.builtDate ? moment(obj.builtDate) : null
-    newObj.effectiveDate = obj.effectiveDate ? moment(obj.effectiveDate) : null
+    newObj.builtDate = obj.builtDate ? dayjs(obj.builtDate) : null
+    newObj.effectiveDate = obj.effectiveDate ? dayjs(obj.effectiveDate) : null
     newObj.projectLandlords = (newObj.projectLandlords || []).map((item) => ({
       id: item.companyId,
       name: item.legalName,
@@ -336,27 +336,27 @@ export class ProjectDetailModel extends RowData implements IRowProject {
       name: item.legalName,
     }))
     newObj.launchingTime = obj.launchingTime
-      ? moment(obj.launchingTime)
+      ? dayjs(obj.launchingTime)
       : undefined
-    newObj.builtDate = obj.builtDate ? moment(obj.builtDate) : undefined
+    newObj.builtDate = obj.builtDate ? dayjs(obj.builtDate) : undefined
     newObj.effectiveDate = obj.effectiveDate
-      ? moment(obj.effectiveDate)
+      ? dayjs(obj.effectiveDate)
       : undefined
     newObj.yearRenovated = obj.yearRenovated
-      ? moment(obj.yearRenovated)
+      ? dayjs(obj.yearRenovated)
       : undefined
-    newObj.outOfDate = obj.outOfDate ? moment(obj.outOfDate) : undefined
+    newObj.outOfDate = obj.outOfDate ? dayjs(obj.outOfDate) : undefined
 
     newObj.lessorCertificateIssuedDate = obj.lessorCertificateIssuedDate
-      ? moment(obj.lessorCertificateIssuedDate)
+      ? dayjs(obj.lessorCertificateIssuedDate)
       : undefined
     newObj.representativeCertificateEffectiveDate =
       obj.representativeCertificateEffectiveDate
-        ? moment(obj.representativeCertificateEffectiveDate)
+        ? dayjs(obj.representativeCertificateEffectiveDate)
         : undefined
     newObj.managingAgentCertificateIssuedDate =
       obj.managingAgentCertificateIssuedDate
-        ? moment(obj.managingAgentCertificateIssuedDate)
+        ? dayjs(obj.managingAgentCertificateIssuedDate)
         : undefined
 
     newObj.projectAddress = obj.projectAddress

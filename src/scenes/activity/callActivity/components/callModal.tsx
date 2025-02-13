@@ -7,22 +7,22 @@ import withRouter from "@components/Layout/Router/withRouter"
 import CallStore from "@stores/activity/callStore"
 import { inject, observer } from "mobx-react"
 import Stores from "@stores/storeIdentifier"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateTimeFormat } from "@lib/appconst"
 import { validateMessages } from "@lib/validation"
 
 interface Props {
-  visible: boolean;
-  callStore: CallStore;
-  inquiryId: any;
-  onClose: () => void;
-  onOk: (params) => void;
+  visible: boolean
+  callStore: CallStore
+  inquiryId: any
+  onClose: () => void
+  onOk: (params) => void
 }
 
 @inject(Stores.CallStore)
 @observer
 class CallModal extends AppComponentListBase<Props, any> {
-  form: any = React.createRef();
+  form: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -35,7 +35,7 @@ class CallModal extends AppComponentListBase<Props, any> {
       if (this.props.visible) {
         this.form.current?.setFieldsValue({
           ...callDetail,
-          callDate: moment(callDetail?.callDate),
+          callDate: dayjs(callDetail?.callDate),
         })
       }
     }
@@ -51,7 +51,7 @@ class CallModal extends AppComponentListBase<Props, any> {
 
     await this.props.callStore.createOrUpdate(params)
     await this.props.onOk(params)
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,

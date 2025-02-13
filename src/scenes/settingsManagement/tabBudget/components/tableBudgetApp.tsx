@@ -11,7 +11,7 @@ import { CloseOutlined, EditOutlined, SaveOutlined } from "@ant-design/icons"
 import { EditableCell } from "@components/DataTable/EditableCell"
 import { validateMessages } from "@lib/validation"
 import Stores from "@stores/storeIdentifier"
-import moment from "moment"
+import dayjs from "dayjs"
 const { align } = AppConsts
 //
 
@@ -41,7 +41,7 @@ class TableBudgetApp extends AppComponentListBase<IProps, IState> {
       maxResultCount: 100,
       skipCount: 0,
       editingRowKey: "",
-      filters: { year: moment().year() },
+      filters: { year: dayjs().year() },
       dataTable: [] as any,
       listProject: [] as any,
     }

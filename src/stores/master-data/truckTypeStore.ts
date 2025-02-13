@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import { PagedResultDto } from '../../services/dto/pagedResultDto'
-import truckTypeService from '../../services/master-data/truckTypeService'
-import { TruckTypeModel } from '@models/master-data/truckTypeModel'
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import truckTypeService from "../../services/master-data/truckTypeService"
+import { TruckTypeModel } from "@models/master-data/truckTypeModel"
 
 class TruckTypeStore {
   @observable isLoading!: boolean
@@ -50,14 +50,18 @@ class TruckTypeStore {
   @action
   async filter(params: any) {
     this.isLoading = true
-    this.pagedData = await truckTypeService.filter(params).finally(() => (this.isLoading = false))
+    this.pagedData = await truckTypeService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
   async getAll(params: any) {
     this.isLoading = true
     params.isActive = true
-    this.truckTypes = await truckTypeService.getAll(params).finally(() => (this.isLoading = false))
+    this.truckTypes = await truckTypeService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
@@ -68,7 +72,9 @@ class TruckTypeStore {
   @action
   async exportTruckType(params: any) {
     this.isLoading = true
-    return await truckTypeService.exportTruckType(params).finally(() => (this.isLoading = false))
+    return await truckTypeService
+      .exportTruckType(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action

@@ -1,41 +1,41 @@
 import { RowData } from "@models/DataTable"
-import moment from "moment"
+import dayjs from "dayjs"
 
 export interface IRowUnit {
-  projectId: number;
-  projectName: string;
-  floorName: string;
-  amountMonthly: number;
-  amountPerSquareMeter: number;
-  size: number;
-  orgTenantId: number;
-  orgTenantBusinessName: string;
-  orgTenantLegalName: string;
-  statusName: string;
-  unitTypeName: string;
-  startDate?: Date;
-  expiredDate?: Date;
-  description: string;
+  projectId: number
+  projectName: string
+  floorName: string
+  amountMonthly: number
+  amountPerSquareMeter: number
+  size: number
+  orgTenantId: number
+  orgTenantBusinessName: string
+  orgTenantLegalName: string
+  statusName: string
+  unitTypeName: string
+  startDate?: Date
+  expiredDate?: Date
+  description: string
 }
 
 export class RowUnitModel extends RowData implements IRowUnit {
-  projectId: number;
-  projectName: string;
-  floorName: string;
-  amountMonthly: number;
-  amountPerSquareMeter: number;
-  size: number;
-  orgTenantId: number;
-  orgTenantBusinessName: string;
-  orgTenantLegalName: string;
-  statusName: string;
-  unitTypeName: string;
-  commencementDate?: Date;
-  expiredDate?: Date;
-  moveInDate?: Date;
-  moveOutDate?: Date;
-  otherLA?: any;
-  description: string;
+  projectId: number
+  projectName: string
+  floorName: string
+  amountMonthly: number
+  amountPerSquareMeter: number
+  size: number
+  orgTenantId: number
+  orgTenantBusinessName: string
+  orgTenantLegalName: string
+  statusName: string
+  unitTypeName: string
+  commencementDate?: Date
+  expiredDate?: Date
+  moveInDate?: Date
+  moveOutDate?: Date
+  otherLA?: any
+  description: string
   constructor() {
     super()
     this.projectId = 0
@@ -65,19 +65,27 @@ export class RowUnitModel extends RowData implements IRowUnit {
     newObj.amountMonthly = obj.monthly
     newObj.amountPerSquareMeter = obj.per
     newObj.commencementDate = obj.leaseAgreement?.find(
-      (item) => item?.expiryDate >= moment().toJSON() && item?.commencementDate <= moment().toJSON()
+      (item) =>
+        item?.expiryDate >= dayjs().toJSON() &&
+        item?.commencementDate <= dayjs().toJSON()
     )?.commencementDate
     newObj.expiredDate = obj.leaseAgreement?.find(
-      (item) => item?.expiryDate  >= moment().toJSON()&& item?.commencementDate <= moment().toJSON()
+      (item) =>
+        item?.expiryDate >= dayjs().toJSON() &&
+        item?.commencementDate <= dayjs().toJSON()
     )?.expiryDate
     newObj.moveInDate = obj.leaseAgreement?.find(
-      (item) => item?.expiryDate  >= moment().toJSON()&& item?.commencementDate <= moment().toJSON()
+      (item) =>
+        item?.expiryDate >= dayjs().toJSON() &&
+        item?.commencementDate <= dayjs().toJSON()
     )?.moveInDate
     newObj.moveOutDate = obj.leaseAgreement?.find(
-      (item) => item?.expiryDate  >= moment().toJSON()&& item?.commencementDate <= moment().toJSON()
+      (item) =>
+        item?.expiryDate >= dayjs().toJSON() &&
+        item?.commencementDate <= dayjs().toJSON()
     )?.moveOutDate
     newObj.otherLA = obj.leaseAgreement?.find(
-      (item) => item?.commencementDate > moment().toJSON()
+      (item) => item?.commencementDate > dayjs().toJSON()
     )
     return newObj
   }
@@ -89,15 +97,15 @@ export class RowUnitModel extends RowData implements IRowUnit {
   }
 }
 export class RowUnitStatusModel {
-  unitId: number;
-  leaseAgreementId: number;
-  statusId: number;
+  unitId: number
+  leaseAgreementId: number
+  statusId: number
 
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: Date
+  endDate?: Date
 
-  commencementDate?: Date;
-  expiredDate?: Date;
+  commencementDate?: Date
+  expiredDate?: Date
 
   constructor() {
     this.unitId = 0
@@ -114,12 +122,12 @@ export class RowUnitStatusModel {
     if (!obj) return undefined
 
     const newObj = Object.assign(new RowUnitStatusModel(), obj)
-    newObj.startDate = obj.startDate ? moment(obj.startDate) : null
-    newObj.endDate = obj.endDate ? moment(obj.endDate) : null
+    newObj.startDate = obj.startDate ? dayjs(obj.startDate) : null
+    newObj.endDate = obj.endDate ? dayjs(obj.endDate) : null
     newObj.commencementDate = obj.commencementDate
-      ? moment(obj.commencementDate)
+      ? dayjs(obj.commencementDate)
       : null
-    newObj.expiredDate = obj.expiredDate ? moment(obj.expiredDate) : null
+    newObj.expiredDate = obj.expiredDate ? dayjs(obj.expiredDate) : null
     return newObj
   }
 

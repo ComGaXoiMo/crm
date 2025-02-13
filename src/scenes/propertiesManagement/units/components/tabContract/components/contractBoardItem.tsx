@@ -6,20 +6,20 @@ import { Card, Col, Row } from "antd"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import { L } from "@lib/abpUtility"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateFormat } from "@lib/appconst"
 import { formatCurrency } from "@lib/helper"
 // import { Table } from "antd";
 
 export interface IContractItemProps {
-  data: any;
+  data: any
 }
 
 @inject()
 @observer
 class ContractBoardItem extends AppComponentListBase<IContractItemProps> {
-  formRef: any = React.createRef();
-  state = {};
+  formRef: any = React.createRef()
+  state = {}
 
   public render() {
     const { data } = this.props
@@ -86,42 +86,40 @@ class ContractBoardItem extends AppComponentListBase<IContractItemProps> {
               <label>
                 {L("COMMENCEMENT_DATE")}:
                 <strong>
-                  {moment(data?.commencementDate).format(dateFormat)}
+                  {dayjs(data?.commencementDate).format(dateFormat)}
                 </strong>
               </label>
             </Col>
             <Col span={12}>
               <label>
                 {L("EXPIRED_DATE")}:
-                <strong>{moment(data?.expiryDate).format(dateFormat)}</strong>
+                <strong>{dayjs(data?.expiryDate).format(dateFormat)}</strong>
               </label>
             </Col>
             <Col span={12}>
               <label>
                 {L("EXTEND_DATE")}:
-                <strong>
-                  {moment(data?.extensionDate).format(dateFormat)}
-                </strong>
+                <strong>{dayjs(data?.extensionDate).format(dateFormat)}</strong>
               </label>
             </Col>
             <Col span={12}>
               <label>
                 {L("TERMINATE_DATE")}:
                 <strong>
-                  {moment(data?.terminationDate).format(dateFormat)}
+                  {dayjs(data?.terminationDate).format(dateFormat)}
                 </strong>
               </label>
             </Col>
             <Col span={12}>
               <label>
                 {L("MOVEIN_DATE")}:
-                <strong>{moment(data?.moveInDate).format(dateFormat)}</strong>
+                <strong>{dayjs(data?.moveInDate).format(dateFormat)}</strong>
               </label>
             </Col>
             <Col span={12}>
               <label>
                 {L("MOVE_OUT_DATE")}:
-                <strong>{moment(data?.moveOutDate).format(dateFormat)}</strong>
+                <strong>{dayjs(data?.moveOutDate).format(dateFormat)}</strong>
               </label>
             </Col>
             <Col span={12}>

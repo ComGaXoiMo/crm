@@ -1,24 +1,24 @@
 import { action, observable } from "mobx"
 
-import { CreateOrUpdateUserInput } from "../../services/administrator/user/dto/createOrUpdateUserInput"
+import type { CreateOrUpdateUserInput } from "../../services/administrator/user/dto/createOrUpdateUserInput"
 import { EntityDto } from "../../services/dto/entityDto"
 import { GetRoles } from "../../services/administrator/user/dto/getRolesOuput"
 import { GetUserOutput } from "../../services/administrator/user/dto/getUserOutput"
-import { PagedResultDto } from "../../services/dto/pagedResultDto"
-import { PagedUserResultRequestDto } from "../../services/administrator/user/dto/PagedUserResultRequestDto"
-import { UpdateUserInput } from "../../services/administrator/user/dto/updateUserInput"
+import type { PagedResultDto } from "../../services/dto/pagedResultDto"
+import type { PagedUserResultRequestDto } from "../../services/administrator/user/dto/PagedUserResultRequestDto"
+import type { UpdateUserInput } from "../../services/administrator/user/dto/updateUserInput"
 import userService from "../../services/administrator/user/userService"
 import { compressImage } from "../../lib/helper"
 import { defaultAvatar } from "../../lib/appconst"
 import { GetTeams } from "@services/administrator/user/dto/getTeamsOutput"
 
 class UserStore {
-  @observable isLoading!: boolean;
-  @observable users!: PagedResultDto<GetUserOutput>;
-  @observable editUser!: CreateOrUpdateUserInput;
-  @observable roles: GetRoles[] = [];
-  @observable teams: GetTeams[] = [];
-  @observable editUserProfilePicture!: string;
+  @observable isLoading!: boolean
+  @observable users!: PagedResultDto<GetUserOutput>
+  @observable editUser!: CreateOrUpdateUserInput
+  @observable roles: GetRoles[] = []
+  @observable teams: GetTeams[] = []
+  @observable editUserProfilePicture!: string
 
   constructor() {
     this.editUserProfilePicture = defaultAvatar

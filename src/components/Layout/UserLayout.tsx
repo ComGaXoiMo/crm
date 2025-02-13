@@ -1,42 +1,38 @@
-import './UserLayout.less'
+import "./UserLayout.less"
 
-import * as React from 'react'
+import React from "react"
+import { Routes, Route, Navigate, useLocation } from "react-router-dom"
+import LanguageSelect from "./Header/LanguageSelect"
+import { userLayout } from "./Router/router.config"
+import utils from "../../utils/utils"
+import { Helmet } from "react-helmet-async"
 
-import { Redirect, Route, Switch } from 'react-router-dom'
-
-import DocumentTitle from 'react-document-title'
-import LanguageSelect from './Header/LanguageSelect'
-import { userLayout } from './Router/router.config'
-import utils from '../../utils/utils'
-
-class UserLayout extends React.Component<any> {
-  render() {
-    const {
-      location: { pathname }
-    } = this.props
-
-    return (
-      <DocumentTitle title={utils.getPageTitle(pathname)}>
-        <div className="container">
-          <div className={'lang'} style={{ paddingRight: '15px' }}>
-            <LanguageSelect wrapClass="auth-language" type="horizontal" />
-          </div>
-          <Switch>
-            {Object.keys(userLayout).map((pageName: any, index: number) => (
-              <Route
-                key={index}
-                path={userLayout[pageName].path}
-                component={userLayout[pageName].component}
-                exact={userLayout[pageName].exact}
-              />
-            ))}
-
-            <Redirect from="/account" to="/account/login" />
-          </Switch>
+const UserLayout: React.FC = () => {
+  const location = useLocation()
+  console.log("23")
+  return (
+    <>
+      <Helmet>
+        <title>{utils.getPageTitle(location.pathname)}</title>
+      </Helmet>
+      <div className="container">
+        <div className="lang" style={{ paddingRight: "15px" }}>
+          <LanguageSelect wrapClass="auth-language" type="horizontal" />
         </div>
-      </DocumentTitle>
-    )
-  }
+        <Routes>
+          {Object.keys(userLayout).map((pageName: any) => (
+            <Route
+              key={pageName}
+              path={userLayout[pageName].path}
+              element={userLayout[pageName].component}
+            />
+          ))}
+
+          <Route path="/account" element={<Navigate to="/account/login" />} />
+        </Routes>
+      </div>
+    </>
+  )
 }
 
 export default UserLayout

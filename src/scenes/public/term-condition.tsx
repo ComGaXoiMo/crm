@@ -1,15 +1,6 @@
-import React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React from "react"
 
-interface TermConditionProps extends RouteComponentProps {}
-
-export default class TermCondition extends React.Component<TermConditionProps> {
-  constructor(props: TermConditionProps) {
-    super(props);
-    this.state = {
-      img: null,
-    };
-  }
+export default class TermCondition extends React.Component<any> {
   async componentDidMount() {}
 
   render() {
@@ -155,6 +146,6 @@ export default class TermCondition extends React.Component<TermConditionProps> {
           </p>
         </div>
       </div>
-    );
+    )
   }
 }

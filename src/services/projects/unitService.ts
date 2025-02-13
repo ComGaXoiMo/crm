@@ -2,7 +2,7 @@ import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import http from "../httpService"
 import { L, LNotification } from "../../lib/abpUtility"
 import { notifyError, notifySuccess } from "../../lib/helper"
-import moment from "moment-timezone"
+import dayjs from "dayjs"
 import { RowUnitModel, RowUnitStatusModel } from "@models/project/unitModel"
 import { downloadFile } from "@lib/helperFile"
 
@@ -75,7 +75,7 @@ class UnitService {
       params: { id },
     })
     if (result.data.result && result.data.result.birthDate) {
-      result.data.result.birthDate = moment(result.data.result.birthDate)
+      result.data.result.birthDate = dayjs(result.data.result.birthDate)
     }
     return result.data.result
   }
@@ -87,10 +87,10 @@ class UnitService {
 
     const result = await http.get(`api/UnitHistory/Details/${id}`)
     if (result.data.result && result.data.result.startDate) {
-      result.data.result.startDate = moment(result.data.result.startDate)
+      result.data.result.startDate = dayjs(result.data.result.startDate)
     }
     if (result.data.result && result.data.result.expiredDate) {
-      result.data.result.expiredDate = moment(result.data.result.expiredDate)
+      result.data.result.expiredDate = dayjs(result.data.result.expiredDate)
     }
     return result.data.result
   }
@@ -168,8 +168,8 @@ class UnitService {
     })
   }
   public async getFacing() {
-    const res = (await http.get("/api/services/app/Category/GetListFacing")).data
-      .result
+    const res = (await http.get("/api/services/app/Category/GetListFacing"))
+      .data.result
     return res
   }
 
@@ -301,7 +301,7 @@ class UnitService {
       params: { id },
     })
     if (result.data.result && result.data.result.birthDate) {
-      result.data.result.birthDate = moment(result.data.result.birthDate)
+      result.data.result.birthDate = dayjs(result.data.result.birthDate)
     }
     const res = RowUnitStatusModel.assign(result.data.result)
     return res

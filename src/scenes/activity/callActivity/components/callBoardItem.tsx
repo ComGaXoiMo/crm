@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import { L } from "@lib/abpUtility"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateTimeFormat } from "@lib/appconst"
 import { PhoneOutlined } from "@ant-design/icons"
 // import { Table } from "antd";
@@ -44,12 +44,12 @@ class ProposalBoardItem extends AppComponentListBase<IProposalItemProps, any> {
               </label>
               <label>
                 {L("CALL_DATE")}:
-                <strong>{moment(data?.callDate).format(dateTimeFormat)}</strong>
+                <strong>{dayjs(data?.callDate).format(dateTimeFormat)}</strong>
               </label>
 
               <label>
                 Created by<strong> {data?.creatorUser?.displayName}</strong> at{" "}
-                {moment(data?.creationTime).format(dateTimeFormat)}
+                {dayjs(data?.creationTime).format(dateTimeFormat)}
               </label>
             </div>
           </div>

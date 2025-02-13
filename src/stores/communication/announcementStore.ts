@@ -1,8 +1,9 @@
-import { PagedResultDto } from '@services/dto/pagedResultDto'
-import { IAnnouncement, AnnouncementModel } from '@models/communication/Announcement/announcementModel'
-import { action, observable } from 'mobx'
-import announcementService from '@services/communication/announcementService'
-import { OptionModel } from '@models/global'
+import type { PagedResultDto } from "@services/dto/pagedResultDto"
+import { AnnouncementModel } from "@models/communication/Announcement/announcementModel"
+import type { IAnnouncement } from "@models/communication/Announcement/announcementModel"
+import { action, observable } from "mobx"
+import announcementService from "@services/communication/announcementService"
+import { OptionModel } from "@models/global"
 
 class AnnouncementStore {
   @observable pagedData!: PagedResultDto<IAnnouncement>
@@ -14,7 +15,7 @@ class AnnouncementStore {
   constructor() {
     this.pagedData = {
       items: [],
-      totalCount: 0
+      totalCount: 0,
     }
     this.announcementTypes = []
   }
@@ -54,7 +55,9 @@ class AnnouncementStore {
   @action
   async filter(params) {
     this.isLoading = true
-    const result = await announcementService.filter(params).finally(() => (this.isLoading = false))
+    const result = await announcementService
+      .filter(params)
+      .finally(() => (this.isLoading = false))
     this.pagedData = result
   }
 
@@ -62,13 +65,17 @@ class AnnouncementStore {
   async getAll(params) {
     this.isLoading = true
     params.isActive = true
-    this.announcements = await announcementService.getAll(params).finally(() => (this.isLoading = false))
+    this.announcements = await announcementService
+      .getAll(params)
+      .finally(() => (this.isLoading = false))
   }
 
   @action
   async getAnnouncementTypes() {
     this.isLoading = true
-    this.announcementTypes = await announcementService.getAnnouncementTypes().finally(() => (this.isLoading = false))
+    this.announcementTypes = await announcementService
+      .getAnnouncementTypes()
+      .finally(() => (this.isLoading = false))
   }
 }
 

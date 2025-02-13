@@ -2,8 +2,9 @@ import * as React from "react"
 import { Card } from "antd"
 
 export interface IDataTableProps {
-  renderActions: any;
-  closeCollapse?: boolean;
+  renderActions: any
+  closeCollapse?: boolean
+  children?: any
 }
 
 const WrapPageScroll: React.FunctionComponent<IDataTableProps> = ({

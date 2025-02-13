@@ -1,4 +1,6 @@
-@import '~antd/lib/style/themes/default.less';
+// @import '~antd/lib/style/themes/default.less';
+@import "antd/dist/reset.css";
+@import (css) url("https://fonts.googleapis.com/css?family=Roboto:400,500");
 
 .container {
   padding: 0;
@@ -44,16 +46,18 @@
     }
 
     .col-right {
-      
+
       display: flex;
       justify-content: center;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       background-image: url('../../assets/images/auth/Login.jpg');
+
       @media only screen and (max-width: 600px) {
         display: none !important;
       }
+
       .footer-copy-right {
         position: absolute;
         bottom: 20px;
@@ -69,6 +73,7 @@
       box-shadow: 0 0 4px rgba(29, 68, 73, 0.24);
     }
   }
+
   .page-forgot-password {
     height: 100vh;
     width: 100vw;
@@ -79,6 +84,7 @@
 
     .col-left {
       height: 100%;
+
       .ant-card {
         height: 100%;
         background-color: #fafafa;
@@ -136,6 +142,7 @@
   top: 40px;
   left: 80px;
   z-index: 1;
+
   :global(.ant-dropdown-trigger) {
     margin-right: 24px;
   }
@@ -146,7 +153,7 @@
   flex: 1;
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: 600px) {
   .content {
     padding: 72px 0 24px 0;
   }
@@ -173,7 +180,7 @@
 
 .title {
   font-size: 33px;
-  color: @heading-color;
+  // color: @heading-color;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   position: relative;
@@ -181,8 +188,8 @@
 }
 
 .desc {
-  font-size: @font-size-base;
-  color: @text-color-secondary;
+  // font-size: @font-size-base;
+  color: #fff;
   margin-top: 12px;
   margin-bottom: 40px;
 }

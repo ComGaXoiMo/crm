@@ -31,7 +31,7 @@ import AppConsts, {
   dateFormat,
   rangePickerPlaceholder,
 } from "@lib/appconst"
-import moment from "moment"
+import dayjs from "dayjs"
 import { ExcelIcon } from "@components/Icon"
 import ReactToPrint from "react-to-print"
 import UnitStore from "@stores/projects/unitStore"
@@ -126,12 +126,12 @@ class UnitsFilterPanel extends AppComponentListBase<Props, any> {
   }, 100)
   handleDateChange = async (value) => {
     const startDate =
-      value && value.length ? moment(value[0]).startOf("day").toJSON() : null
+      value && value.length ? dayjs(value[0]).startOf("day").toJSON() : null
 
     // const { filters } = this.state
     // await this.setState({ filters: { ...filters, fromDate: startDate } })
     const endDate =
-      value && value.length ? moment(value[1]).endOf("day").toJSON() : null
+      value && value.length ? dayjs(value[1]).endOf("day").toJSON() : null
     if (this.props.filter?.fromDate !== startDate) {
       await this.handleSearch("fromDate", startDate)
     }

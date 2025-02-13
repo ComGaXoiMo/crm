@@ -1,6 +1,6 @@
 import { isGranted, L } from "@lib/abpUtility"
 import { renderDateTime } from "@lib/helper"
-import moment from "moment-timezone/moment-timezone"
+import dayjs from "dayjs"
 import AppConsts from "@lib/appconst"
 import Button from "antd/es/button"
 import { RedoOutlined, DeleteFilled, EditFilled } from "@ant-design/icons"
@@ -13,8 +13,8 @@ const SystemColumn = {
   ellipsis: false,
   readonly: true,
   render: (creationTime, row) => {
-    const createdAtAgo = moment(creationTime).fromNow()
-    const updatedAtAgo = moment(row.lastModificationTime).fromNow()
+    const createdAtAgo = dayjs(creationTime).fromNow()
+    const updatedAtAgo = dayjs(row.lastModificationTime).fromNow()
     return (
       <div className="text-muted small">
         {row.creatorUser?.displayName ? (

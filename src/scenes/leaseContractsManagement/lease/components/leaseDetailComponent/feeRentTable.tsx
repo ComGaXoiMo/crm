@@ -8,7 +8,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import AppConsts, { appStatusColors, dateDifference } from "@lib/appconst"
 import withRouter from "@components/Layout/Router/withRouter"
 import { v4 as uuid } from "uuid"
-import moment from "moment"
+import dayjs from "dayjs"
 import { inputCurrencyFormatter, inputCurrencyUSAFormatter } from "@lib/helper"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -108,10 +108,10 @@ class FeeRentTable extends AppComponentListBase<
     const firstItem = this.state.dataTable[0]
     const lastItem = this.state.dataTable[this.state.dataTable?.length - 1]
     if (
-      moment(firstItem?.startDate).startOf("day") >
-        moment(this.props.leaseTerm?.startDate) ||
-      moment(lastItem?.endDate).endOf("day") <
-        moment(this.props.leaseTerm?.endDate)
+      dayjs(firstItem?.startDate).startOf("day") >
+        dayjs(this.props.leaseTerm?.startDate) ||
+      dayjs(lastItem?.endDate).endOf("day") <
+        dayjs(this.props.leaseTerm?.endDate)
     ) {
       this.setState({ isNotFullDate: true })
     } else {
@@ -123,8 +123,8 @@ class FeeRentTable extends AppComponentListBase<
     const listIndex = [] as any
     for (let i = 0; i < data.length - 1; i++) {
       if (
-        moment(data[i].endDate).add(1, "days").endOf("day").toJSON() !==
-        moment(data[i + 1].startDate)
+        dayjs(data[i].endDate).add(1, "days").endOf("day").toJSON() !==
+        dayjs(data[i + 1].startDate)
           .endOf("day")
           .toJSON()
       ) {
@@ -149,7 +149,7 @@ class FeeRentTable extends AppComponentListBase<
         (otherFee) => otherFee?.parentId === item?.uniqueId
       )
       thisOtherFees.map((fee) => {
-        (otherFeeInclVat += fee?.amountIncludeVat),
+        ;(otherFeeInclVat += fee?.amountIncludeVat),
           (otherFeeExclVat += fee?.amount)
       })
       newTBSubtractOtherFee.push({
@@ -184,10 +184,10 @@ class FeeRentTable extends AppComponentListBase<
     })
     const newTable = [...this.state.dataTable]
     this.formRef.current?.resetFields()
-    let startD = moment(this.props.leaseTerm?.startDate)
+    let startD = dayjs(this.props.leaseTerm?.startDate)
 
     if (this.state.dataTable.length > 0) {
-      startD = moment(
+      startD = dayjs(
         this.state.dataTable[this.state.dataTable.length - 1]?.endDate
       ).add(1, "days")
     }
@@ -196,12 +196,12 @@ class FeeRentTable extends AppComponentListBase<
     const newRow = {
       key: unique,
       uniqueId: unique,
-      startDate: moment(startD).toJSON(),
+      startDate: dayjs(startD).toJSON(),
     } as any
 
     this.formRef.current?.setFieldsValue({
-      startDate: moment(startD),
-      endDate: moment(this.props.leaseTerm?.endDate),
+      startDate: dayjs(startD),
+      endDate: dayjs(this.props.leaseTerm?.endDate),
     })
 
     await newTable.splice(newTable.length, 0, newRow)
@@ -223,8 +223,8 @@ class FeeRentTable extends AppComponentListBase<
       const row = newData[index]
 
       const dateBeforPayment = await dateDifference(
-        moment(values.startDate).endOf("days"),
-        moment(values.endDate).endOf("days").add(1, "days")
+        dayjs(values.startDate).endOf("days"),
+        dayjs(values.endDate).endOf("days").add(1, "days")
       )
 
       const mdforRes = {
@@ -232,11 +232,11 @@ class FeeRentTable extends AppComponentListBase<
         rentAmount: values.amountIncludeVat,
         feeTypeId: 1,
         startDate: values.startDate
-          ? moment(values.startDate).toJSON()
-          : moment(row.startDate).toJSON(),
+          ? dayjs(values.startDate).toJSON()
+          : dayjs(row.startDate).toJSON(),
         endDate: values.endDate
-          ? moment(values.endDate).toJSON()
-          : moment(row.endDate).toJSON(),
+          ? dayjs(values.endDate).toJSON()
+          : dayjs(row.endDate).toJSON(),
         numMonth: dateBeforPayment?.years * 12 + dateBeforPayment?.months,
         numDay: dateBeforPayment?.days,
       }
@@ -247,7 +247,7 @@ class FeeRentTable extends AppComponentListBase<
           (otherFee) => otherFee?.parentId === row.uniqueId
         )
         thisOtherFees.map((fee) => {
-          (otherFeeInclVat += fee?.amountIncludeVat),
+          ;(otherFeeInclVat += fee?.amountIncludeVat),
             (otherFeeExclVat += fee?.amount)
         })
       }
@@ -323,8 +323,8 @@ class FeeRentTable extends AppComponentListBase<
             false,
             [{ required: true, message: "Please input this field" }],
             {
-              startDate: moment(this.props.leaseTerm?.startDate).toJSON(),
-              endDate: moment(this.props.leaseTerm?.endDate).toJSON(),
+              startDate: dayjs(this.props.leaseTerm?.startDate).toJSON(),
+              endDate: dayjs(this.props.leaseTerm?.endDate).toJSON(),
             }
           ),
       },
@@ -345,8 +345,8 @@ class FeeRentTable extends AppComponentListBase<
             true,
             [{ required: true, message: "Please input this field" }],
             {
-              startDate: moment(this.props.leaseTerm?.startDate).toJSON(),
-              endDate: moment(this.props.leaseTerm?.endDate).toJSON(),
+              startDate: dayjs(this.props.leaseTerm?.startDate).toJSON(),
+              endDate: dayjs(this.props.leaseTerm?.endDate).toJSON(),
             }
           ),
       },
@@ -516,8 +516,8 @@ class FeeRentTable extends AppComponentListBase<
                 onClick={async () => {
                   await this.formRef.current?.setFieldsValue({
                     ...record,
-                    startDate: record.startDate ? moment(record.startDate) : "",
-                    endDate: record.endDate ? moment(record.endDate) : "",
+                    startDate: record.startDate ? dayjs(record.startDate) : "",
+                    endDate: record.endDate ? dayjs(record.endDate) : "",
                   })
                   await this.setState({
                     backupData: [...this.state.dataTable],

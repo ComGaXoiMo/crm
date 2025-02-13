@@ -8,7 +8,7 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import SiteVisitStore from "@stores/activity/siteVisitStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import moment from "moment"
+import dayjs from "dayjs"
 import { dateTimeFormat } from "@lib/appconst"
 import FormSelect from "@components/FormItem/FormSelect"
 import projectService from "@services/projects/projectService"
@@ -16,23 +16,23 @@ import unitService from "@services/projects/unitService"
 import _ from "lodash"
 
 interface Props {
-  visible: boolean;
-  siteVisitStore: SiteVisitStore;
-  inquiryId: any;
-  onClose: () => void;
-  onOk: (params) => void;
+  visible: boolean
+  siteVisitStore: SiteVisitStore
+  inquiryId: any
+  onClose: () => void
+  onOk: (params) => void
 }
 
 interface State {
-  listProject: any[];
-  listProjectChoose: any[];
-  listUnit: any[];
+  listProject: any[]
+  listProjectChoose: any[]
+  listUnit: any[]
 }
 
 @inject(Stores.SiteVisitStore)
 @observer
 class SiteVisitModal extends AppComponentListBase<Props, State> {
-  form = React.createRef<FormInstance>();
+  form = React.createRef<FormInstance>()
 
   constructor(props) {
     super(props)
@@ -50,7 +50,7 @@ class SiteVisitModal extends AppComponentListBase<Props, State> {
         this.getProject(""), this.getUnit("")
         this.form.current?.setFieldsValue({
           ...siteVisitDetail,
-          siteVisitTime: moment(siteVisitDetail?.siteVisitTime),
+          siteVisitTime: dayjs(siteVisitDetail?.siteVisitTime),
           unitIds: siteVisitDetail?.siteVisitUnit.map((item) => item?.unitId),
           projectIds: this.uniqueValues(
             siteVisitDetail?.siteVisitUnit.map((item) => item?.unit.projectId)
@@ -69,7 +69,7 @@ class SiteVisitModal extends AppComponentListBase<Props, State> {
       }
     }
   }
-  uniqueValues = (nums) => [...new Set(nums)];
+  uniqueValues = (nums) => [...new Set(nums)]
 
   getProject = async (keyword) => {
     const res = await projectService.getAll({
@@ -82,7 +82,7 @@ class SiteVisitModal extends AppComponentListBase<Props, State> {
     })
 
     await this.setState({ listProject: newProjects })
-  };
+  }
   getUnit = async (keyword, projectIds?) => {
     const res = await unitService.getAllRes({
       pageSize: 10,
@@ -95,7 +95,7 @@ class SiteVisitModal extends AppComponentListBase<Props, State> {
     })
 
     await this.setState({ listUnit: newUnit })
-  };
+  }
 
   onOk = async () => {
     const { siteVisitDetail } = this.props.siteVisitStore
@@ -108,7 +108,7 @@ class SiteVisitModal extends AppComponentListBase<Props, State> {
 
     await this.props.siteVisitStore.createOrUpdate(params)
     await this.props.onOk(params)
-  };
+  }
   render(): React.ReactNode {
     const {
       visible,

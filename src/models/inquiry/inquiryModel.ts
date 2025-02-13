@@ -1,14 +1,14 @@
 import AppConsts from "@lib/appconst"
 import { RowData } from "@models/DataTable"
-import moment from "moment"
+import dayjs from "dayjs"
 const { activityType } = AppConsts
 
 export interface IRowInquiry {
-  moveInDate?: any;
+  moveInDate?: any
 }
 
 export class RowInquiryModel extends RowData implements IRowInquiry {
-  moveInDate: any;
+  moveInDate: any
   constructor() {
     super()
   }
@@ -17,7 +17,7 @@ export class RowInquiryModel extends RowData implements IRowInquiry {
     if (!obj) return undefined
 
     const newObj = Object.assign(new RowInquiryModel(), obj)
-    newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined
+    newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined
 
     return newObj
   }
@@ -38,7 +38,7 @@ export class InquiryDetailModel extends RowData {
     if (!obj) return undefined
 
     const newObj = Object.assign(new RowInquiryModel(), obj)
-    newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined
+    newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined
 
     return newObj
   }
@@ -51,48 +51,48 @@ export class InquiryDetailModel extends RowData {
 }
 
 export interface IInquiryItemModel {
-  id?: number;
-  contactId?: number;
-  companyId?: number;
-  title?: string;
-  contactName?: string;
-  isPrimary?: boolean;
-  isActive?: boolean;
+  id?: number
+  contactId?: number
+  companyId?: number
+  title?: string
+  contactName?: string
+  isPrimary?: boolean
+  isActive?: boolean
 }
 
 export class InquiryItemModel {
-  id?: number;
-  contactId?: number;
-  companyId?: number;
-  title?: string;
-  contactName?: string;
-  isPrimary?: boolean;
-  isActive?: boolean;
+  id?: number
+  contactId?: number
+  companyId?: number
+  title?: string
+  contactName?: string
+  isPrimary?: boolean
+  isActive?: boolean
 
   constructor(isPrimary?) {
     this.isPrimary = isPrimary
   }
 }
 export class InquirySimpleModel {
-  id?: any;
-  name?: any;
-  contactId?: any;
-  contactName?: any;
-  occupierName?: any;
-  leaseTerm?: any;
-  moveInDate?: any;
+  id?: any
+  name?: any
+  contactId?: any
+  contactName?: any
+  occupierName?: any
+  leaseTerm?: any
+  moveInDate?: any
 
   public static assign(obj) {
     if (!obj) return undefined
 
-    const newObj = Object.assign(new InquirySimpleModel(), obj);
-    (newObj.id = obj.id),
+    const newObj = Object.assign(new InquirySimpleModel(), obj)
+    ;(newObj.id = obj.id),
       (newObj.name = `${obj.inquiryName} - ${obj.contact?.contactName} - ${obj.creatorUser?.displayName}`),
       (newObj.contactId = obj.contactId),
       (newObj.contactName = obj.contact?.contactName),
       (newObj.occupierName = obj.occupierName),
       (newObj.leaseTerm = obj.leaseTerm !== 0 ? obj.leaseTerm : undefined),
-      (newObj.moveInDate = obj.moveInDate ? moment(obj.moveInDate) : undefined)
+      (newObj.moveInDate = obj.moveInDate ? dayjs(obj.moveInDate) : undefined)
 
     return newObj
   }
@@ -104,7 +104,7 @@ export class InquirySimpleModel {
   }
 }
 export class ActivityModel {
-  type?: any;
+  type?: any
 
   public static assign(obj) {
     if (!obj) return undefined

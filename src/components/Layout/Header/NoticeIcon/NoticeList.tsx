@@ -1,10 +1,10 @@
-import { List } from 'antd'
+import { List } from "antd"
 
-import React from 'react'
-import classNames from 'classnames'
-import { NoticeIconData } from './index'
-import Icon from '@ant-design/icons'
-import './NoticeList.less'
+import React from "react"
+import classNames from "classnames"
+import { NoticeIconData } from "./index"
+import Icon from "@ant-design/icons"
+import "./NoticeList.less"
 
 export interface NoticeIconTabProps {
   count?: number
@@ -23,7 +23,7 @@ export interface NoticeIconTabProps {
   onViewMore?: (e: any) => void
   icon?: any
 }
-const NoticeList: React.SFC<NoticeIconTabProps> = ({
+const NoticeList: React.FC<NoticeIconTabProps> = ({
   data = [],
   onClick,
   onClear,
@@ -33,12 +33,15 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
   showClear = true,
   clearText,
   viewMoreText,
-  showViewMore = false
+  showViewMore = false,
 }) => {
   if (!data || data.length === 0) {
     return (
       <div className="notFound">
-        <img src="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg" alt="not found" />
+        <img
+          src="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
+          alt="not found"
+        />
         <div>{emptyText}</div>
       </div>
     )
@@ -49,11 +52,13 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
         className="list"
         dataSource={data}
         renderItem={(item, i) => {
-          const itemCls = classNames('item', {
-            'read': item.read
+          const itemCls = classNames("item", {
+            read: item.read,
           })
           // eslint-disable-next-line no-nested-ternary
-          const leftIcon = item.icon ? <Icon component={item.icon} className="notification-icon mt-3"/> : null
+          const leftIcon = item.icon ? (
+            <Icon component={item.icon} className="notification-icon mt-3" />
+          ) : null
 
           return (
             <List.Item className={itemCls} key={item.key || i}>
@@ -61,7 +66,10 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
                 className="meta"
                 avatar={leftIcon}
                 title={
-                  <div className="title" onClick={() => onClick && onClick(item)}>
+                  <div
+                    className="title"
+                    onClick={() => onClick && onClick(item)}
+                  >
                     {item.title}
                     <div className="extra">{item.extra}</div>
                   </div>
@@ -77,12 +85,8 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
           )
         }}
       />
-      <div className={'bottomBar'}>
-        {showClear ? (
-          <div onClick={onClear}>
-            {clearText}
-          </div>
-        ) : null}
+      <div className={"bottomBar"}>
+        {showClear ? <div onClick={onClear}>{clearText}</div> : null}
         {showViewMore ? (
           <div
             onClick={(e) => {

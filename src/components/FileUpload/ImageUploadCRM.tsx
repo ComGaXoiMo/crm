@@ -8,7 +8,7 @@ import FileStore from "../../stores/common/fileStore"
 import { L, LError, LNotification } from "@lib/abpUtility"
 import fileService from "@services/common/fileService"
 import { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface"
-import moment from "moment"
+import dayjs from "dayjs"
 import withRouter from "@components/Layout/Router/withRouter"
 import AppConsts from "@lib/appconst"
 const { documentType } = AppConsts
@@ -152,7 +152,7 @@ class ImageUploadWrapCRM extends AppComponentListBase<IImageUploadWrapProps> {
     const params = {
       uniqueId: this.props.parentId,
       documentTypeId: 8,
-      uploadDate: moment().toDate(),
+      uploadDate: dayjs().toDate(),
     }
     fileService
       .uploadDocument(this.props.moduleId, params, file)
