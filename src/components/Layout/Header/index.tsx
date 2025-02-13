@@ -3,6 +3,7 @@ import "./index.less"
 import * as React from "react"
 
 import { Avatar, Menu } from "antd"
+import { useNavigate } from "react-router-dom"
 
 import SessionStore from "../../../stores/sessionStore"
 import { isGranted } from "@lib/abpUtility"
@@ -11,26 +12,29 @@ import GetMenuItems from "./MenuItem"
 // import LanguageSelect from "./LanguageSelect";
 import { defaultAvatar, sidebarStatus } from "@lib/appconst"
 import NoticeIconView from "./NoticeIcon/NoticeIconView"
+import withRouter from "../Router/withRouter"
 
 export interface IHeaderProps {
-  history?: any;
-  changeMenu: (value: any) => void;
-  sideBarState: any;
-  sessionStore: SessionStore;
-  collapsed?: any;
-  onCollapse: any;
+  history?: any
+  changeMenu: (value: any) => void
+  sideBarState: any
+  sessionStore: SessionStore
+  collapsed?: any
+  onCollapse: any
 }
 export interface IMenuItemProps {
-  name: string;
-  path?: any;
-  icon?: any;
-  isGroup?: boolean;
-  children?: any;
-  history: any;
-  permission?: string;
+  name: string
+  path?: any
+  icon?: any
+  isGroup?: boolean
+  children?: any
+  history: any
+  permission?: string
 }
 
 const Header = (props: IHeaderProps) => {
+  const navigate = useNavigate()
+
   const menuItems = appMenuGroups
     .filter((route: any) => {
       const hasGrantedChild = (route.children || []).findIndex((item) =>
@@ -88,7 +92,7 @@ const Header = (props: IHeaderProps) => {
               onClick={() => {
                 props.changeMenu(sidebarStatus.account)
                 // currentSidebarStatus(sidebarStatus.account);
-                props.history.push(portalLayouts.accountConfigMyProfile.path)
+                navigate(portalLayouts.accountConfigMyProfile.path)
               }}
             >
               <span className={`my-1 `}>
@@ -112,4 +116,4 @@ const Header = (props: IHeaderProps) => {
   )
 }
 
-export default Header
+export default withRouter(Header)

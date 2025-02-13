@@ -13,10 +13,10 @@ const Router = () => {
     <>
       <Routes>
         <Route path="/health" element={<h3>status:200</h3>} />
-        <Route path="/account" element={<UserLayout />} />
-        <Route path="/public" element={<PublicLayout />} />
+        <Route path="/account/*" element={<UserLayout />} />
+        <Route path="/public/*" element={<PublicLayout />} />
         <Route
-          path="/"
+          path="/*"
           element={
             <ProtectedRoute>
               <AppLayout />

@@ -2,22 +2,23 @@ import "./index.less"
 import React from "react"
 import LanguageSelect from "../Header/LanguageSelect"
 import { Avatar } from "antd"
-
+import { useNavigate } from "react-router-dom"
 import SessionStore from "@stores/sessionStore"
 import { defaultAvatar, sidebarStatus } from "@lib/appconst"
 // import { portalLayouts } from "../Router/router.config";
 import { SettingOutlined } from "@ant-design/icons/lib/icons"
 
 import { portalLayouts } from "../Router/router.config"
+import withRouter from "../Router/withRouter"
 
 interface Props {
-  history: any;
-  sessionStore: SessionStore;
-  changeMenu: (value: any) => void;
+  history: any
+  sessionStore: SessionStore
+  changeMenu: (value: any) => void
 }
 
 const Appbar = (props: Props) => {
-  // const history = useHistory();
+  const navigate = useNavigate()
   const [
     currentSidebarStatus,
     //  setCurrentSidebarStatus
@@ -49,7 +50,7 @@ const Appbar = (props: Props) => {
           onClick={() => {
             props.changeMenu(sidebarStatus.account)
             // currentSidebarStatus(sidebarStatus.account);
-            props.history.push(portalLayouts.accountConfigMyProfile.path)
+            navigate(portalLayouts.accountConfigMyProfile.path)
           }}
         >
           <span
@@ -110,4 +111,4 @@ const Appbar = (props: Props) => {
   )
 }
 
-export default Appbar
+export default withRouter(Appbar)

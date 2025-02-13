@@ -92,19 +92,22 @@ const AppLayout = inject(Stores.SessionStore)(
 
             <Content className="h-100">
               <Routes>
-                {Object.keys(portalLayouts).map((route, index) => (
-                  <Route
-                    key={index}
-                    path={portalLayouts[route].path}
-                    element={
-                      <ProtectedRoute
-                        // component={portalLayouts[route].component}
-                        permission={portalLayouts[route].permission}
-                        // routedata={portalLayouts[route].routedata}
-                      />
-                    }
-                  />
-                ))}
+                {Object.keys(portalLayouts).map((route, index) => {
+                  const Child = portalLayouts[route].component
+                  return (
+                    <Route
+                      key={index}
+                      path={portalLayouts[route].path}
+                      element={
+                        <ProtectedRoute
+                          permission={portalLayouts[route].permission}
+                        >
+                          <Child />
+                        </ProtectedRoute>
+                      }
+                    />
+                  )
+                })}
               </Routes>
             </Content>
           </Layout>

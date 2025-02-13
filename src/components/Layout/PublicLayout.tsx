@@ -20,13 +20,16 @@ const PublicLayout: React.FC = () => {
 
       <Content className="container">
         <Routes>
-          {Object.keys(publicLayout).map((pageName: any, index: number) => (
-            <Route
-              key={index}
-              path={publicLayout[pageName].path}
-              element={publicLayout[pageName].component}
-            />
-          ))}
+          {Object.keys(publicLayout).map((pageName: any, index: number) => {
+            const Child = publicLayout[pageName].component
+            return (
+              <Route
+                key={index}
+                path={publicLayout[pageName].path.replace("/account", "")}
+                element={<Child />}
+              />
+            )
+          })}
 
           {/* Thay Redirect bằng Navigate */}
           <Route

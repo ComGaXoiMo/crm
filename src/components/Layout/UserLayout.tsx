@@ -6,10 +6,10 @@ import LanguageSelect from "./Header/LanguageSelect"
 import { userLayout } from "./Router/router.config"
 import utils from "../../utils/utils"
 import { Helmet } from "react-helmet-async"
-
+import { Suspense } from "react"
 const UserLayout: React.FC = () => {
   const location = useLocation()
-  console.log("23")
+
   return (
     <>
       <Helmet>
@@ -19,17 +19,22 @@ const UserLayout: React.FC = () => {
         <div className="lang" style={{ paddingRight: "15px" }}>
           <LanguageSelect wrapClass="auth-language" type="horizontal" />
         </div>
-        <Routes>
-          {Object.keys(userLayout).map((pageName: any) => (
-            <Route
-              key={pageName}
-              path={userLayout[pageName].path}
-              element={userLayout[pageName].component}
-            />
-          ))}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            {Object.keys(userLayout).map((pageName: any, index: number) => {
+              const Child = userLayout[pageName].component
+              return (
+                <Route
+                  key={index}
+                  path={userLayout[pageName].path.replace("/account", "")}
+                  element={<Child />}
+                />
+              )
+            })}
 
-          <Route path="/account" element={<Navigate to="/account/login" />} />
-        </Routes>
+            <Route path="/account" element={<Navigate to="/account/login" />} />
+          </Routes>
+        </Suspense>
       </div>
     </>
   )

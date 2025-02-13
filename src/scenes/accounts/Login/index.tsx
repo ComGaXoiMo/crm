@@ -16,6 +16,7 @@ import SystemAccountLoginPanel from "@scenes/accounts/Login/SystemAccountLoginPa
 import PhoneLoginPanel from "@scenes/accounts/Login/PhoneLoginPanel"
 import SocialLogin from "./SocialLogin/SocialLogin"
 import { MailOutlined, PhoneOutlined } from "@ant-design/icons"
+import withRouter from "@components/Layout/Router/withRouter"
 
 declare let abp: any
 
@@ -46,7 +47,6 @@ class Login extends React.Component<ILoginProps> {
   }
 
   async componentDidMount() {
-    console.log("ss")
     const app = initializeApp(firebaseConfig)
     const auth = getAuth(app)
     auth.languageCode = "vi"
@@ -61,6 +61,7 @@ class Login extends React.Component<ILoginProps> {
       await this.props.authenticationStore!.login(values)
       sessionStorage.setItem("rememberMe", loginModel.rememberMe ? "1" : "0")
       const { state } = this.props.location
+      console.log(state)
       window.location =
         state && state.from.pathname !== "/" ? state.from.pathname : "/"
     }
@@ -157,4 +158,4 @@ class Login extends React.Component<ILoginProps> {
   }
 }
 
-export default Login
+export default withRouter(Login)
