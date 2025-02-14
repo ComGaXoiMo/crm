@@ -10,7 +10,7 @@ import Stores from "@stores/storeIdentifier"
 import { appPermissions } from "@lib/appconst"
 
 export interface ITasksProps {
-  appDataStore: AppDataStore;
+  appDataStore: AppDataStore
 }
 
 const tabKeys = {
@@ -20,17 +20,17 @@ const tabKeys = {
 @inject(Stores.AppDataStore)
 @observer
 class Tasks extends AppComponentListBase<ITasksProps> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     tabActiveKey: tabKeys.tabMyTask,
-  };
+  }
   async componentDidMount() {
     this.props.appDataStore.getTaskStatus()
     await Promise.all([])
   }
   changeTab = (tabKey) => {
     this.setState({ tabActiveKey: tabKey })
-  };
+  }
   public render() {
     return (
       <>
@@ -38,15 +38,10 @@ class Tasks extends AppComponentListBase<ITasksProps> {
           <Tabs
             activeKey={this.state.tabActiveKey}
             onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
             type="card"
           >
             {this.isGranted(appPermissions.task.page) && (
-              <Tabs.TabPane
-                tab={L(tabKeys.tabMyTask)}
-                key={tabKeys.tabMyTask}
-                className={"color-tab"}
-              >
+              <Tabs.TabPane tab={L(tabKeys.tabMyTask)} key={tabKeys.tabMyTask}>
                 {this.state.tabActiveKey === tabKeys.tabMyTask && (
                   <Task isMyTask={true} />
                 )}

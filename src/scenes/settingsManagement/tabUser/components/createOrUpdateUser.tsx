@@ -35,17 +35,17 @@ const tabKeys = {
   tabInfo: "TAB_INFO",
 }
 export interface Props {
-  visible: boolean;
-  onCancel: () => void;
-  userId: any;
-  onCreate: (data) => void;
-  roles: GetRoles[];
-  formRef: any;
-  teams: any;
-  isLoading: boolean;
-  userOrganizationUnit: any;
-  projectStore: ProjectStore;
-  userStore: UserStore;
+  visible: boolean
+  onCancel: () => void
+  userId: any
+  onCreate: (data) => void
+  roles: GetRoles[]
+  formRef: any
+  teams: any
+  isLoading: boolean
+  userOrganizationUnit: any
+  projectStore: ProjectStore
+  userStore: UserStore
 }
 @inject(Stores.ProjectStore, Stores.UserStore)
 @observer
@@ -59,7 +59,7 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
     objCreate: [] as any,
     selectedRowKeys: [],
     listLead: [] as any,
-  };
+  }
 
   async componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible) {
@@ -97,7 +97,7 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
     const before = name.split("@")[0]
 
     await this.props.formRef.current.setFieldValue("userName", before)
-  };
+  }
 
   compareToFirstPassword = (rule: any, value: any, callback: any) => {
     const form = this.props.formRef.current
@@ -106,7 +106,7 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
     } else {
       callback()
     }
-  };
+  }
 
   validateToNextPassword = (rule: any, value: any, callback: any) => {
     const form = this.props.formRef.current
@@ -114,26 +114,26 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
       form.validateFields(["confirm"], { force: true })
     }
     callback()
-  };
+  }
   changeTab = (tabKey: string) => {
     this.setState({
       tabActiveKey: tabKey,
     })
-  };
+  }
   onEdit = async () => {
     this.setState({ isEdit: true })
-  };
+  }
   toggleModal = () => {
     this.setState({
       modalVisible: !this.state.modalVisible,
     })
-  };
+  }
   handleTransfer = () => {
     this.toggleModal()
-  };
+  }
   handleTransferSave = () => {
     this.toggleModal()
-  };
+  }
   getProject = async (keyword) => {
     const res = await projectService.getAll({
       maxResultCount: 10,
@@ -145,12 +145,12 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
       return { id: i.id, name: i.projectCode }
     })
     this.setState({ listProject: newProjects })
-  };
+  }
   onCancel = () => {
     this.props.formRef.current.resetFields()
     this.setState({ selectedRowKeys: [], listLead: [] })
     this.props.onCancel()
-  };
+  }
   onSave = async () => {
     const res = await this.state.selectedRowKeys.map((item) => {
       const checkIsHead = this.state.listLead.find((lead) => lead === item)
@@ -166,10 +166,10 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
 
     await this.props.onCreate(this.state.objCreate)
     this.setState({ isEdit: false })
-  };
+  }
   onSelectChange = async (newSelectedRowKeys) => {
     await this.setState({ selectedRowKeys: newSelectedRowKeys })
-  };
+  }
   render() {
     const { roles, teams } = this.props
     const { visible } = this.props
@@ -262,7 +262,7 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
           size="middle"
         >
           <Tabs
-            className={"antd-tab-cusstom h-100"}
+            className={" h-100"}
             defaultActiveKey={"userInfo"}
             onTabClick={this.changeTab}
             type="card"

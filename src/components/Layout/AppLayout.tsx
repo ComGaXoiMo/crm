@@ -12,7 +12,8 @@ import { inject, observer } from "mobx-react"
 import Stores from "@stores/storeIdentifier"
 import { sidebarStatus } from "@lib/appconst"
 import NoSider from "./SiderMenu/noSider"
-import FooterAppbar from "./Footer/FooterAppbar"
+import SiderMenu from "./SiderMenu"
+// import FooterAppbar from "./Footer/FooterAppbar"
 
 const { Content } = Layout
 
@@ -41,9 +42,9 @@ const AppLayout = inject(Stores.SessionStore)(
       }
     }, [location.pathname, sessionStore, navigate])
 
-    // const onCollapse = () => {
-    //   setCollapsed(!collapsed)
-    // }
+    const onCollapse = () => {
+      setCollapsed(!collapsed)
+    }
 
     const onChangeMenu = (value) => {
       setSideBarState(value)
@@ -57,15 +58,13 @@ const AppLayout = inject(Stores.SessionStore)(
         </Helmet>
 
         <Layout className="h-100 container-style-custom">
-          <div className="footer-menu-style">
-            <FooterAppbar
-              sessionStore={sessionStore}
-              changeMenu={onChangeMenu}
-            />
-          </div>
-
           {sideBarState === sidebarStatus.setting && <NoSider />}
-
+          <SiderMenu
+            sessionStore={sessionStore}
+            path=""
+            onCollapse={onCollapse}
+            collapsed={collapsed}
+          />
           <Layout
             className="site-layout"
             style={{

@@ -85,15 +85,10 @@ class Settings extends AppComponentListBase<ISettingsProps, ISettingsState> {
           <Tabs
             activeKey={this.state.tabActiveKey}
             onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
             type="card"
           >
             {this.isGranted(appPermissions.staff.page) && (
-              <Tabs.TabPane
-                tab={L(tabKeys.tabUser)}
-                key={tabKeys.tabUser}
-                className={"color-tab"}
-              >
+              <Tabs.TabPane tab={L(tabKeys.tabUser)} key={tabKeys.tabUser}>
                 <User listRoleFilter={this.state.listRole} />
               </Tabs.TabPane>
             )}

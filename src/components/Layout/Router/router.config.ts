@@ -10,6 +10,7 @@ import {
   UserOutlined,
   AppstoreOutlined,
   FolderOpenOutlined,
+  FolderOutlined,
 } from "@ant-design/icons"
 import { appPermissions } from "@lib/appconst"
 
@@ -94,25 +95,6 @@ export const userLayout: any = {
       () => import("../../../scenes/accounts/Register/RegisterPhoneForSocial")
     ),
   },
-  // resetPasswordEmployee: {
-  //   path: '/account/employee/reset-password',
-  //   title: 'RESET_PASSWORD',
-  //   layout: layouts.userLayout,
-  //   component: LoadableComponent(() => import('../../../scenes/accounts/ForgotPassword'))
-  // },
-  // resetPasswordPartner: {
-  //   path: '/account/partner/reset-password',
-  //   title: 'RESET_PASSWORD',
-  //   layout: layouts.userLayout,
-  //   component: LoadableComponent(() => import('../../../scenes/accounts/ForgotPassword'))
-  // },
-
-  // resetPasswordCustomer: {
-  //   path: '/account/customer/reset-password',
-  //   title: 'RESET_PASSWORD',
-  //   layout: layouts.userLayout,
-  //   component: LoadableComponent(() => import('../../../scenes/accounts/ForgotPassword'))
-  // },
 }
 
 export const portalLayouts: any = {
@@ -385,7 +367,7 @@ export const portalLayouts: any = {
 
     // permission: appPermissions.properties.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/clientsManagement")
     ),
@@ -430,7 +412,7 @@ export const portalLayouts: any = {
     title: "SETTINGS",
     // permission: appPermissions.setting.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/settingsManagement/index")
     ),
@@ -469,6 +451,181 @@ export const portalLayouts: any = {
       () => import("../../../scenes/clientsManagement")
     ),
   },
+
+  // SKL
+  // sales
+  report: {
+    path: "/report",
+    name: "Báo cáo",
+    title: "report",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  potentialCustomers: {
+    path: "/potential-customers",
+    name: "KH tiềm năng",
+    title: "potentialCustomers",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  existingCustomers: {
+    path: "/existing-customers",
+    name: "KH hiện hữu",
+    title: "existingCustomers",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  opportunity: {
+    path: "/opportunity",
+    name: "Cơ hội",
+    title: "opportunity",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  product: {
+    path: "/product",
+    name: "Sản phẩm",
+    title: "product",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  warrantyPolicy: {
+    path: "/warranty-policy",
+    name: "Chính sách BH",
+    title: "warrantyPolicy",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  cart: {
+    path: "/cart",
+    name: "Giỏ hàng",
+    title: "cart",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  reservation: {
+    path: "/reservation",
+    name: "Đặt chổ",
+    title: "reservation",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  openSaleEvent: {
+    path: "/open-sale-event",
+    name: "Sự kiện mở bán",
+    title: "openSaleEvent",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  contract: {
+    path: "/contract",
+    name: "Hợp đồng",
+    title: "contract",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  floorAndStaff: {
+    path: "/floor-and-staff",
+    name: "Sàn và NVKD",
+    title: "floorAndStaff",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  // after sale
+  notifications: {
+    path: "/notifications",
+    name: "Thông báo",
+    title: "notifications",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  houseOwnershipCertificate: {
+    path: "/house-ownership-certificate",
+    name: "Sổ hồng",
+    title: "houseOwnershipCertificate",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  feedbacks: {
+    path: "/feedbacks",
+    name: "Phản hồi, góp ý",
+    title: "feedbacks",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  handoverManagement: {
+    path: "/handover-management",
+    name: "Quản lý bàn giao",
+    title: "handoverManagement",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  // config
+  masterData: {
+    path: "/master-data",
+    name: "Dữ liệu chung",
+    title: "masterData",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
+  administration: {
+    path: "/administration",
+    name: "Quản trị",
+    title: "administration",
+    layout: layouts.portalLayout,
+    icon: FolderOutlined,
+    component: LoadableComponent(
+      () => import("../../../scenes/clientsManagement")
+    ),
+  },
 }
 
 export const routers: any = {
@@ -477,12 +634,37 @@ export const routers: any = {
 }
 
 export const appMenuGroups: any = [
-  routers.properties,
-  routers.clients,
-  routers.inquiries,
-  routers.leaseAgreement,
-  routers.tasks,
-  routers.settings,
+  {
+    name: "SALES",
+    type: "group",
+    children: [
+      routers.report,
+      routers.potentialCustomers,
+      routers.opportunity,
+      routers.product,
+      routers.warrantyPolicy,
+      routers.cart,
+      routers.reservation,
+      routers.openSaleEvent,
+      routers.contract,
+      routers.floorAndStaff,
+    ],
+  },
+  {
+    name: "AFTER_SALES",
+    type: "group",
+    children: [
+      routers.notifications,
+      routers.houseOwnershipCertificate,
+      routers.feedbacks,
+      routers.handoverManagement,
+    ],
+  },
+  {
+    name: "CONFIG",
+    type: "group",
+    children: [routers.masterData, routers.administration, routers.settings],
+  },
 ]
 
 export const accountMenuGroups: any = [

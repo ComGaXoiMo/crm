@@ -9,6 +9,7 @@
     "@aspnet/signalr": "^1.1.4",
     "@craco/craco": "^6.4.0",
     "@react-navigation/native": "^6.1.6",
+    "@svgr/webpack": "^8.1.0",
     "@syncfusion/ej2-react-documenteditor": "^21.2.5",
     "@syncfusion/ej2-react-richtexteditor": "^21.2.5",
     "@types/grecaptcha": "^3.0.3",

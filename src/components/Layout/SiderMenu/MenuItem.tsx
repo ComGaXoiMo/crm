@@ -24,7 +24,7 @@ const GetMenuItems = ({
   name,
   path,
   icon: Icon,
-  isGroup,
+  type,
   children,
   permission,
 }) => {
@@ -54,7 +54,7 @@ const GetMenuItems = ({
     )
   }
 
-  if (isGroup) {
+  if (type === "group") {
     const childItems = children
       ? children.map((child: any) => GetMenuItems(child))
       : undefined
@@ -62,8 +62,8 @@ const GetMenuItems = ({
       label,
       path || name,
       Icon ? <Icon className="menu-icon" /> : undefined,
-      childItems
-      // "group"
+      childItems,
+      "group"
     )
   }
 

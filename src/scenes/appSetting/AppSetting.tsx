@@ -364,14 +364,6 @@ const AppSetting = inject(Stores.SessionStore)(
             </TabPane>
           </Tabs>
         </Form>
-        <style>{`
-        .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-          font-weight: 600 !important;
-          border-radius: 16px !important;
-          padding: 2px 24px 2px 24px !important;
-          background-color: rgba(211, 164, 41, 0.12) !important;
-        }
-        `}</style>
       </WrapPageScroll>
     )
   })

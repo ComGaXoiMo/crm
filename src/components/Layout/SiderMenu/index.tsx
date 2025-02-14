@@ -1,31 +1,33 @@
 import "./index.less"
 import * as React from "react"
-import { Layout, Menu } from "antd"
+import { Avatar, Layout, Menu } from "antd"
 import { isGranted } from "@lib/abpUtility"
 import { appMenuGroups, portalLayouts } from "../Router/router.config"
 import GetMenuItems from "./MenuItem"
+import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons"
+import SessionStore from "@stores/sessionStore"
 
 const { Sider } = Layout
 
 export interface ISiderMenuProps {
-  path: any;
-  collapsed: boolean;
-  onCollapse: any;
-  history: any;
+  path: any
+  collapsed: boolean
+  onCollapse: any
+  sessionStore: SessionStore
 }
 
 export interface IMenuItemProps {
-  name: string;
-  path?: any;
-  icon?: any;
-  isGroup?: boolean;
-  children?: any;
-  history: any;
-  permission?: string;
+  name: string
+  path?: any
+  icon?: any
+  isGroup?: boolean
+  children?: any
+  permission?: string
 }
 
 const SiderMenu = (props: ISiderMenuProps) => {
   const { collapsed, onCollapse } = props
+
   let defaultSelectedKeys = ""
   Object.keys(portalLayouts).find((key) => {
     if (portalLayouts[key].path === window.location.pathname) {
@@ -47,26 +49,36 @@ const SiderMenu = (props: ISiderMenuProps) => {
     .map((route: any) => {
       return GetMenuItems(route)
     })
-    .filter((item) => !item.children.includes(null))
   return (
     <Sider
       trigger={null}
-      className={"sidebar"}
-      width={collapsed ? 0 : window.innerWidth < 600 ? window.innerWidth : 256}
+      className="sidebar"
+      width={240}
+      collapsible
+      collapsed={collapsed}
       onCollapse={onCollapse}
-      style={{
-        overflowX: "hidden",
-        height: "100vh",
-        position: "fixed",
-        left: window.innerWidth < 600 ? 0 : "64px",
-      }}
     >
-      <div style={{ height: 50 }} />
+      <div className="flex space-between center-items">
+        <div className={"wrap-logo"}>
+          <Avatar
+            style={{ height: 35, width: 35 }}
+            className="my-3"
+            shape="square"
+            alt={"profile"}
+            src={"/assets/images/logoCore.png"}
+          />
+        </div>
+        <div
+          onClick={() => onCollapse(!collapsed)}
+          style={{ fontSize: "18px", padding: "0 8px" }}
+        >
+          {collapsed ? <RightCircleOutlined /> : <LeftCircleOutlined />}
+        </div>
+      </div>
       <Menu
         mode="inline"
         onClick={() => window.innerWidth < 600 && onCollapse()}
         // inlineIndent={15}
-        style={{ marginTop: "20px" }}
         id={"menu-side-bar"}
         defaultSelectedKeys={[defaultSelectedKeys]}
         items={menuItems}

@@ -22,21 +22,21 @@ import FormInput from "@components/FormItem/FormInput"
 import FormDatePicker from "@components/FormItem/FormDatePicker"
 import CreateTaskModal from "@scenes/activity/taskActivity/components/taskModal"
 export interface IGeneralProps {
-  id: any;
-  inquiryStore: InquiryStore;
-  listingStore: ListingStore;
-  unitStore: UnitStore;
-  appDataStore: AppDataStore;
+  id: any
+  inquiryStore: InquiryStore
+  listingStore: ListingStore
+  unitStore: UnitStore
+  appDataStore: AppDataStore
 }
 
 export interface IGeneralState {
-  assignedUsers: any;
-  subStage: any[];
-  isChangeSubStage: boolean;
-  isEdit: boolean;
-  listProject: any[];
-  isLA: boolean;
-  taskModalVisible: boolean;
+  assignedUsers: any
+  subStage: any[]
+  isChangeSubStage: boolean
+  isEdit: boolean
+  listProject: any[]
+  isLA: boolean
+  taskModalVisible: boolean
 }
 
 @inject(
@@ -47,7 +47,7 @@ export interface IGeneralState {
 )
 @observer
 class general extends AppComponentListBase<IGeneralProps, IGeneralState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     assignedUsers: [],
@@ -57,7 +57,7 @@ class general extends AppComponentListBase<IGeneralProps, IGeneralState> {
     isLA: false,
     isChangeSubStage: false,
     taskModalVisible: false,
-  };
+  }
   async componentDidMount() {
     await Promise.all([
       this.props.appDataStore.getCountryFull(),
@@ -90,7 +90,7 @@ class general extends AppComponentListBase<IGeneralProps, IGeneralState> {
       ...this.props.inquiryStore.inquiryDetail,
       sourceId: "Email",
     })
-  };
+  }
   getProject = async (keyword) => {
     const res = await projectService.getAll({
       maxResultCount: 10,
@@ -102,29 +102,29 @@ class general extends AppComponentListBase<IGeneralProps, IGeneralState> {
       return { id: i.id, name: i.projectName }
     })
     this.setState({ listProject: newProjects })
-  };
+  }
   findSubStage = async (id?) => {
     const subStage = this.props.appDataStore.inquirySubStage.filter(
       (item) => item.parentId === id
     )
     this.setState({ subStage })
-  };
+  }
   changeStage = async (id?) => {
     this.findSubStage(id)
     this.checkLA()
-  };
+  }
   toggleTaskModal = () =>
     this.setState((prevState) => ({
       taskModalVisible: !prevState.taskModalVisible,
-    }));
+    }))
 
   taskModalHandleOk = async () => {
     this.toggleTaskModal()
-  };
+  }
   checkLA = () => {
     const check = this.formRef.current.getFieldValue("statusId") === 91 //hard code status Id === LA
     this.setState({ isLA: check })
-  };
+  }
   public render() {
     const {
       unitStore: { facilities },

@@ -2,13 +2,11 @@ import "./index.less"
 
 import * as React from "react"
 
-import { Avatar, Menu } from "antd"
+import { Avatar } from "antd"
 import { useNavigate } from "react-router-dom"
 
 import SessionStore from "../../../stores/sessionStore"
-import { isGranted } from "@lib/abpUtility"
-import { appMenuGroups, portalLayouts } from "../Router/router.config"
-import GetMenuItems from "./MenuItem"
+import { portalLayouts } from "../Router/router.config"
 // import LanguageSelect from "./LanguageSelect";
 import { defaultAvatar, sidebarStatus } from "@lib/appconst"
 import NoticeIconView from "./NoticeIcon/NoticeIconView"
@@ -35,26 +33,7 @@ export interface IMenuItemProps {
 const Header = (props: IHeaderProps) => {
   const navigate = useNavigate()
 
-  const menuItems = appMenuGroups
-    .filter((route: any) => {
-      const hasGrantedChild = (route.children || []).findIndex((item) =>
-        isGranted(item.permission)
-      )
-      return (
-        isGranted(route.permission) ||
-        (route.children && route.children.length && hasGrantedChild !== -1)
-      )
-    })
-    .map((route: any) => {
-      return GetMenuItems(route)
-    })
-
-  const selectedKey = menuItems.find((item) =>
-    location.pathname.startsWith(item.key)
-  )?.key
-
   const [profilePicture, setProfilePicture] = React.useState(defaultAvatar)
-  // .filter((item) => !item.children.includes(null));
   React.useEffect(() => {
     props.sessionStore
       .getMyProfilePicture()
@@ -65,26 +44,7 @@ const Header = (props: IHeaderProps) => {
     <>
       <div className={"header-container"}>
         <div className={"wrap-header"}>
-          <div className="action-header">
-            <Avatar
-              style={{
-                height: 35,
-                width: 35,
-                // , borderRadius: '50%'
-              }}
-              className="my-3"
-              shape="square"
-              alt={"profile"}
-              src={"/assets/images/logoCore.png"}
-            />
-          </div>
-          <Menu
-            className="ant-menu-bar"
-            mode="horizontal"
-            selectedKeys={[selectedKey]}
-            items={menuItems}
-          ></Menu>
-          <div className="action-header  wrap-header">
+          <div className="action-header wrap-header">
             <div className="wrap-profile"></div>
             <NoticeIconView history={props.history} wrapClass="wrap-noti" />
             {/* <LanguageSelect wrapClass="wrap-item" placement={"bottomLeft"} /> */}

@@ -10,7 +10,7 @@ import Lease from "./lease"
 import { appPermissions } from "@lib/appconst"
 
 export interface ILeaseContractsProps {
-  id: any;
+  id: any
 }
 
 const tabKeys = {
@@ -22,14 +22,14 @@ const tabKeys = {
 @inject()
 @observer
 class LeaseContracts extends AppComponentListBase<ILeaseContractsProps, any> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     tabActiveKey: tabKeys.tabLease,
-  };
+  }
 
   changeTab = (tabKey) => {
     this.setState({ tabActiveKey: tabKey })
-  };
+  }
   public render() {
     return (
       <>
@@ -37,15 +37,10 @@ class LeaseContracts extends AppComponentListBase<ILeaseContractsProps, any> {
           <Tabs
             activeKey={this.state.tabActiveKey}
             onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
             type="card"
           >
             {this.isGranted(appPermissions.leaseAgreement.page) && (
-              <Tabs.TabPane
-                tab={L(tabKeys.tabLease)}
-                key={tabKeys.tabLease}
-                className={"color-tab"}
-              >
+              <Tabs.TabPane tab={L(tabKeys.tabLease)} key={tabKeys.tabLease}>
                 <Lease />
               </Tabs.TabPane>
             )}

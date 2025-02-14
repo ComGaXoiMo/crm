@@ -72,14 +72,10 @@ class infoInquiry extends AppComponentListBase<
         <Tabs
           activeKey={this.state.tabActiveKey}
           onTabClick={this.changeTab}
-          className={"antd-tab-cusstom h-100"}
+          className={" h-100"}
           type="card"
         >
-          <Tabs.TabPane
-            tab={L(tabKeys.tabInfo)}
-            key={tabKeys.tabInfo}
-            className={"color-tab"}
-          >
+          <Tabs.TabPane tab={L(tabKeys.tabInfo)} key={tabKeys.tabInfo}>
             <Info
               formRef={this.props.formRef}
               id={this.props.id}
@@ -97,7 +93,6 @@ class infoInquiry extends AppComponentListBase<
             <Tabs.TabPane
               tab={L(tabKeys.tabUnitMatching)}
               key={tabKeys.tabUnitMatching}
-              className={"color-tab"}
             >
               <TabUnitMatching
                 visible={this.props.visible}
@@ -110,7 +105,6 @@ class infoInquiry extends AppComponentListBase<
               <Tabs.TabPane
                 tab={L(tabKeys.tabActivity)}
                 key={tabKeys.tabActivity}
-                className={"color-tab"}
               >
                 <AllActivity
                   inquiryId={this.props.id}
@@ -119,46 +113,31 @@ class infoInquiry extends AppComponentListBase<
                 />
               </Tabs.TabPane>
               {this.isGranted(appPermissions.task.read) && (
-                <Tabs.TabPane
-                  tab={L(tabKeys.tabTask)}
-                  key={tabKeys.tabTask}
-                  className={"color-tab"}
-                >
+                <Tabs.TabPane tab={L(tabKeys.tabTask)} key={tabKeys.tabTask}>
                   <TaskActivity inquiryId={this.props.id} />
                 </Tabs.TabPane>
               )}
-              <Tabs.TabPane
-                tab={L(tabKeys.tabMail)}
-                key={tabKeys.tabMail}
-                className={"color-tab"}
-              >
+              <Tabs.TabPane tab={L(tabKeys.tabMail)} key={tabKeys.tabMail}>
                 <MailActivity inquiryId={this.props.id} />
               </Tabs.TabPane>
-              <Tabs.TabPane
-                tab={L(tabKeys.tabCall)}
-                key={tabKeys.tabCall}
-                className={"color-tab"}
-              >
+              <Tabs.TabPane tab={L(tabKeys.tabCall)} key={tabKeys.tabCall}>
                 <CallActivity inquiryId={this.props.id} />
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={L(tabKeys.tabProposal)}
                 key={tabKeys.tabProposal}
-                className={"color-tab"}
               >
                 <ProposalActivity inquiryId={this.props.id} />
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={L(tabKeys.tabSiteVisit)}
                 key={tabKeys.tabSiteVisit}
-                className={"color-tab"}
               >
                 <SitevisitActivity inquiryId={this.props.id} />
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={L(tabKeys.tabReservation)}
                 key={tabKeys.tabReservation}
-                className={"color-tab"}
               >
                 <ReservationActivity
                   inquiryId={this.props.id}
@@ -180,7 +159,6 @@ class infoInquiry extends AppComponentListBase<
               <Tabs.TabPane
                 tab={L(tabKeys.tabDocument)}
                 key={tabKeys.tabDocument}
-                className={"color-tab"}
               >
                 <TabDocument
                   moduleId={moduleNames.inquiry}
@@ -199,7 +177,6 @@ class infoInquiry extends AppComponentListBase<
               <Tabs.TabPane
                 tab={L(tabKeys.tabAuditTrail)}
                 key={tabKeys.tabAuditTrail}
-                className={"color-tab"}
               >
                 <TabAuditTrail
                   visible={this.props.visible}

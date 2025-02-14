@@ -1,21 +1,20 @@
 @import '../../../styles/variable';
 
 .wrap-logo {
-  // position: relative;
+  position: relative;
   padding: 0 24px;
   overflow: hidden;
   color: #001529;
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
-  width: 100%;
-  // background: @layout-bg-white;
 
   .logo {
     height: 32px;
     background: rgba(255, 255, 255, 0.2);
     margin: 16px;
   }
+
   h1 {
     display: inline-block;
     margin: 0 0 0 12px;
@@ -28,41 +27,63 @@
 }
 
 .sidebar {
-  //box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
-  //box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.05);
+  box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.05);
   background: @layout-bg-white !important;
+  overflow: auto;
+  // height: calc(125vh - 72px); //change 100vh to 125vh to fix 1.25 zoom screen ratio
+  // position: fixed;
+  left: 0;
 
   .ant-menu {
-    background: @layout-bg-white;
+    background: #ffffff;
     color: @text-color !important;
     opacity: 0.87;
+
     .menu-icon {
       margin-right: 0;
-      opacity: 0.3;
+      // opacity: 0.3;
     }
+
     .ant-menu-item-group {
       .ant-menu-item-group-title {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: @primary-color;
+        font-size: 14px;
+        font-weight: 400;
+        color: @text-blur;
         white-space: nowrap;
         position: relative;
       }
+
+      .ant-menu-item-group-list {
+        padding: 0;
+      }
     }
+
+    .ant-menu-submenu {
+      .menu-group {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+    }
+
     .ant-menu-submenu {
       .wrap-sub-menu {
         display: flex;
         align-items: center;
       }
+
       .ant-menu-submenu-title {
+        font-weight: 500;
         margin: 0;
+        text-transform: capitalize;
+
         &:hover {
           .menu-icon {
             opacity: 1;
           }
         }
       }
+
       &.ant-menu-submenu-open {
         .ant-menu-submenu-title {
           .menu-icon {
@@ -71,66 +92,64 @@
         }
       }
     }
+
     .ant-menu-item {
+      font-weight: 500;
       margin-bottom: 0 !important;
       margin-top: 0;
       display: flex;
       align-items: center;
       transition: all 0.1s linear;
+      color: @text-gray;
+      border-radius: 0px;
+
       &.ant-menu-item-only-child {
         a {
           display: flex;
           align-items: center;
         }
       }
+
       &:hover {
         .menu-icon {
           opacity: 1;
         }
       }
-      &::after {
-        border-right: 0 !important;
-      }
     }
+
     .ant-menu-item-selected {
-      .dashboard-selected-title {
-        border-radius: 16px !important;
-        background-color: rgba(211, 164, 41, 0.12);
-        font-weight: 600;
-      }
+      // border-radius: 24px;
+      background: @layout-bg-white;
+
       .selected-title {
-        padding: 0px 12px 0px 12px !important;
-        border-radius: 12px !important;
-        background-color: rgba(211, 164, 41, 0.12);
-        font-weight: 600;
-        overflow: hidden;
-        margin-left: 4px;
+        color: @primary-color;
       }
-      background-color: transparent !important;
+
       .menu-icon {
         opacity: 1;
       }
+
       &::after {
-        position: 'absolute';
-        top: 8px;
-        right: -8px;
-        width: 16px;
-        height: 16px;
-        background: @layout-bg-color;
-        border-right: 0 !important;
-        // content: '•';
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transform: rotate(45deg);
+        border-right: 0;
       }
     }
+
     .ant-menu-item-group-list {
-      padding: 0;
+      padding: 0 15px;
+
       .ant-menu-item,
       .ant-menu-submenu-title {
-        padding-left: 10px;
+        padding-left: 15px;
       }
     }
   }
+}
+
+.custom-menu-group-item {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: @primary-color;
+  white-space: nowrap;
+  position: relative;
 }

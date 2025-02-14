@@ -829,7 +829,6 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
           <Tabs
             activeKey={this.state.tabActiveKey}
             onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
             type="card"
           >
             <TabPane tab={L(tabKeys.tabCurrentLA)} key={tabKeys.tabCurrentLA}>
@@ -1038,7 +1037,6 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
                 <Tabs.TabPane
                   tab={L(tabKeys.tabAuditTrail)}
                   key={tabKeys.tabAuditTrail}
-                  className={"color-tab"}
                 >
                   <TabAuditTrail parentId={this.props.leaseAgreementId} />
                 </Tabs.TabPane>

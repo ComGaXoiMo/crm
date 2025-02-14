@@ -13,7 +13,7 @@ import AppConsts, { appPermissions } from "@lib/appconst"
 
 const { itemDashboard } = AppConsts
 export interface IClientsProps {
-  appDataStore: AppDataStore;
+  appDataStore: AppDataStore
 }
 
 const tabKeys = {
@@ -25,12 +25,12 @@ const tabKeys = {
 @inject(Stores.AppDataStore)
 @observer
 class Clients extends AppComponentListBase<IClientsProps> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     tabActiveKey: tabKeys.tabContacts_Lead,
     showOverView: false,
     selectItem: undefined,
-  };
+  }
   async componentDidMount() {
     await Promise.all([
       this.props.appDataStore.getCountries({}),
@@ -47,22 +47,16 @@ class Clients extends AppComponentListBase<IClientsProps> {
     if (tabKey === tabKeys.tabReport) {
       this.setState({ selectItem: itemDashboard.client })
     }
-  };
+  }
   public render() {
     return (
       <>
         <div className="container-element">
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             {this.isGranted(appPermissions.contact.page) && (
               <Tabs.TabPane
                 tab={L(tabKeys.tabContacts_Lead)}
                 key={tabKeys.tabContacts_Lead}
-                className={"color-tab"}
               >
                 <ContactsAndLead />
               </Tabs.TabPane>
@@ -75,6 +69,12 @@ class Clients extends AppComponentListBase<IClientsProps> {
                 <Company />
               </Tabs.TabPane>
             )}
+            <Tabs.TabPane tab={L("Tài liệu")} key={"tl"}>
+              Tài liệu
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={L("Cài đặt")} key={"setting"}>
+              Cài đặt
+            </Tabs.TabPane>
 
             {/* <Tabs.TabPane tab={L(tabKeys.tabReport)} key={tabKeys.tabReport}>
               <ClientsReport selectItem={this.state.selectItem} />

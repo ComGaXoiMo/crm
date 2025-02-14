@@ -64,12 +64,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
 
     return (
       <>
-        <Tabs
-          onChange={onTabChange}
-          centered
-          className={"antd-tab-cusstom"}
-          type="card"
-        >
+        <Tabs onChange={onTabChange} centered>
           {React.Children.toArray(children).map((child: any) => {
             if (!child) {
               return ""
@@ -86,7 +81,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
             } = child.props
 
             return (
-              <TabPane className={"color-tab"} tab={tabKey} key={tabKey}>
+              <TabPane tab={tabKey} key={tabKey}>
                 <NoticeList
                   clearText={clearText}
                   viewMoreText={viewMoreText}

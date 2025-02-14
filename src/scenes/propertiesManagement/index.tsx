@@ -62,14 +62,12 @@ class Properties extends AppComponentListBase<IPropertiesProps> {
         <Tabs
           activeKey={this.state.tabActiveKey}
           onTabClick={this.changeTab}
-          className={"antd-tab-cusstom"}
           type="card"
         >
           {this.isGranted(appPermissions.project.page) && (
             <Tabs.TabPane
               tab={L(tabKeys.tabProjects)}
               key={tabKeys.tabProjects}
-              className={"color-tab"}
             >
               <Projects />
             </Tabs.TabPane>

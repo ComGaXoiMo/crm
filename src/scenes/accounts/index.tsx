@@ -26,13 +26,13 @@ class AccountConfig extends AppComponentListBase<any, any> {
         {/* <Tabs
           activeKey={this.state.tabActiveKey}
           onTabClick={this.changeTab}
-          className={"antd-tab-cusstom"}
+          
           type="card"
         >
           <Tabs.TabPane
             tab={L(tabKeys.tabInfomation)}
             key={tabKeys.tabInfomation}
-            className={"color-tab"}
+            
           > */}
         <MyProfile />
         {/* </Tabs.TabPane>

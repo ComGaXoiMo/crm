@@ -14,10 +14,10 @@ import ReservationStore from "@stores/activity/reservationStore"
 // import InquiriesReport from "@scenes/dashboardsManagement/components/inquiriesReport/inquiriesReport";
 
 export interface IInquiriesProps {
-  id: any;
-  appDataStore: AppDataStore;
-  unitStore: UnitStore;
-  reservationStore: ReservationStore;
+  id: any
+  appDataStore: AppDataStore
+  unitStore: UnitStore
+  reservationStore: ReservationStore
 }
 
 const tabKeys = {
@@ -27,13 +27,13 @@ const tabKeys = {
 @inject(Stores.UnitStore, Stores.AppDataStore, Stores.ReservationStore)
 @observer
 class Inquiries extends AppComponentListBase<IInquiriesProps, any> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     tabActiveKey: tabKeys.tabInquiriesList,
-  };
+  }
   changeTab = (tabKey) => {
     this.setState({ tabActiveKey: tabKey })
-  };
+  }
   async componentDidMount() {
     try {
       await Promise.all([
@@ -69,14 +69,12 @@ class Inquiries extends AppComponentListBase<IInquiriesProps, any> {
           <Tabs
             activeKey={this.state.tabActiveKey}
             onTabClick={this.changeTab}
-            className={"antd-tab-cusstom"}
             type="card"
           >
             {this.isGranted(appPermissions.inquiry.page) && (
               <Tabs.TabPane
                 tab={L(tabKeys.tabInquiriesList)}
                 key={tabKeys.tabInquiriesList}
-                className={"color-tab"}
               >
                 <InquiriesList />
               </Tabs.TabPane>

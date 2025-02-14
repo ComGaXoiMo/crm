@@ -12,14 +12,14 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              "@primary-color": "#3ba1afd4",
+              "@primary-color": "#AC9D64",
               "@text-color": "#000000",
               "@color-error": "rgba(231, 105, 95, 1)",
               "@color-success": "rgba(82, 203, 103, 1)",
               "@place-holder-text": "rgba(29, 68, 73, 0.32)",
               "@border-color": "#e8e8e8",
               "@border-primary-color": "rgba(110, 186, 196, 0.4)",
-              "@layout-bg-color": "#F2F4F8",
+              "@layout-bg-color": "#F9F9F8",
               "@padding-md": "16px",
               "@control-padding-horizontal": "@padding-md",
               "@height-lg": "44px",
@@ -87,5 +87,13 @@ module.exports = {
 
       return webpackConfig
     },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
+      },
+    ],
   },
 }

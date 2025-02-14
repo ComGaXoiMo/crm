@@ -220,7 +220,7 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
         position: relative !important;
       }
       .ant-drawer-content {
-        background: #f2f4f8;
+        background: #F9F9F8;
       }
       .ant-drawer-header {
         background-color: white;
@@ -236,7 +236,7 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
       }
       .ant-tabs-nav{
         margin: 0 !important;
-        border-bottom: 2px solid #f2f4f8;
+        border-bottom: 2px solid #F9F9F8;
       }
       .ant-tabs-content-holder{
         padding-top: 15px;

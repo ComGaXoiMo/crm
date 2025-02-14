@@ -1,7 +1,7 @@
-import { inject, observer } from "mobx-react";
-import React from "react";
-import CustomDrawer from "@components/Drawer/CustomDrawer";
-import { L } from "@lib/abpUtility";
+import { inject, observer } from "mobx-react"
+import React from "react"
+import CustomDrawer from "@components/Drawer/CustomDrawer"
+import { L } from "@lib/abpUtility"
 import {
   Card,
   Col,
@@ -13,28 +13,28 @@ import {
   Select,
   // Table,
   Tabs,
-} from "antd";
-import withRouter from "@components/Layout/Router/withRouter";
+} from "antd"
+import withRouter from "@components/Layout/Router/withRouter"
 
-import AppDataStore from "@stores/appDataStore";
-import CompanyStore from "@stores/clientManagement/companyStore";
-import Stores from "@stores/storeIdentifier";
-import { AppComponentListBase } from "@components/AppComponentBase";
-import { debounce } from "lodash";
-import PhoneInput2 from "@components/Inputs/PhoneInput/PhoneInput2";
-import { filterOptions, renderOptions } from "@lib/helper";
-import rules from "./validation";
-import TextArea from "antd/lib/input/TextArea";
-import userService from "@services/administrator/user/userService";
-import TabPane from "antd/lib/tabs/TabPane";
-import InquirieContact from "../../contactsAndLead/components/tabInquire";
-import AddressInput2 from "@components/Inputs/AddressInput2";
-import CompanyContacts from "./CompanyContacts";
-import { appPermissions, dateFormat, moduleNames } from "@lib/appconst";
-import { validateMessages } from "@lib/validation";
-import TabDocument from "@scenes/inquiriesManagement/inquiriesList/components/detailInquiry/tabDocument";
-import TabContract from "@scenes/propertiesManagement/units/components/tabContract";
-import CompanyAuditTrail from "./companyAuditTrail";
+import AppDataStore from "@stores/appDataStore"
+import CompanyStore from "@stores/clientManagement/companyStore"
+import Stores from "@stores/storeIdentifier"
+import { AppComponentListBase } from "@components/AppComponentBase"
+import { debounce } from "lodash"
+import PhoneInput2 from "@components/Inputs/PhoneInput/PhoneInput2"
+import { filterOptions, renderOptions } from "@lib/helper"
+import rules from "./validation"
+import TextArea from "antd/lib/input/TextArea"
+import userService from "@services/administrator/user/userService"
+import TabPane from "antd/lib/tabs/TabPane"
+import InquirieContact from "../../contactsAndLead/components/tabInquire"
+import AddressInput2 from "@components/Inputs/AddressInput2"
+import CompanyContacts from "./CompanyContacts"
+import { appPermissions, dateFormat, moduleNames } from "@lib/appconst"
+import { validateMessages } from "@lib/validation"
+import TabDocument from "@scenes/inquiriesManagement/inquiriesList/components/detailInquiry/tabDocument"
+import TabContract from "@scenes/propertiesManagement/units/components/tabContract"
+import CompanyAuditTrail from "./companyAuditTrail"
 
 const tabKeys = {
   tabCompanyInfo: "TAB_COMPANY_INFO",
@@ -47,118 +47,118 @@ const tabKeys = {
   tabInquiry: "INQUIRIES",
   tabLeaseAgreement: "TAB_LEASE_AGREEMENT",
   tabAuditTrail: "TAB_AUDIT_TRAIL",
-};
+}
 type Props = {
-  visible: boolean;
-  id: any;
-  data: any;
-  onCancel: () => void;
-  appDataStore: AppDataStore;
-  companyStore: CompanyStore;
-};
+  visible: boolean
+  id: any
+  data: any
+  onCancel: () => void
+  appDataStore: AppDataStore
+  companyStore: CompanyStore
+}
 type States = {
-  industriesLv2: any;
-  parentCompanies: any;
-  isEdit: boolean;
-  assignedUsers: any;
-  tabActiveKey: any;
-};
-inject(Stores.AppDataStore, Stores.CompanyStore);
-observer;
+  industriesLv2: any
+  parentCompanies: any
+  isEdit: boolean
+  assignedUsers: any
+  tabActiveKey: any
+}
+inject(Stores.AppDataStore, Stores.CompanyStore)
+observer
 class CompanyModal extends AppComponentListBase<Props, States> {
-  formRef = React.createRef<any>();
+  formRef = React.createRef<any>()
   state = {
     parentCompanies: [] as any,
     industriesLv2: [] as any,
     assignedUsers: [] as any,
     tabActiveKey: tabKeys.tabCompanyInfo,
     isEdit: false,
-  };
+  }
   async componentDidMount() {
     if (this.props.data.id) {
-      await console.log(this.formRef);
-      await this.formRef.current?.setFieldsValue(this.props.data);
+      await console.log(this.formRef)
+      await this.formRef.current?.setFieldsValue(this.props.data)
     } else {
-      this.setState({ isEdit: true });
+      this.setState({ isEdit: true })
 
-      this.formRef.current?.resetFields();
+      this.formRef.current?.resetFields()
     }
     await this.updateIndustriesLv2(
       this.props.companyStore.editCompany.industryId
-    );
+    )
   }
 
   changeTab = (tabKey) => {
-    this.setState({ tabActiveKey: tabKey });
-  };
+    this.setState({ tabActiveKey: tabKey })
+  }
   handleUpdate = async () => {
-    const formValues = await this.formRef.current?.validateFields();
-    const address = this.formRef.current?.getFieldValue("companyAddress");
+    const formValues = await this.formRef.current?.validateFields()
+    const address = this.formRef.current?.getFieldValue("companyAddress")
     let res = {
       ...formValues,
-    };
+    }
     if (Array.isArray(address)) {
       res = {
         ...res,
         id: this.props.data.id,
         companyAddress: address,
-      };
+      }
     } else {
       res = {
         ...res,
         id: this.props.data.id,
         companyAddress: [address],
-      };
+      }
     }
 
     if (address.length === 0) {
-      delete res.companyAddress;
+      delete res.companyAddress
     }
-    await this.props.companyStore.createOrUpdate(res);
-    this.setState({ isEdit: false });
-  };
+    await this.props.companyStore.createOrUpdate(res)
+    this.setState({ isEdit: false })
+  }
   handleCreate = async () => {
-    const formValues = await this.formRef.current?.validateFields();
-    const address = this.formRef.current?.getFieldValue("companyAddress");
-    let res = formValues;
+    const formValues = await this.formRef.current?.validateFields()
+    const address = this.formRef.current?.getFieldValue("companyAddress")
+    let res = formValues
     if (address) {
-      res = { ...formValues, companyAddress: [address] };
+      res = { ...formValues, companyAddress: [address] }
     }
-    await this.props.companyStore.createOrUpdate(res);
-    await this.props.onCancel();
-    this.handleClose();
-  };
+    await this.props.companyStore.createOrUpdate(res)
+    await this.props.onCancel()
+    this.handleClose()
+  }
   handleEdit = () => {
-    this.setState({ isEdit: true });
-  };
+    this.setState({ isEdit: true })
+  }
   handleClose = () => {
-    this.formRef.current?.resetFields();
-    this.props.onCancel();
-  };
+    this.formRef.current?.resetFields()
+    this.props.onCancel()
+  }
   updateIndustriesLv2 = (industryId, isResetLv2?) => {
     const industriesLv2 = (this.props.appDataStore.industriesLv2 || []).filter(
       (item) => item.parentId === industryId
-    );
-    this.setState({ industriesLv2 });
+    )
+    this.setState({ industriesLv2 })
     if (isResetLv2) {
-      this.formRef.current?.setFieldsValue({ industryLevel2Id: undefined });
+      this.formRef.current?.setFieldsValue({ industryLevel2Id: undefined })
     }
-  };
+  }
   findAssignedUsers = debounce(async (keyword) => {
     const result = await userService.findUsers({
       keyword,
       pageSize: 20,
       pageNumber: 1,
-    });
-    this.setState({ assignedUsers: result || [] });
-  }, 200);
+    })
+    this.setState({ assignedUsers: result || [] })
+  }, 200)
 
   render() {
     const {
       appDataStore: { countries, industriesLv1 },
       companyStore: { isLoading },
-    } = this.props;
-    const { isEdit } = this.state;
+    } = this.props
+    const { isEdit } = this.state
     return (
       <CustomDrawer
         useBottomAction
@@ -176,7 +176,6 @@ class CompanyModal extends AppComponentListBase<Props, States> {
         <Tabs
           activeKey={this.state.tabActiveKey}
           onTabClick={this.changeTab}
-          className={"antd-tab-cusstom"}
           type="card"
         >
           <TabPane tab={L(tabKeys.tabCompanyInfo)} key={tabKeys.tabCompanyInfo}>
@@ -363,14 +362,11 @@ class CompanyModal extends AppComponentListBase<Props, States> {
                       <Input disabled={!isEdit} />
                     </Form.Item>
                   </Col>
-                    <Col sm={{ span: 8, offset: 16 }}>
-                      <Form.Item
-                        label={L("CERTIFICATE_VI")}
-                        name="certificateVi"
-                      >
-                        <Input disabled={!isEdit} />
-                      </Form.Item>
-                    </Col>
+                  <Col sm={{ span: 8, offset: 16 }}>
+                    <Form.Item label={L("CERTIFICATE_VI")} name="certificateVi">
+                      <Input disabled={!isEdit} />
+                    </Form.Item>
+                  </Col>
                   <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("REPRESENTATIVE_BY")}
@@ -510,7 +506,6 @@ class CompanyModal extends AppComponentListBase<Props, States> {
                 <Tabs.TabPane
                   tab={L(tabKeys.tabAuditTrail)}
                   key={tabKeys.tabAuditTrail}
-                  className={"color-tab"}
                 >
                   <CompanyAuditTrail
                     parentId={this.props.companyStore.editCompany?.id}
@@ -521,8 +516,8 @@ class CompanyModal extends AppComponentListBase<Props, States> {
           )}
         </Tabs>
       </CustomDrawer>
-    );
+    )
   }
 }
 
-export default withRouter(CompanyModal);
+export default withRouter(CompanyModal)

@@ -141,7 +141,7 @@ class UnitModal extends AppComponentListBase<Props, State> {
         <Tabs
           activeKey={tabActiveKey}
           onTabClick={this.changeTab}
-          className={"antd-tab-cusstom h-100"}
+          className={" h-100"}
           type="card"
         >
           <Tabs.TabPane

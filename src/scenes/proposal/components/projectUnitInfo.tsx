@@ -11,12 +11,12 @@ import SelectUnitModal from "./SelectUnitModal"
 import SelectProjectModal from "./SelectProjectModal"
 
 export interface IProjectUnitInfoProps {
-  id: any;
+  id: any
 }
 
 export interface IProjectUnitInfoState {
-  showSelectUnit: boolean;
-  showSelectProject: boolean;
+  showSelectUnit: boolean
+  showSelectProject: boolean
 }
 
 // const unitItems = [
@@ -147,8 +147,8 @@ class ProjectUnitInfo extends AppComponentListBase<
   IProjectUnitInfoProps,
   IProjectUnitInfoState
 > {
-  formRef: any = React.createRef();
-  state = { showSelectUnit: false, showSelectProject: false };
+  formRef: any = React.createRef()
+  state = { showSelectUnit: false, showSelectProject: false }
 
   public render() {
     return (
@@ -221,7 +221,7 @@ class ProjectUnitInfo extends AppComponentListBase<
                 <div
                   onClick={() => this.setState({ showSelectProject: true })}
                   style={{
-                    backgroundColor: "#F2F4F8",
+                    backgroundColor: "#F9F9F8",
                     width: "100%",
                     height: "100%",
                     display: "flex",
@@ -304,7 +304,7 @@ class ProjectUnitInfo extends AppComponentListBase<
                 <div
                   onClick={() => this.setState({ showSelectUnit: true })}
                   style={{
-                    backgroundColor: "#F2F4F8",
+                    backgroundColor: "#F9F9F8",
                     width: "100%",
                     height: "100%",
                     display: "flex",
