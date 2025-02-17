@@ -10,7 +10,6 @@ import DataTable from "@components/DataTable"
 import Modal from "./components/Modal"
 import NotificationTemplateStore from "@stores/notificationTemplate/notificationTemplateStore"
 import Stores from "@stores/storeIdentifier"
-import Filter from "./components/filter"
 import AppConsts from "@lib/appconst"
 const { notifiType } = AppConsts
 
@@ -139,14 +138,12 @@ class EProposalTemplate extends AppComponentListBase<
     })
     return (
       <>
-        <Filter
+        <DataTable
           onCreate={() => {
             this.goDetail()
           }}
-          onRefesh={() => this.getAll()}
+          onRefresh={this.getAll}
           handleSearch={this.handleFilterChange}
-        />
-        <DataTable
           pagination={{
             pageSize: this.state.maxResultCount,
             current: this.currentPage,
@@ -159,10 +156,6 @@ class EProposalTemplate extends AppComponentListBase<
             className="custom-ant-row"
             // rowKey={(record) => record.id}
             loading={isLoading}
-            style={{
-              width: "50%",
-              padding: 20,
-            }}
             columns={columns}
             pagination={false}
             dataSource={eProposalTemplates ?? []}

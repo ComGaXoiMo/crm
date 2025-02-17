@@ -1,26 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Button, Tooltip, Row, Col } from "antd"
-import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
+import { Row, Col } from "antd"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import AppConsts, { appPermissions } from "@lib/appconst"
-import { ExcelIcon } from "@components/Icon"
+import AppConsts from "@lib/appconst"
 import FilterSelect from "@components/Filter/FilterSelect"
-import FilterSearch from "@components/Filter/FilterSearch"
 import { debounce } from "lodash"
 
 const { activeStatus, contactType } = AppConsts
 
-const ContactsAndLeadFilterPanel = ({
-  userStore,
-  handleSearch,
-  filter,
-  onRefresh,
-  onCreate,
-  exportExcel,
-}) => {
+const ContactsAndLeadFilterPanel = ({ userStore, handleSearch }) => {
   const [filters, setFilters] = useState({ isActive: true })
   const [listUser, setListUser] = useState([])
 
@@ -46,19 +36,8 @@ const ContactsAndLeadFilterPanel = ({
     [filters, handleSearch]
   )
 
-  const updateSearch = debounce((name, value) => {
-    handleSearchFilter("keyword", value)
-  }, 200)
-
   return (
     <Row gutter={[4, 8]}>
-      <Col sm={{ span: 5 }}>
-        <FilterSearch
-          onChange={(e) => updateSearch("keyword", e.target?.value)}
-          onSearch={(value?) => handleSearchFilter("keyword", value)}
-          placeholder={L("FILTER_KEYWORD_CONTACT")}
-        />
-      </Col>
       <Col sm={{ span: 5 }}>
         <FilterSelect
           placeholder={L("DEALER")}
@@ -83,33 +62,6 @@ const ContactsAndLeadFilterPanel = ({
           options={activeStatus}
         />
       </Col>
-      <div style={{ position: "absolute", display: "flex", right: 10 }}>
-        {appPermissions.contact.export && (
-          <Tooltip title={L("EXPORT_EXCEL")} placement="topLeft">
-            <Button
-              icon={<ExcelIcon />}
-              className="button-primary"
-              onClick={exportExcel}
-            />
-          </Tooltip>
-        )}
-        {appPermissions.contact.create && (
-          <Tooltip title={L("CREATE_CONTACT")} placement="topLeft">
-            <Button
-              icon={<PlusCircleFilled />}
-              className="button-primary"
-              onClick={onCreate}
-            />
-          </Tooltip>
-        )}
-        <Tooltip title={L("RELOAD")} placement="topLeft">
-          <Button
-            icon={<ReloadOutlined />}
-            className="button-primary"
-            onClick={onRefresh}
-          />
-        </Tooltip>
-      </div>
     </Row>
   )
 }

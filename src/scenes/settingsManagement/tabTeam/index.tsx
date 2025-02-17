@@ -2,27 +2,13 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import {
-  Button,
-  Col,
-  Dropdown,
-  // Input,
-  Menu,
-  Row,
-  Table,
-  Modal as AntdModal,
-} from "antd"
+import { Col, Dropdown, Menu, Row, Table, Modal as AntdModal } from "antd"
 import { L, LNotification } from "@lib/abpUtility"
-// import FileUploadWrap from "@components/FileUpload/FileUploadCRM";
 import withRouter from "@components/Layout/Router/withRouter"
 import getColumns from "./components/columns"
 import DataTable from "@components/DataTable"
 import Modal from "./components/Modal"
-import {
-  MoreOutlined,
-  PlusCircleFilled,
-  ReloadOutlined,
-} from "@ant-design/icons"
+import { MoreOutlined } from "@ant-design/icons"
 import CreateModal from "./components/CreateModal"
 import OrganizationUnitStore from "@stores/organizationUnit/organizationUnitStore"
 import Stores from "@stores/storeIdentifier"
@@ -31,24 +17,24 @@ import { appPermissions } from "@lib/appconst"
 
 const confirm = AntdModal.confirm
 export interface ITeamProps {
-  params: any;
-  organizationUnitStore: OrganizationUnitStore;
+  params: any
+  organizationUnitStore: OrganizationUnitStore
 }
 export interface ITeamState {
-  maxResultCount: number;
-  skipCount: number;
-  modalVisible: boolean;
-  createModalVisible: boolean;
-  dateSend: any;
-  title: string;
-  idOU: any;
+  maxResultCount: number
+  skipCount: number
+  modalVisible: boolean
+  createModalVisible: boolean
+  dateSend: any
+  title: string
+  idOU: any
 }
 
 @inject(Stores.OrganizationUnitStore)
 @observer
 class Team extends AppComponentListBase<ITeamProps, ITeamState> {
-  formRef: any = React.createRef();
-  formRefProjectAddress: any = React.createRef();
+  formRef: any = React.createRef()
+  formRefProjectAddress: any = React.createRef()
 
   constructor(props: ITeamProps) {
     super(props)
@@ -69,18 +55,18 @@ class Team extends AppComponentListBase<ITeamProps, ITeamState> {
 
   getAll = async () => {
     await this.props.organizationUnitStore.getAll({})
-  };
+  }
   toggleModal = async () => {
     this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
-  };
+  }
   handleOk = async () => {
     this.getAll()
     this.toggleModal()
-  };
+  }
   handleClose = async () => {
     await this.getAll()
     await this.toggleModal()
-  };
+  }
   deleteOU = async (id: number) => {
     const self = this
     confirm({
@@ -93,40 +79,7 @@ class Team extends AppComponentListBase<ITeamProps, ITeamState> {
         await this.getAll()
       },
     })
-  };
-  renderFilterComponent = () => {
-    return (
-      <Row gutter={[8, 8]}>
-        <Col sm={{ span: 6, offset: 0 }}>
-          {/* <Search placeholder={L("TEAM_NAME")} /> */}
-          <label> </label>
-        </Col>
-
-        {this.isGranted(appPermissions.adminTeam.create) && (
-          <div style={{ position: "absolute", display: "flex", right: 10 }}>
-            {/*  <Tooltip title={L("EXPORT_EXCEL")} placement="topLeft">
-            <Button
-              icon={<ExcelIcon />}
-              className="button-primary"
-              onClick={() => {}}
-            ></Button></Tooltip> */}
-            {this.isGranted(appPermissions.adminTeam.create) && (
-              <Button
-                icon={<PlusCircleFilled />}
-                className="button-primary"
-                onClick={() => this.setState({ createModalVisible: true })}
-              ></Button>
-            )}
-            <Button
-              icon={<ReloadOutlined />}
-              className="button-primary"
-              onClick={() => this.getAll()}
-            ></Button>
-          </div>
-        )}
-      </Row>
-    )
-  };
+  }
 
   public render() {
     const columns = getColumns({
@@ -176,12 +129,11 @@ class Team extends AppComponentListBase<ITeamProps, ITeamState> {
     return (
       <>
         <DataTable
-          // onCreate={() => this.setState({ createModalVisible: true })}
-
+          onCreate={() => this.setState({ createModalVisible: true })}
+          onRefresh={() => this.getAll()}
           pagination={{
             pageSize: this.state.maxResultCount,
           }}
-          filterComponent={this.renderFilterComponent()}
         >
           <Table
             size="middle"
@@ -192,7 +144,6 @@ class Team extends AppComponentListBase<ITeamProps, ITeamState> {
             pagination={false}
             dataSource={tableData ?? []}
             // scroll={{ x: 1000, y: 1000, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
         <Modal

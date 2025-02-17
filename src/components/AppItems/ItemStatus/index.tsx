@@ -1,25 +1,34 @@
-import React from 'react'
-import { Status } from '@models/global'
-import { Tooltip } from 'antd'
-import Badge from 'antd/lib/badge'
-import Tag from 'antd/lib/tag'
-import { hexToRGB } from '@lib/helper'
+import React from "react"
+import { hexToRGB } from "@lib/helper"
 
 interface ItemStatusProps {
-  status: Status
+  color: string
 }
 
-const FormInput: React.FC<ItemStatusProps> = ({ status }) => {
-  const backgroundColor = `rgba(${hexToRGB(status.colorCode)}, .05)`
+const ItemStatus: React.FC<ItemStatusProps> = ({ color }) => {
+  const backgroundColor = `rgba(${hexToRGB(color)}, .2)`
+  const borderColor = `rgba(${hexToRGB(color)}, 1)`
 
   return (
-    <Tooltip title={status.name}>
-      <Tag className={'round'} style={{ background: backgroundColor, borderColor: backgroundColor }}>
-        <Badge color={status.colorCode} className="badge-without-text mr-2" />
-        <span style={{ color: status.colorCode }}>{status.name || status.code}</span>
-      </Tag>
-    </Tooltip>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        width: "fit-content",
+      }}
+    >
+      <span
+        style={{
+          width: "0.5rem",
+          height: "0.5rem",
+          borderRadius: "50%",
+          backgroundColor,
+          border: `1px solid ${borderColor}`,
+        }}
+      ></span>
+    </div>
   )
 }
 
-export default FormInput
+export default ItemStatus

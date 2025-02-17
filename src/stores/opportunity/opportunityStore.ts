@@ -1,18 +1,20 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import opportunityService from "@services/opportunity/opportunityService"
 import unitService from "@services/projects/unitService"
 
 class OpportunityStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editOpportunity!: any;
-  @observable widgetStatusItems!: any[];
-  @observable widgetStageItems!: any[];
-  @observable targetAssetOption!: any[];
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editOpportunity!: any
+  @observable widgetStatusItems!: any[]
+  @observable widgetStageItems!: any[]
+  @observable targetAssetOption!: any[]
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
     this.widgetStatusItems = []
   }

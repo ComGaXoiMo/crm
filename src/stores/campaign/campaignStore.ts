@@ -1,14 +1,16 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import campaignService from "../../services/campaign/campaignService"
 
 class CampaignStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editCampaign!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editCampaign!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
   }
 

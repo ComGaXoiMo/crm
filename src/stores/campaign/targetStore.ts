@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import campaignService from "../../services/campaign/campaignService"
@@ -9,6 +9,8 @@ class TargetStore {
   @observable editTarget!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
   }
 

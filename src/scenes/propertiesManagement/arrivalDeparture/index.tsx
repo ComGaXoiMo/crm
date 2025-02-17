@@ -155,7 +155,6 @@ class ArrivalDeparture extends React.Component<any> {
             pagination={false}
             dataSource={tableData === undefined ? [] : tableData.items}
             scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
       </>

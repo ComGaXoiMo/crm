@@ -1,21 +1,7 @@
 import * as React from "react"
 
-import {
-  Button,
-  Col,
-  Dropdown,
-  Input,
-  Menu,
-  Modal,
-  Row,
-  Select,
-  Table,
-} from "antd"
-import {
-  MoreOutlined,
-  PlusCircleFilled,
-  ReloadOutlined,
-} from "@ant-design/icons"
+import { Col, Dropdown, Menu, Modal, Row, Table } from "antd"
+import { MoreOutlined } from "@ant-design/icons"
 import { inject, observer } from "mobx-react"
 
 import { AppComponentListBase } from "../../../components/AppComponentBase"
@@ -29,34 +15,33 @@ import AppConsts, { appPermissions } from "../../../lib/appconst"
 import debounce from "lodash/debounce"
 import getColumns from "./columns"
 import withRouter from "@components/Layout/Router/withRouter"
-import { renderDotActive, renderOptions } from "@lib/helper"
+import { renderDotActive } from "@lib/helper"
 import ResetPasswordFormModal from "@components/Modals/ResetPassword"
 import ProjectStore from "@stores/projects/projectStore"
+import FilterSelect from "@components/Filter/FilterSelect"
 // import { ExcelIcon } from "@components/Icon";
 const { activeStatus } = AppConsts
 export interface IUserProps {
-  userStore: UserStore;
-  projectStore: ProjectStore;
-  listRoleFilter: any;
+  userStore: UserStore
+  projectStore: ProjectStore
+  listRoleFilter: any
 }
 
 export interface IUserState {
-  modalVisible: boolean;
-  modalResetPasswordVisible: boolean;
-  maxResultCount: number;
-  skipCount: number;
-  userId: any;
-  staffId?: number;
-  filter: any;
+  modalVisible: boolean
+  modalResetPasswordVisible: boolean
+  maxResultCount: number
+  skipCount: number
+  userId: any
+  staffId?: number
+  filter: any
 }
 
 const confirm = Modal.confirm
-const Search = Input.Search
-
 @inject(Stores.UserStore, Stores.ProjectStore)
 @observer
 class User extends AppComponentListBase<IUserProps, IUserState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     modalVisible: false,
@@ -66,7 +51,7 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
     staffId: 0,
     modalResetPasswordVisible: false,
     filter: { isActive: true } as any,
-  };
+  }
 
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
@@ -93,13 +78,13 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
 
   Modal = () => {
     this.setState({
       modalVisible: !this.state.modalVisible,
     })
-  };
+  }
 
   createOrUpdateModalOpen = async (entityDto: EntityDto) => {
     await this.props.userStore.getTeam("")
@@ -123,13 +108,13 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
         (item) => item.projectId
       ),
     })
-  };
+  }
   showChangePasswordModal = (id) => {
     this.setState({ staffId: id, modalResetPasswordVisible: true })
-  };
+  }
   handleSendRequest = async (id) => {
     await this.props.userStore.sendRequestPassword(id)
-  };
+  }
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
     confirm({
@@ -145,7 +130,7 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
         self.handleTableChange({ current: 1, pageSize: 10 })
       },
     })
-  };
+  }
   handleCreate = (listTeam) => {
     const form = this.formRef.current
     form.validateFields().then(async (values: any) => {
@@ -164,7 +149,7 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
 
       await this.getAll()
     })
-  };
+  }
 
   updateSearch = debounce((name, value) => {
     const { filter } = this.state
@@ -172,7 +157,7 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleSearch = (name, value) => {
     const { filter } = this.state
@@ -180,83 +165,30 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
       { filter: { ...filter, [name]: value }, skipCount: 0 },
       async () => await this.getAll()
     )
-  };
+  }
 
   renderFilterComponent = () => {
-    const { filter } = this.state
-    const keywordPlaceHolder = `${this.L("FULL_NAME")}, ${this.L(
-      "EMAIL_ADDRESS"
-    )}, ${this.L("USER_NAME")}`
     return (
       <Row gutter={[8, 8]}>
-        <Col sm={{ span: 6, offset: 0 }}>
-          <Search
-            placeholder={keywordPlaceHolder}
-            onChange={(value) =>
-              this.updateSearch("keyword", value.target?.value)
-            }
-            onSearch={(value) => this.handleSearch("keyword", value)}
+        <Col sm={{ span: 5, offset: 0 }}>
+          <FilterSelect
+            placeholder={L("ROLE")}
+            onChange={(value) => this.handleSearch("roleId", value)}
+            options={this.props.listRoleFilter}
           />
         </Col>
-        <Col sm={{ span: 3, offset: 0 }}>
-          <Select
-            getPopupContainer={(trigger) => trigger.parentNode}
-            placeholder={L("ROLE")}
-            style={{ width: "100%" }}
-            allowClear
-            value={filter.sourceName}
-            onChange={(value) => this.handleSearch("roleId", value)}
-            // showSearch
-          >
-            {renderOptions(this.props.listRoleFilter)}
-          </Select>
-        </Col>
-        {/* <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-                      getPopupContainer={(trigger) => trigger.parentNode}           placeholder={L("TEAM")}
-            style={{ width: "100%" }}
-            allowClear
-            onChange={(value) => this.handleSearch("teamId", value)}
-            // showSearch
-          >
-            {renderOptions(this.listTeam)}
-          </Select>
-        </Col> */}
-        <Col sm={{ span: 3, offset: 0 }}>
-          <Select
-            getPopupContainer={(trigger) => trigger.parentNode}
+
+        <Col sm={{ span: 5, offset: 0 }}>
+          <FilterSelect
             placeholder={L("STATUS")}
             defaultValue="true"
-            style={{ width: "100%" }}
-            allowClear
             onChange={(value) => this.handleSearch("isActive", value)}
-          >
-            {renderOptions(activeStatus)}
-          </Select>
+            options={activeStatus}
+          />
         </Col>
-        {this.isGranted(appPermissions.staff.create) && (
-          <div style={{ position: "absolute", display: "flex", right: 10 }}>
-            {/*  <Tooltip title={L("EXPORT_EXCEL")} placement="topLeft">
-            <Button
-              icon={<ExcelIcon />}
-              className="button-primary"
-              onClick={() => {}}
-            ></Button></Tooltip> */}
-            <Button
-              icon={<PlusCircleFilled />}
-              className="button-primary"
-              onClick={() => this.createOrUpdateModalOpen({ id: 0 })}
-            ></Button>
-            <Button
-              icon={<ReloadOutlined />}
-              className="button-primary"
-              onClick={() => this.getAll()}
-            ></Button>
-          </div>
-        )}
       </Row>
     )
-  };
+  }
 
   public render() {
     const { users, roles, teams, isLoading } = this.props.userStore
@@ -294,12 +226,6 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
                       >
                         {L("RESET_PASSWORD")}
                       </Menu.Item>
-                      {/* <Menu.Item
-                        key="2"
-                        onClick={() => this.handleSendRequest(item.id)}
-                      >
-                        {L("SEND_REQUEST_PASSWORD")}
-                      </Menu.Item> */}
                     </>
                   )}
 
@@ -325,11 +251,17 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
         </Row>
       ),
     })
-
+    const keywordPlaceHolder = `${this.L("FULL_NAME")}, ${this.L(
+      "EMAIL_ADDRESS"
+    )}, ${this.L("USER_NAME")}`
     return (
       <>
         <DataTable
           title={this.L("USER_LIST")}
+          onCreate={() => this.createOrUpdateModalOpen({ id: 0 })}
+          onRefresh={this.getAll}
+          handleSearch={(value) => this.handleSearch("keyword", value)}
+          searchPlaceholder={keywordPlaceHolder}
           pagination={{
             pageSize: this.state.maxResultCount,
             current: this.currentPage,
@@ -341,7 +273,6 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
           <Table
             size="middle"
             className="custom-ant-row"
-            bordered
             rowKey={(record) => `${record.id}${record?.emailAddress}`}
             columns={columns}
             pagination={false}

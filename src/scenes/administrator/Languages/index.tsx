@@ -20,16 +20,16 @@ import Search from "antd/es/input/Search"
 const { align } = AppConsts
 
 export interface ILanguageProps {
-  history: any;
-  languageStore: LanguageStore;
+  history: any
+  languageStore: LanguageStore
 }
 
 export interface ILanguageState {
-  modalVisible: boolean;
-  maxResultCount: number;
-  skipCount: number;
-  languageId: number;
-  filter: string;
+  modalVisible: boolean
+  maxResultCount: number
+  skipCount: number
+  languageId: number
+  filter: string
 }
 
 const confirm = Modal.confirm
@@ -37,7 +37,7 @@ const confirm = Modal.confirm
 @inject(Stores.LanguageStore)
 @observer
 class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     modalVisible: false,
@@ -45,7 +45,7 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
     skipCount: 0,
     languageId: 0,
     filter: "",
-  };
+  }
 
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
@@ -68,13 +68,13 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
       { skipCount: (pagination.current - 1) * this.state.maxResultCount! },
       async () => await this.getAll()
     )
-  };
+  }
 
   Modal = () => {
     this.setState({
       modalVisible: !this.state.modalVisible,
     })
-  };
+  }
 
   createOrUpdateModalOpen = async (entityDto: EntityDto) => {
     if (entityDto.id === 0) {
@@ -89,7 +89,7 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
     this.formRef.current.setFieldsValue({
       ...this.props.languageStore.editLanguage,
     })
-  };
+  }
 
   delete(input: EntityDto) {
     const self = this
@@ -123,23 +123,23 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
       this.setState({ modalVisible: false })
       form.resetFields()
     })
-  };
+  }
 
   updateSearch = debounce((event) => {
     this.setState({ filter: event.target?.value })
-  }, 100);
+  }, 100)
 
   handleSearch = (value: string) => {
     this.setState(
       { filter: value, skipCount: 0 },
       async () => await this.getAll()
     )
-  };
+  }
 
   gotoLanguageText = (id) => {
     const { history } = this.props
     history.push(portalLayouts.adminLanguageTexts.path.replace(":id", id))
-  };
+  }
 
   renderFilterComponent = () => {
     const keywordPlaceHolder = `${this.L("LANGUAGE_NAME")}`
@@ -154,7 +154,7 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
         </Col>
       </Row>
     )
-  };
+  }
 
   public render() {
     const { languages } = this.props.languageStore
@@ -202,7 +202,7 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id.toString()}
             columns={columns}
             pagination={false}

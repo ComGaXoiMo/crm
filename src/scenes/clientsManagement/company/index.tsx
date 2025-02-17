@@ -169,19 +169,19 @@ class Company extends AppComponentListBase<IContactProps, IContactState> {
     })
     return (
       <>
-        <CompanyFilterPanel
+        <DataTable
+          filterComponent={
+            <CompanyFilterPanel handleSearch={this.handleFilterChange} />
+          }
           handleSearch={this.handleFilterChange}
+          exportExcel={this.exportExcel}
           onCreate={() => {
             this.gotoDetail()
           }}
           onRefresh={() => {
             this.getAll()
           }}
-          exportExcel={this.exportExcel}
-        />
-        <DataTable
-          // extraFilterComponent={filterComponent}
-          // onRefresh={this.getAll}
+          searchPlaceholder={"FILTER_KEYWORD_COMPANY_NAME"}
           pagination={{
             pageSize: this.state.maxResultCount,
             total: tableData === undefined ? 0 : tableData.totalCount,
@@ -196,7 +196,6 @@ class Company extends AppComponentListBase<IContactProps, IContactState> {
             pagination={false}
             loading={isLoading}
             dataSource={tableData === undefined ? [] : tableData.items}
-            bordered
             scroll={{ x: 1000, y: 500, scrollToFirstRowOnChange: true }}
           />
         </DataTable>

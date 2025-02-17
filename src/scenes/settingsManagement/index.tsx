@@ -82,11 +82,7 @@ class Settings extends AppComponentListBase<ISettingsProps, ISettingsState> {
     return (
       <>
         <div className="container-element">
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             {this.isGranted(appPermissions.staff.page) && (
               <Tabs.TabPane tab={L(tabKeys.tabUser)} key={tabKeys.tabUser}>
                 <User listRoleFilter={this.state.listRole} />

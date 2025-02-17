@@ -702,7 +702,7 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
 
     const isLaConfirmed = this.props.isRenew
       ? false
-      : leaseAgreementDetail?.stageId === leaseStage.confirm ?? false
+      : leaseAgreementDetail?.stageId === leaseStage.confirm
     const isLaTerminate =
       leaseAgreementDetail?.stageId === leaseStage.terminate ||
       leaseAgreementDetail?.stageId === leaseStage.earlyTerminate
@@ -937,10 +937,9 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
                           >
                             <Table
                               size="middle"
-                              className="custom-ant-table"
+                              className=""
                               rowKey={(record, index) => `${record.id}${index}`}
                               columns={columns}
-                              bordered
                               loading={isLoading}
                               onRow={(record, rowIndex) => {
                                 return {

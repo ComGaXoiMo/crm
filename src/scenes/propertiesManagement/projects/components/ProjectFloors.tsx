@@ -29,16 +29,16 @@ import withRouter from "@components/Layout/Router/withRouter"
 const confirm = Modal.confirm
 const { align } = AppConsts
 export interface Props {
-  appDataStore: AppDataStore;
-  projectStore: ProjectStore;
-  projectId: number;
-  activeKey: any;
-  tabKey: any;
+  appDataStore: AppDataStore
+  projectStore: ProjectStore
+  projectId: number
+  activeKey: any
+  tabKey: any
 }
 @inject(Stores.AppDataStore, Stores.ProjectStore)
 @observer
 class ProjectFloors extends AppComponentListBase<Props, any> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     maxResultCount: 10,
@@ -46,11 +46,11 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
     editingRowKey: "",
     editFloor: {} as any,
     floors: [] as any,
-  };
+  }
 
   componentDidMount = async () => {
     await this.getAll()
-  };
+  }
   async componentDidUpdate(prevProps) {
     if (prevProps.activeKey !== this.props.activeKey) {
       if (this.props.activeKey === this.props.tabKey) {
@@ -65,11 +65,11 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
     })
 
     await this.setState({ floors: this.props.projectStore.floors })
-  };
+  }
 
   changeDealPayment = async (name, value) => {
     this.setState({ editFloor: { ...this.state.editFloor, [name]: value } })
-  };
+  }
 
   handleAddRow = () => {
     const newRow = new RowFloorModel()
@@ -78,7 +78,7 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
       floors: [newRow, ...this.state.floors],
       editingRowKey: newRow.key,
     })
-  };
+  }
 
   handleCreateOrUpdate = async (key) => {
     try {
@@ -110,14 +110,14 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo)
     }
-  };
+  }
 
-  isEditing = (record) => record.key === this.state.editingRowKey;
+  isEditing = (record) => record.key === this.state.editingRowKey
 
   editRow = (record) => {
     this.formRef.current?.setFieldsValue({ ...record })
     this.setState({ editingRowKey: record.key })
-  };
+  }
 
   cancelEditRow = (record) => {
     let { floors } = this.state
@@ -125,7 +125,7 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
       floors = (floors || []).filter((item) => item.key !== record.key)
     }
     this.setState({ floors, editingRowKey: undefined })
-  };
+  }
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
     confirm({
@@ -141,7 +141,7 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
         self.getAll()
       },
     })
-  };
+  }
   public render() {
     // let { propertyTypes } = this.props.appDataStore;
     const columns = [
@@ -295,7 +295,7 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
           >
             <Table
               size="middle"
-              className="custom-ant-table ant-form-vertical"
+              className=" ant-form-vertical"
               rowKey={(record) => record.key}
               columns={columns}
               pagination={false}
@@ -316,8 +316,8 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
                       key: "unitType",
                       align: align.center,
                       render: (unitTypeId) => <>{unitTypeId}</>,
-                    });
-                    (record?.countUnitType || []).forEach((item) => {
+                    })
+                    ;(record?.countUnitType || []).forEach((item) => {
                       data.push({
                         title: (
                           <div style={{ padding: "0 10px" }}>

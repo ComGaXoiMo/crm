@@ -73,7 +73,7 @@ class Utils {
     const route: any = Object.values(routers).find(
       (route: any) => route.path === pathname
     )
-    const localizedAppName = "PMH Leasing"
+    const localizedAppName = "SKL CRM"
     if (!route?.title) {
       return localizedAppName
     }

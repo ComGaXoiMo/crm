@@ -20,32 +20,32 @@ import { validateMessages } from "@lib/validation"
 const { proposalType, listProposalType, notifiType } = AppConsts
 
 interface Props {
-  id: any;
-  history: any;
-  visible: boolean;
-  onClose: () => void;
-  onOk: (param) => void;
-  notificationTemplateStore: NotificationTemplateStore;
-  withChooseUnit: boolean;
+  id: any
+  history: any
+  visible: boolean
+  onClose: () => void
+  onOk: (param) => void
+  notificationTemplateStore: NotificationTemplateStore
+  withChooseUnit: boolean
 }
 
 interface State {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
 
-  listProject: any[];
-  listProjectChoose: any[];
-  listUnit: any[];
-  selectedItemUnit: any[];
-  selectedItemProject: any[];
-  proposalType: any;
-  dataItemplate: any[];
+  listProject: any[]
+  listProjectChoose: any[]
+  listUnit: any[]
+  selectedItemUnit: any[]
+  selectedItemProject: any[]
+  proposalType: any
+  dataItemplate: any[]
 }
 @inject(Stores.NotificationTemplateStore)
 @observer
 class CreateProposalModal extends AppComponentListBase<Props, State> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -78,25 +78,25 @@ class CreateProposalModal extends AppComponentListBase<Props, State> {
       notificationTypeId: notifiType.proposal,
       ...this.state.filters,
     })
-  };
+  }
   changeProposalType = (id?) => {
     this.getDataTemplate(id)
     {
       this.setState({ proposalType: id })
     }
-  };
+  }
   getDataTemplate = (id) => {
     const data = this.props.notificationTemplateStore.eProposalTemplates.filter(
       (item) => item?.notificationTemplate?.groupType === id
     )
     this.setState({ dataItemplate: data })
-  };
+  }
   gotoCreate = async (templateId?) => {
     const params = await this.formRef.current?.validateFields()
     // const { history } = this.props;
     this.props.onOk({ ...params, templateId })
     // history.push(portalLayouts.proposalCreate.path);
-  };
+  }
 
   getProject = async (keyword) => {
     const res = await projectService.getAll({
@@ -109,7 +109,7 @@ class CreateProposalModal extends AppComponentListBase<Props, State> {
     })
 
     await this.setState({ listProject: newProjects })
-  };
+  }
   getUnit = async (keyword, projectIds?) => {
     const res = await unitService.getAllRes({
       pageSize: 10,
@@ -122,13 +122,13 @@ class CreateProposalModal extends AppComponentListBase<Props, State> {
     })
 
     await this.setState({ listUnit: newUnit })
-  };
+  }
 
   handleSelectUnitChange = (selectedItemUnit) => {
     if (selectedItemUnit.length <= 3) {
       this.setState({ selectedItemUnit })
     }
-  };
+  }
 
   render(): React.ReactNode {
     const { visible, onClose } = this.props
@@ -265,7 +265,7 @@ class CreateProposalModal extends AppComponentListBase<Props, State> {
               {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_PROPOSAL")}
               <Table
                 size="middle"
-                className="custom-ant-table"
+                className=""
                 // rowKey={(record) => record.id}
                 columns={columns}
                 loading={isLoading}

@@ -1,14 +1,20 @@
 .filter-input {
+    margin: 0 2px;
 
     .ant-input-group {
+        min-width: 22rem;
 
         .ant-input-group-addon,
         .ant-input {
             border: none;
-            border-bottom: 2px solid #DEE3ED;
+            border-bottom: 2px solid @border-color;
             background-color: transparent;
-
             border-radius: 0px !important;
+        }
+
+        .ant-input-outlined:focus,
+        .ant-input-outlined:focus-within {
+            box-shadow: none;
         }
     }
 

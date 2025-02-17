@@ -1,17 +1,9 @@
 import React from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Button, DatePicker, Select, Tooltip } from "antd"
 import Col from "antd/lib/col"
-import Search from "antd/lib/input/Search"
 import Row from "antd/lib/row"
-import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
-import { filterOptions, renderOptions } from "@lib/helper"
-import AppConsts, {
-  appPermissions,
-  dateFormat,
-  rangePickerPlaceholder,
-} from "@lib/appconst"
+import AppConsts from "@lib/appconst"
 import companyService from "@services/clientManagement/companyService"
 import contactService from "@services/clientManagement/contactService"
 import _, { debounce } from "lodash"
@@ -22,7 +14,8 @@ import { inject, observer } from "mobx-react"
 import dayjs from "dayjs"
 import userService from "@services/administrator/user/userService"
 import projectService from "@services/projects/projectService"
-const { RangePicker } = DatePicker
+import FilterSelect from "@components/Filter/FilterSelect"
+import FilterRangePicker from "@components/Filter/FilterRangePicker"
 const { expiredIn, roles, activeStatus, filterCommissionStatus } = AppConsts
 type Props = {
   handleSearch: (filters) => void
@@ -150,171 +143,84 @@ class LeasesFilterPanel extends AppComponentListBase<Props> {
     return (
       <>
         <Row gutter={[4, 8]}>
-          <Col sm={{ span: 5, offset: 0 }}>
-            <Search
-              onChange={(value) =>
-                this.updateSearch("keyword", value.target?.value)
-              }
-              onSearch={(value) => this.handleSearch("keyword", value)}
-              size="middle"
-              placeholder={L("REFERENCE_NUMBER_UNIT_NO")}
-            />
-          </Col>
           <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("PROJECT")}
-              filterOption={false}
-              className="w-100"
+              onSearch={_.debounce((e) => this.getProject(e), 1000)}
               onChange={(e) => {
-                // if (!e) {
-                //   this.setState({ filters: { projectId: null } });
-                //   return;
-                // }
                 this.setState({ filters: { projectId: e } })
                 this.handleSearch("projectId", e)
               }}
-              onSearch={_.debounce((e) => this.getProject(e), 1000)}
-              allowClear
-              showSearch
-            >
-              {renderOptions(this.state.listProject)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("COMPANY")}
-              style={{ width: "100%" }}
-              allowClear
-              showSearch
-              filterOption={filterOptions}
-              onChange={(value) => this.handleSearch("companyId", value)}
-              onSearch={_.debounce((e) => this.getCompany(e), 1000)}
-            >
-              {renderOptions(this.state.listCompany)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("CONTACT")}
-              style={{ width: "100%" }}
-              allowClear
-              showSearch
-              filterOption={filterOptions}
-              onChange={(value) => this.handleSearch("contactId", value)}
-              onSearch={_.debounce((e) => this.getContact(e), 1000)}
-            >
-              {renderOptions(this.state.listContact)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("ADMIN_INCHARGE")}
-              style={{ width: "100%" }}
-              allowClear
-              showSearch
-              filterOption={filterOptions}
-              onChange={(value) => this.handleSearch("adminId", value)}
-              onSearch={_.debounce((e) => this.getAdmin(e), 1000)}
-            >
-              {renderOptions(this.state.listAdmin)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("DEALER_IN_CHARGE")}
-              style={{ width: "100%" }}
-              allowClear
-              showSearch
-              filterOption={filterOptions}
-              onChange={(value) => this.handleSearch("dealerId", value)}
-              onSearch={_.debounce((e) => this.getDealer(e), 1000)}
-            >
-              {renderOptions(this.state.listDealer)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 5, offset: 0 }}>
-            <RangePicker
-              className="w-100"
-              format={dateFormat}
-              onChange={this.handleDateChange}
-              placeholder={rangePickerPlaceholder()}
+              options={this.state.listProject}
             />
           </Col>
           <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
+              placeholder={L("COMPANY")}
+              onChange={(value) => this.handleSearch("companyId", value)}
+              onSearch={_.debounce((e) => this.getCompany(e), 1000)}
+              options={this.state.listCompany}
+            />
+          </Col>
+          <Col sm={{ span: 3, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("CONTACT")}
+              onChange={(value) => this.handleSearch("contactId", value)}
+              onSearch={_.debounce((e) => this.getContact(e), 1000)}
+              options={this.state.listContact}
+            />
+          </Col>
+          <Col sm={{ span: 3, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("ADMIN_INCHARGE")}
+              onChange={(value) => this.handleSearch("adminId", value)}
+              onSearch={_.debounce((e) => this.getAdmin(e), 1000)}
+              options={this.state.listAdmin}
+            />
+          </Col>
+          <Col sm={{ span: 3, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("DEALER_IN_CHARGE")}
+              onChange={(value) => this.handleSearch("dealerId", value)}
+              onSearch={_.debounce((e) => this.getDealer(e), 1000)}
+              options={this.state.listDealer}
+            />
+          </Col>
+          <Col sm={{ span: 5, offset: 0 }}>
+            <FilterRangePicker onChange={this.handleDateChange} />
+          </Col>
+          <Col sm={{ span: 4, offset: 0 }}>
+            <FilterSelect
               placeholder={L("LEASE_AGREEMENT_STATUS")}
-              style={{ width: "100%" }}
               onChange={(value) => this.handleSearch("statusId", value)}
-              allowClear
-              // showSearch
-            >
-              {renderOptions(this.props.appDataStore.leaseAgreementStatus)}
-            </Select>
+              options={this.props.appDataStore.leaseAgreementStatus}
+            />
           </Col>
 
           <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("COMMISSION_STATUS")}
-              style={{ width: "100%" }}
-              allowClear
               onChange={(value) =>
                 this.handleSearch("IsShareCommission", value)
               }
-              showSearch
-            >
-              {renderOptions(filterCommissionStatus)}
-            </Select>
+              options={filterCommissionStatus}
+            />
           </Col>
           <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("EXPIRED_IN")}
-              style={{ width: "100%" }}
               onChange={(value) => this.handleSearch("expiredIn", value)}
-              allowClear
-              // showSearch
-            >
-              {renderOptions(expiredIn)}
-            </Select>
+              options={expiredIn}
+            />
           </Col>
           <Col sm={{ span: 3, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("STATUS")}
-              defaultValue="true"
-              style={{ width: "100%" }}
-              allowClear
               onChange={(value) => this.handleSearch("isActive", value)}
-              showSearch
-            >
-              {renderOptions(activeStatus)}
-            </Select>
+              defaultValue="true"
+              options={activeStatus}
+            />
           </Col>
-          <div style={{ position: "absolute", right: 10 }}>
-            {this.isGranted(appPermissions.leaseAgreement.create) && (
-              <Tooltip title={L("CREATE_LEASE_AGREEMENT")} placement="topLeft">
-                <Button
-                  icon={<PlusCircleFilled />}
-                  className="button-primary"
-                  onClick={() => this.props.onCreate()}
-                ></Button>
-              </Tooltip>
-            )}
-            <Tooltip title={L("RELOAD")} placement="topLeft">
-              <Button
-                icon={<ReloadOutlined />}
-                className="button-primary"
-                onClick={() => this.props.onRefresh()}
-              ></Button>
-            </Tooltip>
-          </div>
         </Row>
       </>
     )

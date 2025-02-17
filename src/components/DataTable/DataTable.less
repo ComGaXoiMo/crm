@@ -2,8 +2,41 @@
   .title {
     display: flex;
     align-items: center;
+
     >h3 {
       margin-bottom: 0;
     }
   }
+}
+
+.card-table {
+  border-radius: 0px;
+  padding: 0.5rem;
+}
+
+.custom-table {
+  .ant-table {
+    font-size: 12px !important;
+    border: 1px solid @border-color;
+    border-radius: 0px;
+
+    .ant-table-thead>tr>th {
+      background-color: #ffffff;
+    }
+
+    .ant-table-thead>tr>th {
+      font-weight: 700;
+    }
+
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr:not([aria-hidden="true"])>td {
+      padding: 6px !important;
+    }
+
+    .ant-table-thead>tr>th::before {
+      width: 0px !important;
+    }
+
+  }
+
 }

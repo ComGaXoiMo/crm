@@ -20,32 +20,32 @@ import ProposalStore from "@stores/activity/proposalStore"
 const { activityTypes } = AppConsts
 
 export interface IUnitProps {
-  history: any;
-  inquiryId: any;
-  proposalStore: ProposalStore;
-  unitStore: UnitStore;
-  visible: boolean;
+  history: any
+  inquiryId: any
+  proposalStore: ProposalStore
+  unitStore: UnitStore
+  visible: boolean
 }
 
 export interface IUnitState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  visible: boolean;
-  unitId: any;
-  selectedRowKeys: any[];
-  numberUnitChoose: number;
-  visibleDetailProject: boolean;
-  projectId: any;
-  siteVisitModalVisible: boolean;
-  reservationModalVisible: boolean;
-  createProposalModal: boolean;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  visible: boolean
+  unitId: any
+  selectedRowKeys: any[]
+  numberUnitChoose: number
+  visibleDetailProject: boolean
+  projectId: any
+  siteVisitModalVisible: boolean
+  reservationModalVisible: boolean
+  createProposalModal: boolean
 }
 
 @inject(Stores.AppDataStore, Stores.UnitStore, Stores.ProposalStore)
 @observer
 class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     maxResultCount: 10,
     skipCount: 0,
@@ -61,7 +61,7 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
     siteVisitModalVisible: false,
     reservationModalVisible: false,
     createProposalModal: false,
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -80,7 +80,7 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -89,11 +89,11 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({ filters })
     await this.getAll()
-  };
+  }
 
   gotoDetailProject = (id?) => {
     if (id) {
@@ -103,11 +103,11 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
       this.setState({ projectId: null })
       this.setState({ visibleDetailProject: true })
     }
-  };
+  }
   onSelectChange = (newSelectedRowKeys) => {
     this.setState({ selectedRowKeys: newSelectedRowKeys })
     this.setState({ numberUnitChoose: newSelectedRowKeys.length ?? 0 })
-  };
+  }
 
   handleCreateActivity = async (typeId) => {
     switch (typeId) {
@@ -124,7 +124,7 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
         break
       }
     }
-  };
+  }
   onCreateProposal = async (param) => {
     const model = {
       ...param,
@@ -139,7 +139,7 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
         this.props.proposalStore.proposalDetail.id
       )
     )
-  };
+  }
   public render() {
     const rowSelection = {
       onChange: this.onSelectChange,
@@ -200,7 +200,6 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
               listUnitByInquiry === undefined ? [] : listUnitByInquiry.items
             }
             scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
         <AddSiteVisitModal

@@ -1,13 +1,9 @@
 import React from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Button, DatePicker, Radio, Select, Tooltip } from "antd"
+import { Radio } from "antd"
 import Col from "antd/lib/col"
-import Search from "antd/lib/input/Search"
 import Row from "antd/lib/row"
-import { filterOptions, renderOptions } from "@lib/helper"
-import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
-import { appPermissions, dateFormat } from "@lib/appconst"
 import AppDataStore from "@stores/appDataStore"
 import { inject, observer } from "mobx-react"
 import Stores from "@stores/storeIdentifier"
@@ -15,6 +11,8 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import UserStore from "@stores/administrator/userStore"
 import { debounce } from "lodash"
 import dayjs from "dayjs"
+import FilterSelect from "@components/Filter/FilterSelect"
+import FilterDatePicker from "@components/Filter/FilterDatePicker"
 
 type Props = {
   isMyTask: boolean
@@ -86,52 +84,27 @@ class AllTaskFilterPanel extends AppComponentListBase<Props> {
     return (
       <>
         <Row gutter={[4, 8]}>
-          <Col sm={{ span: 4, offset: 0 }}>
-            <Search
-              onChange={(value) =>
-                this.updateSearch("keyword", value.target?.value)
-              }
-              onSearch={(value) => this.handleSearch("keyword", value)}
-              size="middle"
-              placeholder={L("FILTER_KEYWORD_TASK")}
-            />
-          </Col>
           {!this.props.isMyTask && (
             <Col sm={{ span: 4, offset: 0 }}>
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
+              <FilterSelect
                 placeholder={L("STAFF")}
-                style={{ width: "100%" }}
-                allowClear
-                filterOption={filterOptions}
-                showSearch
-                showArrow
-                // mode="multiple"
                 onChange={(value) => this.handleSearch("userId", value)}
                 onSearch={this.getStaff}
-              >
-                {renderOptions(this.state.listUser)}
-              </Select>
+                options={this.state.listUser}
+              />
             </Col>
           )}
           {this.state.selectedType === tabKeys.listView && (
             <Col sm={{ span: 3, offset: 0 }}>
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
+              <FilterSelect
                 placeholder={L("STATUS")}
-                style={{ width: "100%" }}
-                allowClear
                 onChange={(value) => this.handleSearch("statusId", value)}
-                // showSearch
-              >
-                {renderOptions(this.props.appDataStore.taskStatus)}
-              </Select>
+                options={this.props.appDataStore.taskStatus}
+              />
             </Col>
           )}
           <Col sm={{ span: 3, offset: 0 }}>
-            <DatePicker
-              className="w-100"
-              format={dateFormat}
+            <FilterDatePicker
               onChange={(value) =>
                 this.handleSearch("fromDate", dayjs(value).toJSON())
               }
@@ -139,9 +112,7 @@ class AllTaskFilterPanel extends AppComponentListBase<Props> {
             />
           </Col>
           <Col sm={{ span: 3, offset: 0 }}>
-            <DatePicker
-              className="w-100"
-              format={dateFormat}
+            <FilterDatePicker
               onChange={(value) =>
                 this.handleSearch("toDate", dayjs(value).toJSON())
               }
@@ -163,24 +134,6 @@ class AllTaskFilterPanel extends AppComponentListBase<Props> {
               {tabKeys.listView}
             </Radio.Button>
           </Radio.Group>
-          <div style={{ position: "absolute", right: 10 }}>
-            {this.isGranted(appPermissions.task.create) && (
-              <Tooltip title={L("CREATE_TASK")} placement="topLeft">
-                <Button
-                  className="button-primary"
-                  icon={<PlusCircleFilled />}
-                  onClick={() => this.props.onCreate()}
-                ></Button>
-              </Tooltip>
-            )}
-            <Tooltip title={L("RELOAD")} placement="topLeft">
-              <Button
-                icon={<ReloadOutlined />}
-                className="button-primary"
-                onClick={() => this.props.onRefresh()}
-              ></Button>
-            </Tooltip>
-          </div>
         </Row>
       </>
     )

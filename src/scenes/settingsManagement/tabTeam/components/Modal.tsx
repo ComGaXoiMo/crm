@@ -15,22 +15,22 @@ import Stores from "@stores/storeIdentifier"
 const { align } = AppConsts
 const confirm = Modal.confirm
 export interface Props {
-  visible: boolean;
-  onClose: () => void;
-  onOk: () => Promise<any>;
-  id: any;
-  organizationUnitStore: OrganizationUnitStore;
+  visible: boolean
+  onClose: () => void
+  onOk: () => Promise<any>
+  id: any
+  organizationUnitStore: OrganizationUnitStore
 }
 
 export interface State {
-  modalVisible: boolean;
-  maxResultCount: number;
-  skipCount: number;
+  modalVisible: boolean
+  maxResultCount: number
+  skipCount: number
 }
 @inject(Stores.OrganizationUnitStore)
 @observer
 class TeamModal extends AppComponentListBase<Props, State> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -40,7 +40,7 @@ class TeamModal extends AppComponentListBase<Props, State> {
     if (prevProps.id !== this.props.id) {
       this.getAll()
     }
-  };
+  }
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
   }
@@ -52,7 +52,7 @@ class TeamModal extends AppComponentListBase<Props, State> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   async getAll() {
     await this.props.organizationUnitStore.getOUUsers({
       maxResultCount: this.state.maxResultCount,
@@ -62,10 +62,10 @@ class TeamModal extends AppComponentListBase<Props, State> {
   }
   toggleModal = async () => {
     this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
-  };
+  }
   handleOk = async () => {
     this.toggleModal()
-  };
+  }
   onRemove = async (id?) => {
     confirm({
       title: LNotification("ARE_YOU_DELETE"),
@@ -79,7 +79,7 @@ class TeamModal extends AppComponentListBase<Props, State> {
         await this.getAll()
       },
     })
-  };
+  }
   render(): React.ReactNode {
     const {
       organizationUnitStore: { userTableData },
@@ -161,7 +161,7 @@ class TeamModal extends AppComponentListBase<Props, State> {
             >
               <Table
                 size="middle"
-                className="custom-ant-table custom-ant-row"
+                className=" custom-ant-row"
                 rowKey={(record) => record.id}
                 columns={columns}
                 pagination={false}

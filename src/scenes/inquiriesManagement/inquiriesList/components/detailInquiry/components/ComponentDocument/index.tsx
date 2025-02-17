@@ -161,7 +161,6 @@ class Document extends AppComponentListBase<IDocumentProps, IDocumentState> {
             pagination={false}
             dataSource={dataFake}
             scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
         {/* </Card> */}

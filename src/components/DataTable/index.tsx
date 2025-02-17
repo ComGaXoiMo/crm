@@ -1,8 +1,12 @@
-import React from "react"
-import { Button, Col, Pagination, Row } from "antd"
+import React, { useCallback } from "react"
+import { Button, Card, Col, Pagination, Row, Select } from "antd"
 import { isGranted, L } from "../../lib/abpUtility"
 import "./DataTable.less"
 import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
+import { ExcelIcon } from "@components/Icon"
+import FilterSearch from "@components/Filter/FilterSearch"
+import { debounce } from "lodash"
+import { renderOptions } from "@lib/helper"
 
 export interface IDataTableProps {
   title?: string
@@ -10,13 +14,17 @@ export interface IDataTableProps {
   textAddNew?: string
   onCreate?: any
   onRefresh?: any
+  exportExcel?: any
   disable?: boolean
   pagination?: any
   createPermission?: string
+  exportPermission?: string
   handleRefresh?: (key, value) => void
+  handleSearch?: any
   actionComponent?: any
   filterComponent?: any
   children?: any
+  searchPlaceholder?: any
 }
 
 const DataTable: React.FunctionComponent<IDataTableProps> = ({
@@ -24,77 +32,132 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   textAddNew,
   onCreate,
   onRefresh,
+  exportExcel,
   pagination,
   disable,
   createPermission,
+  exportPermission,
   actionComponent,
   filterComponent,
+  handleSearch,
+  searchPlaceholder,
   ...props
 }) => {
   const handleCreate = () => {
     onCreate && onCreate()
   }
+  const handlePageSizeChange = (value: number) => {
+    if (pagination.onChange) {
+      pagination.onChange({ current: 1, pageSize: value })
+    }
+  }
+
   const handleRefresh = () => {
     onRefresh && onRefresh()
+  }
+  const handleExport = () => {
+    exportExcel && exportExcel()
   }
   const handleOnChange = (page, pageSize) => {
     if (pagination.onChange) {
       pagination.onChange({ current: page, pageSize: pageSize })
     }
   }
+  const handleSearchFilter = useCallback(
+    async (name, value) => {
+      const updatedFilters = { [name]: value }
+      await handleSearch(updatedFilters)
+    },
+    [handleSearch]
+  )
+  const updateSearch = debounce((name, value) => {
+    handleSearchFilter(name, value)
+  }, 200)
 
   return (
     <>
-      {filterComponent && (
-        <Row gutter={[8, 8]} className="mb-2">
-          <Col flex="auto">{filterComponent}</Col>
-        </Row>
-      )}
-      <div className="d-flex justify-content-between my-1 content-right ">
-        {/* <h3 style={{ fontWeight: 600, margin: "0.75rem" }}>{title}</h3> */}
-        <div className="d-flex align-items-center">
-          {actionComponent && actionComponent()}
-          {onCreate && (!createPermission || isGranted(createPermission)) && (
-            <Button
-              className="button-primary"
-              shape={textAddNew ? "round" : "circle"}
-              icon={<PlusCircleFilled />}
-              disabled={disable}
-              onClick={handleCreate}
-              style={{ boxShadow: "0px 4px 8px rgba(110, 186, 196, 0.2)" }}
+      <Card className="card-table">
+        {filterComponent && (
+          <Row gutter={[8, 8]} className="mb-2">
+            <Col flex="auto">{filterComponent}</Col>
+          </Row>
+        )}
+        <div className="flex space-between center-items">
+          {pagination && pagination.total > 0 ? (
+            <Select
+              className="select-non-radius"
+              defaultValue={10}
+              onChange={handlePageSizeChange}
             >
-              {textAddNew}
-            </Button>
+              {renderOptions([
+                { value: 10, label: 10 },
+                { value: 25, label: 25 },
+                { value: 50, label: 50 },
+              ])}
+            </Select>
+          ) : (
+            <div></div>
           )}
-          {onRefresh && (
-            <Button
-              className="button-primary"
-              shape={textAddNew ? "round" : "circle"}
-              icon={<ReloadOutlined />}
-              disabled={disable}
-              onClick={handleRefresh}
-              style={{ boxShadow: "0px 4px 8px rgba(110, 186, 196, 0.2)" }}
-            >
-              {textAddNew}
-            </Button>
-          )}
+
+          <div className="d-flex justify-content-between my-1 content-right ">
+            <div className="d-flex align-items-center">
+              {handleSearch && (
+                <FilterSearch
+                  onChange={(e) => updateSearch("keyword", e.target?.value)}
+                  placeholder={L(searchPlaceholder ?? "SEARCH")}
+                />
+              )}
+              {exportExcel &&
+                (!exportPermission || isGranted(exportPermission)) && (
+                  <Button
+                    icon={<ExcelIcon />}
+                    className="button-secondary"
+                    onClick={handleExport}
+                  />
+                )}
+
+              {actionComponent && actionComponent}
+              {onCreate &&
+                (!createPermission || isGranted(createPermission)) && (
+                  <Button
+                    className="button-primary"
+                    icon={<PlusCircleFilled />}
+                    disabled={disable}
+                    onClick={handleCreate}
+                    style={{
+                      boxShadow: "0px 4px 8px rgba(110, 186, 196, 0.2)",
+                    }}
+                  >
+                    {textAddNew}
+                  </Button>
+                )}
+              {onRefresh && (
+                <Button
+                  className="button-primary"
+                  icon={<ReloadOutlined />}
+                  disabled={disable}
+                  onClick={handleRefresh}
+                  style={{ boxShadow: "0px 4px 8px rgba(110, 186, 196, 0.2)" }}
+                ></Button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-      {props.children}
-      {pagination && pagination.total > 0 && (
-        <Row className="mt-3 pb-3">
-          <Col sm={{ span: 24, offset: 0 }} style={{ textAlign: "end" }}>
-            <Pagination
-              size="small"
-              showTotal={(total) => L("TOTAL_{0}_ITEMS", total)}
-              {...pagination}
-              onChange={handleOnChange}
-              showSizeChanger={true}
-              pageSizeOptions={[10, 20, 25, 50]}
-            />
-          </Col>
-        </Row>
-      )}
+        <div className="custom-table">{props.children}</div>
+        {pagination && pagination.total > 0 && (
+          <Row className="mt-3 pb-3">
+            <Col sm={{ span: 24, offset: 0 }} style={{ textAlign: "end" }}>
+              <Pagination
+                size="small"
+                showTotal={(total) => L("TOTAL_{0}_ITEMS", total)}
+                {...pagination}
+                onChange={handleOnChange}
+                showSizeChanger={false}
+              />
+            </Col>
+          </Row>
+        )}{" "}
+      </Card>
     </>
   )
 }

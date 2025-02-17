@@ -200,7 +200,7 @@ class Role extends AppComponentBase<IRoleProps, IRoleState> {
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey="id"
             pagination={false}
             columns={columns}

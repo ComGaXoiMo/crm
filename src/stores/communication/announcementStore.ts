@@ -1,7 +1,7 @@
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import { AnnouncementModel } from "@models/communication/Announcement/announcementModel"
 import type { IAnnouncement } from "@models/communication/Announcement/announcementModel"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import announcementService from "@services/communication/announcementService"
 import { OptionModel } from "@models/global"
 
@@ -13,6 +13,8 @@ class AnnouncementStore {
   @observable announcementTypes!: OptionModel[]
 
   constructor() {
+    makeAutoObservable(this)
+
     this.pagedData = {
       items: [],
       totalCount: 0,

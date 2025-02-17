@@ -3,7 +3,7 @@ import {
   NotificationTemplateDetailModel,
   RowNotificationTemplateModel,
 } from "@models/notificationTemplate"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import notificationTemplateService from "@services/notificationTemplate/notificationTemplateService"
 import { OptionModel } from "@models/global"
 
@@ -16,6 +16,8 @@ class NotificationTemplateStore {
   @observable editTemplate!: NotificationTemplateDetailModel
 
   constructor() {
+    makeAutoObservable(this)
+
     this.pagedResult = {
       items: [],
       totalCount: 0,

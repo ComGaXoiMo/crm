@@ -134,7 +134,7 @@ class OfferLetterTemplate extends AppComponentListBase<IProps, IState> {
         >
           <Table
             size="middle"
-            className="custom-ant-table custom-ant-row"
+            className=" custom-ant-row"
             // rowKey={(record) => record.id}
             // loading={isLoading}
             columns={columns}

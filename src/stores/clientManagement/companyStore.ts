@@ -1,16 +1,18 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import companyService from "@services/clientManagement/companyService"
 import { AddressModel } from "@models/common/addressModel"
 
 class CompanyStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editCompany!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editCompany!: any
   @observable auditLogResult: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.auditLogResult = []
     this.tableData = { items: [], totalCount: 0 }
   }
@@ -94,14 +96,12 @@ class CompanyStore {
       .finally(() => (this.isLoading = false))
   }
 
-  
   @action getAuditLogs = async (params) => {
     this.isLoading = true
     this.auditLogResult = await companyService
       .getAuditLogs(params)
       .finally(() => (this.isLoading = false))
   }
-
 }
 
 export default CompanyStore

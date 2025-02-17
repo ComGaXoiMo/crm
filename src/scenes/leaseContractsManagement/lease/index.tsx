@@ -159,9 +159,7 @@ class Leases extends AppComponentListBase<ILeaseProps, ILeaseState> {
               }
               className="link-text-table"
             >
-              <div>
-                {renderDotActive(item?.isActive)} {referenceNumber}
-              </div>
+              {renderDotActive(item?.isActive)} {referenceNumber}
             </a>
           </Col>
           <Col sm={{ span: 3, offset: 0 }}>
@@ -193,18 +191,20 @@ class Leases extends AppComponentListBase<ILeaseProps, ILeaseState> {
     })
     return (
       <>
-        <LeaseFilterPanel
-          onCreate={() => {
-            this.gotoDetail(null)
-          }}
-          handleSearch={this.handleFilterChange}
-          onRefresh={this.getAll}
-        />
         <div className="m-1 text-height">
           {L("TOTAL_BILLED_COMMISSION")}&ensp;
           {formatNumberFloat(this.props.leaseAgreementStore.totalCommission)}
         </div>
         <DataTable
+          filterComponent={
+            <LeaseFilterPanel handleSearch={this.handleFilterChange} />
+          }
+          handleSearch={this.handleFilterChange}
+          searchPlaceholder={"REFERENCE_NUMBER_UNIT_NO"}
+          onCreate={() => {
+            this.gotoDetail(null)
+          }}
+          onRefresh={this.getAll}
           pagination={{
             pageSize: this.state.maxResultCount,
             total: pageResult === undefined ? 0 : pageResult.totalCount,
@@ -219,7 +219,6 @@ class Leases extends AppComponentListBase<ILeaseProps, ILeaseState> {
             loading={isLoading}
             pagination={false}
             dataSource={pageResult.items ?? []}
-            bordered
             scroll={{ x: 1000, y: 500, scrollToFirstRowOnChange: true }}
           />
         </DataTable>

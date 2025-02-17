@@ -7,7 +7,6 @@ import { Col, Dropdown, Menu, Modal, Row, Table } from "antd"
 import { L, LNotification } from "@lib/abpUtility"
 
 import { HomeOutlined, MoreOutlined } from "@ant-design/icons/lib/icons"
-import TenantsFilterPanel from "./components/tenantsFilterPanel"
 import withRouter from "@components/Layout/Router/withRouter"
 import TenantDetailModal from "./components/tenantDetailModal"
 import TenantStore from "@stores/administrator/tenantStore"
@@ -148,16 +147,15 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
     })
     return (
       <>
-        <TenantsFilterPanel
+        <DataTable
+          searchPlaceholder={"FILTER_KEYWORD_TENENT"}
+          handleSearch={this.handleFilterChange}
           onCreate={() => {
             this.gotoDetail()
           }}
           onRefresh={() => {
             this.getAll()
           }}
-          handleSearch={this.handleFilterChange}
-        />
-        <DataTable
           pagination={{
             pageSize: this.state.maxResultCount,
             total: tableData === undefined ? 0 : tableData.totalCount,
@@ -172,7 +170,6 @@ class Tenants extends AppComponentListBase<ITenantProps, ITenantState> {
             pagination={false}
             loading={isLoading}
             dataSource={tableData === undefined ? [] : tableData.items}
-            bordered
             scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
             expandable={{
               expandedRowRender: (record) => (

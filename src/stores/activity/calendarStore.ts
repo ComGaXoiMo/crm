@@ -1,16 +1,17 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import calendarService from "@services/activity/calendarService"
 import activityService from "@services/activity/activityService"
 
 class MeetingStore {
-  @observable isLoading!: boolean;
-  @observable activities!: PagedResultDto<any>;
-  @observable activities4Calendar!: any[];
-  @observable editFinancial!: any;
+  @observable isLoading!: boolean
+  @observable activities!: PagedResultDto<any>
+  @observable activities4Calendar!: any[]
+  @observable editFinancial!: any
 
   constructor() {
+    makeAutoObservable(this)
     this.activities = { items: [], totalCount: 0 }
   }
 

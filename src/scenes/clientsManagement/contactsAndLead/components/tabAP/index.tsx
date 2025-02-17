@@ -335,7 +335,6 @@ class AssociateParty extends AppComponentListBase<
                 pagination={false}
                 dataSource={contactTable?.items ?? []}
                 loading={isLoading}
-                bordered
                 scroll={{ x: 100, scrollToFirstRowOnChange: true }}
               />
             </DataTable>
@@ -360,7 +359,6 @@ class AssociateParty extends AppComponentListBase<
                 pagination={false}
                 dataSource={listContactRequest?.items ?? []}
                 loading={isLoading}
-                bordered
                 scroll={{ x: 100, scrollToFirstRowOnChange: true }}
               />
             </DataTable>

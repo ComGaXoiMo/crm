@@ -145,7 +145,6 @@ class Status extends AppComponentListBase<IStatusProps, IStatusState> {
             pagination={false}
             dataSource={unitStatusTableData?.items ?? []}
             scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
 

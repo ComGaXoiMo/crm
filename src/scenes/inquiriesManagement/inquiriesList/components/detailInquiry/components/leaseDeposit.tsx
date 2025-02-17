@@ -231,7 +231,7 @@ class LeaseDeposit extends AppComponentListBase<
           >
             <Table
               size="middle"
-              className="custom-ant-table custom-ant-row"
+              className=" custom-ant-row"
               rowKey="key"
               pagination={false}
               onRow={(record, rowIndex) => {
@@ -246,7 +246,6 @@ class LeaseDeposit extends AppComponentListBase<
                   cell: EditableCell,
                 },
               }}
-              bordered
               columns={columns}
               dataSource={this.state.data ?? []}
             />

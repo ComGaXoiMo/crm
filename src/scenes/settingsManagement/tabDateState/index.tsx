@@ -158,7 +158,7 @@ class DateStateSetting extends AppComponentBase<
         >
           <Table
             size="middle"
-            className="custom-ant-table custom-ant-row"
+            className=" custom-ant-row"
             rowKey="id"
             pagination={false}
             bordered

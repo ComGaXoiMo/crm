@@ -8,18 +8,18 @@ import AppConsts from "@lib/appconst"
 import { formatCurrency } from "@lib/helper"
 const { align } = AppConsts
 interface Props {
-  visible: boolean;
-  onClose: () => void;
-  onOk: () => void;
-  status?: any;
-  data?: any;
+  visible: boolean
+  onClose: () => void
+  onOk: () => void
+  status?: any
+  data?: any
 }
 interface State {
-  loading: any;
+  loading: any
 }
 
 export default class GenerateModal extends React.PureComponent<Props, State> {
-  formref: any = React.createRef();
+  formref: any = React.createRef()
 
   async componentDidUpdate(prevProp) {
     if (prevProp.visible !== this.props.visible) {
@@ -137,10 +137,9 @@ export default class GenerateModal extends React.PureComponent<Props, State> {
                 >
                   <Table
                     size="middle"
-                    className="custom-ant-table custom-ant-row"
+                    className=" custom-ant-row"
                     rowKey="id"
                     pagination={false}
-                    bordered
                     columns={columns}
                     dataSource={[]}
                   />

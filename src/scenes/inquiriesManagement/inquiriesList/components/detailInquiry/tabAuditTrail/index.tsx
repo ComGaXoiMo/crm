@@ -133,7 +133,7 @@ class AuditTrail extends AppComponentListBase<
         <Col sm={{ span: 24, offset: 0 }}>
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}

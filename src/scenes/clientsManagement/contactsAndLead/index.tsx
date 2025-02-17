@@ -227,17 +227,17 @@ class ContactsAndLead extends AppComponentListBase<
     )
     return (
       <>
-        <ContactsAndLeadFilterPanel
-          handleSearch={this.handleFilterChange}
-          onCreate={() => {
-            this.gotoDetail()
-          }}
-          onRefresh={() => {
-            this.getAll()
-          }}
-          exportExcel={this.exportExcel}
-        />
         <DataTable
+          filterComponent={
+            <ContactsAndLeadFilterPanel
+              handleSearch={this.handleFilterChange}
+            />
+          }
+          onCreate={this.gotoDetail}
+          onRefresh={this.getAll}
+          handleSearch={this.handleFilterChange}
+          searchPlaceholder={"FILTER_KEYWORD_CONTACT"}
+          exportExcel={this.exportExcel}
           pagination={{
             pageSize: this.state.maxResultCount,
             total: tableData === undefined ? 0 : tableData.totalCount,
@@ -252,7 +252,6 @@ class ContactsAndLead extends AppComponentListBase<
             pagination={false}
             dataSource={tableData === undefined ? [] : tableData.items}
             loading={isLoading}
-            bordered
             scroll={{ x: 1000, y: 500, scrollToFirstRowOnChange: true }}
           />
         </DataTable>

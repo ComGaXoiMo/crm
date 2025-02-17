@@ -141,7 +141,7 @@ class ChooseLATemplateModal extends AppComponentListBase<Props, State> {
                 {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_LEASE_AGREEMENT")}
                 <Table
                   size="middle"
-                  className="custom-ant-table"
+                  className=""
                   // rowKey={(record) => record.id}
                   columns={columns}
                   loading={isLoading || loading}

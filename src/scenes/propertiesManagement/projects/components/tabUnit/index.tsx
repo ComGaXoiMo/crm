@@ -14,20 +14,20 @@ import { renderDotActive } from "@lib/helper"
 // import StackPland from "@scenes/propertiesManagement/units/components/stackPland";
 
 export interface IUnitProps {
-  history: any;
-  projectId: any;
-  unitStore: UnitStore;
+  history: any
+  projectId: any
+  unitStore: UnitStore
 }
 
 export interface IUnitState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  visible: boolean;
-  tabView: string;
-  unitId: any;
-  visibleDetailProject: boolean;
-  projectId: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  visible: boolean
+  tabView: string
+  unitId: any
+  visibleDetailProject: boolean
+  projectId: any
 }
 const tabKeys = {
   gridView: L("GRID_VIEW"),
@@ -36,7 +36,7 @@ const tabKeys = {
 @inject(Stores.AppDataStore, Stores.UnitStore)
 @observer
 class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     maxResultCount: 10,
     skipCount: 0,
@@ -48,7 +48,7 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
     tabView: tabKeys.listView,
     projectId: null,
     visibleDetailProject: false,
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -70,7 +70,7 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -79,16 +79,16 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({ filters })
     if (this.state.tabView === tabKeys.listView) {
       await this.getAll()
     }
-  };
+  }
   changeTab = async (value) => {
     await this.setState({ tabView: value.target.value })
-  };
+  }
   gotoDetailProject = (id?) => {
     if (id) {
       this.setState({ projectId: id })
@@ -97,7 +97,7 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
       this.setState({ projectId: null })
       this.setState({ visibleDetailProject: true })
     }
-  };
+  }
   public render() {
     const {
       unitStore: { isLoading, listUnitInProject },
@@ -154,19 +154,9 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
                   listUnitInProject === undefined ? [] : listUnitInProject.items
                 }
                 scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-                bordered
               />
             </DataTable>
           )}
-          {/* {this.state.tabView === tabKeys.gridView && (
-            <div style={{ maxHeight: "75vh", overflow: "hidden" }}>
-              <StackPland
-                loading={isLoading}
-                projectId={this.props.projectId}
-                filter={this.state.filters}
-              />
-            </div>
-          )} */}
         </div>
       </>
     )

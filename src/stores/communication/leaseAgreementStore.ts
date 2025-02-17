@@ -1,6 +1,6 @@
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import leaseAgreementService from "@services/projects/leaseAgreementService"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 class LeaseAgreementStore {
   @observable isLoading = false
@@ -30,6 +30,8 @@ class LeaseAgreementStore {
   @observable listLASelect!: any[]
 
   constructor() {
+    makeAutoObservable(this)
+
     this.paymentGenerate = []
     this.paymentScheduleStatus = []
     this.listPaymentScheduleAmount = []

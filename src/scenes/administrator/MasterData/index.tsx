@@ -18,16 +18,16 @@ import debounce from "lodash/debounce"
 const { align, activeStatus } = AppConst
 
 export interface IMasterDataProps {
-  history: any;
-  masterDataStore: MasterDataStore;
+  history: any
+  masterDataStore: MasterDataStore
 }
 
 export interface IMasterDataState {
-  modalVisible: boolean;
-  maxResultCount: number;
-  skipCount: number;
-  buildingId?: number;
-  filters: any;
+  modalVisible: boolean
+  maxResultCount: number
+  skipCount: number
+  buildingId?: number
+  filters: any
 }
 
 const confirm = Modal.confirm
@@ -39,14 +39,14 @@ class MasterDataComponent extends AppComponentListBase<
   IMasterDataProps,
   IMasterDataState
 > {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     modalVisible: false,
     maxResultCount: 10,
     skipCount: 0,
     filters: { isActive: "true" },
-  };
+  }
 
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
@@ -54,7 +54,7 @@ class MasterDataComponent extends AppComponentListBase<
 
   getAll = async () => {
     console.log("getAll")
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -64,11 +64,11 @@ class MasterDataComponent extends AppComponentListBase<
       },
       async () => await this.getAll()
     )
-  };
+  }
 
   Modal = () => {
     this.setState({ modalVisible: !this.state.modalVisible })
-  };
+  }
 
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
@@ -85,7 +85,7 @@ class MasterDataComponent extends AppComponentListBase<
         self.handleTableChange({ current: 1, pageSize: 10 })
       },
     })
-  };
+  }
 
   handleCreate = () => {
     const form = this.formRef.current
@@ -104,7 +104,7 @@ class MasterDataComponent extends AppComponentListBase<
       this.setState({ modalVisible: false })
       form.resetFields()
     })
-  };
+  }
 
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
@@ -112,7 +112,7 @@ class MasterDataComponent extends AppComponentListBase<
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleSearch = (name, value) => {
     const { filters } = this.state
@@ -120,7 +120,7 @@ class MasterDataComponent extends AppComponentListBase<
       { filters: { ...filters, [name]: value }, skipCount: 0 },
       async () => await this.getAll()
     )
-  };
+  }
 
   gotoDetail = (id?) => {
     const { history } = this.props
@@ -129,7 +129,7 @@ class MasterDataComponent extends AppComponentListBase<
           portalLayouts.adminMasterDataDetail.path.replace(":id", id)
         )
       : history.push(portalLayouts.adminMasterDataCreate.path)
-  };
+  }
 
   public render() {
     const {
@@ -286,7 +286,7 @@ class MasterDataComponent extends AppComponentListBase<
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             loading={this.props.masterDataStore.isLoading}

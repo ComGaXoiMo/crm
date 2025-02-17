@@ -1,11 +1,11 @@
-import * as React from 'react'
-import { Col, Row, Table } from 'antd'
-import { inject, observer } from 'mobx-react'
-import Stores from '../../stores/storeIdentifier'
-import AppComponentBase from '../AppComponentBase'
-import AuditLogStore from '../../stores/common/auditLogStore'
-import { L } from '../../lib/abpUtility'
-import { renderDateTime } from '../../lib/helper'
+import * as React from "react"
+import { Col, Row, Table } from "antd"
+import { inject, observer } from "mobx-react"
+import Stores from "../../stores/storeIdentifier"
+import AppComponentBase from "../AppComponentBase"
+import AuditLogStore from "../../stores/common/auditLogStore"
+import { L } from "../../lib/abpUtility"
+import { renderDateTime } from "../../lib/helper"
 
 export interface IAuditLogProps {
   moduleId: number
@@ -18,7 +18,7 @@ export interface IAuditLogProps {
 class AuditLog extends AppComponentBase<IAuditLogProps> {
   state = {
     maxResultCount: 10,
-    skipCount: 0
+    skipCount: 0,
   }
 
   async componentDidMount() {
@@ -32,9 +32,12 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
   }
 
   handleTableChange = (pagination: any) => {
-    this.setState({ skipCount: (pagination.current - 1) * this.state.maxResultCount! }, async () => {
-      await this.handleSearch()
-    })
+    this.setState(
+      { skipCount: (pagination.current - 1) * this.state.maxResultCount! },
+      async () => {
+        await this.handleSearch()
+      }
+    )
   }
 
   handleSearch = async () => {
@@ -43,7 +46,7 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
     await this.props.auditLogStore.getAll({
       ...this.state,
       moduleId,
-      id: parentId
+      id: parentId,
     })
   }
 
@@ -52,23 +55,23 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
 
     const columns = [
       {
-        title: L('AUDIT_LOG_CHANGE_TIME'),
-        dataIndex: 'changeTime',
-        key: 'changeTime',
+        title: L("AUDIT_LOG_CHANGE_TIME"),
+        dataIndex: "changeTime",
+        key: "changeTime",
         width: 150,
-        render: renderDateTime
+        render: renderDateTime,
       },
       {
-        title: L('AUDIT_LOG_UPDATED_BY'),
-        dataIndex: 'user',
-        key: 'user',
+        title: L("AUDIT_LOG_UPDATED_BY"),
+        dataIndex: "user",
+        key: "user",
         width: 150,
-        render: (user) => <div>{user.displayName}</div>
+        render: (user) => <div>{user.displayName}</div>,
       },
       {
-        title: L('AUDIT_LOG_PROPERTIES'),
-        dataIndex: 'items',
-        key: 'items',
+        title: L("AUDIT_LOG_PROPERTIES"),
+        dataIndex: "items",
+        key: "items",
         width: 150,
         render: (items) => (
           <>
@@ -76,12 +79,12 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
               <div key={index}>{item.propertyName}</div>
             ))}
           </>
-        )
+        ),
       },
       {
-        title: L('AUDIT_LOG_OLD_VALUE'),
-        dataIndex: 'items',
-        key: 'items',
+        title: L("AUDIT_LOG_OLD_VALUE"),
+        dataIndex: "items",
+        key: "items",
         width: 150,
         render: (items) => (
           <>
@@ -89,12 +92,12 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
               <div key={index}>{item.originalValue}</div>
             ))}
           </>
-        )
+        ),
       },
       {
-        title: L('AUDIT_LOG_NEW_VALUE'),
-        dataIndex: 'items',
-        key: 'items',
+        title: L("AUDIT_LOG_NEW_VALUE"),
+        dataIndex: "items",
+        key: "items",
         width: 150,
         render: (items) => (
           <>
@@ -102,8 +105,8 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
               <div key={index}>{item.newValueDisplay}</div>
             ))}
           </>
-        )
-      }
+        ),
+      },
     ]
 
     return (
@@ -111,7 +114,7 @@ class AuditLog extends AppComponentBase<IAuditLogProps> {
         <Col sm={{ span: 24, offset: 0 }}>
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}

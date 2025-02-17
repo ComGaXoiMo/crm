@@ -20,26 +20,26 @@ import LanguageTextFormModal from "./languageTextFormModal"
 const { align, localization } = AppConsts
 
 type Props = {
-  id: any;
-  visible: boolean;
-  onCancel: any;
+  id: any
+  visible: boolean
+  onCancel: any
 
-  languageStore: LanguageStore;
-};
+  languageStore: LanguageStore
+}
 type States = {
-  modalVisible: boolean;
-  maxResultCount: number;
-  skipCount: number;
-  modalType: string;
-  filters: any;
-};
+  modalVisible: boolean
+  maxResultCount: number
+  skipCount: number
+  modalType: string
+  filters: any
+}
 
 @inject(Stores.LanguageStore)
 @observer
 class LanguageDetailModal extends AppComponentListBase<Props, States> {
-  formRef: any = React.createRef();
-  languageSources: any = abp.localization.sources || [];
-  languages: any = abp.localization.languages || [];
+  formRef: any = React.createRef()
+  languageSources: any = abp.localization.sources || []
+  languages: any = abp.localization.languages || []
 
   state = {
     modalVisible: false,
@@ -51,7 +51,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
       sourceName: localization.defaultLocalizationSourceName,
       filterText: "",
     },
-  };
+  }
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
   }
@@ -69,7 +69,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -79,13 +79,13 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
       },
       async () => await this.getAll()
     )
-  };
+  }
 
   Modal = () => {
     this.setState({
       modalVisible: !this.state.modalVisible,
     })
-  };
+  }
   createOrUpdateModalOpen = async (entityDto: LanguageTextDto | null) => {
     const body: LanguageTextInputDto = {
       languageName: this.state.filters.targetLanguageName,
@@ -99,7 +99,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
     this.formRef.current.setFieldsValue({
       ...this.props.languageStore.editLanguageText,
     })
-  };
+  }
   delete(input: EntityDto) {
     const self = this
     Modal.confirm({
@@ -125,7 +125,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
       this.setState({ modalVisible: false })
       form.resetFields()
     })
-  };
+  }
 
   updateSearch = debounce((name, value) => {
     const { filters } = this.state
@@ -133,7 +133,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
     if (value?.length === 0) {
       this.handleSearch("keyword", value)
     }
-  }, 100);
+  }, 100)
 
   handleSearch = (name, value) => {
     const { filters } = this.state
@@ -141,7 +141,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
       { filters: { ...filters, [name]: value }, skipCount: 0 },
       async () => await this.getAll()
     )
-  };
+  }
 
   renderFilterComponent = () => {
     const { filters } = this.state
@@ -191,11 +191,11 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
         </Col>
       </Row>
     )
-  };
+  }
 
   handleClose = () => {
     this.props.onCancel()
-  };
+  }
 
   render() {
     const { visible } = this.props
@@ -281,7 +281,7 @@ class LanguageDetailModal extends AppComponentListBase<Props, States> {
             >
               <Table
                 size="middle"
-                className="custom-ant-table"
+                className=""
                 columns={columns}
                 pagination={false}
                 loading={this.props.languageStore.isLoading}

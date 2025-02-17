@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import commentService from "../../services/common/commentService"
@@ -10,6 +10,8 @@ class AuditLogStore {
   @observable comments!: PagedResultDto<any>
 
   constructor() {
+    makeAutoObservable(this)
+
     this.comments = { items: [], totalCount: 0 }
   }
 

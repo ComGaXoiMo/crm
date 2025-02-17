@@ -1,10 +1,10 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import DEFAULT_CURRENCY from "@lib/appconst"
 import groupBy from "lodash/groupBy"
 import appDataService from "@services/appDataService"
 import { OtherTypeModel } from "@models/category"
 import AppConsts from "@lib/appconst"
-const {taskStatusForNew}= AppConsts
+const { taskStatusForNew } = AppConsts
 class AppDataStore {
   @observable isLoading!: boolean
   @observable countries!: any
@@ -34,7 +34,7 @@ class AppDataStore {
   @observable leadSource!: any
   @observable documentTypes!: any
   @observable depositRefundTypes!: any
-  @observable amendmentType!: any []
+  @observable amendmentType!: any[]
 
   @observable dealStages!: any
   @observable paymentStatus!: any
@@ -81,6 +81,7 @@ class AppDataStore {
   @observable provinceOption: any[] = []
   @observable unitServiceTypes: any[] = []
   constructor() {
+    makeAutoObservable(this)
     // this.getDepartments({});
     // this.getOffices({});
     this.otherTypes = new OtherTypeModel()
@@ -323,9 +324,8 @@ class AppDataStore {
     this.leaseAgreementStatus = res?.filter((item) => item.code === "LAStatus")
 
     this.depositsStatus = res?.filter((item) => item.code === "LADepositStatus")
-
   }
- 
+
   @action async getTaskStatus() {
     const res = await appDataService.getTaskStatus()
     this.taskStatus = res
@@ -333,28 +333,25 @@ class AppDataStore {
       {
         color: "#9393937d",
         name: "Overdue",
-        id:taskStatusForNew.overDue
+        id: taskStatusForNew.overDue,
       },
       {
         color: "#861ad87d",
-      
-        name: "DueInThreeDay",
-        id:taskStatusForNew.overDueIn3Day
 
+        name: "DueInThreeDay",
+        id: taskStatusForNew.overDueIn3Day,
       },
       {
         color: "#ff632ba8",
-       
-        name: "DueToDay",
-        id:taskStatusForNew.DueToday
 
+        name: "DueToDay",
+        id: taskStatusForNew.DueToday,
       },
       {
         color: "#12e7eebf",
-       
-        name: "ToDo",
-        id:taskStatusForNew.todo
 
+        name: "ToDo",
+        id: taskStatusForNew.todo,
       },
     ]
 
@@ -363,7 +360,6 @@ class AppDataStore {
       ...res.filter((item) => item.name !== "New"),
     ]
   }
-
 
   @action
   async getDepositRefundTypes(params) {
@@ -376,10 +372,6 @@ class AppDataStore {
     const res = await appDataService.getListAmendmentType()
     this.amendmentType = res
   }
-
-
-
 }
-
 
 export default AppDataStore

@@ -330,7 +330,7 @@ export const portalLayouts: any = {
     title: "PROPERTIES",
     // permission: appPermissions.properties.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/propertiesManagement/index")
     ),
@@ -378,7 +378,7 @@ export const portalLayouts: any = {
     title: "INQUIRIES",
     permission: appPermissions.inquiry.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/inquiriesManagement/index")
     ),
@@ -390,7 +390,7 @@ export const portalLayouts: any = {
     title: "LEASE_AGREEMENT",
     permission: appPermissions.leaseAgreement.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/leaseContractsManagement/index")
     ),
@@ -401,7 +401,7 @@ export const portalLayouts: any = {
     title: "TASKS",
     permission: appPermissions.task.page,
     layout: layouts.portalLayout,
-    // icon: CopyrightOutlined,
+    icon: FolderOutlined,
     component: LoadableComponent(
       () => import("../../../scenes/tasksManagement/index")
     ),
@@ -664,6 +664,18 @@ export const appMenuGroups: any = [
     name: "CONFIG",
     type: "group",
     children: [routers.masterData, routers.administration, routers.settings],
+  },
+  {
+    name: "LEASING",
+    type: "group",
+    children: [
+      routers.properties,
+      routers.clients,
+      routers.inquiries,
+      routers.leaseAgreement,
+      routers.tasks,
+      routers.settings,
+    ],
   },
 ]
 

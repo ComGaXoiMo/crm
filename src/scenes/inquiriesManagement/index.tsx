@@ -66,11 +66,7 @@ class Inquiries extends AppComponentListBase<IInquiriesProps, any> {
     return (
       <>
         <div className="container-element">
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             {this.isGranted(appPermissions.inquiry.page) && (
               <Tabs.TabPane
                 tab={L(tabKeys.tabInquiriesList)}

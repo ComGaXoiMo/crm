@@ -136,7 +136,7 @@ class CompanyContacts extends AppComponentListBase<
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}

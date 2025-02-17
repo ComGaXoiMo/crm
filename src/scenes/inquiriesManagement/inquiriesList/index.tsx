@@ -165,9 +165,7 @@ class InquiriesList extends AppComponentListBase<
               }
               className="link-text-table"
             >
-              <div>
-                {renderDotActive(item.isActive)} {inquiryName}
-              </div>
+              {renderDotActive(item.isActive)} {inquiryName}
             </a>
           </Col>
           <Col sm={{ span: 3, offset: 0 }}>
@@ -200,9 +198,14 @@ class InquiriesList extends AppComponentListBase<
     return (
       <>
         <div>
-          <InquiryFilterPanel
-            appDataStore={this.props.appDataStore}
-            changeTab={this.changeTab}
+          <DataTable
+            filterComponent={
+              <InquiryFilterPanel
+                appDataStore={this.props.appDataStore}
+                handleSearch={this.handleFilterChange}
+                changeTab={this.changeTab}
+              />
+            }
             handleSearch={this.handleFilterChange}
             onCreate={() => {
               this.gotoDetail()
@@ -210,15 +213,16 @@ class InquiriesList extends AppComponentListBase<
             onRefresh={() => {
               this.getAll()
             }}
-          />
-          {this.state.tabView === selectKeys.listView && (
-            <DataTable
-              pagination={{
+            searchPlaceholder={"FILTER_KEYWORD_INQUIRY"}
+            pagination={
+              this.state.tabView === selectKeys.listView && {
                 pageSize: this.state.maxResultCount,
                 total: pageResult === undefined ? 0 : pageResult.totalCount,
                 onChange: this.handleTableChange,
-              }}
-            >
+              }
+            }
+          >
+            {this.state.tabView === selectKeys.listView && (
               <Table
                 size="middle"
                 className="custom-ant-row"
@@ -228,34 +232,34 @@ class InquiriesList extends AppComponentListBase<
                 loading={isLoading}
                 dataSource={pageResult.items ?? []}
                 scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-                bordered
               />
-            </DataTable>
-          )}
-          {this.state.tabView === selectKeys.boardView && (
-            <Row gutter={[16, 10]} className="mt-3 iqr-wrap-pipeline-flex">
-              <Col
-                sm={{ span: 24, offset: 0 }}
-                className="iqr-pipeline-view-wrapper"
-              >
-                {listStatus.map((inquiry, index) => (
-                  <InquiriesBoardView
-                    key={index}
-                    projectId={this.props.projectId}
-                    data={listInquiryBoardView[inquiry.id]}
-                    goDetail={
-                      this.isGranted(appPermissions.inquiry.detail)
-                        ? (id) => this.gotoDetail(id)
-                        : () => console.log("no permission")
-                    }
-                    status={inquiry}
-                    filter={{ ...this.state.filters }}
-                    visible={this.state.modalVisible}
-                  />
-                ))}
-              </Col>
-            </Row>
-          )}
+            )}
+            {this.state.tabView === selectKeys.boardView && (
+              <Row gutter={[16, 10]} className="mt-3 iqr-wrap-pipeline-flex">
+                <Col
+                  sm={{ span: 24, offset: 0 }}
+                  className="iqr-pipeline-view-wrapper"
+                >
+                  {listStatus.map((inquiry, index) => (
+                    <InquiriesBoardView
+                      key={index}
+                      projectId={this.props.projectId}
+                      data={listInquiryBoardView[inquiry.id]}
+                      goDetail={
+                        this.isGranted(appPermissions.inquiry.detail)
+                          ? (id) => this.gotoDetail(id)
+                          : () => console.log("no permission")
+                      }
+                      status={inquiry}
+                      filter={{ ...this.state.filters }}
+                      visible={this.state.modalVisible}
+                    />
+                  ))}
+                </Col>
+              </Row>
+            )}
+          </DataTable>
+
           <InquiryDetaillModal
             id={this.state.inquiryId}
             visible={this.state.modalVisible}

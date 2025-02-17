@@ -1,4 +1,4 @@
-import { action, computed, observable, toJS } from "mobx"
+import { action, computed, makeAutoObservable, observable, toJS } from "mobx"
 import { EditedNews, EditedSingleLanguageNews, NewsModel } from "../../models"
 import newsService from "../../services/communication/newsService"
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
@@ -18,6 +18,8 @@ class NewsStore {
   @observable roles: any = []
 
   constructor() {
+    makeAutoObservable(this)
+
     this.pageResult = { items: [], totalCount: 0 }
     this.editSingleLanguageNews = {}
   }

@@ -12,23 +12,23 @@ import { L } from "@lib/abpUtility"
 import { renderDotActive } from "@lib/helper"
 import gettColumns from "./components/inquiruesColumn"
 export interface IIquiryProps {
-  inquiryStore: InquiryStore;
-  projectId?: any;
-  contactId?: any;
-  companyId?: any;
-  unitId?: any;
+  inquiryStore: InquiryStore
+  projectId?: any
+  contactId?: any
+  companyId?: any
+  unitId?: any
 }
 export interface IIquiryState {
-  maxResultCount: any;
-  data: any[];
-  filters: any;
-  skipCount: number;
+  maxResultCount: any
+  data: any[]
+  filters: any
+  skipCount: number
 }
 
 @inject(Stores.InquiryStore)
 @observer
 class InquirieContact extends AppComponentListBase<IIquiryProps, IIquiryState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props: IIquiryProps) {
     super(props)
@@ -66,7 +66,7 @@ class InquirieContact extends AppComponentListBase<IIquiryProps, IIquiryState> {
       ...this.state.filters,
     })
     this.setState({ data: this.props.inquiryStore.pageResult.items })
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -75,7 +75,7 @@ class InquirieContact extends AppComponentListBase<IIquiryProps, IIquiryState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
 
   public render() {
     const {
@@ -118,7 +118,6 @@ class InquirieContact extends AppComponentListBase<IIquiryProps, IIquiryState> {
                   pagination={false}
                   dataSource={pageResult === undefined ? [] : pageResult.items}
                   loading={isLoading}
-                  bordered
                   scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
                 />
               </DataTable>

@@ -95,7 +95,6 @@ class Inquiries extends AppComponentListBase<
               pagination={false}
               dataSource={this.props.inquiryStore.pageResult.items ?? []}
               scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-              bordered
             />
           </DataTable>
         </div>

@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import { RatingBadgeModel } from "@models/master-data/ratingBadgeModel"
@@ -12,6 +12,8 @@ class RatingBadgeStore {
   @observable ratingBadges!: any[]
 
   constructor() {
+    makeAutoObservable(this)
+
     this.pagedData = { items: [], totalCount: 0 }
   }
 

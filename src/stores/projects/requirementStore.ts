@@ -1,14 +1,16 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import requirementService from "@services/projects/requirementService"
 
 class RequirementStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable editRequirement!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable editRequirement!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
   }
 

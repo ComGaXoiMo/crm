@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { Button, Col, Dropdown, Input, Menu, Modal, Row, Table } from "antd"
+import { Col, Dropdown, Menu, Modal, Row, Table } from "antd"
 import { inject, observer } from "mobx-react"
 
 import AppComponentBase from "../../../components/AppComponentBase"
@@ -11,11 +11,7 @@ import RoleStore from "../../../stores/administrator/roleStore"
 import Stores from "../../../stores/storeIdentifier"
 import DataTable from "../../../components/DataTable"
 // import { appPermissions } from "../../../lib/appconst";
-import {
-  MoreOutlined,
-  PlusCircleFilled,
-  ReloadOutlined,
-} from "@ant-design/icons"
+import { MoreOutlined } from "@ant-design/icons"
 import debounce from "lodash/debounce"
 import getColumns from "./columns"
 import withRouter from "@components/Layout/Router/withRouter"
@@ -34,7 +30,6 @@ export interface IRoleState {
 }
 
 const confirm = Modal.confirm
-const Search = Input.Search
 
 @inject(Stores.RoleStore)
 @observer
@@ -131,45 +126,14 @@ class Role extends AppComponentBase<IRoleProps, IRoleState> {
   }
 
   updateSearch = debounce((value) => {
-    this.setState({ filter: value })
-    if (value?.length === 0) {
-      this.handleSearch(value)
-    }
+    console.log(value)
+    this.handleSearch(value?.keyword)
   }, 100)
 
   handleSearch = (value: string) => {
     this.setState(
       { filter: value, skipCount: 0 },
       async () => await this.getAll()
-    )
-  }
-
-  renderFilterComponent = () => {
-    const keywordPlaceHolder = `${this.L("ST_ROLE_UNIQUE_NAME")}`
-    return (
-      <Row gutter={[8, 8]}>
-        <Col sm={{ span: 8, offset: 0 }}>
-          <Search
-            placeholder={keywordPlaceHolder}
-            onChange={(value) => this.updateSearch(value.target?.value)}
-            onSearch={this.handleSearch}
-          />
-        </Col>
-        {this.isGranted(appPermissions.adminRole.create) && (
-          <div style={{ position: "absolute", right: 10 }}>
-            <Button
-              icon={<PlusCircleFilled />}
-              className="button-primary"
-              onClick={() => this.createOrUpdateModalOpen(0)}
-            ></Button>
-            <Button
-              icon={<ReloadOutlined />}
-              className="button-primary"
-              onClick={() => this.getAll()}
-            ></Button>
-          </div>
-        )}
-      </Row>
     )
   }
 
@@ -229,7 +193,10 @@ class Role extends AppComponentBase<IRoleProps, IRoleState> {
             total: roles === undefined ? 0 : roles.totalCount,
             onChange: this.handleTableChange,
           }}
-          filterComponent={this.renderFilterComponent()}
+          handleSearch={(value) => this.updateSearch(value)}
+          searchPlaceholder={"ST_ROLE_UNIQUE_NAME"}
+          onRefresh={() => this.getAll()}
+          onCreate={() => this.createOrUpdateModalOpen(0)}
         >
           <Table
             size="middle"

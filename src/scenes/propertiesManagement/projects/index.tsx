@@ -3,7 +3,7 @@ import * as React from "react"
 import { inject, observer } from "mobx-react"
 import DataTable from "@components/DataTable"
 import gettColumns from "./components/projectColumn"
-import { Col, Dropdown, Menu, Modal, Row, Table, message } from "antd"
+import { Button, Col, Dropdown, Menu, Modal, Row, Table, message } from "antd"
 import Stores from "@stores/storeIdentifier"
 import { MoreOutlined } from "@ant-design/icons"
 import { L, LNotification } from "@lib/abpUtility"
@@ -21,29 +21,29 @@ import ProposalStore from "@stores/activity/proposalStore"
 import { portalLayouts } from "@components/Layout/Router/router.config"
 const confirm = Modal.confirm
 export interface IProjectProps {
-  history: any;
-  projectStore: ProjectStore;
-  proposalStore: ProposalStore;
+  history: any
+  projectStore: ProjectStore
+  proposalStore: ProposalStore
 }
 
 export interface IProjectState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  visible: boolean;
-  permissionVisible: boolean;
-  createProposalModal: boolean;
-  projectId: any;
-  selectedRowKeys: any[];
-  disableCreateProposal: boolean;
-  proposalChooseTemplateVisible: boolean;
-  unitAndInquiryProposal: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  visible: boolean
+  permissionVisible: boolean
+  createProposalModal: boolean
+  projectId: any
+  selectedRowKeys: any[]
+  disableCreateProposal: boolean
+  proposalChooseTemplateVisible: boolean
+  unitAndInquiryProposal: any
 }
 
 @inject(Stores.ProjectStore, Stores.ProposalStore)
 @observer
 class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   state = {
     maxResultCount: 10,
@@ -59,7 +59,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     disableCreateProposal: true,
     proposalChooseTemplateVisible: false,
     unitAndInquiryProposal: {} as any,
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -72,7 +72,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
 
   handleTableChange = (pagination: any) => {
     this.setState(
@@ -82,14 +82,14 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({ filters })
     await this.handleTableChange({
       current: 1,
       pageSize: this.state.maxResultCount,
     })
-  };
+  }
   gotoDetail = async (id) => {
     if (id) {
       await this.props.projectStore.get(id)
@@ -98,11 +98,11 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
       await this.props.projectStore.createProject()
       this.setState({ projectId: null, visible: true })
     }
-  };
+  }
   toggleModal = () =>
     this.setState((prevState) => ({
       permissionVisible: !prevState.permissionVisible,
-    }));
+    }))
 
   handleOk = async (params) => {
     if (params.length === 0) {
@@ -119,7 +119,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
       await this.toggleModal()
       await this.getAll()
     }
-  };
+  }
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
     confirm({
@@ -138,7 +138,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
         })
       },
     })
-  };
+  }
   onCreateProposal = async (param) => {
     const model = { ...this.state.unitAndInquiryProposal, ...param }
     this.setState({ proposalChooseTemplateVisible: false })
@@ -149,7 +149,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
         this.props.proposalStore.proposalDetail.id
       )
     )
-  };
+  }
   onSelectChange = (newSelectedRowKeys) => {
     this.setState({ selectedRowKeys: newSelectedRowKeys })
     if (newSelectedRowKeys.length < 1 || newSelectedRowKeys.length > 3) {
@@ -157,11 +157,11 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     } else {
       this.setState({ disableCreateProposal: false })
     }
-  };
+  }
 
   handleCreateProposal = () => {
     this.setState({ createProposalModal: true })
-  };
+  }
   public render() {
     const {
       projectStore: { isLoading, tableData },
@@ -225,19 +225,38 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     })
     return (
       <>
-        <ProjectFilterPanel
+        <DataTable
+          filterComponent={
+            <ProjectFilterPanel handleSearch={this.handleFilterChange} />
+          }
+          handleSearch={this.handleFilterChange}
+          searchPlaceholder={"PROJECT_NAME"}
           onCreate={() => {
             this.gotoDetail(null)
           }}
           onRefresh={() => this.getAll()}
-          handleSearch={this.handleFilterChange}
-          createUserPermission={() => this.toggleModal()}
-          createProposal={() => {
-            this.handleCreateProposal()
-          }}
-          disableCreateProposal={this.state.disableCreateProposal}
-        />
-        <DataTable
+          actionComponent={
+            <>
+              {" "}
+              {this.isGranted(appPermissions.inquiry.create) && (
+                <Button
+                  className="button-primary"
+                  disabled={this.state.disableCreateProposal}
+                  onClick={() => this.handleCreateProposal()}
+                >
+                  {L("PROJECT_CREATE_PROPOSAL")}
+                </Button>
+              )}
+              {this.isGranted(appPermissions.project.userPermission) && (
+                <Button
+                  className="button-primary"
+                  onClick={() => this.toggleModal()}
+                >
+                  {L("PROJECT_USER_PERMISSION")}
+                </Button>
+              )}
+            </>
+          }
           pagination={{
             pageSize: this.state.maxResultCount,
             total: tableData === undefined ? 0 : tableData.totalCount,
@@ -252,7 +271,6 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
             pagination={false}
             loading={isLoading}
             dataSource={tableData.items ?? []}
-            bordered
             rowSelection={rowSelection}
             scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
           />

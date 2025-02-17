@@ -1,17 +1,19 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import OrganizationUnitService from "@services/organizationUnit/OrganizationUnitService"
 
 class OrganizationUnitStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: any[];
-  @observable userTableData!: PagedResultDto<any>;
-  @observable listUsers!: PagedResultDto<any>;
+  @observable isLoading!: boolean
+  @observable tableData!: any[]
+  @observable userTableData!: PagedResultDto<any>
+  @observable listUsers!: PagedResultDto<any>
 
-  @observable editOU!: any;
+  @observable editOU!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = []
     this.editOU = {
       parentId: null,

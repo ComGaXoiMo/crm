@@ -29,6 +29,7 @@ import { L } from "@lib/abpUtility"
 import { Status } from "@models/global"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
+import ItemStatus from "@components/AppItems/ItemStatus"
 
 const { pdfType } = AppConsts
 const { colorByLetter } = moduleAvatar,
@@ -483,7 +484,7 @@ export function renderCustomerOptions(options, log?, showTooltip?) {
   ))
 }
 export function renderDotActive(value) {
-  return <Badge color={value ? "#689F38" : "#EB7077"} size="default" />
+  return <ItemStatus color={value ? "#689F38" : "#EB7077"} />
 }
 export function renderDotComm(value: boolean) {
   return value ? <Badge color={"#FEC20C"} size="default" /> : undefined

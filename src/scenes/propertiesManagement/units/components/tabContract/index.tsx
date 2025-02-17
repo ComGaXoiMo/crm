@@ -238,7 +238,6 @@ class Contract extends AppComponentListBase<IContractProps, IContractState> {
                 loading={isLoading}
                 pagination={false}
                 dataSource={pageResult.items ?? []}
-                bordered
                 scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
               />
             </DataTable>

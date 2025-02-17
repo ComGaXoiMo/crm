@@ -191,7 +191,6 @@ class OtherContact extends AppComponentListBase<Props, States> {
                   listContactByLA === undefined ? [] : listContactByLA?.items
                 }
                 loading={isLoading}
-                bordered
               />
             </DataTable>
           </Col>

@@ -1,6 +1,6 @@
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import inquiryService from "@services/projects/inquiryService"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 class InquiryStore {
   @observable isLoading = false
@@ -24,6 +24,8 @@ class InquiryStore {
   @observable listInquirySimple: Array<any> = []
 
   constructor() {
+    makeAutoObservable(this)
+
     this.listStatus = []
     this.listInquiryBoardView = {}
   }

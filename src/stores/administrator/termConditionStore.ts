@@ -1,6 +1,6 @@
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import { TermConditionDetailModel } from "@models/termCondition"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import termConditionService from "@services/administrator/termConditionService"
 
 class TermConditionStore {
@@ -9,6 +9,8 @@ class TermConditionStore {
   @observable feeTypes!: TermConditionDetailModel[]
   @observable editTermCondition!: TermConditionDetailModel
   constructor() {
+    makeAutoObservable(this)
+
     this.pagedResult = {
       items: [],
       totalCount: 0,

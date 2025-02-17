@@ -1,6 +1,6 @@
 import { budgetAppType } from "@lib/appconst"
 import budgetAppService from "@services/budgetAppService"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 class BudgetAppStore {
   @observable isLoading = false
@@ -10,6 +10,7 @@ class BudgetAppStore {
   @observable detail!: any
 
   constructor() {
+    makeAutoObservable(this)
     this.pageResultUnit = []
     this.pageResultRevenue = []
   }

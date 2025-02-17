@@ -242,7 +242,7 @@ class ChooseTerminationNoteTemplateModal extends AppComponentListBase<
                 {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_TERMINATION_NOTE")}
                 <Table
                   size="middle"
-                  className="custom-ant-table"
+                  className=""
                   // rowKey={(record) => record.id}
                   columns={columns}
                   loading={isLoading}

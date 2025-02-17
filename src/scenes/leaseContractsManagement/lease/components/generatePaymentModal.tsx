@@ -571,10 +571,9 @@ class GeneratePaymentModal extends AppComponentListBase<Props, State> {
                   >
                     <Table
                       size="middle"
-                      className="custom-ant-table"
+                      className=""
                       rowKey={(record, index) => `sp-${index}`}
                       columns={columns}
-                      bordered
                       pagination={false}
                       loading={isLoading}
                       dataSource={this.state.dataTable ?? []}

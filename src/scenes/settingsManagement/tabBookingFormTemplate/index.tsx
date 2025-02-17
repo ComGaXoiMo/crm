@@ -15,22 +15,22 @@ const { notifiType } = AppConsts
 
 //
 export interface IProps {
-  notificationTemplateStore: NotificationTemplateStore;
-  selectItem: any;
-  tabKey: any;
+  notificationTemplateStore: NotificationTemplateStore
+  selectItem: any
+  tabKey: any
 }
 export interface IState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  modalVisible: boolean;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  modalVisible: boolean
 }
 
 @inject(Stores.NotificationTemplateStore)
 @observer
 class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
-  formRef: any = React.createRef();
-  formRefProjectAddress: any = React.createRef();
+  formRef: any = React.createRef()
+  formRefProjectAddress: any = React.createRef()
 
   constructor(props: IProps) {
     super(props)
@@ -43,7 +43,7 @@ class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
   }
   handleFilterChange = async (filters) => {
     await this.setState({ filters }, this.getAll)
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -52,7 +52,7 @@ class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   async componentDidMount() {
     this.getAll()
   }
@@ -70,10 +70,10 @@ class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
       notificationTypeId: notifiType.bookingForm,
       ...this.state.filters,
     })
-  };
+  }
   toggleModal = async () => {
     this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
-  };
+  }
   goDetail = async (id?) => {
     if (id) {
       await this.props.notificationTemplateStore.get(id)
@@ -84,10 +84,10 @@ class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
     await this.setState((prevState) => ({
       modalVisible: !prevState.modalVisible,
     }))
-  };
+  }
   handleOk = async () => {
     this.getAll()
-  };
+  }
   get currentPage() {
     return Math.floor(this.state.skipCount / this.state.maxResultCount) + 1
   }
@@ -145,14 +145,10 @@ class BookingFormTemplate extends AppComponentListBase<IProps, IState> {
         >
           <Table
             size="middle"
-            className="custom-ant-table custom-ant-row"
+            className=" custom-ant-row"
             // rowKey={(record) => record.id}
             loading={isLoading}
             columns={columns}
-            style={{
-              width: "50%",
-              padding: 20,
-            }}
             pagination={false}
             dataSource={notificationTemplates ?? []}
           />

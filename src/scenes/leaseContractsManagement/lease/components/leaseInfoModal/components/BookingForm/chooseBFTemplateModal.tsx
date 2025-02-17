@@ -148,7 +148,7 @@ class ChooseBFTemplateModal extends AppComponentListBase<Props, State> {
                 {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_BOOKING_FORM")}
                 <Table
                   size="middle"
-                  className="custom-ant-table"
+                  className=""
                   // rowKey={(record) => record.id}
                   columns={columns}
                   loading={isLoading}

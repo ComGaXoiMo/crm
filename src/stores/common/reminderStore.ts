@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, makeAutoObservable, observable } from "mobx"
 
-import { ReminderModel } from '@models/common/reminderModel'
-import reminderService from '@services/common/reminderService'
-import AppConsts from '@lib/appconst'
+import { ReminderModel } from "@models/common/reminderModel"
+import reminderService from "@services/common/reminderService"
+import AppConsts from "@lib/appconst"
 const { timeUnits } = AppConsts
 
 class ReminderStore {
@@ -12,6 +12,8 @@ class ReminderStore {
   @observable editReminder: ReminderModel
 
   constructor() {
+    makeAutoObservable(this)
+
     this.editReminder = new ReminderModel()
     this.module = 0
     this.parentId = 0
@@ -29,7 +31,7 @@ class ReminderStore {
   public setReminder(key, value) {
     this.editReminder = {
       ...this.editReminder,
-      [key]: value
+      [key]: value,
     }
   }
 
@@ -47,7 +49,7 @@ class ReminderStore {
       .getReminder(
         {
           module: this.module || module,
-          parentId: this.parentId || parentId
+          parentId: this.parentId || parentId,
         },
         timeUnit
       )
@@ -62,7 +64,7 @@ class ReminderStore {
     const params = {
       ...this.editReminder,
       moduleId: this.module || module,
-      parentId: this.parentId || parentId
+      parentId: this.parentId || parentId,
     }
     switch (timeUnit) {
       case timeUnits.days:
@@ -72,11 +74,13 @@ class ReminderStore {
         params.reminderInMinute = params.reminderInMinute * 60
         break
     }
-    this.editReminder = await reminderService.updateReminder(params).finally(() => {
-      if (!isSilent) {
-        this.isLoading = false
-      }
-    })
+    this.editReminder = await reminderService
+      .updateReminder(params)
+      .finally(() => {
+        if (!isSilent) {
+          this.isLoading = false
+        }
+      })
   }
 }
 

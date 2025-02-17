@@ -242,7 +242,6 @@ class ReservationListing extends AppComponentListBase<
                   pagination={false}
                   dataSource={tableData.items ?? []}
                   scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-                  bordered
                 />
               </DataTable>
             </Card>

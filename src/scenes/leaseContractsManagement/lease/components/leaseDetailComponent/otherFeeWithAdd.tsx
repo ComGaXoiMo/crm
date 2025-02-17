@@ -356,7 +356,7 @@ class OtherFeesWithAdd extends AppComponentListBase<
             <Table
               size="middle"
               className="table-font-size-12"
-              // className="custom-ant-table custom-ant-row"
+              // className=" custom-ant-row"
               //   rowKey={(record) => record.key}
               pagination={false}
               rowClassName={() => "editable-row"}

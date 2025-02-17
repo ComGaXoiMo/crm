@@ -130,7 +130,6 @@ class SiteVisit extends React.Component<IProjectProps, IProjectState> {
             columns={columns}
             pagination={false}
             dataSource={dataFake === undefined ? [] : dataFake.items}
-            bordered
             scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
           />
         </DataTable>

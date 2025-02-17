@@ -205,7 +205,7 @@ class DepositNoteModal extends AppComponentListBase<Props, State> {
                 {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_DEPOSIT")}
                 <Table
                   size="middle"
-                  className="custom-ant-table"
+                  className=""
                   rowKey={(record, index) => `${record?.id}_${index}`}
                   columns={columns}
                   loading={isLoading}

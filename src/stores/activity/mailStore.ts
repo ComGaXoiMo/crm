@@ -1,22 +1,25 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import mailService from "@services/activity/mailService"
 
 class MailStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable mailDetail!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable mailDetail!: any
 
   constructor() {
+    makeAutoObservable(this)
     this.tableData = { items: [], totalCount: 0 }
   }
 
   @action
   async createOrUpdate(body: any) {
     this.isLoading = true
-    const result = await mailService.createOrUpdate(body).finally(() => (this.isLoading = false))
-      this.mailDetail = result
+    const result = await mailService
+      .createOrUpdate(body)
+      .finally(() => (this.isLoading = false))
+    this.mailDetail = result
   }
 
   @action

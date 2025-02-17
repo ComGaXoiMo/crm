@@ -19,19 +19,19 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import SessionStore from "@stores/sessionStore"
 import { appPermissions } from "@lib/appconst"
 export interface IAllTaskProps {
-  appDataStore: AppDataStore;
-  taskStore: TaskStore;
-  sessionStore: SessionStore;
-  isMyTask: boolean;
+  appDataStore: AppDataStore
+  taskStore: TaskStore
+  sessionStore: SessionStore
+  isMyTask: boolean
 }
 
 export interface IAllTaskState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  tabView: string;
-  modalVisible: boolean;
-  taskId: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  tabView: string
+  modalVisible: boolean
+  taskId: any
 }
 
 const tabKeys = {
@@ -41,7 +41,7 @@ const tabKeys = {
 @inject(Stores.TaskStore, Stores.AppDataStore, Stores.SessionStore)
 @observer
 class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
   state = {
     maxResultCount: 10,
     skipCount: 0,
@@ -49,7 +49,7 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
     tabView: tabKeys.boardView,
     modalVisible: false,
     taskId: undefined,
-  };
+  }
 
   async componentDidMount() {
     if (this.props.isMyTask === true) {
@@ -82,14 +82,14 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
   getAllByStatus = async () => {
     await this.props.taskStore.getAllByStatus({
       maxResultCount: this.state.maxResultCount,
       skipCount: this.state.skipCount,
       ...this.state.filters,
     })
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -98,14 +98,14 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   onFilterChange = () => {
     if (this.state.tabView === tabKeys.boardView) {
       this.getAllByStatus()
     } else {
       this.getAll()
     }
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({
       filters: {
@@ -121,7 +121,7 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
       })
     }
     await this.onFilterChange()
-  };
+  }
   gotoDetail = async (id?) => {
     if (id) {
       await this.props.taskStore.get(id)
@@ -129,18 +129,18 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
       await this.props.taskStore.createTask()
     }
     await this.toggleModal()
-  };
+  }
   toggleModal = () =>
-    this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }));
+    this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
 
   handleOk = async () => {
     await this.getAll()
     this.getAllByStatus()
     this.toggleModal()
-  };
+  }
   changeTab = async (value) => {
     await this.setState({ tabView: value.target.value })
-  };
+  }
 
   public render() {
     const {
@@ -200,10 +200,16 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
     })
     return (
       <>
-        <AllTaskFilterPanel
-          isMyTask={this.props.isMyTask}
-          changeTab={this.changeTab}
+        <DataTable
+          filterComponent={
+            <AllTaskFilterPanel
+              isMyTask={this.props.isMyTask}
+              changeTab={this.changeTab}
+              handleSearch={this.handleFilterChange}
+            />
+          }
           handleSearch={this.handleFilterChange}
+          searchPlaceholder={"FILTER_KEYWORD_TASK"}
           onCreate={() => {
             this.gotoDetail()
           }}
@@ -214,18 +220,18 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
               this.getAll()
             }
           }}
-        />
-        {this.state.tabView === tabKeys.listView && (
-          <DataTable
-            pagination={{
+          pagination={
+            this.state.tabView === tabKeys.listView && {
               pageSize: this.state.maxResultCount,
               total: tableData === undefined ? 0 : tableData.totalCount,
               onChange: this.handleTableChange,
-            }}
-          >
+            }
+          }
+        >
+          {this.state.tabView === tabKeys.listView && (
             <Table
               size="middle"
-              className="customdrawer-table"
+              className=""
               rowKey={(record) => record.id}
               columns={columns}
               pagination={false}
@@ -234,28 +240,28 @@ class AllTask extends AppComponentListBase<IAllTaskProps, IAllTaskState> {
               scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
               bordered
             />
-          </DataTable>
-        )}
-        {this.state.tabView === tabKeys.boardView && (
-          <Row gutter={[8, 8]} className="mt-3">
-            {taskStatusForBoardView?.map((status, index) => (
-              <Col key={index} sm={{ span: 4 }}>
-                <TaskBoardView
-                  key={index}
-                  status={status}
-                  data={listTaskBoardView[status?.id]}
-                  goDetail={
-                    this.isGranted(appPermissions.task.detail)
-                      ? (id) => this.gotoDetail(id)
-                      : () => console.log()
-                  }
-                  filter={{ ...this.state.filters }}
-                  visible={this.state.modalVisible}
-                />
-              </Col>
-            ))}
-          </Row>
-        )}
+          )}
+          {this.state.tabView === tabKeys.boardView && (
+            <Row gutter={[8, 8]} className="mt-3">
+              {taskStatusForBoardView?.map((status, index) => (
+                <Col key={index} sm={{ span: 4 }}>
+                  <TaskBoardView
+                    key={index}
+                    status={status}
+                    data={listTaskBoardView[status?.id]}
+                    goDetail={
+                      this.isGranted(appPermissions.task.detail)
+                        ? (id) => this.gotoDetail(id)
+                        : () => console.log()
+                    }
+                    filter={{ ...this.state.filters }}
+                    visible={this.state.modalVisible}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
+        </DataTable>
         <TaskModal
           visible={this.state.modalVisible}
           onClose={this.toggleModal}

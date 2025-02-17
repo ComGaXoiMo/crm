@@ -34,11 +34,7 @@ class LeaseContracts extends AppComponentListBase<ILeaseContractsProps, any> {
     return (
       <>
         <div className="container-element">
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             {this.isGranted(appPermissions.leaseAgreement.page) && (
               <Tabs.TabPane tab={L(tabKeys.tabLease)} key={tabKeys.tabLease}>
                 <Lease />

@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import taskService from "@services/activity/taskService"
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
@@ -14,6 +14,8 @@ class TaskStore {
   @observable listTaskBoardView!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
     this.listTaskBoardView = {} as any
     this.taskStatus = []

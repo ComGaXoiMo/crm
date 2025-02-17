@@ -1,6 +1,6 @@
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import settingVatService from "@services/settingVatService"
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 class SettingVatStore {
   @observable isLoading = false
@@ -9,6 +9,7 @@ class SettingVatStore {
   @observable leaseAgreementDetail!: any
 
   constructor() {
+    makeAutoObservable(this)
     this.pageResult = { totalCount: 0, items: [] }
   }
   @action getAll = async (params) => {

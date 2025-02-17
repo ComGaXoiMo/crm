@@ -7,17 +7,17 @@ import { inject, observer } from "mobx-react"
 import _ from "lodash"
 
 interface Props {
-  visible: boolean;
-  onCancel: () => void;
-  onOk: () => void;
-  data: any;
-  tagetName: string;
+  visible: boolean
+  onCancel: () => void
+  onOk: () => void
+  data: any
+  tagetName: string
 }
 
 @inject()
 @observer
 class AsociatePartyModal extends AppComponentListBase<Props> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -77,7 +77,7 @@ class AsociatePartyModal extends AppComponentListBase<Props> {
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}

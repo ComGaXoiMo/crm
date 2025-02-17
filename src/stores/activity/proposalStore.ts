@@ -1,18 +1,19 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import proposalService from "@services/activity/proposalService"
 
 class ProposalStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable listUnitImage!: any[];
-  @observable proposalDetail!: any;
-  @observable proposalPublic!: any;
-  @observable template!: any;
-  @observable getTemplateLoading!: boolean;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable listUnitImage!: any[]
+  @observable proposalDetail!: any
+  @observable proposalPublic!: any
+  @observable template!: any
+  @observable getTemplateLoading!: boolean
 
   constructor() {
+    makeAutoObservable(this)
     this.tableData = { items: [], totalCount: 0 }
     this.proposalPublic = {}
   }
@@ -73,8 +74,8 @@ class ProposalStore {
   }
   @action
   async getUnitImage(uiqueId) {
-    const result =    await proposalService.getUnitImage(uiqueId)
-    this.listUnitImage =result
+    const result = await proposalService.getUnitImage(uiqueId)
+    this.listUnitImage = result
   }
 }
 

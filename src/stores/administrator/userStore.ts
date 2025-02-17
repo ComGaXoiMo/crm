@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { CreateOrUpdateUserInput } from "../../services/administrator/user/dto/createOrUpdateUserInput"
 import { EntityDto } from "../../services/dto/entityDto"
@@ -21,6 +21,8 @@ class UserStore {
   @observable editUserProfilePicture!: string
 
   constructor() {
+    makeAutoObservable(this)
+
     this.editUserProfilePicture = defaultAvatar
   }
 

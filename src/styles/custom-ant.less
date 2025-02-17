@@ -90,21 +90,30 @@ input {
   font-weight: 700;
 }
 
-.ant-btn:hover,
-.ant-btn:focus {
-  color: #000000 !important;
-}
+// .ant-btn:hover,
+// .ant-btn:focus {
+//   color: #dbd7d4 !important;
+// }
 
 .button-primary {
-  border-radius: 8px !important;
+  border-radius: 0px !important;
+  border: none;
   background-color: @primary-color !important;
-  margin: 2px;
+  color: white;
+  margin: 3px;
+
+  &:hover,
+  &:focus {
+    color: #757575 !important;
+  }
 }
 
 .button-secondary {
-  border-radius: 8px !important;
-  background-color: #F9F9F8 !important;
-  margin: 2px;
+  border-radius: 0px !important;
+  border: none;
+  font-size: medium;
+  background-color: @border-color !important;
+  margin: 3px;
 }
 
 .button-get-template {
@@ -245,109 +254,6 @@ input {
 
 
 /* TABLE */
-.custom-ant-table {
-  border-radius: 2px;
-
-  .ant-table {
-    color: @text-color;
-    box-shadow: 0 2px 8px rgba(110, 186, 196, 0.16);
-    border-radius: 2px;
-  }
-
-
-  .ant-table-tbody {
-    tr {
-      background-color: #fafafc;
-
-      .ant-table-cell-fix-left,
-      .ant-table-cell-fix-right {
-        background-color: #fafafc !important;
-      }
-
-      td {
-        background-color: transparent !important;
-        border-bottom: 1px solid white;
-      }
-
-      .table-cell-profile {
-        display: flex;
-
-        .info {
-          line-height: initial;
-          max-width: calc(100% - 35px);
-
-          .phone,
-          .email {
-            font-size: 12px;
-          }
-        }
-      }
-    }
-
-    tr:nth-child(2n + 1) {
-      background-color: #fbfbfb;
-    }
-  }
-
-  .ant-table-content {
-    border-radius: 2px;
-  }
-
-  .ant-table-header,
-  .ant-table-content {
-    th.ant-table-cell {
-      color: @text-color;
-      background: @layout-bg-white;
-    }
-  }
-
-  .ant-table-container {
-    border-radius: 16px;
-
-    table>thead>tr>th {
-      padding: 16px 8px !important;
-    }
-
-    table>thead>tr:first-child th:first-child,
-    .ant-table-tbody tr td:first-child {
-      &:not(.ant-table-selection-column) {
-        padding-left: 12px !important;
-      }
-    }
-
-    table>thead>tr:first-child th:first-child {
-      border-top-left-radius: 8px;
-    }
-
-    table>tbody>tr:last-child th:first-child {
-      border-bottom-left-radius: 8px;
-    }
-
-    table>thead>tr:first-child th:last-child,
-    .ant-table-tbody tr td:last-child {
-      padding-right: 8px !important;
-    }
-
-    table>thead>tr:first-child th:last-child {
-      border-top-right-radius: 8px;
-    }
-
-    table>tbody>tr:last-child th:last-child {
-      border-top-right-radius: 8px;
-    }
-  }
-
-  .ant-table-pagination.ant-pagination {
-    margin: 15px 6px 8px;
-  }
-}
-
-.custom-comm-table {
-  .ant-table.ant-table-middle tfoot>tr>td {
-    padding: 5px 5px;
-  }
-}
-
 .expand-table {
   display: flex;
 
@@ -360,16 +266,7 @@ input {
   }
 }
 
-.ant-table.ant-table-middle .ant-table-thead>tr>th {
-  padding: 1px 5px !important;
-  text-overflow: ellipsis;
-  font-weight: 650;
-  background: #f1f5ff;
-}
 
-.ant-table.ant-table-middle .ant-table-tbody>tr:not(.ant-table-measure-row)>td {
-  padding: 1px 5px !important;
-}
 
 .comm-table {
   background-color: transparent;
@@ -381,21 +278,6 @@ input {
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
 }
 
-.customdrawer-table {
-  .ant-table-thead {
-    .ant-table-cell {
-      background-color: rgba(212, 218, 224, 0.37) !important;
-    }
-
-    .ant-table-row-selected {
-      background: #ffffff18 !important;
-    }
-  }
-
-  .ant-table-container table>thead>tr:first-child th:first-child {
-    pointer-events: none;
-  }
-}
 
 .table-font-size-12 {
   .ant-table-cell {
@@ -629,9 +511,7 @@ input {
   border-bottom-left-radius: 0 !important;
 }
 
-.ant-picker {
-  border-radius: 16px;
-}
+
 
 .noti-page {
   padding: 16px;
@@ -732,6 +612,12 @@ input {
 
     }
 
+  }
+}
+
+.select-non-radius {
+  .ant-select-selector {
+    border-radius: 0px !important;
   }
 }
 
@@ -1103,13 +989,15 @@ input {
 
 
 /* BUTTON RADIO */
-.ant-radio-button-wrapper:last-child {
-  border-radius: 0 8px 8px 0 !important;
+
+.ant-radio-group-solid {
+  display: flex;
 }
 
-.ant-radio-button-wrapper:first-child {
-  border-radius: 8px 0 0 8px !important;
+.ant-radio-button-wrapper {
+  border-radius: 0px !important;
 }
+
 
 //radio button title
 
@@ -1170,6 +1058,8 @@ input {
 
 .link-text-table {
   color: #000;
+  display: flex;
+  gap: 4px
 }
 
 .button-action-hiden-table-cell {
@@ -1250,10 +1140,6 @@ input {
   .row-comm-info {
     margin-right: 30px;
   }
-}
-
-.ant-table.ant-table-middle tfoot>tr>td {
-  padding: 3px !important;
 }
 
 .text-height {

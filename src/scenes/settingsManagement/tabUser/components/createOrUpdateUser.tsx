@@ -366,7 +366,7 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
 
                   <Col sm={{ span: 12 }}>
                     <Table
-                      className="customdrawer-table"
+                      className=""
                       rowKey={(record) => record.value}
                       rowSelection={rowSelection}
                       rowClassName={!isEdit ? "disabled-row" : ""}

@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import reservationService from "@services/activity/reservationService"
@@ -12,15 +12,18 @@ class ReservationStore {
   @observable reservationSetting!: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
   }
 
   @action
   async createOrUpdate(body: any) {
     this.isLoading = true
-    const result = await reservationService.createOrUpdate(body).finally(() => (this.isLoading = false))
+    const result = await reservationService
+      .createOrUpdate(body)
+      .finally(() => (this.isLoading = false))
     this.reservationDetail = result
-   
   }
 
   @action

@@ -67,7 +67,7 @@ class LeaseDealer extends AppComponentListBase<
         return {
           ...item,
           commissionAmount:
-            (this.props.commisionAmount * item.percent ?? 0) / 100,
+            ((this.props.commisionAmount ?? 0) * (item.percent ?? 0)) / 100,
         }
       })
       this.setState({ dataTable: newData })
@@ -252,7 +252,7 @@ class LeaseDealer extends AppComponentListBase<
           >
             <Table
               size="middle"
-              className="custom-ant-table custom-ant-row"
+              className=" custom-ant-row"
               rowKey={(record) => record?.key}
               pagination={false}
               components={{
@@ -260,7 +260,6 @@ class LeaseDealer extends AppComponentListBase<
                   cell: EditableCell,
                 },
               }}
-              bordered
               columns={columns}
               dataSource={this.state.dataTable ?? []}
             />

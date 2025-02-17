@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import contactService from "@services/clientManagement/contactService"
@@ -20,6 +20,8 @@ class ContactStore {
   @observable listContactByLA!: PagedResultDto<any>
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
     this.listContactByLA = { items: [], totalCount: 0 }
     this.listContactSimple = []

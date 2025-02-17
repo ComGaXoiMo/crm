@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 // import TenantModel from "../../models/tenants/TenantModel";
@@ -12,6 +12,8 @@ class TenantStore {
   @observable tenantModel: any
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
     this.tableMoveOutInData = { items: [], totalCount: 0 }
   }

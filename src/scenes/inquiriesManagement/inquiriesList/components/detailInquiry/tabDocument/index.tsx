@@ -171,7 +171,6 @@ class ComponentDocument extends AppComponentListBase<
             pagination={false}
             dataSource={currentFiles ?? []}
             scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-            bordered
           />
         </DataTable>
         {/* </Card> */}

@@ -1,21 +1,24 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import callService from "@services/activity/callService"
 
 class CallStore {
-  @observable isLoading!: boolean;
-  @observable tableData!: PagedResultDto<any>;
-  @observable callDetail!: any;
+  @observable isLoading!: boolean
+  @observable tableData!: PagedResultDto<any>
+  @observable callDetail!: any
 
   constructor() {
+    makeAutoObservable(this)
     this.tableData = { items: [], totalCount: 0 }
   }
 
   @action
   async createOrUpdate(body: any) {
     this.isLoading = true
-    const result = await callService.createOrUpdate(body).finally(() => (this.isLoading = false))
+    const result = await callService
+      .createOrUpdate(body)
+      .finally(() => (this.isLoading = false))
     this.callDetail = result
   }
 

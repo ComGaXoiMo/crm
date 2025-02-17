@@ -21,22 +21,22 @@ import RatingBadgeSortDrawer from "@components/SortDrawer"
 const { activeStatus } = AppConst
 
 export interface IRatingBadgeProps {
-  history: any;
-  ratingBadgeStore: RatingBadgeStore;
+  history: any
+  ratingBadgeStore: RatingBadgeStore
 }
 
 export interface IRatingBadgeState {
-  maxResultCount: number;
-  skipCount: number;
-  currentPage: number;
-  filters: any;
-  loading: boolean;
-  visible: boolean;
-  visibleDrawer: boolean;
-  selectedIds: any[];
-  selectedItem: any;
-  disableActivate: boolean;
-  disableDeactivate: boolean;
+  maxResultCount: number
+  skipCount: number
+  currentPage: number
+  filters: any
+  loading: boolean
+  visible: boolean
+  visibleDrawer: boolean
+  selectedIds: any[]
+  selectedItem: any
+  disableActivate: boolean
+  disableDeactivate: boolean
 }
 
 @inject(Stores.RatingBadgeStore)
@@ -82,7 +82,7 @@ class RatingBadge extends AppComponentListBase<
         })
       }
     })
-  };
+  }
 
   openOrCloseDrawer = () => {
     const visibleDrawer = !this.state.visibleDrawer
@@ -91,7 +91,7 @@ class RatingBadge extends AppComponentListBase<
         await this.props.ratingBadgeStore.getAll({})
       }
     })
-  };
+  }
 
   getAll = async () => {
     await this.props.ratingBadgeStore.filter({
@@ -101,7 +101,7 @@ class RatingBadge extends AppComponentListBase<
     })
     const currentPage = (this.state.skipCount % this.state.maxResultCount) + 1
     this.setState({ currentPage })
-  };
+  }
 
   handleSearch = debounce(async (key, value) => {
     const { filters } = this.state
@@ -111,12 +111,12 @@ class RatingBadge extends AppComponentListBase<
         await this.getAll()
       }
     )
-  }, 300);
+  }, 300)
 
   updateOrder = async (ids) => {
     const { ratingBadgeStore } = this.props
     return await ratingBadgeStore.updateSortList(ids)
-  };
+  }
 
   activateOrDeactivate = (ids, isActive: boolean) => {
     const { ratingBadgeStore } = this.props
@@ -137,14 +137,14 @@ class RatingBadge extends AppComponentListBase<
         console.log("Cancel")
       },
     })
-  };
+  }
 
   handleTableChange = async (pagination) => {
     this.setState(
       { skipCount: (pagination.current - 1) * this.state.maxResultCount! },
       async () => await this.getAll()
     )
-  };
+  }
 
   handleRowSelect = (selectedIds) => {
     const {
@@ -161,7 +161,7 @@ class RatingBadge extends AppComponentListBase<
         selectedIds.some((selectedId) => selectedId === item.id)
     )
     this.setState({ selectedIds, disableActivate, disableDeactivate })
-  };
+  }
 
   renderFilterComponent = () => {
     const { filters } = this.state
@@ -191,7 +191,7 @@ class RatingBadge extends AppComponentListBase<
         </Col>
       </Row>
     )
-  };
+  }
 
   renderActionGroups = () => {
     return (
@@ -206,15 +206,12 @@ class RatingBadge extends AppComponentListBase<
         )}
       </>
     )
-  };
+  }
 
   public render() {
     const { ratingBadgeStore } = this.props
     const { selectedIds, disableActivate, disableDeactivate } = this.state
-    const columns = getColumns(
-      this.openOrCloseModal,
-      this.activateOrDeactivate
-    )
+    const columns = getColumns(this.openOrCloseModal, this.activateOrDeactivate)
     const rowSelection = {
       selectedRowKeys: selectedIds,
       onChange: this.handleRowSelect,
@@ -239,7 +236,7 @@ class RatingBadge extends AppComponentListBase<
         >
           <Table
             size="middle"
-            className="custom-ant-table"
+            className=""
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}

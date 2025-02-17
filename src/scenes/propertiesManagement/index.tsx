@@ -59,11 +59,7 @@ class Properties extends AppComponentListBase<IPropertiesProps> {
   public render() {
     return (
       <>
-        <Tabs
-          activeKey={this.state.tabActiveKey}
-          onTabClick={this.changeTab}
-          type="card"
-        >
+        <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
           {this.isGranted(appPermissions.project.page) && (
             <Tabs.TabPane
               tab={L(tabKeys.tabProjects)}

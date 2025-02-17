@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import masterDataService from "../../services/master-data/masterDataService"
 
@@ -21,6 +21,8 @@ class MasterDataStore {
   @observable userStatus: any = {}
   @observable haveUserWarning = false
   constructor() {
+    makeAutoObservable(this)
+
     this.feedbackTypeOptions = []
     this.productOptions = []
     this.projectSizeOptions = []

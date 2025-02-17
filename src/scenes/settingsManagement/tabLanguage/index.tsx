@@ -223,7 +223,7 @@ class Language extends AppComponentBase<ILanguageProps, ILanguageState> {
         >
           <Table
             size="middle"
-            className="custom-ant-table custom-ant-row"
+            className=" custom-ant-row"
             rowKey={(record) => record.id.toString()}
             columns={columns}
             pagination={false}

@@ -35,11 +35,7 @@ class Tasks extends AppComponentListBase<ITasksProps> {
     return (
       <>
         <div className="container-element">
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             {this.isGranted(appPermissions.task.page) && (
               <Tabs.TabPane tab={L(tabKeys.tabMyTask)} key={tabKeys.tabMyTask}>
                 {this.state.tabActiveKey === tabKeys.tabMyTask && (

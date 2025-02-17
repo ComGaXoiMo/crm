@@ -192,7 +192,7 @@ class LeaseDealer extends AppComponentListBase<
           >
             <Table
               size="middle"
-              className="custom-ant-table custom-ant-row"
+              className=" custom-ant-row"
               rowKey="id"
               pagination={false}
               onRow={(record, rowIndex) => {
@@ -207,7 +207,6 @@ class LeaseDealer extends AppComponentListBase<
                   cell: EditableCell,
                 },
               }}
-              bordered
               columns={columns}
               dataSource={this.state.data ?? []}
             />

@@ -30,16 +30,16 @@ const dataFake = [
   },
 ]
 interface Props {
-  id: any;
+  id: any
 }
 
 interface State {
-  file?: any;
-  uploading?: boolean;
+  file?: any
+  uploading?: boolean
 }
 
 class CreateProposalModal extends AppComponentListBase<Props, State> {
-  form: any = React.createRef();
+  form: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -95,7 +95,7 @@ class CreateProposalModal extends AppComponentListBase<Props, State> {
           <Col sm={{ span: 24 }}>
             <Table
               size="middle"
-              className="custom-ant-table"
+              className=""
               // rowKey={(record) => record.id}
 
               columns={columns}

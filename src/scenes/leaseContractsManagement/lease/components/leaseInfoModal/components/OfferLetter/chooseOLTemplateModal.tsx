@@ -13,22 +13,22 @@ import _ from "lodash"
 import { validateMessages } from "@lib/validation"
 
 interface Props {
-  visible: boolean;
-  onClose: () => void;
-  notificationTemplateStore: NotificationTemplateStore;
+  visible: boolean
+  onClose: () => void
+  notificationTemplateStore: NotificationTemplateStore
 }
 
 interface State {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
+  maxResultCount: number
+  skipCount: number
+  filters: any
 
-  dataItemplate: any[];
+  dataItemplate: any[]
 }
 @inject(Stores.NotificationTemplateStore)
 @observer
 class ChooseOLTemplateModal extends AppComponentListBase<Props, State> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props) {
     super(props)
@@ -63,12 +63,12 @@ class ChooseOLTemplateModal extends AppComponentListBase<Props, State> {
         },
       ],
     })
-  };
+  }
 
   gotoCreate = async (templateId?) => {
     const params = await this.formRef.current?.validateFields()
     console.log(params)
-  };
+  }
 
   render(): React.ReactNode {
     const { visible, onClose } = this.props
@@ -127,7 +127,7 @@ class ChooseOLTemplateModal extends AppComponentListBase<Props, State> {
               {L("CHOOSE_ONE_TEMPLATE_TO_CREATE_OFFER_LETTER")}
               <Table
                 size="middle"
-                className="custom-ant-table"
+                className=""
                 // rowKey={(record) => record.id}
                 columns={columns}
                 loading={isLoading}

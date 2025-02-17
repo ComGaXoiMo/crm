@@ -340,7 +340,7 @@ class SCFeeTable extends AppComponentListBase<
 
             <Table
               size="middle"
-              // className="custom-ant-table custom-ant-row"
+              // className=" custom-ant-row"
               //   rowKey={(record) => record.key}
               pagination={false}
               rowClassName={() => "editable-row"}
@@ -356,7 +356,6 @@ class SCFeeTable extends AppComponentListBase<
                   cell: EditableCell,
                 },
               }}
-              bordered
               columns={columns}
               dataSource={this.state.dataTable ?? []}
             />

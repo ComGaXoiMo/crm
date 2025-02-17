@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import { initializeApp } from "firebase/app"
 import { getAuth, signOut } from "firebase/auth"
 
@@ -24,6 +24,7 @@ class SessionStore {
   @observable hostSetting!: HostSettingConfiguration
 
   constructor() {
+    makeAutoObservable(this)
     this.project = {}
     this.appSettingConfiguration = new AppSettingConfiguration()
   }

@@ -4,8 +4,8 @@ import gettColumns from "./components/unitColumn"
 import { inject, observer } from "mobx-react"
 import UnitFilterPanel from "./components/unitFilterPanel"
 import { L, LNotification } from "@lib/abpUtility"
-import { Col, Dropdown, Menu, Modal, Row, Table } from "antd"
-import { MoreOutlined } from "@ant-design/icons/lib/icons"
+import { Button, Col, Dropdown, Menu, Modal, Row, Table } from "antd"
+import { FilePdfOutlined, MoreOutlined } from "@ant-design/icons/lib/icons"
 import DataTable from "@components/DataTable"
 import Stores from "@stores/storeIdentifier"
 import UnitStore from "@stores/projects/unitStore"
@@ -22,32 +22,33 @@ import CreateProposalModal from "@scenes/activity/proposalActivity/components/cr
 import ProposalStore from "@stores/activity/proposalStore"
 import { portalLayouts } from "@components/Layout/Router/router.config"
 import ProjectStore from "@stores/projects/projectStore"
+import ReactToPrint from "react-to-print"
 const { align, activityTypes } = AppConsts
 const confirm = Modal.confirm
 export interface IUnitProps {
-  history: any;
-  projectId: any;
-  unitStore: UnitStore;
-  proposalStore: ProposalStore;
-  projectStore: ProjectStore;
+  history: any
+  projectId: any
+  unitStore: UnitStore
+  proposalStore: ProposalStore
+  projectStore: ProjectStore
 }
 
 export interface IUnitState {
-  maxResultCount: number;
-  skipCount: number;
-  filters: any;
-  visible: boolean;
-  tabView: string;
-  unitId: any;
-  projectId: any;
-  selectedRowKeys: any[];
-  numberUnitChoose: number;
-  siteVisitModalVisible: boolean;
-  reservationModalVisible: boolean;
-  createProposalModal: boolean;
-  proposalChooseTemplateVisible: boolean;
-  unitAndInquiryProposal: any;
-  StackngPlandLoad: boolean;
+  maxResultCount: number
+  skipCount: number
+  filters: any
+  visible: boolean
+  tabView: string
+  unitId: any
+  projectId: any
+  selectedRowKeys: any[]
+  numberUnitChoose: number
+  siteVisitModalVisible: boolean
+  reservationModalVisible: boolean
+  createProposalModal: boolean
+  proposalChooseTemplateVisible: boolean
+  unitAndInquiryProposal: any
+  StackngPlandLoad: boolean
 }
 const tabKeys = {
   gridView: L("GRID_VIEW"),
@@ -56,8 +57,8 @@ const tabKeys = {
 @inject(Stores.UnitStore, Stores.ProposalStore, Stores.ProjectStore)
 @observer
 class Units extends AppComponentListBase<IUnitProps, IUnitState> {
-  formRef: any = React.createRef();
-  printRef: any = React.createRef();
+  formRef: any = React.createRef()
+  printRef: any = React.createRef()
   state = {
     maxResultCount: 10,
     skipCount: 0,
@@ -78,7 +79,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
     proposalChooseTemplateVisible: false,
     unitAndInquiryProposal: {} as any,
     StackngPlandLoad: false,
-  };
+  }
 
   async componentDidMount() {
     await this.getAll()
@@ -92,7 +93,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
   }
   exportExcel = () => {
     this.props.unitStore.exportExcel({ ...this.state.filters })
-  };
+  }
   getAll = async () => {
     if (this.state.tabView === tabKeys.gridView) {
       this.setState({ StackngPlandLoad: !this.state.StackngPlandLoad })
@@ -104,7 +105,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
         ...this.state.filters,
       })
     }
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -113,7 +114,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   onChangeTableSorting = async (pagination, filters, sorter) => {
     let sortType = ""
     if (sorter?.order === "descend") {
@@ -139,7 +140,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
     }
 
     await this.getAll()
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({ filters })
     if (this.state.tabView === tabKeys.listView) {
@@ -148,7 +149,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
         pageSize: this.state.maxResultCount,
       })
     }
-  };
+  }
   handleCreateActivity = async (typeId) => {
     switch (typeId) {
       case activityTypes.proposal: {
@@ -164,7 +165,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
         break
       }
     }
-  };
+  }
   gotoDetail = async (id?) => {
     if (id) {
       await this.props.unitStore.getUnitRes(id)
@@ -174,10 +175,10 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
       await this.props.unitStore.createUnitRes()
       this.setState({ unitId: undefined, visible: true })
     }
-  };
+  }
   changeTab = async (value) => {
     await this.setState({ tabView: value.target.value })
-  };
+  }
   activateOrDeactivate = async (id: number, isActive) => {
     const self = this
     confirm({
@@ -196,12 +197,12 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
         })
       },
     })
-  };
+  }
 
   onSelectChange = (newSelectedRowKeys) => {
     this.setState({ selectedRowKeys: newSelectedRowKeys })
     this.setState({ numberUnitChoose: newSelectedRowKeys.length ?? 0 })
-  };
+  }
 
   onCreateProposal = async (param) => {
     const model = { ...this.state.unitAndInquiryProposal, ...param }
@@ -213,7 +214,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
         this.props.proposalStore.proposalDetail.id
       )
     )
-  };
+  }
   public render() {
     const rowSelection = {
       onChange: this.onSelectChange,
@@ -221,6 +222,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
       columnWidth: 40,
       hideSelectAll: true,
     }
+    const { numberUnitChoose } = this.state
     const {
       unitStore: { isLoading, tableData },
     } = this.props
@@ -282,31 +284,103 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
     return (
       <>
         <div>
-          <UnitFilterPanel
-            projectId={this.props.projectId}
-            tabKeys={tabKeys}
-            changeTab={this.changeTab}
+          <DataTable
+            filterComponent={
+              <UnitFilterPanel
+                projectId={this.props.projectId}
+                tabKeys={tabKeys}
+                changeTab={this.changeTab}
+                handleSearch={this.handleFilterChange}
+                filter={this.state.filters}
+              />
+            }
             handleSearch={this.handleFilterChange}
-            filter={this.state.filters}
-            onCreate={() => {
-              this.gotoDetail(undefined)
-            }}
-            onCreateActiviy={this.handleCreateActivity}
+            exportExcel={
+              this.state.tabView === tabKeys.listView && this.exportExcel
+            }
+            searchPlaceholder={"UNIT_NAME"}
             onRefresh={() => {
               this.getAll()
             }}
-            exportExcel={this.exportExcel}
-            numberUnitChoose={this.state.numberUnitChoose}
-            printRef={this.printRef}
-          />
-          {this.state.tabView === tabKeys.listView && (
-            <DataTable
-              pagination={{
+            onCreate={() => {
+              this.gotoDetail(undefined)
+            }}
+            actionComponent={
+              <>
+                {this.isGranted(appPermissions.inquiry.create) &&
+                  this.state.tabView === tabKeys.gridView && (
+                    <>
+                      <ReactToPrint
+                        onBeforeGetContent={() => {
+                          return Promise.resolve()
+                        }}
+                        trigger={() => (
+                          <Button
+                            icon={<FilePdfOutlined />}
+                            className="button-primary"
+                          ></Button>
+                        )}
+                        documentTitle={L("STACKING_PLAN")}
+                        pageStyle="@page { size:  19.8in 14in  }"
+                        removeAfterPrint
+                        content={() => this.printRef.current}
+                      />
+                    </>
+                  )}
+                {this.isGranted(appPermissions.inquiry.create) &&
+                  this.state.tabView === tabKeys.listView && (
+                    <Dropdown
+                      trigger={["click"]}
+                      disabled={numberUnitChoose < 1}
+                      overlay={
+                        <Menu className="ant-dropdown-cusstom">
+                          <Menu.Item
+                            key={1}
+                            disabled={numberUnitChoose > 3}
+                            onClick={() =>
+                              this.handleCreateActivity(activityTypes.proposal)
+                            }
+                          >
+                            {L("CREATE_PROPOSAL")}
+                          </Menu.Item>
+                          <Menu.Item
+                            key={2}
+                            onClick={() =>
+                              this.handleCreateActivity(activityTypes.siteVisit)
+                            }
+                          >
+                            {L("CREATE_SITE_VISIT")}
+                          </Menu.Item>
+                          <Menu.Item
+                            key={3}
+                            onClick={() =>
+                              this.handleCreateActivity(
+                                activityTypes.reservation
+                              )
+                            }
+                          >
+                            {L("CREATE_RESERVATION_FROM")}
+                          </Menu.Item>
+                        </Menu>
+                      }
+                      placement="bottomLeft"
+                    >
+                      <Button className="button-primary">
+                        {L("UNIT_CREATE_ACTIVITY")}
+                      </Button>
+                    </Dropdown>
+                  )}
+              </>
+            }
+            pagination={
+              this.state.tabView === tabKeys.listView && {
                 pageSize: this.state.maxResultCount,
                 total: tableData === undefined ? 0 : tableData.totalCount,
                 onChange: this.handleTableChange,
-              }}
-            >
+              }
+            }
+          >
+            {this.state.tabView === tabKeys.listView && (
               <Table
                 size="middle"
                 className="custom-ant-row"
@@ -314,26 +388,24 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
                 columns={columns}
                 onChange={this.onChangeTableSorting}
                 loading={isLoading}
-                pagination={false}
                 rowSelection={rowSelection}
                 dataSource={tableData === undefined ? [] : tableData.items}
                 scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-                bordered
               />
-            </DataTable>
-          )}
-          {this.state.tabView === tabKeys.gridView && (
-            <div style={{ overflow: "hidden" }}>
-              <StackPland
-                goDetail={this.gotoDetail}
-                isLoadding={this.state.StackngPlandLoad}
-                loading={isLoading}
-                projectId={this.state.filters.projectId}
-                filter={this.state.filters}
-                printRef={this.printRef}
-              />
-            </div>
-          )}
+            )}
+            {this.state.tabView === tabKeys.gridView && (
+              <div style={{ overflow: "hidden" }}>
+                <StackPland
+                  goDetail={this.gotoDetail}
+                  isLoadding={this.state.StackngPlandLoad}
+                  loading={isLoading}
+                  projectId={this.state.filters.projectId}
+                  filter={this.state.filters}
+                  printRef={this.printRef}
+                />
+              </div>
+            )}
+          </DataTable>
         </div>
         <UnitModal
           id={this.props.unitStore.editUnitRes?.id}

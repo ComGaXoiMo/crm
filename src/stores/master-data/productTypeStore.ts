@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import { ProductTypeModel } from "@models/master-data/productTypeModel"
@@ -11,6 +11,8 @@ class ProductTypeStore {
   @observable productTypes!: any[]
 
   constructor() {
+    makeAutoObservable(this)
+
     this.pagedData = { items: [], totalCount: 0 }
   }
 

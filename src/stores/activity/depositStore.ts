@@ -1,28 +1,29 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import depositService from "@services/activity/depositService"
 
 class DepositStore {
-  @observable isLoading!: boolean;
-  @observable dashboardDeposit!: any;
+  @observable isLoading!: boolean
+  @observable dashboardDeposit!: any
 
-  @observable tableDepositData!: any[];
-  @observable depositDetail!: any;
- 
-  @observable tableCollectData!: any[];
-  @observable collectDetail!: any;
+  @observable tableDepositData!: any[]
+  @observable depositDetail!: any
 
-  @observable tableRefundData!: any[];
-  @observable refundDetail!: any;
+  @observable tableCollectData!: any[]
+  @observable collectDetail!: any
+
+  @observable tableRefundData!: any[]
+  @observable refundDetail!: any
   constructor() {
+    makeAutoObservable(this)
     this.tableDepositData = []
-    this.depositDetail={}
+    this.depositDetail = {}
 
     this.tableCollectData = []
-    this.collectDetail={}
+    this.collectDetail = {}
 
     this.tableRefundData = []
-    this.refundDetail={}
+    this.refundDetail = {}
   }
   @action
   async getDashboardDeposit(id: any) {
@@ -53,7 +54,9 @@ class DepositStore {
   async createOrUpdateDeposit(body: any) {
     this.isLoading = true
 
-    const result = await depositService.createOrUpdateDeposit(body) .finally(() => (this.isLoading = false))
+    const result = await depositService
+      .createOrUpdateDeposit(body)
+      .finally(() => (this.isLoading = false))
     this.depositDetail = result
   }
   @action
@@ -65,8 +68,6 @@ class DepositStore {
     await depositService.deleteDeposit(id)
     this.tableDepositData = this.tableDepositData.filter((x) => x.id !== id)
   }
-
-
 
   @action
   async getAllDepositCollect(id: any) {
@@ -89,7 +90,9 @@ class DepositStore {
   async createOrUpdateCollect(body: any) {
     this.isLoading = true
 
-    const result = await depositService.createOrUpdateCollect(body) .finally(() => (this.isLoading = false))
+    const result = await depositService
+      .createOrUpdateCollect(body)
+      .finally(() => (this.isLoading = false))
     this.collectDetail = result
   }
   @action
@@ -101,7 +104,6 @@ class DepositStore {
     await depositService.deleteCollect(id)
     this.tableCollectData = this.tableCollectData.filter((x) => x.id !== id)
   }
-
 
   @action
   async getAllDepositRefund(id: any) {
@@ -124,7 +126,9 @@ class DepositStore {
   async createOrUpdateRefund(body: any) {
     this.isLoading = true
 
-    const result = await depositService.createOrUpdateRefund(body) .finally(() => (this.isLoading = false))
+    const result = await depositService
+      .createOrUpdateRefund(body)
+      .finally(() => (this.isLoading = false))
     this.refundDetail = result
   }
   @action
@@ -136,9 +140,6 @@ class DepositStore {
     await depositService.deleteRefund(id)
     this.tableRefundData = this.tableRefundData.filter((x) => x.id !== id)
   }
-
-
- 
 }
 
 export default DepositStore

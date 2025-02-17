@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import projectService from "@services/projects/projectService"
@@ -21,6 +21,8 @@ class ProjectStore {
   @observable listProjectUserPermission!: PagedResultDto<any>
 
   constructor() {
+    makeAutoObservable(this)
+
     this.tableData = { items: [], totalCount: 0 }
     this.listAllProject = []
   }

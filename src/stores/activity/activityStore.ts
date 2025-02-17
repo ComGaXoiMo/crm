@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "@services/dto/pagedResultDto"
 import activityService from "@services/activity/activityService"
@@ -15,6 +15,7 @@ class ActivityStore {
   @observable reminderTypes!: any[]
 
   constructor() {
+    makeAutoObservable(this)
     this.tableData = { items: [], totalCount: 0 }
   }
 
