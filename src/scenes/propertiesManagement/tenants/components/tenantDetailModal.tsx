@@ -107,7 +107,6 @@ class TenantDetailModal extends AppComponentListBase<Props, State> {
           activeKey={tabActiveKey}
           onTabClick={this.changeTab}
           className={" h-100"}
-          type="card"
         >
           <Tabs.TabPane
             tab={L(tabKeys.tabContactInfo)}

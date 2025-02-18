@@ -265,7 +265,6 @@ class CreateOrUpdateUser extends AppComponentListBase<Props> {
             className={" h-100"}
             defaultActiveKey={"userInfo"}
             onTabClick={this.changeTab}
-            type="card"
           >
             <TabPane tab={"User"} key={"user"}>
               <Card className="card-detail-modal">

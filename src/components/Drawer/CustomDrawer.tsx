@@ -72,7 +72,7 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
         props.onClose()
       }}
       open={props.visible}
-      getContainer={false}
+      // getContainer={false}
       width={drawerWidth < 600 ? "100%" : props.widthDrawer ?? drawerWidth}
       extra={
         <>
@@ -212,7 +212,7 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
           </Row>
         </>
       }
-      // getContainer={props.getContainer}
+      getContainer={props.getContainer}
     >
       {props.children}
 

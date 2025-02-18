@@ -826,11 +826,7 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
           }
           widthDrawer={"100%"}
         >
-          <Tabs
-            activeKey={this.state.tabActiveKey}
-            onTabClick={this.changeTab}
-            type="card"
-          >
+          <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
             <TabPane tab={L(tabKeys.tabCurrentLA)} key={tabKeys.tabCurrentLA}>
               <LeaseInfoModal
                 listAmendmentItem={[]}

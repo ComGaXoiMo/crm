@@ -4,7 +4,7 @@ import gettColumns from "./column"
 import { inject, observer } from "mobx-react"
 import UnitFilterPanel from "./unitFilterPanel"
 import { L } from "@lib/abpUtility"
-import { Table } from "antd"
+import { Button, Dropdown, Menu, Table } from "antd"
 import DataTable from "@components/DataTable"
 import Stores from "@stores/storeIdentifier"
 import UnitStore from "@stores/projects/unitStore"
@@ -159,26 +159,68 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
       width: 150,
       ellipsis: false,
       render: (unitName: string, item: any) => (
-        <>
+        <div className="flex gap-1">
           {renderDotActive(item.isActive)}
           {unitName}
-        </>
+        </div>
       ),
     })
     return (
       <>
-        <UnitFilterPanel
-          inquiryId={this.props.inquiryId}
-          filter={this.state.filters}
+        <DataTable
+          filterComponent={
+            <UnitFilterPanel
+              inquiryId={this.props.inquiryId}
+              filter={this.state.filters}
+            />
+          }
           handleSearch={this.handleFilterChange}
           onRefresh={() => {
             this.getAll()
           }}
-          onCreateActiviy={this.handleCreateActivity}
-          numberUnitChoose={this.state.numberUnitChoose}
-        />
-
-        <DataTable
+          actionComponent={
+            <>
+              <Dropdown
+                trigger={["click"]}
+                disabled={this.state.numberUnitChoose < 1}
+                overlay={
+                  <Menu className="ant-dropdown-cusstom">
+                    <Menu.Item
+                      key={1}
+                      disabled={this.state.numberUnitChoose > 3}
+                      onClick={() =>
+                        this.handleCreateActivity(activityTypes.proposal)
+                      }
+                    >
+                      {L("CREATE_PROPOSAL")}
+                    </Menu.Item>
+                    <Menu.Item
+                      key={2}
+                      onClick={() =>
+                        this.handleCreateActivity(activityTypes.siteVisit)
+                      }
+                    >
+                      {L("CREATE_SITE_VISIT")}
+                    </Menu.Item>
+                    <Menu.Item
+                      key={3}
+                      onClick={() =>
+                        this.handleCreateActivity(activityTypes.reservation)
+                      }
+                    >
+                      {L("CREATE_RESERVATION_FROM")}
+                    </Menu.Item>
+                  </Menu>
+                }
+                placement="bottomLeft"
+              >
+                <Button className="button-primary">
+                  {L("UNIT_CREATE_ACTIVITY")}
+                </Button>
+              </Dropdown>
+            </>
+          }
+          searchPlaceholder={"UNIT_NAME"}
           pagination={{
             pageSize: this.state.maxResultCount,
             total:

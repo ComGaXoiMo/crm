@@ -2,10 +2,9 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Col, Row, Spin, Table } from "antd"
+import { Table } from "antd"
 import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
-import InquiriFilter from "./components/inquiriFilter"
 import InquiryModal from "./components/inquiryModal"
 import InquiryStore from "@stores/communication/inquiryStore"
 import DataTable from "@components/DataTable"
@@ -14,22 +13,22 @@ import gettColumns from "./components/inquiruesColumn"
 import { L } from "@lib/abpUtility"
 
 export interface IIquiryProps {
-  inquiryStore: InquiryStore;
+  inquiryStore: InquiryStore
 
-  unitId?: any;
+  unitId?: any
 }
 export interface IIquiryState {
-  modalVisible: boolean;
-  maxResultCount: any;
-  data: any[];
-  filters: any;
-  skipCount: number;
+  modalVisible: boolean
+  maxResultCount: any
+  data: any[]
+  filters: any
+  skipCount: number
 }
 
 @inject(Stores.InquiryStore)
 @observer
 class UnitInquiry extends AppComponentListBase<IIquiryProps, IIquiryState> {
-  formRef: any = React.createRef();
+  formRef: any = React.createRef()
 
   constructor(props: IIquiryProps) {
     super(props)
@@ -60,7 +59,7 @@ class UnitInquiry extends AppComponentListBase<IIquiryProps, IIquiryState> {
       ...this.state.filters,
     })
     this.setState({ data: this.props.inquiryStore.matchingInquiry.items })
-  };
+  }
   handleTableChange = (pagination: any) => {
     this.setState(
       {
@@ -69,13 +68,13 @@ class UnitInquiry extends AppComponentListBase<IIquiryProps, IIquiryState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   toggleModal = () =>
-    this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }));
+    this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
 
   handleOk = async () => {
     this.toggleModal()
-  };
+  }
   public render() {
     const columns = gettColumns({
       title: L("INQUIRY_NAME"),
@@ -85,9 +84,9 @@ class UnitInquiry extends AppComponentListBase<IIquiryProps, IIquiryState> {
       ellipsis: false,
 
       render: (inquiryName: string, item: any) => (
-        <>
+        <div className="flex gap-1">
           {renderDotActive(item.isActive)} {inquiryName}
-        </>
+        </div>
       ),
     })
     const {
@@ -95,44 +94,32 @@ class UnitInquiry extends AppComponentListBase<IIquiryProps, IIquiryState> {
     } = this.props
     return (
       <>
-        <InquiriFilter
+        <DataTable
           onCreate={() => {
             this.toggleModal()
           }}
-        />
-        <Spin
-          spinning={this.props.inquiryStore.isLoading}
-          className="h-100 w-100"
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total:
+              matchingInquiry === undefined ? 0 : matchingInquiry.totalCount,
+            onChange: this.handleTableChange,
+          }}
         >
-          <Row gutter={[8, 0]}>
-            <Col sm={{ span: 24 }}>
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total:
-                    matchingInquiry === undefined
-                      ? 0
-                      : matchingInquiry.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Table
-                  size="middle"
-                  className="custom-ant-row"
-                  rowKey={(record) => record.id}
-                  columns={columns}
-                  pagination={false}
-                  dataSource={
-                    matchingInquiry === undefined ? [] : matchingInquiry.items
-                  }
-                  loading={this.props.inquiryStore.isLoading}
-                  bordered
-                  scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
-                />
-              </DataTable>
-            </Col>
-          </Row>
-        </Spin>
+          <Table
+            size="middle"
+            className="custom-ant-row"
+            rowKey={(record) => record.id}
+            columns={columns}
+            pagination={false}
+            dataSource={
+              matchingInquiry === undefined ? [] : matchingInquiry.items
+            }
+            loading={this.props.inquiryStore.isLoading}
+            bordered
+            scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
+          />
+        </DataTable>
+
         <InquiryModal
           visible={this.state.modalVisible}
           onClose={this.toggleModal}

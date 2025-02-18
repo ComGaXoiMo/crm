@@ -2,10 +2,9 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Card, Col, Empty, Row, Spin } from "antd"
+import { Col, Empty, Spin } from "antd"
 import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
-import ActivityFilter from "./components/taskFilter"
 import TaskBoardItem from "./components/taskBoardItem"
 import TaskModal from "./components/taskModal"
 import TaskStore from "@stores/activity/taskStore"
@@ -90,41 +89,33 @@ class Task extends AppComponentListBase<ITaskProps, ITaskState> {
     } = this.props
     return (
       <>
-        <ActivityFilter
+        <DataTable
           onCreate={() => {
             this.goDetail()
           }}
-          onRefesh={() => this.getAll()}
+          onRefresh={() => this.getAll()}
           handleSearch={this.handleFilterChange}
-        />
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total: tableData === undefined ? 0 : tableData.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Spin spinning={isLoading} className="h-100 w-100">
+            {tableData.items.map((item, index) => (
+              <Col key={index} sm={{ span: 24 }}>
+                <div
+                  style={{ display: "flex" }}
+                  onClick={() => this.goDetail(item?.id)}
+                >
+                  <TaskBoardItem data={item} />
+                </div>
+              </Col>
+            ))}
+          </Spin>
+          {tableData.totalCount < 1 && <Empty />}
+        </DataTable>
 
-        <Row gutter={[8, 0]}>
-          <Col sm={{ span: 24 }}>
-            <Card className="card-detail-modal">
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total: tableData === undefined ? 0 : tableData.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Spin spinning={isLoading} className="h-100 w-100">
-                  {tableData.items.map((item, index) => (
-                    <Col key={index} sm={{ span: 24 }}>
-                      <div
-                        style={{ display: "flex" }}
-                        onClick={() => this.goDetail(item?.id)}
-                      >
-                        <TaskBoardItem data={item} />
-                      </div>
-                    </Col>
-                  ))}
-                </Spin>
-                {tableData.totalCount < 1 && <Empty />}
-              </DataTable>
-            </Card>
-          </Col>
-        </Row>
         <TaskModal
           inquiryId={this.props.inquiryId}
           visible={this.state.modalVisible}

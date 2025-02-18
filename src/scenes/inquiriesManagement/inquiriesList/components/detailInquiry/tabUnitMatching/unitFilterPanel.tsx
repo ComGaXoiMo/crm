@@ -1,21 +1,16 @@
 import React from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Button, DatePicker, Dropdown, Menu, Select, Tooltip } from "antd"
 import Col from "antd/lib/col"
-import Search from "antd/lib/input/Search"
 import Row from "antd/lib/row"
 import projectService from "@services/projects/projectService"
-import { renderOptions } from "@lib/helper"
 import _, { debounce } from "lodash"
-import { ReloadOutlined } from "@ant-design/icons"
 import AppDataStore from "@stores/appDataStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import AppConsts, { dateFormat, rangePickerPlaceholder } from "@lib/appconst"
 import dayjs from "dayjs"
-const { activityTypes, unitStatus } = AppConsts
-const { RangePicker } = DatePicker
+import FilterSelect from "@components/Filter/FilterSelect"
+import FilterRangePicker from "@components/Filter/FilterRangePicker"
 type Props = {
   handleSearch: (filters) => void
   filter: any
@@ -43,26 +38,11 @@ class UnitsFilterPanel extends React.Component<Props, any> {
     filters: {
       inquiryId: this.props.inquiryId,
     },
-    disableReservation: true,
   }
   componentDidMount = async () => {
     await this.getProject("")
   }
-  componentDidUpdate(prevProps): void {
-    if (prevProps.filter !== this.props.filter) {
-      console.log(this.props.filter)
-      if (
-        this.props.filter?.projectId &&
-        this.props.filter?.fromDate &&
-        this.props.filter?.toDate &&
-        this.props.filter?.unitStatusId === unitStatus.vacant
-      ) {
-        this.setState({ disableReservation: false })
-      } else {
-        this.setState({ disableReservation: true })
-      }
-    }
-  }
+
   getProject = async (keyword) => {
     const res = await projectService.getAll({
       pageSize: 10,
@@ -109,114 +89,32 @@ class UnitsFilterPanel extends React.Component<Props, any> {
     return (
       <>
         <Row gutter={[4, 8]}>
-          <Col sm={{ span: 5, offset: 0 }}>
-            <Search
-              onChange={(value) =>
-                this.updateSearch("keyword", value.target?.value)
-              }
-              onSearch={(value) => this.handleSearch("keyword", value)}
-              size="middle"
-              placeholder={L("UNIT_NAME")}
-            />
-          </Col>
           <Col sm={{ span: 6, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("PROJECT")}
-              filterOption={false}
-              className="w-100"
               onChange={(value) => this.handleSearch("projectId", value)}
               onSearch={_.debounce((e) => this.getProject(e), 1000)}
-              allowClear
-              showSearch
-            >
-              {renderOptions(this.state.listProject)}
-            </Select>
+              options={this.state.listProject}
+            />
           </Col>
           <Col sm={{ span: 5, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("TYPE")}
-              style={{ width: "100%" }}
-              allowClear
               onChange={(value) => this.handleSearch("productTypeId", value)}
-              // showSearch
-            >
-              {renderOptions(propertyTypes)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 8, offset: 0 }} />
-          <Col sm={{ span: 5, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("UNIT_STATUS")}
-              style={{ width: "100%" }}
-              onChange={(value) => this.handleSearch("unitStatusId", value)}
-              allowClear
-              // showSearch
-            >
-              {renderOptions(unitStatus)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 6, offset: 0 }}>
-            <RangePicker
-              className="w-100"
-              format={dateFormat}
-              onChange={this.handleDateChange}
-              // onChange={(value) => this.handleSearch('dateFromTo', value)}
-              placeholder={rangePickerPlaceholder()}
+              options={propertyTypes}
             />
           </Col>
 
-          <div style={{ position: "absolute", right: 10 }}>
-            <Dropdown
-              trigger={["click"]}
-              disabled={this.props.numberUnitChoose < 1}
-              overlay={
-                <Menu className="ant-dropdown-cusstom">
-                  <Menu.Item
-                    key={1}
-                    disabled={this.props.numberUnitChoose > 3}
-                    onClick={() =>
-                      this.props.onCreateActiviy(activityTypes.proposal)
-                    }
-                  >
-                    {L("CREATE_PROPOSAL")}
-                  </Menu.Item>
-                  <Menu.Item
-                    key={2}
-                    onClick={() =>
-                      this.props.onCreateActiviy(activityTypes.siteVisit)
-                    }
-                  >
-                    {L("CREATE_SITE_VISIT")}
-                  </Menu.Item>
-                  <Menu.Item
-                    key={3}
-                    disabled={this.state.disableReservation}
-                    onClick={() =>
-                      this.props.onCreateActiviy(activityTypes.reservation)
-                    }
-                  >
-                    {L("CREATE_RESERVATION_FROM")}
-                  </Menu.Item>
-                </Menu>
-              }
-              placement="bottomLeft"
-            >
-              <Button className="button-primary">
-                {L("UNIT_CREATE_ACTIVITY")}
-              </Button>
-            </Dropdown>
-
-            <Tooltip title={L("RELOAD")} placement="topLeft">
-              <Button
-                icon={<ReloadOutlined />}
-                className="button-primary"
-                onClick={() => this.props.onRefresh()}
-              ></Button>
-            </Tooltip>
-          </div>
+          <Col sm={{ span: 5, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("UNIT_STATUS")}
+              onChange={(value) => this.handleSearch("unitStatusId", value)}
+              options={unitStatus}
+            />
+          </Col>
+          <Col sm={{ span: 6, offset: 0 }}>
+            <FilterRangePicker onChange={this.handleDateChange} />
+          </Col>
         </Row>
       </>
     )

@@ -2,9 +2,8 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Card, Col, Empty, Row, Spin } from "antd"
+import { Col, Empty, Spin } from "antd"
 import Stores from "@stores/storeIdentifier"
-import ActivityFilter from "./components/proposalFilter"
 import ProposalBoardItem from "./components/proposalBoardItem"
 // import DetailProposalModal from "./components/DetailProposalModal";
 import ProposalStore from "@stores/activity/proposalStore"
@@ -18,24 +17,24 @@ import { portalLayouts } from "@components/Layout/Router/router.config"
 const { proposalTemplateType } = AppConsts
 
 export interface IProposalProps {
-  history: any;
-  proposalStore: ProposalStore;
-  inquiryId: any;
+  history: any
+  proposalStore: ProposalStore
+  inquiryId: any
 }
 export interface IProposalState {
-  modalVisible: boolean;
-  maxResultCount: any;
-  filters: any;
-  goDetailModalVisible: any;
-  skipCount: number;
-  proposalId: any;
+  modalVisible: boolean
+  maxResultCount: any
+  filters: any
+  goDetailModalVisible: any
+  skipCount: number
+  proposalId: any
 }
 
 @inject(Stores.ProposalStore)
 @observer
 class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
-  formRef: any = React.createRef();
-  formRefProjectAddress: any = React.createRef();
+  formRef: any = React.createRef()
+  formRefProjectAddress: any = React.createRef()
 
   constructor(props: IProposalProps) {
     super(props)
@@ -58,10 +57,10 @@ class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
       },
       async () => await this.getAll()
     )
-  };
+  }
   handleFilterChange = async (filters) => {
     await this.setState({ filters }, this.getAll)
-  };
+  }
   async componentDidMount() {
     await Promise.all([])
     this.getAll()
@@ -70,7 +69,7 @@ class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
     if (prevProps.inquiryId !== this.props.inquiryId) {
       this.getAll()
     }
-  };
+  }
   getAll = () => {
     this.props.proposalStore.getAll({
       maxResultCount: this.state.maxResultCount,
@@ -78,7 +77,7 @@ class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
       ...this.state.filters,
       inquiryId: this.props.inquiryId,
     })
-  };
+  }
 
   onCreateProposal = async (param) => {
     const model = {
@@ -109,17 +108,17 @@ class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
       )
     )
     this.toggleModal()
-  };
+  }
   goDetail = async (id?) => {
     // await this.props.history.push(
     //   portalLayouts.proposalEditTemplate.path.replace(":id", id)
     // );
     this.setState({ proposalId: id })
     this.setState({ goDetailModalVisible: true })
-  };
+  }
   toggleModal = () => {
     this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }))
-  };
+  }
 
   public render() {
     const {
@@ -127,41 +126,33 @@ class Proposal extends AppComponentListBase<IProposalProps, IProposalState> {
     } = this.props
     return (
       <>
-        <ActivityFilter
+        <DataTable
           onCreate={() => {
             this.toggleModal()
           }}
-          onRefesh={() => this.getAll()}
+          onRefresh={() => this.getAll()}
           handleSearch={this.handleFilterChange}
-        />
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total: tableData === undefined ? 0 : tableData.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Spin spinning={isLoading} className="h-100 w-100">
+            {tableData.items.map((item, index) => (
+              <Col key={index} sm={{ span: 24 }}>
+                <div
+                  style={{ display: "flex" }}
+                  onClick={() => this.goDetail(item?.id)}
+                >
+                  <ProposalBoardItem data={item} />
+                </div>
+              </Col>
+            ))}
+          </Spin>
+          {tableData.totalCount < 1 && <Empty />}
+        </DataTable>
 
-        <Row gutter={[8, 0]}>
-          <Col sm={{ span: 24 }}>
-            <Card className="card-detail-modal">
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total: tableData === undefined ? 0 : tableData.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Spin spinning={isLoading} className="h-100 w-100">
-                  {tableData.items.map((item, index) => (
-                    <Col key={index} sm={{ span: 24 }}>
-                      <div
-                        style={{ display: "flex" }}
-                        onClick={() => this.goDetail(item?.id)}
-                      >
-                        <ProposalBoardItem data={item} />
-                      </div>
-                    </Col>
-                  ))}
-                </Spin>
-                {tableData.totalCount < 1 && <Empty />}
-              </DataTable>
-            </Card>
-          </Col>
-        </Row>
         <CreateProposalModal
           withChooseUnit={true}
           visible={this.state.modalVisible}

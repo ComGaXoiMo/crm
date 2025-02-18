@@ -8,7 +8,6 @@ import Stores from "@stores/storeIdentifier"
 // import FileUploadWrap from "@components/FileUpload/FileUploadCRM";
 import UnitStore from "@stores/projects/unitStore"
 import withRouter from "@components/Layout/Router/withRouter"
-import StatusFilter from "./components/statusFilter"
 import gettColumns from "./components/column"
 import DataTable from "@components/DataTable"
 import CreateStatusModal from "./components/createStatusModal"
@@ -118,16 +117,13 @@ class Status extends AppComponentListBase<IStatusProps, IStatusState> {
 
     return (
       <>
-        <StatusFilter
+        <DataTable
           onCreate={() => {
             this.gotoDetail()
           }}
           onRefresh={() => {
             this.initData()
           }}
-        />
-
-        <DataTable
           pagination={{
             onChange: this.handleTableChange,
             pageSize: this.state.maxResultCount,

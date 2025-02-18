@@ -20,14 +20,14 @@ const TabPane = Tabs.TabPane
 const { TextArea } = Input
 
 export interface ICreateOrUpdateRoleProps {
-  roleStore: RoleStore;
-  visible: boolean;
-  onCancel: () => void;
-  modalType: string;
-  onOk: (grantedPermissions) => void;
-  permissions: GetAllPermissionsOutput[];
-  grantedPermissions: any;
-  formRef: any;
+  roleStore: RoleStore
+  visible: boolean
+  onCancel: () => void
+  modalType: string
+  onOk: (grantedPermissions) => void
+  permissions: GetAllPermissionsOutput[]
+  grantedPermissions: any
+  formRef: any
 }
 
 class CreateOrUpdateRole extends AppComponentListBase<ICreateOrUpdateRoleProps> {
@@ -36,7 +36,7 @@ class CreateOrUpdateRole extends AppComponentListBase<ICreateOrUpdateRoleProps> 
     groupPermissionAdmins: [] as any,
     groupPermissionUsers: [] as any,
     isEdit: false,
-  };
+  }
 
   componentDidUpdate(prevProps: Readonly<ICreateOrUpdateRoleProps>): void {
     if (!prevProps.visible && this.props.visible) {
@@ -129,8 +129,8 @@ class CreateOrUpdateRole extends AppComponentListBase<ICreateOrUpdateRoleProps> 
 
   onSave = () => {
     const grantedPermissions = [] as any
-    const { groupPermissionAdmins, groupPermissionUsers } = this.state;
-    [...groupPermissionAdmins, ...groupPermissionUsers].forEach((group) => {
+    const { groupPermissionAdmins, groupPermissionUsers } = this.state
+    ;[...groupPermissionAdmins, ...groupPermissionUsers].forEach((group) => {
       if (group.isSelected) {
         grantedPermissions.push(group.name)
       }
@@ -147,10 +147,10 @@ class CreateOrUpdateRole extends AppComponentListBase<ICreateOrUpdateRoleProps> 
     this.setState({ isEdit: false })
 
     this.props.onOk(grantedPermissions)
-  };
+  }
   onEdit = async () => {
     this.setState({ isEdit: true })
-  };
+  }
   render() {
     const { groupPermissionAdmins, isEdit } = this.state
     const { visible, onCancel } = this.props
@@ -175,7 +175,7 @@ class CreateOrUpdateRole extends AppComponentListBase<ICreateOrUpdateRoleProps> 
           layout={"vertical"}
           size="middle"
         >
-          <Tabs defaultActiveKey={"role"} size={"small"} type="card">
+          <Tabs defaultActiveKey={"role"} size={"small"}>
             <TabPane tab={L("ST_ROLE_INFO")} key={"role"}>
               <Card className="card-detail-modal">
                 <Form.Item

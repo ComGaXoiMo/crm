@@ -2,10 +2,9 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Card, Col, Row, Table, Tag } from "antd"
+import { Table, Tag } from "antd"
 import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
-import ActivityFilter from "./components/bookingFilter"
 import CreateBookingModal from "./components/bookingModal"
 import ReservationStore from "@stores/activity/reservationStore"
 import DataTable from "@components/DataTable"
@@ -215,38 +214,29 @@ class ReservationListing extends AppComponentListBase<
     ]
     return (
       <>
-        <ActivityFilter
+        <DataTable
           onCreate={() => {
-            this.goDetail()
+            this.props.unitId ? false : this.goDetail()
           }}
-          create={this.props.unitId ? false : true}
-          onRefesh={() => this.getAll()}
+          onRefresh={() => this.getAll()}
           handleSearch={this.handleFilterChange}
-        />
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total: tableData === undefined ? 0 : tableData.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Table
+            size="middle"
+            className="custom-ant-row"
+            rowKey={(record) => record.id}
+            columns={columns}
+            pagination={false}
+            dataSource={tableData.items ?? []}
+            scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+          />
+        </DataTable>
 
-        <Row gutter={[8, 0]}>
-          <Col sm={{ span: 24 }}>
-            <Card className="card-detail-modal">
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total: tableData === undefined ? 0 : tableData.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Table
-                  size="middle"
-                  className="custom-ant-row"
-                  rowKey={(record) => record.id}
-                  columns={columns}
-                  pagination={false}
-                  dataSource={tableData.items ?? []}
-                  scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-                />
-              </DataTable>
-            </Card>
-          </Col>
-        </Row>
         <CreateBookingModal
           inquiryId={this.props.inquiryId}
           visible={this.state.modalVisible}

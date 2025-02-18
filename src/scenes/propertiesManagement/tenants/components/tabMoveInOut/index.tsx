@@ -2,10 +2,9 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Card, Col, Empty, Row, Spin } from "antd"
+import { Col, Empty, Row, Spin } from "antd"
 import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
-import MoveInOutFilter from "./components/moveInOutFilter"
 import MoveInOutBoardItem from "./components/moveInOutBoardItem"
 import CreateMoveInOutModal from "./components/createMoveInOutModal"
 import MoveOutModal from "./components/moveOutModal"
@@ -121,45 +120,38 @@ class TenantMoveInOut extends AppComponentListBase<
     } = this.props
     return (
       <>
-        <MoveInOutFilter
+        <DataTable
           onCreate={() => {
             this.toggleModal()
           }}
-          onRefesh={() => this.getAll()}
+          onRefresh={() => this.getAll()}
           handleSearch={this.handleFilterChange}
-        />
-        <Row gutter={[8, 0]}>
-          <Col sm={{ span: 24 }}>
-            <Card className="card-detail-modal">
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total:
-                    tableMoveOutInData === undefined
-                      ? 0
-                      : tableMoveOutInData.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Spin spinning={isLoading} className="h-100 w-100">
-                  <Row>
-                    {tableMoveOutInData?.items.map((item, index) => (
-                      <Col key={index} sm={{ span: 24 }}>
-                        <div style={{ display: "flex" }}>
-                          <MoveInOutBoardItem
-                            data={item}
-                            moveOut={this.handleMoveOutOpen}
-                          />
-                        </div>
-                      </Col>
-                    ))}
-                  </Row>
-                  {tableMoveOutInData.totalCount < 1 && <Empty />}
-                </Spin>
-              </DataTable>
-            </Card>
-          </Col>
-        </Row>
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total:
+              tableMoveOutInData === undefined
+                ? 0
+                : tableMoveOutInData.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Spin spinning={isLoading} className="h-100 w-100">
+            <Row>
+              {tableMoveOutInData?.items.map((item, index) => (
+                <Col key={index} sm={{ span: 24 }}>
+                  <div style={{ display: "flex" }}>
+                    <MoveInOutBoardItem
+                      data={item}
+                      moveOut={this.handleMoveOutOpen}
+                    />
+                  </div>
+                </Col>
+              ))}
+            </Row>
+            {tableMoveOutInData.totalCount < 1 && <Empty />}
+          </Spin>
+        </DataTable>
+
         <CreateMoveInOutModal
           tenantId={this.props.tenantId}
           unitId={this.props.unitId}
