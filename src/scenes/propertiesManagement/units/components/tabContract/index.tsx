@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Button, Col, Row, Table, Tooltip, message } from "antd"
+import { Button, Col, Row, Table, message } from "antd"
 import Stores from "@stores/storeIdentifier"
 // import FileUploadWrap from "@components/FileUpload/FileUploadCRM";
 import withRouter from "@components/Layout/Router/withRouter"
@@ -11,7 +11,6 @@ import DataTable from "@components/DataTable"
 import gettColumns from "./components/leaseColumn"
 import CreateContractModal from "./components/createContractModal"
 import { renderDotActive } from "@lib/helper"
-import { ReloadOutlined } from "@ant-design/icons"
 import AppConsts, { appPermissions } from "@lib/appconst"
 import EditContractModal from "./components/editContractModal"
 import InquiryStore from "@stores/communication/inquiryStore"
@@ -179,83 +178,69 @@ class Contract extends AppComponentListBase<IContractProps, IContractState> {
     })
     return (
       <>
-        <Row gutter={[8, 0]}>
-          <Col
-            sm={{ span: 24 }}
-            style={{ display: "flex", flexDirection: "row-reverse" }}
-          >
-            <Tooltip title={this.L("RELOAD")} placement="topLeft">
+        <DataTable
+          actionComponent={
+            <>
+              {this.props.inquiryId &&
+                this.isGranted(appPermissions.leaseAgreement.requestLa) && (
+                  <Button
+                    // icon={<BorderOutlined />}
+                    className="button-primary"
+                    disabled={this.state.hasLA}
+                    onClick={() => {
+                      this.props.contactEmail?.length > 0
+                        ? this.toggleModalCreate()
+                        : message.warning(
+                            this.L(
+                              "CANNOT_REQUEST_LA_FOR_CONTACT_NOT_HAVE_EMAIL"
+                            )
+                          )
+                    }}
+                  >
+                    {this.L("REQUEST_TO_LEASE_AGREEMENT")}
+                  </Button>
+                )}
               <Button
-                icon={<ReloadOutlined />}
                 className="button-primary"
-                onClick={() => this.getAll()}
-              ></Button>
-            </Tooltip>
-            {this.props.inquiryId &&
-              this.isGranted(appPermissions.leaseAgreement.requestLa) && (
-                <Button
-                  // icon={<BorderOutlined />}
-                  className="button-primary"
-                  disabled={this.state.hasLA}
-                  onClick={() => {
-                    this.props.contactEmail?.length > 0
-                      ? this.toggleModalCreate()
-                      : message.warning(
-                          this.L("CANNOT_REQUEST_LA_FOR_CONTACT_NOT_HAVE_EMAIL")
-                        )
-                  }}
-                >
-                  {this.L("REQUEST_TO_LEASE_AGREEMENT")}
-                </Button>
-              )}
-            <Button
-              // icon={<BorderOutlined />}
-              className="button-primary"
-              onClick={() => this.changeViewFull()}
-            >
-              {this.state.isIncludeHistory
-                ? this.L("HIDEN_HISTORY")
-                : this.L("VIEW_FULL_HISTORY")}
-            </Button>
-          </Col>
-
-          <Col sm={{ span: 24 }}>
-            <DataTable
-              // extraFilterComponent={filterComponent}
-              // onRefresh={this.getAll}
-              // onCreate={this.toggleModal}
-              pagination={{
-                pageSize: this.state.maxResultCount,
-                total: pageResult === undefined ? 0 : pageResult.totalCount,
-                onChange: this.handleTableChange,
-              }}
-            >
-              <Table
-                size="middle"
-                className="custom-ant-row"
-                rowKey={(record) => `lad-${record?.id}`}
-                columns={columns}
-                loading={isLoading}
-                pagination={false}
-                dataSource={pageResult.items ?? []}
-                scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
-              />
-            </DataTable>
-            <CreateContractModal
-              visible={this.state.modalCreateVisible}
-              onClose={this.toggleModalCreate}
-              onOk={this.handleOkCreateLA}
-            />
-            <EditContractModal
-              leaseAgreementId={this.state.leaseAgreementId}
-              visible={this.state.modalVisible}
-              onClose={this.toggleModal}
-              onOk={() => {
-                this.toggleModal(), this.getAll()
-              }}
-            />
-          </Col>
-        </Row>
+                onClick={() => this.changeViewFull()}
+              >
+                {this.state.isIncludeHistory
+                  ? this.L("HIDEN_HISTORY")
+                  : this.L("VIEW_FULL_HISTORY")}
+              </Button>{" "}
+            </>
+          }
+          onRefresh={this.getAll}
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total: pageResult === undefined ? 0 : pageResult.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Table
+            size="middle"
+            className="custom-ant-row"
+            rowKey={(record) => `lad-${record?.id}`}
+            columns={columns}
+            loading={isLoading}
+            pagination={false}
+            dataSource={pageResult.items ?? []}
+            scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
+          />
+        </DataTable>
+        <CreateContractModal
+          visible={this.state.modalCreateVisible}
+          onClose={this.toggleModalCreate}
+          onOk={this.handleOkCreateLA}
+        />
+        <EditContractModal
+          leaseAgreementId={this.state.leaseAgreementId}
+          visible={this.state.modalVisible}
+          onClose={this.toggleModal}
+          onOk={() => {
+            this.toggleModal(), this.getAll()
+          }}
+        />
       </>
     )
   }

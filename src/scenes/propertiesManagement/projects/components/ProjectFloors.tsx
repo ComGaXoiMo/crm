@@ -151,9 +151,9 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
         key: "floorName",
         width: 190,
         render: (text: string, item) => (
-          <>
+          <a className="link-text-table">
             {renderDotActive(item.isActive)} {text}
-          </>
+          </a>
         ),
         onCell: (record) =>
           buildEditableCell(
@@ -202,6 +202,15 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
         width: 100,
         align: align.right,
         render: (text: string) => <>{text ?? "0"}</>,
+      },
+
+      {
+        title: L(""),
+        dataIndex: "",
+        key: "",
+        width: "",
+        // align: align.right,
+        render: () => <></>,
       },
       {
         title: L("ACTIONS"),
@@ -263,14 +272,7 @@ class ProjectFloors extends AppComponentListBase<Props, any> {
           )
         },
       },
-      {
-        title: L(""),
-        dataIndex: "",
-        key: "",
-        width: "",
-        // align: align.right,
-        render: () => <></>,
-      },
+
       SystemHistoryColumn,
     ]
 

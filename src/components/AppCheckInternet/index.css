@@ -6,6 +6,7 @@ body {
   padding: 0;
   background-color: #ffffff;
 }
+
 .wrapper {
   position: absolute;
   top: 50%;
@@ -19,6 +20,7 @@ body {
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
 h1 {
   color: white;
   font-family: arial;
@@ -28,12 +30,14 @@ h1 {
   line-height: 1rem;
   text-shadow: 0 0 3px white;
 }
+
 h4 {
   color: #f1f1f1;
   font-family: arial;
   font-weight: 300;
   font-size: 16px;
 }
+
 .button {
   display: block;
   margin: 20px 0 0;

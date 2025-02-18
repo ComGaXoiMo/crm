@@ -24,15 +24,11 @@ export interface IUnitState {
   skipCount: number
   filters: any
   visible: boolean
-  tabView: string
   unitId: any
   visibleDetailProject: boolean
   projectId: any
 }
-const tabKeys = {
-  gridView: L("GRID_VIEW"),
-  listView: L("LIST_VIEW"),
-}
+
 @inject(Stores.AppDataStore, Stores.UnitStore)
 @observer
 class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
@@ -45,7 +41,6 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
       isActive: true,
     },
     visible: false,
-    tabView: tabKeys.listView,
     projectId: null,
     visibleDetailProject: false,
   }
@@ -56,11 +51,6 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.projectId !== this.props.projectId) {
       await this.getAll()
-    }
-    if (prevState.tabView !== this.state.tabView) {
-      if (this.state.tabView === tabKeys.listView) {
-        await this.getAll()
-      }
     }
   }
   getAll = async () => {
@@ -82,22 +72,9 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
   }
   handleFilterChange = async (filters) => {
     await this.setState({ filters })
-    if (this.state.tabView === tabKeys.listView) {
-      await this.getAll()
-    }
+    await this.getAll()
   }
-  changeTab = async (value) => {
-    await this.setState({ tabView: value.target.value })
-  }
-  gotoDetailProject = (id?) => {
-    if (id) {
-      this.setState({ projectId: id })
-      this.setState({ visibleDetailProject: true })
-    } else {
-      this.setState({ projectId: null })
-      this.setState({ visibleDetailProject: true })
-    }
-  }
+
   public render() {
     const {
       unitStore: { isLoading, listUnitInProject },
@@ -111,52 +88,48 @@ class UnitInProject extends AppComponentListBase<IUnitProps, IUnitState> {
       width: 150,
       ellipsis: false,
       render: (unitName: string, item: any) => (
-        <>
+        <div className="flex gap-1">
           {renderDotActive(item.isActive)}
           {unitName}
-        </>
+        </div>
       ),
     })
     return (
       <>
         <div>
-          <UnitFilterPanel
-            projectId={this.props.projectId}
-            tabKeys={tabKeys}
-            changeTab={this.changeTab}
-            handleSearch={this.handleFilterChange}
-            onCreateProject={() => {
-              this.gotoDetailProject()
-            }}
+          <DataTable
+            filterComponent={
+              <UnitFilterPanel
+                projectId={this.props.projectId}
+                handleSearch={this.handleFilterChange}
+              />
+            }
             onRefresh={() => {
               this.getAll()
             }}
-          />
-          {this.state.tabView === tabKeys.listView && (
-            <DataTable
-              pagination={{
-                pageSize: this.state.maxResultCount,
-                total:
-                  listUnitInProject === undefined
-                    ? 0
-                    : listUnitInProject.totalCount,
-                onChange: this.handleTableChange,
-              }}
-            >
-              <Table
-                size="middle"
-                className="custom-ant-row"
-                rowKey={(record) => record.id}
-                columns={columns}
-                loading={isLoading}
-                pagination={false}
-                dataSource={
-                  listUnitInProject === undefined ? [] : listUnitInProject.items
-                }
-                scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
-              />
-            </DataTable>
-          )}
+            handleSearch={this.handleFilterChange}
+            pagination={{
+              pageSize: this.state.maxResultCount,
+              total:
+                listUnitInProject === undefined
+                  ? 0
+                  : listUnitInProject.totalCount,
+              onChange: this.handleTableChange,
+            }}
+          >
+            <Table
+              size="middle"
+              className="custom-ant-row"
+              rowKey={(record) => record.id}
+              columns={columns}
+              loading={isLoading}
+              pagination={false}
+              dataSource={
+                listUnitInProject === undefined ? [] : listUnitInProject.items
+              }
+              scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+            />
+          </DataTable>
         </div>
       </>
     )

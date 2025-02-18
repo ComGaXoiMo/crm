@@ -53,7 +53,7 @@ const SiderMenu = (props: ISiderMenuProps) => {
     <Sider
       trigger={null}
       className="sidebar"
-      width={240}
+      width={200}
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}

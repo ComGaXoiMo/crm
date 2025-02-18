@@ -173,11 +173,7 @@ class CompanyModal extends AppComponentListBase<Props, States> {
         updatePermission={this.isGranted(appPermissions.company.update)}
         isLoading={isLoading}
       >
-        <Tabs
-          activeKey={this.state.tabActiveKey}
-          onTabClick={this.changeTab}
-          type="card"
-        >
+        <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
           <TabPane tab={L(tabKeys.tabCompanyInfo)} key={tabKeys.tabCompanyInfo}>
             <Card className="card-detail-modal">
               <Form

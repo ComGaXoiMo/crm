@@ -69,12 +69,6 @@ class Clients extends AppComponentListBase<IClientsProps> {
                 <Company />
               </Tabs.TabPane>
             )}
-            <Tabs.TabPane tab={L("Tài liệu")} key={"tl"}>
-              Tài liệu
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={L("Cài đặt")} key={"setting"}>
-              Cài đặt
-            </Tabs.TabPane>
 
             {/* <Tabs.TabPane tab={L(tabKeys.tabReport)} key={tabKeys.tabReport}>
               <ClientsReport selectItem={this.state.selectItem} />

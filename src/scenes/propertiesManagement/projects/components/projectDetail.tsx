@@ -16,13 +16,13 @@ import ProjectFloors from "./ProjectFloors"
 import AppDataStore from "@stores/appDataStore"
 import UnitInProject from "./tabUnit/index"
 
-import CustomDrawerProject from "@components/Drawer/CustomDrawerProject"
 import TabInquire from "@scenes/clientsManagement/contactsAndLead/components/tabInquire"
 import { appPermissions, moduleNames } from "@lib/appconst"
 import _ from "lodash"
 import TabDocument from "@scenes/inquiriesManagement/inquiriesList/components/detailInquiry/tabDocument"
 import TabProjectUserPermission from "./tabProjectUserPermission"
 import TabContract from "@scenes/propertiesManagement/units/components/tabContract"
+import CustomDrawer from "@components/Drawer/CustomDrawer"
 interface IProjectsDetailProps {
   projectStore: ProjectStore
   unitStore: UnitStore
@@ -158,7 +158,7 @@ class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
       projectStore: { editProject, isLoading },
     } = this.props
     return (
-      <CustomDrawerProject
+      <CustomDrawer
         useBottomAction
         visible={visible}
         onClose={this.handleCancel}
@@ -170,11 +170,7 @@ class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
         isEdit={this.state.isEdit}
         updatePermission={this.isGranted(appPermissions.project.update)}
       >
-        <Tabs
-          activeKey={this.state.tabActiveKey}
-          onTabClick={this.changeTab}
-          type="card"
-        >
+        <Tabs activeKey={this.state.tabActiveKey} onTabClick={this.changeTab}>
           <Tabs.TabPane
             tab={L(tabKeys.tabSummaries)}
             key={tabKeys.tabSummaries}
@@ -244,7 +240,7 @@ class ProjectsDetail extends AppComponentListBase<IProjectsDetailProps, State> {
               </Tabs.TabPane>
             )}
         </Tabs>
-      </CustomDrawerProject>
+      </CustomDrawer>
     )
   }
 }

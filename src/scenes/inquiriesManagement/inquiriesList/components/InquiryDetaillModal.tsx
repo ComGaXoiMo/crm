@@ -407,67 +407,52 @@ class InquiriesCreateModal extends AppComponentListBase<Props, State> {
             style={{ fontSize: 12, overflow: "hidden" }}
           >
             {this.props.id && (
-              <>
-                <Col
-                  style={{ backgroundColor: "#ffffff", paddingBottom: 10 }}
-                  sm={{ span: 16 }}
-                >
-                  <div className="wrapper">
-                    <div className="arrow-steps clearfix">
-                      {inquiryStatus.map((inquiry, index) => (
-                        <div
-                          key={index}
-                          className={
-                            inquiryDetail?.statusId === inquiry?.id
-                              ? "step current"
-                              : "step"
-                          }
-                        >
-                          <strong>{inquiry.name}</strong>
-                        </div>
-                      ))}
+              <div className="flex between-content w-100">
+                <div className="wrap arrow-steps">
+                  {inquiryStatus.map((inquiry, index) => (
+                    <div
+                      key={index}
+                      className={
+                        inquiryDetail?.statusId === inquiry?.id
+                          ? "step current"
+                          : "step"
+                      }
+                    >
+                      <strong>{inquiry.name}</strong>
                     </div>
-                  </div>
-                </Col>
-                <Col
-                  span={8}
-                  style={{
-                    textAlign: "right",
-                    backgroundColor: "#ffffff",
-                    paddingBottom: 10,
-                  }}
-                >
-                  {inquiryDetail?.statusId !== 4 &&
-                    inquiryDetail?.statusId !== 5 && (
-                      <>
-                        <Button
-                          onClick={() => this.MarkConfirmed()}
-                          size="small"
-                          style={{
-                            borderRadius: "5px",
-                            height: "100%",
-                            color: "#ffffff",
-                            backgroundColor: "#1591d8",
-                          }}
-                        >
-                          <>{this.L("MARK_COMPLETED")}</>
-                        </Button>
-                        <Button
-                          size="small"
-                          onClick={() => this.toggleDropModal()}
-                          style={{
-                            borderRadius: "5px",
-                            height: "100%",
-                            color: "#ffffff",
-                            backgroundColor: "#CC3300",
-                          }}
-                        >
-                          <>{this.L("MARK_DROPPED")}</>
-                        </Button>
-                      </>
-                    )}
-                </Col>
-              </>
+                  ))}
+                </div>
+
+                {inquiryDetail?.statusId !== 4 &&
+                  inquiryDetail?.statusId !== 5 && (
+                    <div>
+                      <Button
+                        onClick={() => this.MarkConfirmed()}
+                        size="small"
+                        style={{
+                          borderRadius: "5px",
+                          height: "100%",
+                          color: "#ffffff",
+                          backgroundColor: "#1591d8",
+                        }}
+                      >
+                        <>{this.L("MARK_COMPLETED")}</>
+                      </Button>
+                      <Button
+                        size="small"
+                        onClick={() => this.toggleDropModal()}
+                        style={{
+                          borderRadius: "5px",
+                          height: "100%",
+                          color: "#ffffff",
+                          backgroundColor: "#CC3300",
+                        }}
+                      >
+                        <>{this.L("MARK_DROPPED")}</>
+                      </Button>
+                    </div>
+                  )}
+              </div>
             )}
             <Col className="h-100" span={24}>
               <InfoInquiry

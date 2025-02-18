@@ -1,37 +1,25 @@
 import React from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Button, DatePicker, Select, Tooltip } from "antd"
 import Col from "antd/lib/col"
-import Search from "antd/lib/input/Search"
 import Row from "antd/lib/row"
 import projectService from "@services/projects/projectService"
-import { renderOptions } from "@lib/helper"
 import _, { debounce } from "lodash"
-import { ReloadOutlined } from "@ant-design/icons"
 import AppDataStore from "@stores/appDataStore"
 import Stores from "@stores/storeIdentifier"
 import { inject, observer } from "mobx-react"
-import AppConsts, { dateFormat, rangePickerPlaceholder } from "@lib/appconst"
+import AppConsts from "@lib/appconst"
 import dayjs from "dayjs"
-const { RangePicker } = DatePicker
+import FilterSelect from "@components/Filter/FilterSelect"
+import FilterRangePicker from "@components/Filter/FilterRangePicker"
 const { activeStatus } = AppConsts
 type Props = {
   handleSearch: (filters) => void
-  tabKeys: any
   filter: any
-  changeTab: any
   projectId
-  onCreateProject: () => void
   appDataStore: AppDataStore
-  onRefresh: () => void
 }
 
-// type States = {
-//   selectedType: any;
-//   filters: any;
-//   listProject: any[];
-// };
 @inject(Stores.AppDataStore)
 @observer
 class UnitsFilterPanel extends React.Component<Props, any> {
@@ -39,7 +27,6 @@ class UnitsFilterPanel extends React.Component<Props, any> {
     super(props)
   }
   state = {
-    selectedType: this.props.tabKeys.listView,
     listProject: [],
     listFloor: [],
     filters: {
@@ -105,29 +92,14 @@ class UnitsFilterPanel extends React.Component<Props, any> {
   render() {
     const {
       appDataStore: { propertyTypes, unitStatus },
-      tabKeys,
     } = this.props
-    const { selectedType } = this.state
     return (
       <>
         <Row gutter={[4, 8]}>
-          <Col sm={{ span: 4, offset: 0 }}>
-            <Search
-              onChange={(value) =>
-                this.updateSearch("keyword", value.target?.value)
-              }
-              onSearch={(value) => this.handleSearch("keyword", value)}
-              size="middle"
-              placeholder={L("UNIT_NAME")}
-            />
-          </Col>
           {!this.props.projectId && (
             <Col sm={{ span: 4, offset: 0 }}>
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
+              <FilterSelect
                 placeholder={L("PROJECT")}
-                filterOption={false}
-                className="w-100"
                 onChange={(e) => {
                   if (!e) {
                     this.setState({ filters: { projectId: null } })
@@ -137,118 +109,49 @@ class UnitsFilterPanel extends React.Component<Props, any> {
                   this.getFloorResult(e, "")
                 }}
                 onSearch={_.debounce((e) => this.getProject(e), 1000)}
-                allowClear
-                showSearch
-              >
-                {renderOptions(this.state.listProject)}
-              </Select>
+                options={this.state.listProject}
+              />
             </Col>
           )}
-          {selectedType === tabKeys.listView && (
-            <>
-              <Col sm={{ span: 2, offset: 0 }}>
-                <Select
-                  getPopupContainer={(trigger) => trigger.parentNode}
-                  placeholder={L("FLOOR")}
-                  filterOption={false}
-                  className="w-100"
-                  allowClear
-                  onChange={(value) => this.handleSearch("floorId", value)}
-                  showSearch
-                  disabled={!this.state.filters?.projectId}
-                >
-                  {renderOptions(this.state.listFloor)}
-                </Select>
-              </Col>
-            </>
-          )}
+          <>
+            <Col sm={{ span: 2, offset: 0 }}>
+              <FilterSelect
+                placeholder={L("FLOOR")}
+                onChange={(value) => this.handleSearch("floorId", value)}
+                options={this.state.listFloor}
+                disabled={!this.state.filters?.projectId}
+              />
+            </Col>
+          </>
           <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
+            <FilterSelect
               placeholder={L("TYPE")}
-              style={{ width: "100%" }}
-              allowClear
               onChange={(value) => this.handleSearch("productTypeId", value)}
-              // showSearch
-            >
-              {renderOptions(propertyTypes)}
-            </Select>
-          </Col>
-          <Col sm={{ span: 4, offset: 0 }}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={L("UNIT_STATUS")}
-              style={{ width: "100%" }}
-              onChange={(value) => this.handleSearch("unitStatusId", value)}
-              allowClear
-              // showSearch
-            >
-              {renderOptions(unitStatus)}
-            </Select>
-          </Col>
-
-          <Col sm={{ span: 4, offset: 0 }}>
-            <RangePicker
-              className="w-100"
-              format={dateFormat}
-              onChange={this.handleDateChange}
-              disabled={!this.state.filters?.unitStatusId}
-              // onChange={(value) => this.handleSearch('dateFromTo', value)}
-              placeholder={rangePickerPlaceholder()}
+              options={propertyTypes}
             />
           </Col>
-          {selectedType === tabKeys.listView && (
-            <Col sm={{ span: 2, offset: 0 }}>
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder={L("STATUS")}
-                defaultValue="true"
-                style={{ width: "100%" }}
-                allowClear
-                onChange={(value) => this.handleSearch("isActive", value)}
-              >
-                {renderOptions(activeStatus)}
-              </Select>
-            </Col>
-          )}
-          {/* <Radio.Group
-            onChange={async (value) => {
-              await this.setState({ selectedType: value.target.value })
-              await this.props.changeTab(value)
-            }}
-            value={this.state.selectedType}
-            buttonStyle="solid"
-          >
-            <Radio.Button
-              key={this.props.tabKeys.gridView}
-              value={this.props.tabKeys.gridView}
-            >
-              {this.props.tabKeys.gridView}
-            </Radio.Button>
-            <Radio.Button
-              key={this.props.tabKeys.listView}
-              value={this.props.tabKeys.listView}
-            >
-              {this.props.tabKeys.listView}
-            </Radio.Button>
-          </Radio.Group> */}
-          <div style={{ position: "absolute", right: 10 }}>
-            {/* <Button
-              icon={<PlusCircleFilled />}
-              className="button-secondary"
-              onClick={() => this.props.onCreateProject()}
-            >
-              {L("PROJECT")}
-            </Button> */}
+          <Col sm={{ span: 4, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("UNIT_STATUS")}
+              onChange={(value) => this.handleSearch("unitStatusId", value)}
+              options={unitStatus}
+            />
+          </Col>
 
-            <Tooltip title={L("RELOAD")} placement="topLeft">
-              <Button
-                icon={<ReloadOutlined />}
-                className="button-primary"
-                onClick={() => this.props.onRefresh()}
-              ></Button>
-            </Tooltip>
-          </div>
+          <Col sm={{ span: 4, offset: 0 }}>
+            <FilterRangePicker
+              onChange={this.handleDateChange}
+              disabled={!this.state.filters?.unitStatusId}
+            />
+          </Col>
+          <Col sm={{ span: 2, offset: 0 }}>
+            <FilterSelect
+              placeholder={L("STATUS")}
+              defaultValue="true"
+              onChange={(value) => this.handleSearch("isActive", value)}
+              options={activeStatus}
+            />
+          </Col>
         </Row>
       </>
     )

@@ -72,8 +72,7 @@ class infoInquiry extends AppComponentListBase<
         <Tabs
           activeKey={this.state.tabActiveKey}
           onTabClick={this.changeTab}
-          className={" h-100"}
-          type="card"
+          className={"h-100"}
         >
           <Tabs.TabPane tab={L(tabKeys.tabInfo)} key={tabKeys.tabInfo}>
             <Info

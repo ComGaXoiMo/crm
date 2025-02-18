@@ -8,7 +8,6 @@ import Stores from "@stores/storeIdentifier"
 // import FileUploadWrap from "@components/FileUpload/FileUploadCRM";
 import withRouter from "@components/Layout/Router/withRouter"
 import AppDataStore from "@stores/appDataStore"
-import DocumentFilter from "./components/documentTrailFilter"
 import gettColumns from "./components/documentColumn"
 import DataTable from "@components/DataTable"
 import { DeleteOutlined, DownloadOutlined } from "@ant-design/icons"
@@ -147,17 +146,13 @@ class ComponentDocument extends AppComponentListBase<
     })
     return (
       <>
-        <DocumentFilter
+        <DataTable
           onCreate={() => {
             this.toggleModal()
           }}
           onRefresh={() => {
             this.getAll()
           }}
-          createPermission={this.props.createPermission}
-        />
-
-        <DataTable
           pagination={{
             pageSize: this.state.maxResultCount,
             // total: tableData === undefined ? 0 : tableData.totalCount,

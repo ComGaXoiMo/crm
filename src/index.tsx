@@ -11,7 +11,14 @@ import "./styles/custom-bootstrap.less"
 import "./styles/custom-ant.less"
 import "./styles/app.less"
 import { ErrorBoundary } from "@components/ErrorBoundary"
-import { ConfigProvider } from "antd"
+import { ConfigProvider, ThemeConfig } from "antd"
+
+const theme: ThemeConfig = {
+  token: {
+    colorPrimary: "#AC9D64",
+    colorLink: "#6ebac4",
+  },
+}
 
 Utils.setLocalization()
 appDataService.getAppConfiguration().then(async () => {
@@ -21,7 +28,7 @@ appDataService.getAppConfiguration().then(async () => {
   )
   root.render(
     <Provider {...stores}>
-      <ConfigProvider>
+      <ConfigProvider theme={theme}>
         <BrowserRouter>
           <ErrorBoundary>
             <App />

@@ -2,10 +2,9 @@ import * as React from "react"
 
 import { inject, observer } from "mobx-react"
 import { AppComponentListBase } from "@components/AppComponentBase"
-import { Col, Row, Spin, Table } from "antd"
+import { Table } from "antd"
 import Stores from "@stores/storeIdentifier"
 import withRouter from "@components/Layout/Router/withRouter"
-import InquiriFilter from "./components/inquiriFilter"
 import InquiryStore from "@stores/communication/inquiryStore"
 import DataTable from "@components/DataTable"
 import { L } from "@lib/abpUtility"
@@ -89,41 +88,32 @@ class InquirieContact extends AppComponentListBase<IIquiryProps, IIquiryState> {
       ellipsis: false,
 
       render: (inquiryName: string, item: any) => (
-        <>
+        <div className="flex gap-1">
           {renderDotActive(item.isActive)} {inquiryName}
-        </>
+        </div>
       ),
     })
     return (
       <>
-        <InquiriFilter />
-        <Spin
-          spinning={this.props.inquiryStore.isLoading}
-          className="h-100 w-100"
+        <DataTable
+          onRefresh={this.getAll}
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total: pageResult === undefined ? 0 : pageResult.totalCount,
+            onChange: this.handleTableChange,
+          }}
         >
-          <Row gutter={[8, 0]}>
-            <Col sm={{ span: 24 }}>
-              <DataTable
-                pagination={{
-                  pageSize: this.state.maxResultCount,
-                  total: pageResult === undefined ? 0 : pageResult.totalCount,
-                  onChange: this.handleTableChange,
-                }}
-              >
-                <Table
-                  size="middle"
-                  className="custom-ant-row"
-                  rowKey={(record) => record.id}
-                  columns={columns}
-                  pagination={false}
-                  dataSource={pageResult === undefined ? [] : pageResult.items}
-                  loading={isLoading}
-                  scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
-                />
-              </DataTable>
-            </Col>
-          </Row>
-        </Spin>
+          <Table
+            size="middle"
+            className="custom-ant-row"
+            rowKey={(record) => record.id}
+            columns={columns}
+            pagination={false}
+            dataSource={pageResult === undefined ? [] : pageResult.items}
+            loading={isLoading}
+            scroll={{ x: 1000, scrollToFirstRowOnChange: true }}
+          />
+        </DataTable>
       </>
     )
   }

@@ -189,7 +189,6 @@ class ContractDetailModal extends AppComponentListBase<Props, States> {
           activeKey={tabActiveKey}
           onTabClick={this.changeTab}
           className={" h-100"}
-          type="card"
         >
           <Tabs.TabPane
             tab={L(tabKeys.tabContactInfo)}

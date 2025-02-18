@@ -5,7 +5,6 @@ import { AppComponentListBase } from "@components/AppComponentBase"
 import Stores from "@stores/storeIdentifier"
 import FileStore from "@stores/common/fileStore"
 import withRouter from "@components/Layout/Router/withRouter"
-import ActivityFilter from "./components/associatePartyFilter"
 import DataTable from "@components/DataTable"
 import gettColumns from "./column"
 import { Button, Col, Dropdown, Menu, Modal, Row, Table } from "antd"
@@ -194,14 +193,10 @@ class AssociateParty extends AppComponentListBase<
         width: 250,
         ellipsis: false,
         render: (user: any, item: any) => (
-          <Row>
-            <Col
-              sm={{ span: 21, offset: 0 }}
-              style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-            >
-              {renderDotActive(item.isActive)} {user?.displayName}
-            </Col>
-          </Row>
+          <div className="flex gap-1">
+            {" "}
+            {renderDotActive(item.isActive)} {user?.displayName}
+          </div>
         ),
       },
       {
@@ -285,16 +280,6 @@ class AssociateParty extends AppComponentListBase<
     })
     return (
       <>
-        <ActivityFilter
-          onCreate={() => {
-            this.toggleModal()
-          }}
-          onRefresh={() => {
-            this.initData()
-            this.initDataRequest()
-          }}
-          handleSearch={this.handleFilterChange}
-        />
         <Row gutter={[8, 0]}>
           <Col sm={{ span: 12, offset: 0 }}>
             <span>
@@ -321,6 +306,14 @@ class AssociateParty extends AppComponentListBase<
 
           <Col sm={{ span: 24, offset: 0 }}>
             <DataTable
+              onCreate={() => {
+                this.toggleModal()
+              }}
+              onRefresh={() => {
+                this.initData()
+                this.initDataRequest()
+              }}
+              handleSearch={this.handleFilterChange}
               pagination={{
                 pageSize: this.state.maxResultCount,
                 total: contactTable === undefined ? 0 : contactTable.totalCount,

@@ -267,14 +267,7 @@ class info extends AppComponentListBase<IGeneralProps, IGeneralState> {
     const { companyList } = this.state
     return (
       <>
-        <Card
-          style={{
-            backgroundColor: "white",
-            minHeight: "76vh",
-            padding: "20px",
-            borderRadius: "12px",
-          }}
-        >
+        <Card className="card-detail-modal">
           <Form
             ref={this.formRef}
             validateMessages={validateMessages}

@@ -1,10 +1,10 @@
 import { L } from "@lib/abpUtility"
 import { Button, Drawer, Row } from "antd"
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import type { PortalProps } from "@rc-component/portal"
 import {
-  CloseCircleFilled,
   EditOutlined,
+  LeftCircleFilled,
   LockFilled,
   PlusCircleFilled,
   SaveOutlined,
@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons"
 import withRouter from "@components/Layout/Router/withRouter"
 import _ from "lodash"
-
+import "./drawerStyle.less"
 type Props = {
   title?: any
   visible: boolean
@@ -42,6 +42,17 @@ type Props = {
 
 const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
   // const [isEdit, setIsEdit] = React.useState<any>(false);
+  const [drawerWidth, setDrawerWidth] = useState(0)
+  useEffect(() => {
+    const updateWidth = () => {
+      setDrawerWidth(window.innerWidth - 200)
+    }
+
+    updateWidth() // Cập nhật lần đầu
+    window.addEventListener("resize", updateWidth) // Lắng nghe sự kiện resize
+
+    return () => window.removeEventListener("resize", updateWidth) // Cleanup
+  }, [])
 
   return (
     <Drawer
@@ -54,16 +65,25 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
       placement="right"
       maskClosable={!props.isEdit}
       closable={false}
+      rootClassName="custom-drawer"
       className={props.isEdit ? "drawer-box-shadow" : ""}
       onClose={() => {
         // setIsEdit(false),
         props.onClose()
       }}
       open={props.visible}
-      width={window.innerWidth < 600 ? "100%" : props.widthDrawer ?? "70%"}
+      getContainer={false}
+      width={drawerWidth < 600 ? "100%" : props.widthDrawer ?? drawerWidth}
       extra={
         <>
           <Row>
+            <Button
+              className="custom-buttom-drawe"
+              onClick={() => props.onClose()}
+              size="middle"
+              icon={<LeftCircleFilled />}
+            ></Button>
+            &ensp;
             {props.lockPermission && props.onLockAction && (
               <>
                 <Button
@@ -178,87 +198,26 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
               <>
                 {props.updatePermission && (
                   <Button
-                    className="custom-buttom-drawe"
+                    className={"custom-buttom-save"}
                     loading={props.isLoading}
                     onClick={() => {
                       props.isEdit ? props.onSave() : props.onEdit()
                     }}
                     size="middle"
-                  >
-                    {props.isEdit ? (
-                      <>
-                        <SaveOutlined /> {L("SAVE")}
-                      </>
-                    ) : (
-                      <>
-                        <EditOutlined />
-                        {L("EDIT")}
-                      </>
-                    )}
-                  </Button>
+                    icon={props.isEdit ? <SaveOutlined /> : <EditOutlined />}
+                  ></Button>
                 )}
               </>
             )}
-            &ensp;
-            <Button
-              className="custom-buttom-drawe"
-              onClick={() => props.onClose()}
-              size="middle"
-            >
-              <CloseCircleFilled />
-              {L("BTN_CLOSE")}
-            </Button>
           </Row>
         </>
       }
-      getContainer={props.getContainer}
+      // getContainer={props.getContainer}
     >
       {props.children}
 
       <style>{`
-      .ant-drawer-content {
-        position: relative !important;
-      }
-      .ant-drawer-content {
-        background: #F9F9F8;
-      }
-      .ant-drawer-header {
-        background-color: white;
-        border-bottom-width: 0px;
-      }
-      .ant-drawer-body {
-        padding: 0px 0px 0px 0px !important;
-    
-      }
-      .ant-tabs{
-        height: 100%;
-        overflow: hidden;
-      }
-      .ant-tabs-nav{
-        margin: 0 !important;
-        border-bottom: 2px solid #F9F9F8;
-      }
-      .ant-tabs-content-holder{
-        padding-top: 15px;
-        overflow: auto;    margin-bottom: 10px;
-      }
-      .bottom-action-style {
-        position: absolute  !important;
-        width: 100%;
-        bottom: 4px;
-        right: 0;
-        height: 60px;
-        background-color: #FAF8EE
-      }
-      .ant-drawer-right > .ant-drawer-content-wrapper {
-      //   min-height: calc(100vh - 180px);
-      // max-height: calc(100vh - 180px);
-      // transform: translateX(0) !important;
-  
-      position:fixed;
-       top:46px
-      }
-      
+     
       `}</style>
     </Drawer>
   )

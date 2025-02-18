@@ -352,11 +352,10 @@ body::-webkit-scrollbar-button {
 
 /*  progress-line  */
 .wrap {
-  width: 100%;
   height: 30px;
-  z-index: -2;
   white-space: nowrap;
-  overflow: hidden;
+
+  display: flex;
 }
 
 .arrow-steps .step {
@@ -365,7 +364,7 @@ body::-webkit-scrollbar-button {
   cursor: default;
   margin: 0 3px;
   padding: 7px 7px 4px 20px;
-  min-width: 17%;
+  min-width: 20%;
   float: left;
   position: relative;
   background-color: #d9e3f7;
