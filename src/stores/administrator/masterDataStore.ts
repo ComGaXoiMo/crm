@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
 import masterDataService from "../../services/administrator/masterDataService"
@@ -9,6 +9,10 @@ class MasterDataStore {
   @observable masterDatas!: PagedResultDto<any>
   @observable editMasterData!: any
   @observable targetOptions: any = []
+
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action
   async create(body: any) {

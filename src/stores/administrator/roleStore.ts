@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import type { CreateRoleInput } from "../../services/administrator/role/dto/createRoleInput"
 import { EntityDto } from "../../services/dto/entityDto"
@@ -17,7 +17,9 @@ class RoleStore {
   @observable roleEdit: RoleEditModel = new RoleEditModel()
   @observable allPermissions: GetAllPermissionsOutput[] = []
   @observable allRoles: any[] = []
-
+  constructor() {
+    makeAutoObservable(this)
+  }
   @action
   async create(createRoleInput: CreateRoleInput) {
     await roleService.create(createRoleInput)
