@@ -2,18 +2,24 @@
 
 .wrap-logo {
   position: relative;
-  padding: 0 24px;
+  padding: 0 16px;
   overflow: hidden;
   color: #001529;
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
 
-  .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px;
+  .wrap-avatar {
+    width: max-content;
+    height: max-content;
+
+    .ant-avatar>img {
+      height: 2.5rem;
+      width: auto;
+    }
   }
+
+
 
   h1 {
     display: inline-block;
@@ -26,11 +32,41 @@
   }
 }
 
+.left-menu-bar {
+  overflow: scroll;
+  height: 100%;
+}
+
+.ant-pro-sider-collapsed-button {
+  position: absolute;
+  inset-block-start: 18px;
+  z-index: 101;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  border-radius: 40px;
+  inset-inline-end: -9px;
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(25, 15, 15, 0.07), 0 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
 .sidebar {
+  .ant-layout-sider-children {
+    display: flex;
+
+    flex-direction: column;
+  }
+
   box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
   box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.05);
   background: @layout-bg-white !important;
-  overflow: auto;
+  // overflow: auto;
   // height: calc(125vh - 72px); //change 100vh to 125vh to fix 1.25 zoom screen ratio
   // position: fixed;
   left: 0;
@@ -118,8 +154,8 @@
     }
 
     .ant-menu-item-selected {
-      // border-radius: 24px;
-      background: @layout-bg-white;
+      border-radius: 4px;
+      // background: @layout-bg-white;
 
       .selected-title {
         color: @primary-color;

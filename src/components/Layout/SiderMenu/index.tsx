@@ -53,7 +53,7 @@ const SiderMenu = (props: ISiderMenuProps) => {
     <Sider
       trigger={null}
       className="sidebar"
-      width={200}
+      width={"14rem"}
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}
@@ -61,28 +61,35 @@ const SiderMenu = (props: ISiderMenuProps) => {
       <div className="flex space-between center-items">
         <div className={"wrap-logo"}>
           <Avatar
-            style={{ height: 35, width: 35 }}
-            className="my-3"
+            className="my-3 wrap-avatar"
             shape="square"
             alt={"profile"}
-            src={"/assets/images/logoCore.png"}
+            style={{ height: "2.5rem" }}
+            src={
+              collapsed
+                ? "/assets/images/logoCore.png"
+                : "/assets/images/large-logo.png"
+            }
           />
         </div>
-        <div
-          onClick={() => onCollapse(!collapsed)}
-          style={{ fontSize: "18px", padding: "0 8px" }}
-        >
-          {collapsed ? <RightCircleOutlined /> : <LeftCircleOutlined />}
-        </div>
       </div>
-      <Menu
-        mode="inline"
-        onClick={() => window.innerWidth < 600 && onCollapse()}
-        // inlineIndent={15}
-        id={"menu-side-bar"}
-        defaultSelectedKeys={[defaultSelectedKeys]}
-        items={menuItems}
-      />
+      <div
+        onClick={() => onCollapse(!collapsed)}
+        className="ant-pro-sider-collapsed-button"
+        style={{ fontSize: "18px", padding: "0 8px" }}
+      >
+        {collapsed ? <RightCircleOutlined /> : <LeftCircleOutlined />}
+      </div>
+      <div className="left-menu-bar">
+        <Menu
+          mode="inline"
+          onClick={() => window.innerWidth < 600 && onCollapse()}
+          // inlineIndent={15}
+          id={"menu-side-bar"}
+          defaultSelectedKeys={[defaultSelectedKeys]}
+          items={menuItems}
+        />
+      </div>
     </Sider>
   )
 }

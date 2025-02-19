@@ -11,6 +11,9 @@ import {
   AppstoreOutlined,
   FolderOpenOutlined,
   FolderOutlined,
+  SettingOutlined,
+  CarryOutOutlined,
+  TruckOutlined,
 } from "@ant-design/icons"
 import { appPermissions } from "@lib/appconst"
 
@@ -636,7 +639,9 @@ export const routers: any = {
 export const appMenuGroups: any = [
   {
     name: "SALES",
-    type: "group",
+    // type: "group",
+    icon: TruckOutlined,
+
     children: [
       routers.report,
       routers.potentialCustomers,
@@ -652,7 +657,9 @@ export const appMenuGroups: any = [
   },
   {
     name: "AFTER_SALES",
-    type: "group",
+    // type: "group",
+    icon: CarryOutOutlined,
+
     children: [
       routers.notifications,
       routers.houseOwnershipCertificate,
@@ -662,12 +669,16 @@ export const appMenuGroups: any = [
   },
   {
     name: "CONFIG",
-    type: "group",
+    // type: "group",
+    icon: SettingOutlined,
+
     children: [routers.masterData, routers.administration, routers.settings],
   },
   {
     name: "LEASING",
-    type: "group",
+    // type: "group",
+    icon: AppstoreOutlined,
+
     children: [
       routers.properties,
       routers.clients,
