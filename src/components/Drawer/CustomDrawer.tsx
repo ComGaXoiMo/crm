@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useState } from "react"
 import type { PortalProps } from "@rc-component/portal"
 import {
   EditOutlined,
-  LeftCircleFilled,
+  LeftOutlined,
   LockFilled,
   PlusCircleFilled,
   SaveOutlined,
@@ -58,6 +58,13 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
     <Drawer
       title={
         <span style={{ fontWeight: 800, justifyItems: "start" }}>
+          <Button
+            className=""
+            onClick={() => props.onClose()}
+            size="middle"
+            icon={<LeftOutlined />}
+          ></Button>
+          &ensp; &ensp;
           {props.title}
         </span>
       }
@@ -77,13 +84,6 @@ const CustomDrawer = (props: React.PropsWithChildren<Props>) => {
       extra={
         <>
           <Row>
-            <Button
-              className="custom-buttom-drawe"
-              onClick={() => props.onClose()}
-              size="middle"
-              icon={<LeftCircleFilled />}
-            ></Button>
-            &ensp;
             {props.lockPermission && props.onLockAction && (
               <>
                 <Button

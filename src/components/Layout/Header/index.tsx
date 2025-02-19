@@ -11,6 +11,7 @@ import { portalLayouts } from "../Router/router.config"
 import { defaultAvatar, sidebarStatus } from "@lib/appconst"
 import NoticeIconView from "./NoticeIcon/NoticeIconView"
 import withRouter from "../Router/withRouter"
+import HeaderSearchInput from "@components/Filter/HeaderSearch"
 
 export interface IHeaderProps {
   history?: any
@@ -43,33 +44,33 @@ const Header = (props: IHeaderProps) => {
   return (
     <>
       <div className={"header-container"}>
-        <div className={"wrap-header"}>
-          <div className="action-header wrap-header">
-            <div className="wrap-profile"></div>
-            <NoticeIconView history={props.history} wrapClass="wrap-noti" />
-            {/* <LanguageSelect wrapClass="wrap-item" placement={"bottomLeft"} /> */}
-            <a
-              onClick={() => {
-                props.changeMenu(sidebarStatus.account)
-                // currentSidebarStatus(sidebarStatus.account);
-                navigate(portalLayouts.accountConfigMyProfile.path)
-              }}
-            >
-              <span className={`my-1 `}>
-                <Avatar
-                  style={{
-                    marginLeft: 12,
-                    height: 35,
-                    width: 35,
-                    borderRadius: "50%",
-                  }}
-                  shape="circle"
-                  alt={"profile"}
-                  src={profilePicture}
-                />
-              </span>
-            </a>
+        <div className="action-header wrap-header">
+          <div className="wrap-profile">
+            <HeaderSearchInput placeholder="Search . . ." />
           </div>
+          <NoticeIconView history={props.history} wrapClass="wrap-noti" />
+          {/* <LanguageSelect wrapClass="wrap-item" placement={"bottomLeft"} /> */}
+          <a
+            onClick={() => {
+              props.changeMenu(sidebarStatus.account)
+              // currentSidebarStatus(sidebarStatus.account);
+              navigate(portalLayouts.accountConfigMyProfile.path)
+            }}
+          >
+            <span className={`my-1 `}>
+              <Avatar
+                style={{
+                  marginLeft: 12,
+                  height: 35,
+                  width: 35,
+                  borderRadius: "50%",
+                }}
+                shape="circle"
+                alt={"profile"}
+                src={profilePicture}
+              />
+            </span>
+          </a>
         </div>
       </div>
     </>

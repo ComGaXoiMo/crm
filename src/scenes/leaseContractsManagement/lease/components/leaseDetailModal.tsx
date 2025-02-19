@@ -1127,14 +1127,6 @@ class LeaseDetailModal extends AppComponentListBase<Props, States> {
               this.setState({ amendmentLAModalVisible: false })
             }}
           />
-          <style>
-            {`
-        .ant-card .ant-card-body{
-            padding:4px 
-        }
-        
-        `}
-          </style>
         </CustomDrawer>
       )
     )

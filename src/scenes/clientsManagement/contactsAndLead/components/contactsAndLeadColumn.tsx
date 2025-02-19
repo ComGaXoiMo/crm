@@ -10,7 +10,7 @@ const columns = (actionColumn?, asociateList?) => {
       title: L("CONTACTS_TYPE"),
       dataIndex: "typeId",
       key: "typeId",
-      width: 150,
+      width: 110,
 
       ellipsis: false,
       render: (typeId) => <>{typeId === 1 ? "Individual" : "Company"}</>,
@@ -19,7 +19,7 @@ const columns = (actionColumn?, asociateList?) => {
       title: L("COMPANY"),
       dataIndex: "company",
       key: "company",
-      width: 260,
+      width: 110,
       ellipsis: true,
       render: (company) => <>{company?.businessName ?? ""}</>,
     },
@@ -27,7 +27,7 @@ const columns = (actionColumn?, asociateList?) => {
       title: L("TITLE"),
       dataIndex: "title",
       key: "title",
-      width: 150,
+      width: 110,
       ellipsis: false,
       render: (title) => <>{title}</>,
     },
@@ -36,7 +36,7 @@ const columns = (actionColumn?, asociateList?) => {
       dataIndex: "contactPhone",
       key: "contactPhone",
       ellipsis: true,
-      width: 250,
+      width: 110,
       render: (contactPhone) => (
         <>
           {contactPhone
@@ -49,7 +49,7 @@ const columns = (actionColumn?, asociateList?) => {
       title: L("EMAIL"),
       dataIndex: "contactEmail",
       key: "contactEmail",
-      width: 250,
+      width: 160,
       ellipsis: true,
       render: (contactEmail) => (
         <>{contactEmail.map((item) => item.email).join(", ")}</>
@@ -59,7 +59,7 @@ const columns = (actionColumn?, asociateList?) => {
       title: L("DEALER"),
       dataIndex: "creatorUser",
       key: "creatorUser",
-      width: 200,
+      width: 140,
       ellipsis: false,
 
       render: (creatorUser) => <>{creatorUser?.displayName}</>,
@@ -71,7 +71,7 @@ const columns = (actionColumn?, asociateList?) => {
       key: "numOfInquiry",
       align: align.right,
       ellipsis: false,
-      width: 150,
+      width: 110,
       render: (numOfInquiry) => <>{numOfInquiry}</>,
     },
     {
@@ -80,7 +80,7 @@ const columns = (actionColumn?, asociateList?) => {
       key: "numOfLA",
       align: align.right,
       ellipsis: false,
-      width: 150,
+      width: 110,
       render: (numOfLA) => <>{numOfLA}</>,
     },
     {
@@ -89,7 +89,7 @@ const columns = (actionColumn?, asociateList?) => {
       key: "leadSource",
       align: align.left,
       ellipsis: false,
-      width: 200,
+      width: 110,
       render: (leadSource) => <>{leadSource?.name}</>,
     },
     asociateList,

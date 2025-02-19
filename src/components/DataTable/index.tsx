@@ -1,12 +1,11 @@
 import React, { useCallback } from "react"
-import { Button, Card, Col, Pagination, Row, Select } from "antd"
+import { Button, Card, Col, Pagination, Row } from "antd"
 import { isGranted, L } from "../../lib/abpUtility"
 import "./DataTable.less"
 import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
 import { ExcelIcon } from "@components/Icon"
 import FilterSearch from "@components/Filter/FilterSearch"
 import { debounce } from "lodash"
-import { renderOptions } from "@lib/helper"
 
 export interface IDataTableProps {
   title?: string
@@ -46,11 +45,6 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   const handleCreate = () => {
     onCreate && onCreate()
   }
-  const handlePageSizeChange = (value: number) => {
-    if (pagination.onChange) {
-      pagination.onChange({ current: 1, pageSize: value })
-    }
-  }
 
   const handleRefresh = () => {
     onRefresh && onRefresh()
@@ -83,21 +77,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
           </Row>
         )}
         <div className="flex space-between center-items">
-          {pagination && pagination.total > 0 ? (
-            <Select
-              className="select-non-radius"
-              defaultValue={10}
-              onChange={handlePageSizeChange}
-            >
-              {renderOptions([
-                { value: 10, label: 10 },
-                { value: 25, label: 25 },
-                { value: 50, label: 50 },
-              ])}
-            </Select>
-          ) : (
-            <div></div>
-          )}
+          <div></div>
 
           <div className="d-flex justify-content-between my-1 content-right ">
             <div className="d-flex align-items-center">
@@ -152,7 +132,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
                 showTotal={(total) => L("TOTAL_{0}_ITEMS", total)}
                 {...pagination}
                 onChange={handleOnChange}
-                showSizeChanger={false}
+                showSizeChanger
               />
             </Col>
           </Row>

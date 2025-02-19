@@ -162,7 +162,7 @@ class ContactsAndLead extends AppComponentListBase<
         title: L("CONTACTS_NAME"),
         dataIndex: "contactName",
         key: "contactName",
-        width: 220,
+        width: 210,
         fixed: "left",
         ellipsis: false,
         render: (contactName: string, item: any) => (
@@ -252,6 +252,7 @@ class ContactsAndLead extends AppComponentListBase<
             pagination={false}
             dataSource={tableData === undefined ? [] : tableData.items}
             loading={isLoading}
+            bordered
             scroll={{
               x: 1000,
               y: "calc(100vh - 23rem)",

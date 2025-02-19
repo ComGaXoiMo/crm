@@ -7,8 +7,7 @@ input {
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    font-family: "Montserrat", sans-serif;
-    font-variant: tabular-nums;
+
     font-size: 16px;
   }
 
@@ -65,9 +64,13 @@ input {
 
 /* TAB */
 .ant-tabs {
+  .ant-tabs-nav {
+    margin: 0 0 0.75rem 0;
+  }
+
   .ant-tabs-tab {
     margin: 0 !important;
-    padding: 9px 18px;
+    padding: 0.6rem 1.2rem;
     position: relative;
 
     &::after {
@@ -104,7 +107,7 @@ input {
 // }
 
 .button-primary {
-  border-radius: 0px !important;
+
   border: none;
   background-color: @primary-color !important;
   color: white;
@@ -117,7 +120,7 @@ input {
 }
 
 .button-secondary {
-  border-radius: 0px !important;
+
   border: none;
   font-size: medium;
   background-color: @border-color !important;
@@ -130,7 +133,7 @@ input {
 }
 
 .ant-btn {
-  border-radius: 0px !important;
+
 
   &.ant-btn-primary {
     filter: drop-shadow(0px 8px 24px rgba(@primary-color, 0.14));
@@ -219,19 +222,19 @@ input {
 
 .custom-buttom-cancle {
   background-color: #DEE3ED !important;
-  border-radius: 0px !important;
+
   margin: 2px;
 }
 
 .custom-buttom-save {
   background-color: @primary-color !important;
-  border-radius: 0px !important;
+
   color: white;
 }
 
 .custom-buttom-drawe {
   background-color: #DEE3ED !important;
-  border-radius: 0px !important;
+
 }
 
 .item-header-drawer {
@@ -561,17 +564,17 @@ input {
 
 .ant-input-number-input-wrap::placeholder,
 .ant-input::placeholder {
-  color: #000000 !important;
+  color: #7c7c7c !important;
 
 }
 
 .ant-picker {
   input::placeholder {
-    color: #000000 !important;
+    color: #7c7c7c !important;
   }
 
   input[value] {
-    color: #0010ee !important;
+    color: #0c0c0c !important;
   }
 }
 
@@ -642,11 +645,7 @@ input {
   box-shadow: none !important;
 }
 
-.select-non-radius {
-  .ant-select-selector {
-    border-radius: 0px !important;
-  }
-}
+
 
 .ant-input[disabled] {
   color: rgb(0 0 0) !important;
@@ -752,7 +751,6 @@ input {
 }
 
 .ant-tag {
-  border-radius: 0px;
 
   &.cell-round {
     font-size: 10px;
@@ -779,7 +777,7 @@ input {
 }
 
 .ant-modal-content {
-  border-radius: 0px !important;
+
   overflow: hidden;
   padding: 8px;
 }
@@ -922,7 +920,7 @@ input {
 .card-detail-modal {
   min-height: 10vh;
   // max-height: 77vh;
-  border-radius: 0px !important;
+
   overflow-y: scroll;
 }
 
@@ -930,7 +928,7 @@ input {
   min-height: 20vh;
   margin: 6px !important;
   padding: 6px !important;
-  border-radius: 0px !important;
+
   overflow-y: scroll;
 }
 
@@ -939,7 +937,7 @@ input {
   // max-height: 77vh;
   height: 100%;
   padding: 6px !important;
-  border-radius: 0px !important;
+
   overflow-y: scroll;
 
   .ant-card-body {
@@ -1012,9 +1010,6 @@ input {
   display: flex;
 }
 
-.ant-radio-button-wrapper {
-  border-radius: 0px !important;
-}
 
 
 //radio button title

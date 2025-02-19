@@ -250,14 +250,6 @@ class LeaseAgreementDetail extends AppComponentListBase<Props, States> {
           data={this.state.dataGenerate}
           onOk={this.handleOk}
         />
-        <style>
-          {`
-        .ant-card .ant-card-body{
-            padding:4px 
-        }
-        
-        `}
-        </style>
       </>
     )
   }

@@ -38,7 +38,7 @@ const ContactsAndLeadFilterPanel = ({ userStore, handleSearch }) => {
 
   return (
     <Row gutter={[4, 8]}>
-      <Col sm={{ span: 5 }}>
+      <Col sm={{ span: 4 }}>
         <FilterSelect
           placeholder={L("DEALER")}
           onSearch={handleSearchStaff}
@@ -47,14 +47,14 @@ const ContactsAndLeadFilterPanel = ({ userStore, handleSearch }) => {
           options={listUser}
         />
       </Col>
-      <Col sm={{ span: 3 }}>
+      <Col sm={{ span: 4 }}>
         <FilterSelect
           placeholder={L("FILTER_CONTACT_TYPE")}
           onChange={(value) => handleSearchFilter("typeId", value)}
           options={contactType}
         />
       </Col>
-      <Col sm={{ span: 3 }}>
+      <Col sm={{ span: 4 }}>
         <FilterSelect
           placeholder={L("STATUS")}
           defaultValue="true"
