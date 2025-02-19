@@ -277,7 +277,11 @@ class User extends AppComponentListBase<IUserProps, IUserState> {
             columns={columns}
             pagination={false}
             loading={this.props.userStore.isLoading}
-            scroll={{ x: 800, y: 600, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
             dataSource={users === undefined ? [] : users.items}
           />
         </DataTable>

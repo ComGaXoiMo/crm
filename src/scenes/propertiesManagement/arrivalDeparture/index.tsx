@@ -154,7 +154,11 @@ class ArrivalDeparture extends React.Component<any> {
             loading={isLoading}
             pagination={false}
             dataSource={tableData === undefined ? [] : tableData.items}
-            scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
       </>

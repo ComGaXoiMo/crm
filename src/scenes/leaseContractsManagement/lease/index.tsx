@@ -219,7 +219,11 @@ class Leases extends AppComponentListBase<ILeaseProps, ILeaseState> {
             loading={isLoading}
             pagination={false}
             dataSource={pageResult.items ?? []}
-            scroll={{ x: 1000, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 27rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
 

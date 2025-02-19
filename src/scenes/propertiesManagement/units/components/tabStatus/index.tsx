@@ -140,7 +140,11 @@ class Status extends AppComponentListBase<IStatusProps, IStatusState> {
             columns={columns}
             pagination={false}
             dataSource={unitStatusTableData?.items ?? []}
-            scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
 

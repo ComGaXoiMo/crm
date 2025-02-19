@@ -196,7 +196,11 @@ class Company extends AppComponentListBase<IContactProps, IContactState> {
             pagination={false}
             loading={isLoading}
             dataSource={tableData === undefined ? [] : tableData.items}
-            scroll={{ x: 1000, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
         {this.state.visible && (

@@ -160,7 +160,11 @@ class Document extends AppComponentListBase<IDocumentProps, IDocumentState> {
             })}
             pagination={false}
             dataSource={dataFake}
-            scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
         {/* </Card> */}

@@ -71,7 +71,7 @@ const PhoneCheckInput: React.FC<PhonesInputProps> = ({
       <Select
         getPopupContainer={(trigger) => trigger.parentNode}
         defaultValue={"+84"}
-        style={{ width: 60 }}
+        style={{ width: "5rem" }}
         disabled={disabled}
         showArrow={false}
       >

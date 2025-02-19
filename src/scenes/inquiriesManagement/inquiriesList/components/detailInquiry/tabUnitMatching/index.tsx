@@ -241,7 +241,11 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
             dataSource={
               listUnitByInquiry === undefined ? [] : listUnitByInquiry.items
             }
-            scroll={{ x: 800, y: 500, scrollToFirstRowOnChange: true }}
+            scroll={{
+              x: 1000,
+              y: "calc(100vh - 23rem)",
+              scrollToFirstRowOnChange: true,
+            }}
           />
         </DataTable>
         <AddSiteVisitModal

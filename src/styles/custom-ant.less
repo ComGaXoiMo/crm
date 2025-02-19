@@ -81,6 +81,14 @@ input {
       background-color: @border-color;
     }
   }
+
+  height: 100%;
+
+  .ant-tabs-content-holder {
+    overflow: auto;
+  }
+
+
 }
 
 
@@ -122,6 +130,8 @@ input {
 }
 
 .ant-btn {
+  border-radius: 0px !important;
+
   &.ant-btn-primary {
     filter: drop-shadow(0px 8px 24px rgba(@primary-color, 0.14));
     background: linear-gradient(180deg, @primary-color 0%, @primary-color 100%);
@@ -615,10 +625,21 @@ input {
 
     .ant-input {
       border-color: @border-color !important;
-
     }
 
   }
+}
+
+.ant-input {
+  border-color: @border-color !important;
+
+
+
+}
+
+.ant-input-outlined:focus {
+  border-color: @primary-color !important;
+  box-shadow: none !important;
 }
 
 .select-non-radius {
@@ -731,14 +752,11 @@ input {
 }
 
 .ant-tag {
-  &.round {
-    border-radius: 8px;
-  }
+  border-radius: 0px;
 
   &.cell-round {
     font-size: 10px;
     line-height: 15px;
-    border-radius: 15px;
   }
 }
 
@@ -761,7 +779,7 @@ input {
 }
 
 .ant-modal-content {
-  border-radius: 12px !important;
+  border-radius: 0px !important;
   overflow: hidden;
   padding: 8px;
 }
@@ -1014,6 +1032,7 @@ input {
 }
 
 /*TAB*/
+
 .proposal-header {
   display: flex;
   justify-content: space-between;

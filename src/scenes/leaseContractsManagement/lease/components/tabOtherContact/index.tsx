@@ -3,7 +3,7 @@ import React from "react"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import withRouter from "@components/Layout/Router/withRouter"
 import { inject, observer } from "mobx-react"
-import { Button, Col, Dropdown, Menu, Modal, Row, Table, Tooltip } from "antd"
+import { Col, Dropdown, Menu, Modal, Row, Table } from "antd"
 import getColumn from "./components/columns"
 import LeaseAgreementStore from "@stores/communication/leaseAgreementStore"
 import Stores from "@stores/storeIdentifier"
@@ -13,7 +13,7 @@ import { L, LNotification } from "@lib/abpUtility"
 import { appPermissions } from "@lib/appconst"
 import ContactStore from "@stores/clientManagement/contactStore"
 import { renderDotActive } from "@lib/helper"
-import { MoreOutlined, PlusCircleFilled } from "@ant-design/icons"
+import { MoreOutlined } from "@ant-design/icons"
 import DataTable from "@components/DataTable"
 import DetailModal from "./components/detailModal"
 interface Props {
@@ -154,47 +154,28 @@ class OtherContact extends AppComponentListBase<Props, States> {
     } = this.props
     return (
       <>
-        <Row gutter={[8, 4]}>
-          <Col
-            sm={{ span: 24 }}
-            style={{ display: "flex", flexDirection: "row-reverse" }}
-          >
-            {this.isGranted(appPermissions.contact.create) && (
-              <Tooltip title={L("CREATE_CONTACT")} placement="topLeft">
-                <Button
-                  icon={<PlusCircleFilled />}
-                  className="button-primary"
-                  onClick={() => this.gotoDetail()}
-                ></Button>
-              </Tooltip>
-            )}
-          </Col>
+        <DataTable
+          onCreate={() => this.gotoDetail()}
+          pagination={{
+            pageSize: this.state.maxResultCount,
+            total:
+              listContactByLA === undefined ? 0 : listContactByLA.totalCount,
+            onChange: this.handleTableChange,
+          }}
+        >
+          <Table
+            size="middle"
+            className="comm-table"
+            rowKey={(record) => record.id}
+            columns={columns}
+            pagination={false}
+            dataSource={
+              listContactByLA === undefined ? [] : listContactByLA?.items
+            }
+            loading={isLoading}
+          />
+        </DataTable>
 
-          <Col sm={{ span: 24 }}>
-            <DataTable
-              pagination={{
-                pageSize: this.state.maxResultCount,
-                total:
-                  listContactByLA === undefined
-                    ? 0
-                    : listContactByLA.totalCount,
-                onChange: this.handleTableChange,
-              }}
-            >
-              <Table
-                size="middle"
-                className="comm-table"
-                rowKey={(record) => record.id}
-                columns={columns}
-                pagination={false}
-                dataSource={
-                  listContactByLA === undefined ? [] : listContactByLA?.items
-                }
-                loading={isLoading}
-              />
-            </DataTable>
-          </Col>
-        </Row>
         <DetailModal
           leaseAgreementId={this.props.leaseAgreementId}
           id={this.state.contactId}

@@ -10,19 +10,19 @@ import { defaultAvatar, moduleAvatar } from "../../lib/appconst"
 import UserStore from "../../stores/administrator/userStore"
 
 export interface IAvatarUploadProps {
-  sessionStore?: SessionStore;
-  userStore?: UserStore;
-  parentId?: any;
-  profilePictureId?: string;
-  initImageUrl?: string;
-  module: string;
-  uploadClass?: string;
-  cbGetProfilePicture?: () => void;
+  sessionStore?: SessionStore
+  userStore?: UserStore
+  parentId?: any
+  profilePictureId?: string
+  initImageUrl?: string
+  module: string
+  uploadClass?: string
+  cbGetProfilePicture?: () => void
 }
 
 export interface IAvatarUploadState {
-  loading: boolean;
-  imageUrl?: string;
+  loading: boolean
+  imageUrl?: string
 }
 
 @inject(Stores.SessionStore)
@@ -34,7 +34,7 @@ class AvatarUpload extends React.Component<
   state = {
     loading: false,
     imageUrl: "",
-  };
+  }
 
   async componentDidMount() {
     this.initAvatar()
@@ -112,13 +112,13 @@ class AvatarUpload extends React.Component<
     }
 
     this.setState({ loading: false })
-  };
+  }
 
   handleChange = (info) => {
     if (this.props.module === moduleAvatar.project) {
       getBase64(info.file, (imageUrl) => this.setState({ imageUrl }))
     }
-  };
+  }
 
   beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png"
@@ -134,7 +134,7 @@ class AvatarUpload extends React.Component<
 
     this.handleUpload(file)
     return false
-  };
+  }
 
   handleUpload = async (file) => {
     this.setState({ loading: true })
@@ -178,7 +178,7 @@ class AvatarUpload extends React.Component<
     if (this.props.cbGetProfilePicture) {
       this.props.cbGetProfilePicture()
     }
-  };
+  }
 
   render() {
     const uploadButton = (
@@ -211,12 +211,11 @@ class AvatarUpload extends React.Component<
           onChange={this.handleChange}
         >
           {imageUrl ? (
-            <img src={imageUrl} alt="avatar" className="avatar-picture" />
+            <img src={imageUrl} alt="avatar" className="avatar-picture w-100" />
           ) : (
             uploadButton
           )}
         </Upload>
-        {imageUrl && imageUrl.length > 0 ? L("CHANGE") : ""}
       </div>
     )
   }
