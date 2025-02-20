@@ -64,7 +64,7 @@ class companyFilterPanel extends AppComponentListBase<Props, any> {
     return (
       <>
         <Row gutter={[4, 8]}>
-          <Col sm={{ span: 5, offset: 0 }}>
+          <Col sm={{ span: 4, offset: 0 }}>
             <FilterSelect
               placeholder={L("DEALER")}
               onSearch={this.getStaff}
@@ -73,7 +73,7 @@ class companyFilterPanel extends AppComponentListBase<Props, any> {
               options={this.state.listUser}
             />
           </Col>
-          <Col sm={{ span: 3, offset: 0 }}>
+          <Col sm={{ span: 4, offset: 0 }}>
             <FilterSelect
               placeholder={L("STATUS")}
               defaultValue="true"

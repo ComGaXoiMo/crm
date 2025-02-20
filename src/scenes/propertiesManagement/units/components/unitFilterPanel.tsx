@@ -1,7 +1,6 @@
 import React from "react"
 import withRouter from "@components/Layout/Router/withRouter"
 import { L } from "@lib/abpUtility"
-import { Radio } from "antd"
 import Col from "antd/lib/col"
 import Row from "antd/lib/row"
 import projectService from "@services/projects/projectService"
@@ -23,9 +22,6 @@ type Props = {
   filter: any
   changeTab: any
   projectId: any
-  onCreate: () => void
-  onCreateProject: () => void
-  onCreateActiviy: (type) => void
   appDataStore: AppDataStore
   projectStore: ProjectStore
   unitStore: UnitStore
@@ -33,6 +29,7 @@ type Props = {
   numberUnitChoose: number
   exportExcel: any
   printRef: any
+  tabSelected: any
 }
 
 @inject(Stores.AppDataStore, Stores.ProjectStore, Stores.UnitStore)
@@ -42,7 +39,7 @@ class UnitsFilterPanel extends AppComponentListBase<Props, any> {
     super(props)
   }
   state = {
-    selectedType: this.props.tabKeys.listView,
+    selectedType: this.props.tabSelected,
     listProject: [],
     disableReservation: true,
     filters: {
@@ -124,7 +121,7 @@ class UnitsFilterPanel extends AppComponentListBase<Props, any> {
       <>
         <Row gutter={[4, 8]}>
           {!this.props.projectId && (
-            <Col sm={{ span: 4, offset: 0 }}>
+            <Col sm={{ span: 3, offset: 0 }}>
               <FilterSelect
                 placeholder={L("PROJECT")}
                 onChange={(e) => {
@@ -166,7 +163,7 @@ class UnitsFilterPanel extends AppComponentListBase<Props, any> {
             />
           </Col>
           {selectedType === tabKeys.listView && (
-            <Col sm={{ span: 2, offset: 0 }}>
+            <Col sm={{ span: 3, offset: 0 }}>
               <FilterSelect
                 placeholder={L("STATUS")}
                 defaultValue="true"
@@ -176,48 +173,26 @@ class UnitsFilterPanel extends AppComponentListBase<Props, any> {
             </Col>
           )}
 
-          <Col sm={{ span: 4, offset: 0 }}>
+          <Col sm={{ span: 3, offset: 0 }}>
             <FilterSelect
               placeholder={L("UNIT_STATUS")}
               onChange={(value) => this.handleSearch("unitStatusId", value)}
               options={unitStatus}
             />
           </Col>
-          <Col sm={{ span: 4, offset: 0 }}>
+          <Col sm={{ span: 3, offset: 0 }}>
             <FilterRangePicker
               onChange={this.handleDateChange}
               disabled={!this.state.filters?.unitStatusId}
             />
           </Col>
-          <Col sm={{ span: 4, offset: 0 }}>
+          <Col sm={{ span: 3, offset: 0 }}>
             <FilterSelect
               placeholder={L("UNIT_VIEW")}
               onChange={(value) => this.handleSearch("ViewIds", value)}
               options={view}
             />
           </Col>
-          <Radio.Group
-            onChange={async (value) => {
-              await this.setState({ selectedType: value.target.value })
-              await this.props.changeTab(value)
-            }}
-            optionType="button"
-            value={this.state.selectedType}
-            buttonStyle="solid"
-          >
-            <Radio.Button
-              key={this.props.tabKeys.gridView}
-              value={this.props.tabKeys.gridView}
-            >
-              {this.props.tabKeys.gridView}
-            </Radio.Button>
-            <Radio.Button
-              key={this.props.tabKeys.listView}
-              value={this.props.tabKeys.listView}
-            >
-              {this.props.tabKeys.listView}
-            </Radio.Button>
-          </Radio.Group>
         </Row>
       </>
     )

@@ -56,7 +56,7 @@ const AppConsts = {
   noImage: "/assets/images/logo.png",
   tableMaxHeight: window.innerHeight - 440,
   tableWidth: {
-    date: 150,
+    date: 130,
     shortCode: 100,
   },
 

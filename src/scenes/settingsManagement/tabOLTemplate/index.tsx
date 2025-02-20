@@ -142,7 +142,7 @@ class OfferLetterTemplate extends AppComponentListBase<IProps, IState> {
             dataSource={fakeData ?? []}
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

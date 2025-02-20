@@ -4,8 +4,13 @@ import gettColumns from "./components/unitColumn"
 import { inject, observer } from "mobx-react"
 import UnitFilterPanel from "./components/unitFilterPanel"
 import { L, LNotification } from "@lib/abpUtility"
-import { Button, Col, Dropdown, Menu, Modal, Row, Table } from "antd"
-import { FilePdfOutlined, MoreOutlined } from "@ant-design/icons/lib/icons"
+import { Button, Col, Dropdown, Menu, Modal, Radio, Row, Table } from "antd"
+import {
+  AppstoreOutlined,
+  FilePdfOutlined,
+  MoreOutlined,
+  TableOutlined,
+} from "@ant-design/icons/lib/icons"
 import DataTable from "@components/DataTable"
 import Stores from "@stores/storeIdentifier"
 import UnitStore from "@stores/projects/unitStore"
@@ -220,9 +225,8 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
       onChange: this.onSelectChange,
       selectedRowKeys: this.state.selectedRowKeys,
       columnWidth: 40,
-      hideSelectAll: true,
     }
-    const { numberUnitChoose } = this.state
+    const { numberUnitChoose, tabView } = this.state
     const {
       unitStore: { isLoading, tableData },
     } = this.props
@@ -232,7 +236,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
       dataIndex: "unitName",
       key: "unitName",
       fixed: "left",
-      width: 200,
+      width: 150,
       ellipsis: false,
       render: (unitName: string, item: any) => (
         <Row>
@@ -292,6 +296,7 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
                 changeTab={this.changeTab}
                 handleSearch={this.handleFilterChange}
                 filter={this.state.filters}
+                tabSelected={tabView}
               />
             }
             handleSearch={this.handleFilterChange}
@@ -370,6 +375,22 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
                       </Button>
                     </Dropdown>
                   )}
+                <Radio.Group
+                  onChange={async (value) => {
+                    await this.setState({ tabView: value.target.value })
+                    await this.changeTab(value)
+                  }}
+                  optionType="button"
+                  value={tabView}
+                  buttonStyle="solid"
+                >
+                  <Radio.Button key={tabKeys.gridView} value={tabKeys.gridView}>
+                    <AppstoreOutlined />
+                  </Radio.Button>
+                  <Radio.Button key={tabKeys.listView} value={tabKeys.listView}>
+                    <TableOutlined />
+                  </Radio.Button>
+                </Radio.Group>
               </>
             }
             pagination={
@@ -390,10 +411,11 @@ class Units extends AppComponentListBase<IUnitProps, IUnitState> {
                 loading={isLoading}
                 rowSelection={rowSelection}
                 pagination={false}
+                bordered
                 dataSource={tableData === undefined ? [] : tableData.items}
                 scroll={{
                   x: 1000,
-                  y: "calc(100vh - 23rem)",
+                  y: "calc(100vh - 22rem)",
                   scrollToFirstRowOnChange: true,
                 }}
               />

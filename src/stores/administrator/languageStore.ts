@@ -1,4 +1,4 @@
-import { action, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 
 import { EntityDto } from "../../services/dto/entityDto"
 import type { PagedResultDto } from "../../services/dto/pagedResultDto"
@@ -17,6 +17,10 @@ class LanguageStore {
   @observable languageTexts!: PagedResultDto<LanguageTextDto>
   @observable editLanguage!: Language
   @observable editLanguageText!: LanguageTextInputDto
+
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action
   async create(createLanguageInput) {

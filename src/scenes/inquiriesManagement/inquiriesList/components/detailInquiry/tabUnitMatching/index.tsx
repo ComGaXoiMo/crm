@@ -243,7 +243,7 @@ class UnitMatching extends AppComponentListBase<IUnitProps, IUnitState> {
             }
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

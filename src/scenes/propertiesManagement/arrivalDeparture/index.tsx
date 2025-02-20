@@ -156,7 +156,7 @@ class ArrivalDeparture extends React.Component<any> {
             dataSource={tableData === undefined ? [] : tableData.items}
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

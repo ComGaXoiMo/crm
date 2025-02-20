@@ -57,7 +57,7 @@ class projectsFilterPanel extends AppComponentListBase<Props, States> {
               options={propertyTypes}
             />
           </Col>
-          <Col sm={{ span: 3, offset: 0 }}>
+          <Col sm={{ span: 4, offset: 0 }}>
             <FilterSelect
               placeholder={L("STATUS")}
               defaultValue="true"

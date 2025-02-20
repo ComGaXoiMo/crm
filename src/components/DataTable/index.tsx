@@ -21,6 +21,7 @@ export interface IDataTableProps {
   handleRefresh?: (key, value) => void
   handleSearch?: any
   actionComponent?: any
+  multiActionComponent?: any
   filterComponent?: any
   children?: any
   searchPlaceholder?: any
@@ -37,6 +38,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   createPermission,
   exportPermission,
   actionComponent,
+  multiActionComponent,
   filterComponent,
   handleSearch,
   searchPlaceholder,
@@ -77,7 +79,9 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
           </Row>
         )}
         <div className="flex space-between center-items">
-          <div></div>
+          <div>
+            {multiActionComponent && <div> {multiActionComponent} </div>}
+          </div>
 
           <div className="d-flex justify-content-between my-1 content-right ">
             <div className="d-flex align-items-center">

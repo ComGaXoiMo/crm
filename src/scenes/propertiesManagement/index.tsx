@@ -33,7 +33,7 @@ const tabKeys = {
 class Properties extends AppComponentListBase<IPropertiesProps> {
   formRef: any = React.createRef()
   state = {
-    tabActiveKey: tabKeys.tabUnits,
+    tabActiveKey: tabKeys.tabProjects,
     showOverView: false,
   }
   async componentDidMount() {

@@ -9,27 +9,27 @@ import { unitProductTypeModel } from "@models/common/unitProductTypeModel"
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons"
 
 interface Props {
-  label: string;
-  name: string | string[];
-  rule?;
-  disabled?: boolean;
-  value: unitProductTypeModel[];
-  valuef: unitProductTypeModel[];
+  label: string
+  name: string | string[]
+  rule?
+  disabled?: boolean
+  value: unitProductTypeModel[]
+  valuef: unitProductTypeModel[]
 
-  propertyType: any[];
-  unitType: any[];
-  onChange?: (value: unitProductTypeModel[]) => void;
+  propertyType: any[]
+  unitType: any[]
+  onChange?: (value: unitProductTypeModel[]) => void
 }
 
 interface States {
-  currentValue: unitProductTypeModel[];
+  currentValue: unitProductTypeModel[]
 }
 
 class ProductAndUnitTypeSelect extends AppComponentListBase<Props, States> {
-  form = React.createRef<any>();
+  form = React.createRef<any>()
   state = {
     currentValue: this.props.valuef ?? ([] as any),
-  };
+  }
   async componentDidMount() {
     this.setState({ currentValue: this.props.valuef ?? ([] as any) })
     if (!this.props.valuef) {
@@ -53,32 +53,32 @@ class ProductAndUnitTypeSelect extends AppComponentListBase<Props, States> {
     if (this.props.onChange) {
       await this.props.onChange(updatedValue)
     }
-  };
+  }
 
   changeProductType = async (value, index) => {
     const updatedValue = [...this.state.currentValue]
     updatedValue[index].propertyTypeId = value
     this.triggerChange(updatedValue)
-  };
+  }
   changeUnitType = async (value, index) => {
     const updatedValue = [...this.state.currentValue]
     updatedValue[index].unitTypeId = value
     this.triggerChange(updatedValue)
-  };
+  }
 
   addNewProductType = async () => {
     this.triggerChange([
       ...this.state.currentValue,
       new unitProductTypeModel(undefined, undefined),
     ])
-  };
+  }
   deleteProductType = async (value, index) => {
     await this.triggerChange([
       ...this.state.currentValue.filter(
         (item, ProductTypeIndex) => ProductTypeIndex !== index
       ),
     ])
-  };
+  }
   render() {
     const { currentValue } = this.state
     return (
@@ -87,7 +87,7 @@ class ProductAndUnitTypeSelect extends AppComponentListBase<Props, States> {
           {(currentValue || []).map((item, index) => (
             <Col {...{ span: 23 }} key={index}>
               <Row gutter={[8, 8]}>
-                <Col sm={{ span: 6, offset: 0 }}>
+                <Col sm={{ span: 8, offset: 0 }}>
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     style={{ width: "100%" }}
@@ -102,7 +102,7 @@ class ProductAndUnitTypeSelect extends AppComponentListBase<Props, States> {
                     {renderOptions(this.props.propertyType)}
                   </Select>
                 </Col>
-                <Col sm={{ span: 17, offset: 0 }}>
+                <Col sm={{ span: 15, offset: 0 }}>
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     style={{ width: "100%" }}

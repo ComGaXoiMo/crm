@@ -474,7 +474,7 @@ export const portalLayouts: any = {
     layout: layouts.portalLayout,
     icon: FolderOutlined,
     component: LoadableComponent(
-      () => import("../../../scenes/clientsManagement")
+      () => import("../../../scenes/propertiesManagement")
     ),
   },
   existingCustomers: {

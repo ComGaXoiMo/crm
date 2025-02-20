@@ -142,7 +142,7 @@ class Status extends AppComponentListBase<IStatusProps, IStatusState> {
             dataSource={unitStatusTableData?.items ?? []}
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

@@ -161,7 +161,7 @@ class EProposalTemplate extends AppComponentListBase<
             dataSource={eProposalTemplates ?? []}
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

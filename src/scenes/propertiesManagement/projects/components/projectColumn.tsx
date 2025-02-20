@@ -8,47 +8,22 @@ const { align } = AppConsts
 const columns = (actionColumn?) => {
   const data = [
     actionColumn,
-    // {
-    //   title: L("PROPERTY"),
-    //   dataIndex: "projectName",
-    //   key: "projectName",
-    //   width: "15%",
-    //   ellipsis: false,
-    //   render: (projectName) => <>{projectName}</>,
-    // },
-    // {
-    //   title: L("LOCATION"),
-    //   dataIndex: "projectAddress",
-    //   key: "projectAddress",
-    //   ellipsis: false,
-    //   width: "10%",
-    //   render: (projectAddress) => (
-    //     <>{projectAddress.map((item) => item?.address).join(", ")}</>
-    //   ),
-    // },
+
     {
       title: L("PROJECT_CODE"),
       dataIndex: "projectCode",
       key: "projectCode",
-      width: 60,
+      width: 80,
       ellipsis: false,
       render: (projectCode, row, index) => <>{projectCode ?? ""}</>,
     },
-    {
-      title: L("PROJECT_SORT_NUMBER"),
-      dataIndex: "sortNumber",
-      key: "sortNumber",
-      width: 40,
-      align: align.right,
-      ellipsis: false,
-      render: (sortNumber, row, index) => <>{sortNumber ?? ""}</>,
-    },
+
     {
       title: L("OWNER"),
       dataIndex: "landlordName",
       ellipsis: false,
       key: "landlordName",
-      width: 150,
+      width: 110,
       render: (landlordName) => <>{landlordName}</>,
     },
 
@@ -64,7 +39,7 @@ const columns = (actionColumn?) => {
       title: L("PRODUCT_TYPE"),
       dataIndex: "projectTypeMap",
       key: "projectTypeMap",
-      width: 80,
+      width: 120,
       render: (projectTypeMap) => (
         <>
           {_.unionWith(
@@ -78,15 +53,15 @@ const columns = (actionColumn?) => {
         </>
       ),
     },
-    // {
-    //   title: L("NUMBER_OF_UNIT"),
-    //   dataIndex: "numberOfUnits",
-    //   key: "numberOfUnits",
-    //   align: align.right,
-    //   ellipsis: false,
-    //   width: 60,
-    //   render: (numberOfUnits) => <>{numberOfUnits ?? ""}</>,
-    // },
+    {
+      title: L("NUMBER_OF_UNIT"),
+      dataIndex: "numberOfUnits",
+      key: "numberOfUnits",
+      align: align.right,
+      ellipsis: false,
+      width: 60,
+      render: (numberOfUnits) => <>{numberOfUnits ?? ""}</>,
+    },
     {
       title: L("LEASED"),
       dataIndex: "leased",

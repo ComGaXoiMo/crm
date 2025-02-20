@@ -121,7 +121,7 @@ class Company extends AppComponentListBase<IContactProps, IContactState> {
       title: L("COMPANY_NAME"),
       dataIndex: "businessName",
       key: "businessName",
-      width: 350,
+      width: 320,
       ellipsis: false,
       render: (businessName: string, item: any) => (
         <Row>
@@ -194,11 +194,12 @@ class Company extends AppComponentListBase<IContactProps, IContactState> {
             rowKey={(record) => record.id}
             columns={columns}
             pagination={false}
+            bordered
             loading={isLoading}
             dataSource={tableData === undefined ? [] : tableData.items}
             scroll={{
               x: 1000,
-              y: "calc(100vh - 23rem)",
+              y: "calc(100vh - 22rem)",
               scrollToFirstRowOnChange: true,
             }}
           />

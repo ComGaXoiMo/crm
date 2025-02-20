@@ -7,12 +7,12 @@ import { inputNumberFormatter } from "@lib/helper"
 
 const { formVerticalLayout } = AppConsts
 interface FormInputProps {
-  label: string;
-  name: string | string[];
-  seccondName: string | string[];
-  rule?;
-  disabled?: boolean;
-  isCurrency?: boolean;
+  label: string
+  name: string | string[]
+  seccondName: string | string[]
+  rule?
+  disabled?: boolean
+  isCurrency?: boolean
 }
 
 const FormRangeInput: React.FC<FormInputProps> = ({
@@ -69,13 +69,6 @@ const FormRangeInput: React.FC<FormInputProps> = ({
             )}
           </Form.Item>
         </Col>
-        <style>
-          {`
-     .ant-form-item-label  .ant-col label{
-        overflow: unset;
-       }
-      `}
-        </style>
       </Row>
     </Input.Group>
   )

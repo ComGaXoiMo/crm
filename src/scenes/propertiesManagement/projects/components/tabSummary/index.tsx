@@ -152,7 +152,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
             <Col sm={{ span: 24 }}>
               <Card className="card-detail-modal">
                 <Row gutter={[8, 0]}>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       rules={rules.projectName}
                       label={L("PROJECT_NAME")}
@@ -162,7 +162,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 6, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       rules={rules.projectCode}
                       label={L("PROJECT_CODE")}
@@ -172,7 +172,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 6, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("PROJECT_SORT_NUMBER")}
                       {...formVerticalLayout}
@@ -249,7 +249,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 6, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("COUNT_FLOOR")}
                       {...formVerticalLayout}
@@ -259,7 +259,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <InputNumber min={0} className="full-width" />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 6, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("COUNT_UNIT")}
                       {...formVerticalLayout}
@@ -269,7 +269,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <InputNumber min={0} className="full-width" />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 24, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("PROJECT_LINK")}
                       {...formVerticalLayout}
@@ -296,7 +296,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       </Select>
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 24, offset: 0 }}>
+                  <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("PROJECT_ADDRESS")}
                       name="projectAddress"
@@ -313,14 +313,14 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 24, offset: 0 }}>
+                  <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("PROJECT_BANKING_INFO")}
                       {...formVerticalLayout}
                       name="bankInfo"
                       rules={rules.description}
                     >
-                      <TextArea disabled={!this.props.isEdit} rows={3} />
+                      <TextArea disabled={!this.props.isEdit} rows={4} />
                     </Form.Item>
                   </Col>
                   <Col sm={{ span: 24, offset: 0 }}>
@@ -449,7 +449,6 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-
                   <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("CERTIFICATE_ISSUED_BY")}
@@ -470,15 +469,6 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                   </Col>
                   <Col sm={{ span: 24, offset: 0 }}>
                     <Form.Item
-                      label={L("CERTIFICATE_ISSUED_DATE")}
-                      {...formVerticalLayout}
-                      name="lessorCertificateIssuedDate"
-                    >
-                      <DatePicker className="w-100" format={dateTimeFormat} />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={{ span: 24, offset: 0 }}>
-                    <Form.Item
                       label={L("REGISTER_ADDRESS")}
                       {...formVerticalLayout}
                       name="registerAddress"
@@ -495,6 +485,16 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
+                  <Col sm={{ span: 12, offset: 0 }}>
+                    <Form.Item
+                      label={L("CERTIFICATE_ISSUED_DATE")}
+                      {...formVerticalLayout}
+                      name="lessorCertificateIssuedDate"
+                    >
+                      <DatePicker className="w-100" format={dateTimeFormat} />
+                    </Form.Item>
+                  </Col>
+                  <Col sm={{ span: 12, offset: 0 }} />
                   <Col
                     sm={{ span: 24, offset: 0 }}
                     className="ant-drawer-header-title ant-drawer-title"
@@ -502,6 +502,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                   >
                     Lessor's Representative
                   </Col>
+                  <Col sm={{ span: 12, offset: 0 }} />
                   <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("REPRESENTATIVE_BY")}
@@ -574,7 +575,6 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-
                   <Col sm={{ span: 12, offset: 0 }}>
                     <Form.Item
                       label={L("CERTIFICATE_EFFECTIVE_DATE")}
@@ -584,6 +584,8 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <DatePicker className="w-100" format={dateTimeFormat} />
                     </Form.Item>
                   </Col>
+                  <Col sm={{ span: 12, offset: 0 }} />
+
                   <Col
                     sm={{ span: 24, offset: 0 }}
                     className="ant-drawer-header-title ant-drawer-title"
@@ -591,7 +593,9 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                   >
                     BANK INFO
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 16, offset: 0 }} />
+
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("BANK_ACCOUNT")}
                       {...formVerticalLayout}
@@ -600,7 +604,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("BANK_NAME")}
                       {...formVerticalLayout}
@@ -609,7 +613,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 12 }}>
+                  <Col sm={{ span: 8 }}>
                     <Form.Item
                       label={L("BANK_NAME_VI")}
                       {...formVerticalLayout}
@@ -643,7 +647,8 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                   >
                     BANK INFO 2
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 16, offset: 0 }} />
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("OPTIONAL_BANK_ACCOUNT")}
                       {...formVerticalLayout}
@@ -652,7 +657,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("OPTIONAL_BANK_NAME")}
                       {...formVerticalLayout}
@@ -661,7 +666,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 12 }}>
+                  <Col sm={{ span: 8 }}>
                     <Form.Item
                       label={L("OPTIONAL_BANK_NAME_VI")}
                       {...formVerticalLayout}
@@ -730,7 +735,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("CERTIFICATE_NUMBER")}
                       {...formVerticalLayout}
@@ -739,7 +744,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("CERTIFICATE_NUMBER_VI")}
                       {...formVerticalLayout}
@@ -748,7 +753,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("CERTIFICATE_ISSUED_DATE")}
                       {...formVerticalLayout}
@@ -766,7 +771,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 12 }}>
+                  <Col sm={{ span: 12 }}>
                     <Form.Item
                       label={L("MANAGING_AGENT_CERTIFICATE_ISSUED_BY_VI")}
                       {...formVerticalLayout}
@@ -782,7 +787,8 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                   >
                     Parking Fee
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 16, offset: 0 }} />
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("MOTOBIKE_COST")}
                       {...formVerticalLayout}
@@ -791,7 +797,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input type="number" />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("DEDICATED_CAR_COST")}
                       {...formVerticalLayout}
@@ -800,7 +806,7 @@ class Summary extends AppComponentListBase<ISummaryProps, any> {
                       <Input type="number" />
                     </Form.Item>
                   </Col>
-                  <Col sm={{ span: 12, offset: 0 }}>
+                  <Col sm={{ span: 8, offset: 0 }}>
                     <Form.Item
                       label={L("PET_FEES")}
                       {...formVerticalLayout}

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Col, Form, Row, Select, Input, Button } from "antd"
+import { Col, Form, Row, Select, Input } from "antd"
 import { L } from "@lib/abpUtility"
 import { validateMessages } from "@lib/validation"
 // import companyService from "@services/clientManagement/companyService";
@@ -22,10 +22,9 @@ import PhoneCheckInput from "@components/Inputs/PhoneInput/PhoneCheckInput"
 import companyService from "@services/clientManagement/companyService"
 import RequestModal from "./requestModal"
 import { debounce } from "lodash"
-import { DeleteOutlined } from "@ant-design/icons"
 // import AddressText from "@components/Inputs/AddressText"
 
-const { contactType, formVerticalLayout } = AppConsts
+const { contactType, formHorizontalLayout } = AppConsts
 // const { Option } = Select;
 
 export interface IContactFormProps {
@@ -206,7 +205,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
 
     return (
       <Form
-        layout="vertical"
+        layout="horizontal"
         ref={this.formRef}
         validateMessages={validateMessages}
       >
@@ -220,6 +219,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
                 label={L("CONTACT_PHONE")}
                 name="contactPhone"
                 rules={rules.contactPhone}
+                {...formHorizontalLayout}
               >
                 <PhoneCheckInput
                   onChange={() => this.props.contactStore.resetExistContact()}
@@ -248,10 +248,10 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               )}
             </Col>
           )}
-          <Col sm={{ span: 4 }}>
+          <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_GENDER")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="gender"
               rules={rules.gender}
             >
@@ -266,10 +266,10 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               </Select>
             </Form.Item>
           </Col>
-          <Col sm={{ span: 8 }}>
+          <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_NAME")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="contactName"
               rules={rules.contactName}
             >
@@ -280,7 +280,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
           <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_NATIONALITY")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="nationalityId"
               rules={rules.nationalityId}
             >
@@ -296,24 +296,22 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               </Select>
             </Form.Item>
           </Col>
-          <Col sm={{ span: 24 }}>
-            <Col sm={{ span: 8, offset: 4 }}>
-              <Form.Item
-                label={L("CONTACT_NAME_VI")}
-                {...formVerticalLayout}
-                name="contactNameVi"
-                rules={rules.contactNameVi}
-              >
-                <Input disabled={!this.props.isEdit} />
-              </Form.Item>
-            </Col>
+          <Col sm={{ span: 12 }}>
+            <Form.Item
+              label={L("Name Vi")}
+              {...formHorizontalLayout}
+              name="contactNameVi"
+              rules={rules.contactNameVi}
+            >
+              <Input disabled={!this.props.isEdit} />
+            </Form.Item>
           </Col>
 
           {this.props.id && (
             <Col sm={{ span: 12 }}>
               <Form.Item
                 label={L("CONTACT_PHONE")}
-                {...formVerticalLayout}
+                {...formHorizontalLayout}
                 name="contactPhone"
                 rules={rules.contactPhone}
               >
@@ -328,7 +326,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
           <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_EMAIL")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="contactEmail"
               rules={rules.contactEmail}
             >
@@ -341,7 +339,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
           <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_TYPE")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="typeId"
               rules={[{ required: true }]}
             >
@@ -361,11 +359,10 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
           <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_SOURCE")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="leadSourceId"
             >
               <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
                 showSearch
                 allowClear
                 disabled={!this.props.isEdit}
@@ -378,11 +375,11 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
           </Col>
           {this.state.companyType === 2 && (
             <>
-              <Col sm={{ span: 24 }}>
+              <Col sm={{ span: 12 }}>
                 <Form.Item
                   rules={rules.required}
                   label={L("COMPANY")}
-                  {...formVerticalLayout}
+                  {...formHorizontalLayout}
                   name="companyId"
                 >
                   <Select
@@ -401,7 +398,7 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               <Col sm={{ span: 12 }}>
                 <Form.Item
                   label={L("CONTACT_POSITION_LEVEL")}
-                  {...formVerticalLayout}
+                  {...formHorizontalLayout}
                   name="levelId"
                 >
                   <Select
@@ -419,16 +416,16 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               <Col sm={{ span: 12 }}>
                 <Form.Item
                   label={L("CONTACT_POSITION_TITLE")}
-                  {...formVerticalLayout}
+                  {...formHorizontalLayout}
                   name="title"
                 >
                   <Input maxLength={50} disabled={!this.props.isEdit} />
                 </Form.Item>
               </Col>
-              <Col sm={{ span: 12, offset: 12 }}>
+              <Col sm={{ span: 12 }}>
                 <Form.Item
-                  label={L("CONTACT_POSITION_TITLE_VI")}
-                  {...formVerticalLayout}
+                  label={L("Position")}
+                  {...formHorizontalLayout}
                   name="titleVi"
                 >
                   <Input maxLength={50} disabled={!this.props.isEdit} />
@@ -436,10 +433,10 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               </Col>
             </>
           )}
-          <Col sm={{ span: 24 }}>
+          <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_LOCATION")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="contactAddress"
             >
               <AddressInput2
@@ -449,107 +446,113 @@ class ContactDetail extends AppComponentListBase<IContactFormProps, IStates> {
               />
             </Form.Item>
           </Col>
-        </Row>
+          {/* <Col sm={{ span: 12 }}>
+            {this.state.companyType === 2 && (
+              <>
+                <Row gutter={[8, 8]}>
+                  <Form.List name="companyContact">
+                    {(fields, { add, remove }) => (
+                      <>
+                        <Col sm={{ span: 24 }} style={{ textAlign: "right" }}>
+                          <Button
+                            disabled={!this.props.isEdit}
+                            className="button-primary"
+                            onClick={() => add()}
+                          >
+                            {L("ADD_MORE_COMPANY")}
+                          </Button>
+                        </Col>
 
-        {/* OTHER CONTACT */}
-        {this.state.companyType === 2 && (
-          <>
-            <Row gutter={[8, 8]}>
-              <Form.List name="companyContact">
-                {(fields, { add, remove }) => (
-                  <>
-                    <Col sm={{ span: 24 }} style={{ textAlign: "right" }}>
-                      <Button
-                        disabled={!this.props.isEdit}
-                        className="button-primary"
-                        onClick={() => add()}
-                      >
-                        {L("ADD_MORE_COMPANY")}
-                      </Button>
-                    </Col>
-
-                    {fields.map((field) => (
-                      <Col sm={{ span: 24 }} key={field.key}>
-                        <Row gutter={[8, 0]}>
-                          <Col sm={{ span: 12 }}>{L("OTHER_COMPANY")} </Col>
-                          <Col sm={{ span: 12 }} style={{ textAlign: "right" }}>
-                            <Button
-                              icon={<DeleteOutlined />}
-                              disabled={!this.props.isEdit}
-                              className="custom-buttom-drawe"
-                              onClick={() => remove(field.name)}
-                            ></Button>
-                          </Col>
-                          <Col sm={{ span: 24 }}>
+                        {fields.map((field) => (
+                          <Col sm={{ span: 24 }} key={field.key}>
                             <Row gutter={[8, 0]}>
+                              <Col sm={{ span: 12 }}>{L("OTHER_COMPANY")} </Col>
+                              <Col
+                                sm={{ span: 12 }}
+                                style={{ textAlign: "right" }}
+                              >
+                                <Button
+                                  icon={<DeleteOutlined />}
+                                  disabled={!this.props.isEdit}
+                                  className="custom-buttom-drawe"
+                                  onClick={() => remove(field.name)}
+                                ></Button>
+                              </Col>
                               <Col sm={{ span: 24 }}>
-                                <Form.Item
-                                  rules={rules.required}
-                                  label={L("COMPANY")}
-                                  {...formVerticalLayout}
-                                  name={[field.name, "companyId"]}
-                                >
-                                  <Select
-                                    getPopupContainer={(trigger) =>
-                                      trigger.parentNode
-                                    }
-                                    showSearch
-                                    disabled={!this.props.isEdit}
-                                    onSearch={this.findCompanies}
-                                    filterOption={filterOptions}
-                                    className="full-width"
-                                  >
-                                    {renderOptions(this.state.listCompany)}
-                                  </Select>
-                                </Form.Item>
-                              </Col>
-                              <Col sm={{ span: 12 }}>
-                                <Form.Item
-                                  {...formVerticalLayout}
-                                  name={[field.name, "levelId"]}
-                                >
-                                  <Select
-                                    getPopupContainer={(trigger) =>
-                                      trigger.parentNode
-                                    }
-                                    placeholder={L("CONTACT_POSITION_LEVEL")}
-                                    allowClear
-                                    filterOption={filterOptions}
-                                    disabled={!this.props.isEdit}
-                                    className="full-width"
-                                  >
-                                    {renderOptions(positionLevels)}
-                                  </Select>
-                                </Form.Item>
-                              </Col>
-                              <Col sm={{ span: 12 }}>
-                                <Form.Item
-                                  {...formVerticalLayout}
-                                  name={[field.name, "title"]}
-                                >
-                                  <Input
-                                    placeholder={L("CONTACT_POSITION_TITLE")}
-                                    maxLength={50}
-                                    disabled={!this.props.isEdit}
-                                  />
-                                </Form.Item>
+                                <Row gutter={[8, 0]}>
+                                  <Col sm={{ span: 24 }}>
+                                    <Form.Item
+                                      rules={rules.required}
+                                      label={L("COMPANY")}
+                                      {...formHorizontalLayout}
+                                      name={[field.name, "companyId"]}
+                                    >
+                                      <Select
+                                        getPopupContainer={(trigger) =>
+                                          trigger.parentNode
+                                        }
+                                        showSearch
+                                        disabled={!this.props.isEdit}
+                                        onSearch={this.findCompanies}
+                                        filterOption={filterOptions}
+                                        className="full-width"
+                                      >
+                                        {renderOptions(this.state.listCompany)}
+                                      </Select>
+                                    </Form.Item>
+                                  </Col>
+                                  <Col sm={{ span: 12 }}>
+                                    <Form.Item
+                                      {...formHorizontalLayout}
+                                      name={[field.name, "levelId"]}
+                                    >
+                                      <Select
+                                        getPopupContainer={(trigger) =>
+                                          trigger.parentNode
+                                        }
+                                        placeholder={L(
+                                          "CONTACT_POSITION_LEVEL"
+                                        )}
+                                        allowClear
+                                        filterOption={filterOptions}
+                                        disabled={!this.props.isEdit}
+                                        className="full-width"
+                                      >
+                                        {renderOptions(positionLevels)}
+                                      </Select>
+                                    </Form.Item>
+                                  </Col>
+                                  <Col sm={{ span: 12 }}>
+                                    <Form.Item
+                                      {...formHorizontalLayout}
+                                      name={[field.name, "title"]}
+                                    >
+                                      <Input
+                                        placeholder={L(
+                                          "CONTACT_POSITION_TITLE"
+                                        )}
+                                        maxLength={50}
+                                        disabled={!this.props.isEdit}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
                               </Col>
                             </Row>
                           </Col>
-                        </Row>
-                      </Col>
-                    ))}
-                  </>
-                )}
-              </Form.List>
-            </Row>
-          </>
-        )}
-        <Row gutter={[8, 0]}>
-          <Col sm={{ span: 24 }}>
+                        ))}
+                      </>
+                    )}
+                  </Form.List>
+                </Row>
+              </>
+            )}
+          </Col> */}
+
+          <Col sm={{ span: 12 }}>
             <Form.Item
               label={L("CONTACT_DESCRIPTION")}
-              {...formVerticalLayout}
+              {...formHorizontalLayout}
               name="description"
               rules={rules.contactDescription}
             >

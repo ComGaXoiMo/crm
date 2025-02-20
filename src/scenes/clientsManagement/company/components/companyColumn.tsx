@@ -41,7 +41,7 @@ const columns = (actionColumn?) => {
       key: "laValue",
       align: align.right,
       // ellipsis: false,
-      width: 200,
+      width: 120,
       render: (laValue) => <>{formatCurrency(laValue)}</>,
     },
     {
@@ -49,8 +49,8 @@ const columns = (actionColumn?) => {
       dataIndex: "website",
       key: "website",
       align: align.left,
-      ellipsis: false,
-      width: 270,
+      ellipsis: true,
+      width: 180,
       render: (website) => <> {website ?? ""}</>,
     },
 

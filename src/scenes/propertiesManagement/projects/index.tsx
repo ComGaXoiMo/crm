@@ -5,7 +5,7 @@ import DataTable from "@components/DataTable"
 import gettColumns from "./components/projectColumn"
 import { Button, Col, Dropdown, Menu, Modal, Row, Table, message } from "antd"
 import Stores from "@stores/storeIdentifier"
-import { MoreOutlined } from "@ant-design/icons"
+import { DeleteOutlined, MoreOutlined, StarOutlined } from "@ant-design/icons"
 import { L, LNotification } from "@lib/abpUtility"
 import ProjectFilterPanel from "./components/projectFilterPanel"
 import ProjectStore from "@stores/projects/projectStore"
@@ -35,7 +35,7 @@ export interface IProjectState {
   createProposalModal: boolean
   projectId: any
   selectedRowKeys: any[]
-  disableCreateProposal: boolean
+
   proposalChooseTemplateVisible: boolean
   unitAndInquiryProposal: any
 }
@@ -56,7 +56,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     permissionVisible: false,
     createProposalModal: false,
     selectedRowKeys: [] as any,
-    disableCreateProposal: true,
+
     proposalChooseTemplateVisible: false,
     unitAndInquiryProposal: {} as any,
   }
@@ -152,11 +152,12 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
   }
   onSelectChange = (newSelectedRowKeys) => {
     this.setState({ selectedRowKeys: newSelectedRowKeys })
-    if (newSelectedRowKeys.length < 1 || newSelectedRowKeys.length > 3) {
-      this.setState({ disableCreateProposal: true })
-    } else {
-      this.setState({ disableCreateProposal: false })
-    }
+    console.log(newSelectedRowKeys)
+    // if (newSelectedRowKeys.length < 1) {
+    //   this.setState({ isMultiSelect: false })
+    // } else {
+    //   this.setState({ isMultiSelect: true })
+    // }
   }
 
   handleCreateProposal = () => {
@@ -166,17 +167,18 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     const {
       projectStore: { isLoading, tableData },
     } = this.props
+
     const rowSelection = {
       onChange: this.onSelectChange,
       selectedRowKeys: this.state.selectedRowKeys,
       columnWidth: 20,
-      hideSelectAll: true,
+      // hideSelectAll: true,
     }
     const columns = gettColumns({
       title: L("PROJECT_NAME"),
       dataIndex: "projectName",
       key: "projectName",
-      width: 230,
+      width: 180,
       ellipsis: false,
 
       render: (projectName: string, item: any) => (
@@ -229,6 +231,24 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
           filterComponent={
             <ProjectFilterPanel handleSearch={this.handleFilterChange} />
           }
+          multiActionComponent={
+            rowSelection?.selectedRowKeys?.length > 0 && (
+              <div className="flex gap-1">
+                <Button icon={<DeleteOutlined />}></Button>
+                <Button
+                  icon={<StarOutlined style={{ color: "#f2b818" }} />}
+                ></Button>
+                {this.isGranted(appPermissions.inquiry.create) && (
+                  <Button
+                    disabled={rowSelection?.selectedRowKeys?.length > 3}
+                    onClick={() => this.handleCreateProposal()}
+                  >
+                    {L("Create proposal")}
+                  </Button>
+                )}
+              </div>
+            )
+          }
           handleSearch={this.handleFilterChange}
           searchPlaceholder={"PROJECT_NAME"}
           onCreate={() => {
@@ -237,16 +257,6 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
           onRefresh={() => this.getAll()}
           actionComponent={
             <>
-              {" "}
-              {this.isGranted(appPermissions.inquiry.create) && (
-                <Button
-                  className="button-primary"
-                  disabled={this.state.disableCreateProposal}
-                  onClick={() => this.handleCreateProposal()}
-                >
-                  {L("PROJECT_CREATE_PROPOSAL")}
-                </Button>
-              )}
               {this.isGranted(appPermissions.project.userPermission) && (
                 <Button
                   className="button-primary"
@@ -268,6 +278,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
             className="custom-ant-row"
             rowKey={(record) => record.id}
             columns={columns}
+            bordered
             pagination={false}
             loading={isLoading}
             dataSource={tableData.items ?? []}
