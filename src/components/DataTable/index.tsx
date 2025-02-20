@@ -74,7 +74,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
     <>
       <Card className="card-table">
         {filterComponent && (
-          <Row gutter={[8, 8]} className="mb-2">
+          <Row gutter={[8, 8]} className="mb-1">
             <Col flex="auto">{filterComponent}</Col>
           </Row>
         )}

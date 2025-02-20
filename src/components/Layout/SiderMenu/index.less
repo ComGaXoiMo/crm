@@ -10,6 +10,7 @@
   text-align: center;
 
   .wrap-avatar {
+    margin: 2px 0 8px 0;
     width: max-content;
     height: max-content;
 
@@ -34,12 +35,13 @@
 
 .left-menu-bar {
   overflow: scroll;
+  padding-left: 12px;
   height: 100%;
 }
 
 .ant-pro-sider-collapsed-button {
   position: absolute;
-  inset-block-start: 24px;
+  inset-block-start: 12px;
   z-index: 101;
   width: 24px;
   height: 24px;
@@ -132,11 +134,12 @@
     .ant-menu-item {
       font-weight: 500;
       margin-bottom: 0 !important;
-      margin-top: 0;
+      margin-top: 0 !important;
       display: flex;
       align-items: center;
       transition: all 0.1s linear;
       color: @text-gray;
+      height: 2.2rem;
 
       &.ant-menu-item-only-child {
         a {
@@ -178,6 +181,12 @@
       }
     }
   }
+
+  .ant-menu-submenu-popup .ant-menu-item {
+    margin-block: 0 !important;
+  }
+
+
 }
 
 .custom-menu-group-item {

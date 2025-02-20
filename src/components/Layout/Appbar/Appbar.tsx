@@ -87,26 +87,6 @@ const Appbar = (props: Props) => {
           />
         </a>
       </div>
-      {/* <style>{`
-      .styleses::after {
-          content: '';
-          position: absolute;
-          right: -20px;
-          width: 12px !important;
-          height: 12px !important;
-          background: white;
-          transform: rotate(45deg);
-      }
-      .appbar-after::after {
-        content: '';
-        height: 100%;
-        position: absolute;
-        left: 58px;
-        width: 16px;
-        background: white;
-        border-radius: 48px
-      }
-      `}</style> */}
     </div>
   )
 }

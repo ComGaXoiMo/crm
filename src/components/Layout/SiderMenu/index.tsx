@@ -61,7 +61,7 @@ const SiderMenu = (props: ISiderMenuProps) => {
       <div className="flex space-between center-items">
         <div className={"wrap-logo"}>
           <Avatar
-            className="my-3 wrap-avatar"
+            className="wrap-avatar"
             shape="square"
             alt={"profile"}
             style={{ height: "2.5rem" }}
