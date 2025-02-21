@@ -5,11 +5,12 @@ import { DeleteOutlined } from "@ant-design/icons"
 import { L } from "@lib/abpUtility"
 interface FormSelectProps {
   name?: any
+  filterlists?: any
 }
 
-const FormListCodition: React.FC<FormSelectProps> = ({ name }) => {
+const FormListCodition: React.FC<FormSelectProps> = ({ name, filterlists }) => {
   return (
-    <Row gutter={[8, 8]}>
+    <Row gutter={[8, 0]}>
       <Form.List name={name}>
         {(fields, { add, remove }) => (
           <>
@@ -25,10 +26,7 @@ const FormListCodition: React.FC<FormSelectProps> = ({ name }) => {
                             showSearch
                             className="full-width"
                           >
-                            {renderOptions([
-                              { id: 1, label: "name" },
-                              { id: 2, label: "old" },
-                            ])}
+                            {renderOptions(filterlists)}
                           </Select>
                         </Form.Item>
                       </Col>
@@ -55,8 +53,9 @@ const FormListCodition: React.FC<FormSelectProps> = ({ name }) => {
                   </Col>
                   <Col sm={{ span: 1 }}>
                     <Button
+                      color="danger"
+                      variant="text"
                       icon={<DeleteOutlined />}
-                      className="custom-buttom-drawe"
                       onClick={() => remove(field.name)}
                     ></Button>
                   </Col>
@@ -64,7 +63,9 @@ const FormListCodition: React.FC<FormSelectProps> = ({ name }) => {
               </Col>
             ))}
             <Col sm={{ span: 24 }}>
-              <Button onClick={() => add()}>Add condition</Button>
+              <Button color="default" variant="filled" onClick={() => add()}>
+                <span>✚ Add condition</span>
+              </Button>
             </Col>
           </>
         )}

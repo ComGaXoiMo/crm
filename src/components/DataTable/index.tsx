@@ -1,5 +1,5 @@
-import React, { useCallback } from "react"
-import { Button, Card, Col, Pagination, Row } from "antd"
+import React, { useCallback, useEffect, useState } from "react"
+import { Button, Card, Pagination } from "antd"
 import { isGranted, L } from "../../lib/abpUtility"
 import "./DataTable.less"
 import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
@@ -7,6 +7,7 @@ import { ExcelIcon } from "@components/Icon"
 import FilterSearch from "@components/Filter/FilterSearch"
 import { debounce } from "lodash"
 import TableFilterSelect from "./components/tableFilterSelect"
+import { FilterOptionModel } from "@models/DataTable"
 
 export interface IDataTableProps {
   title?: string
@@ -26,6 +27,7 @@ export interface IDataTableProps {
   filterComponent?: any
   children?: any
   searchPlaceholder?: any
+  filterOption?: FilterOptionModel
 }
 
 const DataTable: React.FunctionComponent<IDataTableProps> = ({
@@ -43,8 +45,19 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   filterComponent,
   handleSearch,
   searchPlaceholder,
+  filterOption,
   ...props
 }) => {
+  const [recentLists, setRecentLists] = useState(filterOption?.recentList ?? [])
+  const [filterlLists, setFilterlLists] = useState(
+    filterOption?.filterList ?? []
+  )
+
+  useEffect(() => {
+    setRecentLists(filterOption?.recentList ?? [])
+    setFilterlLists(filterOption?.filterList ?? [])
+  }, [])
+
   const handleCreate = () => {
     onCreate && onCreate()
   }
@@ -70,20 +83,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   const updateSearch = debounce((name, value) => {
     handleSearchFilter(name, value)
   }, 200)
-  const recentLists = [
-    { title: "All Contacts", id: 1 },
-    { title: "My Contacts", id: 2 },
-    { title: "Contacts Address", id: 3 },
-  ]
 
-  const lists = [
-    { title: "All Contacts", id: 1 },
-    { title: "My Contacts", id: 2 },
-    { title: "Contacts Address", id: 3 },
-    { title: "My idle Contacts", id: 4 },
-    { title: "Contacts idle for 30 days", id: 5 },
-    { title: "All Leads", id: 6 },
-  ]
   return (
     <>
       <Card className="card-table">
@@ -93,7 +93,10 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
               <div> {multiActionComponent} </div>
             ) : (
               filterComponent && (
-                <TableFilterSelect lists={lists} recentLists={recentLists} />
+                <TableFilterSelect
+                  filterlists={filterlLists}
+                  recentLists={recentLists}
+                />
               )
             )}
           </div>
@@ -144,17 +147,13 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
         </div>
         <div className="custom-table">{props.children}</div>
         {pagination && pagination.total > 0 && (
-          <Row className="mt-3 pb-3">
-            <Col sm={{ span: 24, offset: 0 }} style={{ textAlign: "end" }}>
-              <Pagination
-                size="small"
-                showTotal={(total) => L("TOTAL_{0}_ITEMS", total)}
-                {...pagination}
-                onChange={handleOnChange}
-                showSizeChanger
-              />
-            </Col>
-          </Row>
+          <Pagination
+            size="small"
+            showTotal={(total) => L("TOTAL_{0}_ITEMS", total)}
+            {...pagination}
+            onChange={handleOnChange}
+            showSizeChanger
+          />
         )}{" "}
       </Card>
     </>

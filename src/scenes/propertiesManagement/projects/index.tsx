@@ -18,6 +18,7 @@ import ChooseInquiryToProposalModal from "@components/AppComponentBase/chooseInq
 import CreateProposalModal from "@scenes/activity/proposalActivity/components/createProposalModal"
 import ProposalStore from "@stores/activity/proposalStore"
 import { portalLayouts } from "@components/Layout/Router/router.config"
+import { FilterOptionModel } from "@models/DataTable"
 const confirm = Modal.confirm
 export interface IProjectProps {
   history: any
@@ -224,10 +225,27 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
         </Row>
       ),
     })
+    const filterOption: FilterOptionModel = {
+      filterList: [
+        { label: "All Contacts", id: 1 },
+        { label: "My Contacts", id: 2 },
+        { label: "Contacts Address", id: 3 },
+        { label: "My idle Contacts", id: 4 },
+        { label: "Contacts idle for 30 days", id: 5 },
+        { label: "All Leads", id: 6 },
+      ],
+      recentList: [
+        { label: "All Contacts", id: 1 },
+        { label: "My Contacts", id: 2 },
+        { label: "Contacts Address", id: 3 },
+      ],
+    }
+
     return (
       <>
         <DataTable
           filterComponent={true}
+          filterOption={filterOption}
           multiActionComponent={
             rowSelection?.selectedRowKeys?.length > 0 && (
               <div className="flex gap-1">

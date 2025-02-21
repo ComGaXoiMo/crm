@@ -7,3 +7,7 @@ export class RowData {
   creationTime?: Date
   creatorUserName?: string
 }
+export class FilterOptionModel {
+  recentList?: any
+  filterList?: any
+}

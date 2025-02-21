@@ -14,8 +14,8 @@ import "./tableFilterSelect.less"
 import ConfigFilterModal from "./configFilterModal"
 const { Option, OptGroup } = Select
 
-const TableFilterSelect = ({ lists, recentLists }) => {
-  const [selected, setSelected] = useState(lists[0]?.title || "")
+const TableFilterSelect = ({ filterlists, recentLists }) => {
+  const [selected, setSelected] = useState("")
   const [modalVisble, setModalVisble] = useState(false)
   const openModal = () => {
     setModalVisble(true)
@@ -56,10 +56,10 @@ const TableFilterSelect = ({ lists, recentLists }) => {
         listHeight={400}
         prefix={<FilterOutlined />}
         onChange={(value) => {
-          const selectedItem = [...lists, ...recentLists].find(
+          const selectedItem = [...filterlists, ...recentLists].find(
             (item) => item.id === value
           )
-          setSelected(selectedItem ? selectedItem.title : "")
+          setSelected(selectedItem ? selectedItem.label : "")
         }}
         dropdownRender={(menu) => (
           <div>
@@ -91,11 +91,11 @@ const TableFilterSelect = ({ lists, recentLists }) => {
         {/* Recent Lists */}
         <OptGroup label="Recent Lists">
           {recentLists.map((item, index) => (
-            <Option key={`recent-${item.title}`} value={item.id}>
+            <Option key={`recent-${item.label}`} value={item.id}>
               <Space className="flex space-between w-100">
                 <span>
                   <span style={{ marginRight: 8 }}>🕘</span>
-                  {item.title}
+                  {item.label}
                 </span>
                 <Dropdown menu={{ items }} trigger={["click"]}>
                   <MoreOutlined onClick={(e) => e.stopPropagation()} />
@@ -107,12 +107,12 @@ const TableFilterSelect = ({ lists, recentLists }) => {
 
         {/* My Lists */}
         <OptGroup label="List all">
-          {lists.map((item) => (
-            <Option key={`default-${item.title}`} value={item.id}>
+          {filterlists.map((item) => (
+            <Option key={`default-${item.label}`} value={item.id}>
               <Space className="flex space-between w-100">
                 <span>
                   <span style={{ marginRight: 8 }}>👥</span>
-                  {item.title}
+                  {item.label}
                 </span>
                 <Dropdown menu={{ items }} trigger={["click"]}>
                   <MoreOutlined onClick={(e) => e.stopPropagation()} />
@@ -123,6 +123,7 @@ const TableFilterSelect = ({ lists, recentLists }) => {
         </OptGroup>
       </Select>
       <ConfigFilterModal
+        filterlists={filterlists}
         visible={modalVisble}
         onClose={() => setModalVisble(false)}
       />
