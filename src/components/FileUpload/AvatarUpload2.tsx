@@ -1,4 +1,4 @@
-import { Upload, message, Button } from "antd"
+import { Upload, message, Button, Avatar } from "antd"
 import { CameraOutlined } from "@ant-design/icons"
 import * as React from "react"
 import { inject, observer } from "mobx-react"
@@ -8,7 +8,6 @@ import { getBase64 } from "../../lib/helper"
 import { LError } from "../../lib/abpUtility"
 import { defaultAvatar, moduleAvatar } from "../../lib/appconst"
 import UserStore from "../../stores/administrator/userStore"
-import Avatar from "antd/lib/avatar/avatar"
 
 export interface IAvatarUploadProps {
   sessionStore?: SessionStore

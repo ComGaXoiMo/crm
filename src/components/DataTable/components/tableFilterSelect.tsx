@@ -8,12 +8,18 @@ import {
   CopyOutlined,
   ShareAltOutlined,
   DeleteOutlined,
+  FilterOutlined,
 } from "@ant-design/icons"
 import "./tableFilterSelect.less"
+import ConfigFilterModal from "./configFilterModal"
 const { Option, OptGroup } = Select
 
 const TableFilterSelect = ({ lists, recentLists }) => {
   const [selected, setSelected] = useState(lists[0]?.title || "")
+  const [modalVisble, setModalVisble] = useState(false)
+  const openModal = () => {
+    setModalVisble(true)
+  }
 
   // Menu tùy chọn
   const items: MenuProps["items"] = [
@@ -21,6 +27,7 @@ const TableFilterSelect = ({ lists, recentLists }) => {
       key: "edit",
       icon: <EditOutlined />,
       label: "Edit",
+      onClick: () => openModal(),
     },
     {
       key: "duplicate",
@@ -47,6 +54,7 @@ const TableFilterSelect = ({ lists, recentLists }) => {
         popupClassName="table-popup-select"
         className="table-filer-select"
         listHeight={400}
+        prefix={<FilterOutlined />}
         onChange={(value) => {
           const selectedItem = [...lists, ...recentLists].find(
             (item) => item.id === value
@@ -62,6 +70,7 @@ const TableFilterSelect = ({ lists, recentLists }) => {
                 type="primary"
                 size="small"
                 shape="circle"
+                onClick={() => openModal()}
                 icon={<PlusOutlined />}
               />
             </div>
@@ -113,6 +122,10 @@ const TableFilterSelect = ({ lists, recentLists }) => {
           ))}
         </OptGroup>
       </Select>
+      <ConfigFilterModal
+        visible={modalVisble}
+        onClose={() => setModalVisble(false)}
+      />
     </>
   )
 }

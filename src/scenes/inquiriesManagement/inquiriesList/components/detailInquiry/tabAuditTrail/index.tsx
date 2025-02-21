@@ -134,7 +134,7 @@ class AuditTrail extends AppComponentListBase<
           <Table
             size="middle"
             className=""
-            rowKey={(record) => record.id}
+            rowKey={(record: any) => record?.id}
             columns={columns}
             pagination={false}
             dataSource={this.state.dataTable ?? []}

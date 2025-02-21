@@ -7,7 +7,6 @@ import { Button, Col, Dropdown, Menu, Modal, Row, Table, message } from "antd"
 import Stores from "@stores/storeIdentifier"
 import { DeleteOutlined, MoreOutlined, StarOutlined } from "@ant-design/icons"
 import { L, LNotification } from "@lib/abpUtility"
-import ProjectFilterPanel from "./components/projectFilterPanel"
 import ProjectStore from "@stores/projects/projectStore"
 import { AppComponentListBase } from "@components/AppComponentBase"
 import withRouter from "@components/Layout/Router/withRouter"
@@ -228,9 +227,7 @@ class Projects extends AppComponentListBase<IProjectProps, IProjectState> {
     return (
       <>
         <DataTable
-          filterComponent={
-            <ProjectFilterPanel handleSearch={this.handleFilterChange} />
-          }
+          filterComponent={true}
           multiActionComponent={
             rowSelection?.selectedRowKeys?.length > 0 && (
               <div className="flex gap-1">
