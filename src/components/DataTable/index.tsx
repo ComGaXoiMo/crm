@@ -87,12 +87,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   return (
     <>
       <Card className="card-table">
-        {filterComponent && (
-          <Row gutter={[8, 8]} className="mb-1">
-            <Col flex="auto">{filterComponent}</Col>
-          </Row>
-        )}
-        <div className="flex space-between center-items">
+        <div className="flex space-between center-items ">
           <div>
             {multiActionComponent ? (
               <div> {multiActionComponent} </div>
@@ -103,7 +98,7 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
             )}
           </div>
 
-          <div className="d-flex justify-content-between my-1 content-right ">
+          <div className="d-flex justify-content-between  content-right ">
             <div className="d-flex align-items-center">
               {handleSearch && (
                 <FilterSearch

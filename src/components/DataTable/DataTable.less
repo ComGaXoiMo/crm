@@ -9,29 +9,36 @@
   }
 }
 
+.card-table {
+  .ant-card-body {
+    display: flex;
+    padding: 0 0.8rem;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
 
-.custom-table {
-  .ant-table {
-    font-size: 12px !important;
-    // border: 1px solid @border-color;
 
-    .ant-table-thead>tr>th {
-      background-color: #f7f7f7;
-    }
+  .custom-table {
+    .ant-table {
+      font-size: 12px !important;
 
-    .ant-table-thead>tr>th {
-      font-weight: 700;
-    }
+      .ant-table-thead>tr>th {
+        background-color: #f7f7f7;
+      }
 
-    .ant-table-thead>tr>th,
-    .ant-table-tbody>tr:not([aria-hidden="true"])>td {
-      padding: 6px !important;
-    }
+      .ant-table-thead>tr>th {
+        font-weight: 700;
+      }
 
-    .ant-table-thead>tr>th::before {
-      width: 0px !important;
+      .ant-table-thead>tr>th,
+      .ant-table-tbody>tr:not([aria-hidden="true"])>td {
+        padding: 6px !important;
+      }
+
+      .ant-table-thead>tr>th::before {
+        width: 0px !important;
+      }
     }
 
   }
-
 }
