@@ -6,6 +6,7 @@ import { PlusCircleFilled, ReloadOutlined } from "@ant-design/icons"
 import { ExcelIcon } from "@components/Icon"
 import FilterSearch from "@components/Filter/FilterSearch"
 import { debounce } from "lodash"
+import TableFilterSelect from "./components/tableFilterSelect"
 
 export interface IDataTableProps {
   title?: string
@@ -69,7 +70,20 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
   const updateSearch = debounce((name, value) => {
     handleSearchFilter(name, value)
   }, 200)
+  const recentLists = [
+    { title: "All Contacts", id: 1 },
+    { title: "My Contacts", id: 2 },
+    { title: "Contacts Address", id: 3 },
+  ]
 
+  const lists = [
+    { title: "All Contacts", id: 1 },
+    { title: "My Contacts", id: 2 },
+    { title: "Contacts Address", id: 3 },
+    { title: "My idle Contacts", id: 4 },
+    { title: "Contacts idle for 30 days", id: 5 },
+    { title: "All Leads", id: 6 },
+  ]
   return (
     <>
       <Card className="card-table">
@@ -80,7 +94,13 @@ const DataTable: React.FunctionComponent<IDataTableProps> = ({
         )}
         <div className="flex space-between center-items">
           <div>
-            {multiActionComponent && <div> {multiActionComponent} </div>}
+            {multiActionComponent ? (
+              <div> {multiActionComponent} </div>
+            ) : (
+              filterComponent && (
+                <TableFilterSelect lists={lists} recentLists={recentLists} />
+              )
+            )}
           </div>
 
           <div className="d-flex justify-content-between my-1 content-right ">
